@@ -510,8 +510,8 @@ function runTask() {
   function collaborationCallBack() {
     response = readTaskResponse();
     if (response) {
-      output['collaboration'][task_repeat].push(response)
-
+      // output['collaboration'][task_repeat].push(response)
+      output['collaboration'].push(response)
       if (collaboration_count == input['collaboration'][task_repeat].length - 1) {
         $('.alert-link').unbind('click').click(function(){
             populateChoice()
@@ -539,7 +539,8 @@ function runTask() {
     response = readTaskResponse();
     if (response) {
 
-      output['coged'][task_repeat].push(response)
+      // output['coged'][task_repeat].push(response)
+      output['coged'].push(response)
 
       if (coged_phase_count == max_coged) {
 
@@ -605,7 +606,8 @@ function runTask() {
       'balance': num_silver_credits}
    }
 
-    output['choices'][task_repeat].push(choice)
+    // output['choices'][task_repeat].push(choice)
+    output['choices'].push(choice)
 
     gold_lower_bound = gold_cost_of_ai;
     silver_lower_bound = silver_cost_of_ai;
@@ -639,7 +641,8 @@ function runTask() {
       'balance': num_silver_credits}
     }
 
-    output['choices'][task_repeat].push(choice)
+    //output['choices'][task_repeat].push(choice)
+    output['choices'].push(choice)
 
     gold_upper_bound = gold_cost_of_ai;
     silver_upper_bound = silver_cost_of_ai;
@@ -651,9 +654,9 @@ function runTask() {
   });
 
   $('#begin-task-button').click(function() {
-    output['coged'].push([])
-    output['choices'].push([])
-    output['collaboration'].push([])
+    // output['coged'].push([])
+    // output['choices'].push([])
+    // output['collaboration'].push([])
 
     transition('begin-task', 'task');
     renderTask(input['coged-order'][task_repeat][1], input['collaboration'][task_repeat][collaboration_count], collaborationCallBack)
@@ -662,9 +665,9 @@ function runTask() {
   })
 
   $('#repeat-task-button').click(function() {
-    output['coged'].push([])
-    output['choices'].push([])
-    output['collaboration'].push([])
+    // output['coged'].push([])
+    // output['choices'].push([])
+    // output['collaboration'].push([])
 
     populateChoice()
 
@@ -944,7 +947,8 @@ function questionnaireCallback() {
   q_response['value-of-range'] = document.querySelector('#value-of-range').value;
   q_response['AI-usage'] = $("#AI-usage").val();
   q_response['choice-selection'] = $("#choice-selection").val();
-
+  q_response['setting'] = ai_condition[0]
+  q_response['condition'] = ai_condition[1]
 
 
   if (total_checked == questions.length && slider_changed == true 
