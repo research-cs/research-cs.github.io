@@ -1063,7 +1063,7 @@ function saveOutput() {
   // } else {
     proliferate.submit(output)
     // easyturk.setOutput(output);
-    return true;
+    //return true;
   // }
 }
 
