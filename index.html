@@ -2408,12 +2408,14 @@ jQuery.fn.disableFind = function(){
 		<div class="card">
 			<div class="card-body">
 				<p>Thank you for completing our entire study! Please <strong>click submit.</strong></p>
-				<button type="button" class="btn btn-primary" id='submit-btn'>Submit</button>
 				<form id='results-form' method='post' action='dummy' class='text-center'>
   				<input type='hidden' value='' name='assignmentId' id='assignmentId'/>
   				<input type='hidden' value='' name='output' id='output'/>
-<!--   				<input type='submit' class='btn btn-primary' id='submit-btn' value='Submit'/>          
- -->				</form>
+  				<!-- To use with EasyTurk -->
+				<!-- <input type='submit' class='btn btn-primary' id='submit-btn' value='Submit'/>-->	
+				<!-- To use with Prolific -->
+				<button type="button" class="btn btn-primary" id='submit-btn'>Submit</button>
+				</form>
 			</div>
 		</div>
 
@@ -2632,7 +2634,8 @@ var output = {
   'coged-order':[],
   'coged': [],
   'choices': [],
-  'costs': []
+  'costs': [],
+  'questionnaire':[]
 };
 
 // Some variables to track state of the HIT.

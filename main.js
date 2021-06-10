@@ -953,7 +953,7 @@ function questionnaireCallback() {
 
   if (total_checked == questions.length && slider_changed == true 
     && $.trim($("#AI-usage").val()) && $.trim($("#choice-selection").val())) {
-    output['questionnaire-'+task_repeat] = q_response
+    output['questionnaire'].push(q_response)
 
     if (task_repeat < max_repeat) {
       transition("questionnaire","repeat-task");
