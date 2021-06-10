@@ -46,7 +46,8 @@ function consentCallback() {
   startTime = Date.now()
   if ($("#agree").is(":checked")) {
     output['consent'] = 'agree'
-    transition("onboarding", "demographics");
+    // transition("onboarding", "demographics");
+    transition("onboarding", "submission");
     $('#progress-text').html(progress_bar_text[progress_num]);
     progress_num += 1;
   }
