@@ -61,6 +61,14 @@ function consentCallback() {
 }
 
 function demographicsCallback() {
+  let checked_prolificID = false;
+  let written_prolificID;
+
+  if ($.trim($("#prolificID").val())) {
+        written_prolificID = $("#prolificID").val();
+        checked_prolificID = true;
+  }
+
   let gender = ['#male','#female', '#nonbinary', '#prefernot', '#other'];
   let checked_gender = false;
   let chosen_gender;
@@ -90,6 +98,9 @@ function demographicsCallback() {
       break;
     }
   }
+  if (checked_prolificID == false) {
+    alert('Please answer the question about your Prolific ID');
+  }
 
   if (checked_gender == false) {
     alert('Please answer the question about your gender');
@@ -97,8 +108,9 @@ function demographicsCallback() {
   if (checked_age == false) {
     alert('Please answer the question about your age');
   }
-  if (checked_gender == true && checked_age == true) {
+  if (checked_gender == true && checked_age == true && checked_prolificID == true) {
     output['demographics'] = {
+      'prolific':written_prolificID,
       'gender': chosen_gender,
       'age': chosen_age
     }

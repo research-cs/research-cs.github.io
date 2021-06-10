@@ -17,6 +17,9 @@
   <!-- intro.js-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/3.3.1/intro.min.js" integrity="sha512-NC1GtvckWJQLUHrSQp5+4ydIv6gW8kfP4Ewrwv8Y1xU1h9GTTaXDTnWl+kjHcZNCaX8ySFNSpPmtt/B4SUaDsQ==" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/3.3.1/introjs.min.css" integrity="sha512-631ugrjzlQYCOP9P8BOLEMFspr5ooQwY3rgt8SMUa+QqtVMbY/tniEUOcABHDGjK50VExB4CNc61g5oopGqCEw==" crossorigin="anonymous" />
+
+  <script src="https://proliferate.alps.science/static/js/proliferate.js" type="text/javascript"></script>
+
   <style type="text/css">
 
 body {
@@ -1188,6 +1191,11 @@ jQuery.fn.disableFind = function(){
 		<div class="card">
 			<div class="card-body">
 				<p>Before we begin, please answer some demographic information.</p>
+				<p><strong>What is your Prolific ID?</strong></p>
+				  <div class="form-group">
+				    <input type="prolificID" class="form-control" id="prolificID" aria-describedby="prolificID" placeholder="Enter Prolific ID">
+				  </div>
+
 				<p><strong>What is your gender?</strong></p>
 				<div class="form-check">
 				  <input class="form-check-input" type="radio" name="gender" id="male" onclick="disableSelfDescribe();">
@@ -2689,9 +2697,9 @@ var slider_changed = false;
       First is by the github pages, 
       Second is by my Stanford website, 
       Third is locally -->
-<script type="text/javascript" src="https://research-cs.github.io/main.js"></script>
-<!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/js/main.js"></script>-->
-<!--<script type="text/javascript" src="EasyTurk/templates/js/main.js"></script>-->
-</div>
+ <script type="text/javascript" src="https://research-cs.github.io/main.js"></script>
+ <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/js/main.js"></script>-->
+<!-- <script type="text/javascript" src="EasyTurk/templates/js/main.js"></script>
+ --></div>
 </body>
 </html>
