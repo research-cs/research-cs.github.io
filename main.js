@@ -117,7 +117,10 @@ function demographicsCallback() {
       'age': chosen_age
     }
     save_progress_val = progress_bar_current;
-    transition("demographics", "tutorial-start");
+    // uncomment the following for real task 
+    // transition("demographics", "tutorial-start");
+    // uncomment the following for dummy task
+    transition("demographics", "submission");
     $('#progress-text').html(progress_bar_text[progress_num]);
     save_progress_text = progress_num
     progress_num += 1;
