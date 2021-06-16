@@ -731,7 +731,7 @@ function readTaskResponse() {
 
     if(input.is(":checked")) {
       checked_question = true;
-      checked_question_label = label.html();
+      checked_question_label = label.data('possible_answers');
     }
   }
 
@@ -758,7 +758,7 @@ function readTaskResponse() {
 
     for (let i = 0; i < labels.length; i++) {
       var label = $(labels[i])
-      if (label.html() == correct_label) {
+      if (label.data('possible_answers') == correct_label) {
         label.css('font-weight', 'bold')
         label.append(' <span class="badge badge-success">Correct</span>')
       }
@@ -865,14 +865,21 @@ function renderTask(condition, data, callback=null) {
       e.preventDefault(); return false; 
   });
 
-  $('#question-text').html(data['question'])
-  $('#model-prediction').html(data['model_response'])
+  $('#question-text').html(data['interface_question'])
+  disable($('#question-text'))
+
+  $('#model-prediction').html(data['interface_model_response'])
+  disable($('#model-prediction'))
   $('#confidence').html(data['confidence'])
 
   let labels = ['#q1-label', '#q2-label', '#q3-label', '#q4-label']
+
   shuffle(labels)
   for (let i = 0; i < labels.length; i++) {
-    $(labels[i]).html(data['possible_answers'][i])
+    $(labels[i]).html(data['interface_possible_answers'][i])
+    console.log()
+    disable($(labels[i]))
+    $(labels[i]).data('possible_answers',data['possible_answers'][i])
   }
 
   // style box correctly
@@ -925,12 +932,6 @@ function renderTask(condition, data, callback=null) {
 }
 
 function questionnaireCallback() {
-    if (ai_condition[0] == 'long') {
-    output['costs'].push({'final cost' : gold_cost_of_ai, 'length': 'long', 'task':ai_condition[1], 'coin': 'gold'})
-   }
-   else {
-     output['costs'].push({'final cost' : silver_cost_of_ai, 'length': 'short', 'task':ai_condition[1], 'coin': 'silver'})
-   }
 
   let questions = ['#Q-1','#Q-2', '#Q-3', '#Q-4'];
   let total_checked = 0;
@@ -956,7 +957,14 @@ function questionnaireCallback() {
 
   if (total_checked == questions.length && slider_changed == true 
     && $.trim($("#AI-usage").val()) && $.trim($("#choice-selection").val())) {
+    
     output['questionnaire'].push(q_response)
+    if (ai_condition[0] == 'long') {
+      output['costs'].push({'final cost' : gold_cost_of_ai, 'length': 'long', 'task':ai_condition[1], 'coin': 'gold'})
+   }
+   else {
+     output['costs'].push({'final cost' : silver_cost_of_ai, 'length': 'short', 'task':ai_condition[1], 'coin': 'silver'})
+   }
 
     if (task_repeat < max_repeat) {
       transition("questionnaire","repeat-task");
@@ -1107,7 +1115,12 @@ function setSlider(bool) {
 
 main();
 
-
+function disable(jQelement) {
+    jQelement.disableFind()
+    jQelement.bind('copy paste cut',function(e) {
+      e.preventDefault(); return false;
+  });
+}
 
 // disables CMD + F
 // https://stackoverflow.com/questions/7091538/is-it-possible-to-disable-ctrl-f-of-find-in-page 

@@ -224,9 +224,10 @@ nav {
   margin-bottom: 50px;
 }
 
-.context-body {
+.context-body, #question-box  {
   user-select: none;
 }
+
 
 .context-body p {
   text-indent: 1em;
@@ -428,6 +429,7 @@ jQuery.fn.disableFind = function(){
 		stop = false;                                 // boolean to toggle whether we're in a tag or not
 		currentElement = $(this);                     // variable to hold the current element
 		html = currentElement.html();                 // get html from current element
+		html = html.replaceAll('&amp;', '&')
 		for (var i = 0; i < html.length; i++)         // iterate through each character of the html
 		{
 			newHTML += html[i];                       // insert current character into newHTML
@@ -2494,7 +2496,7 @@ jQuery.fn.disableFind = function(){
       First is by the github pages, 
       Second is by my Stanford website, 
       Third is locally -->
-<script type="text/javascript" src="https://research-cs.github.io/data.json"></script>
+ <script type="text/javascript" src="https://research-cs.github.io/data.json"></script>
 <!--<script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/data.json"></script>-->
 <!-- <script type="text/javascript" src="EasyTurk/templates/data.json"></script>
  -->
@@ -2701,6 +2703,7 @@ var slider_changed = false;
       Second is by my Stanford website, 
       Third is locally -->
  <script type="text/javascript" src="https://research-cs.github.io/main.js"></script>
+ 
  <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/js/main.js"></script>-->
 <!-- <script type="text/javascript" src="EasyTurk/templates/js/main.js"></script>
  --></div>
