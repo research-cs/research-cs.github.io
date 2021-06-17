@@ -101,7 +101,7 @@ function demographicsCallback() {
     }
   }
   if (checked_prolificID == false) {
-    alert('Please answer the question about your Prolific ID');
+    alert('Please answer the question about your ID');
   }
 
   if (checked_gender == false) {
@@ -1075,14 +1075,14 @@ function saveOutput() {
   //   a.click()
   // } 
   // saveText(JSON.stringify(output), Date.now())
-  // if (easyturk.isPreview()) {
-  //   alert("This is only a preview. Here is your output: \n" + JSON.stringify(output));
-  //   return false;
-  // } else {
-    proliferate.submit(output)
-    // easyturk.setOutput(output);
-    //return true;
-  // }
+  if (easyturk.isPreview()) {
+    alert("This is only a preview. Here is your output: \n" + JSON.stringify(output));
+    return false;
+  } else {
+    // proliferate.submit(output)
+    easyturk.setOutput(output);
+    return true;
+  }
 }
 
 // Enable the UI.
