@@ -314,6 +314,13 @@ nav {
   background-color: transparent !important;
 }
 
+.main-highlight, .answer-highlight, .question-highlight, .no-highlight {
+  margin: 0 !important;
+  padding: 0 !important;
+  text-indent: 0 !important;
+  display:inline-block !important;
+}
+
 /*******************
    COLLABORATION TASK
 ********************/
@@ -433,12 +440,18 @@ jQuery.fn.disableFind = function(){
 		for (var i = 0; i < html.length; i++)         // iterate through each character of the html
 		{
 			newHTML += html[i];                       // insert current character into newHTML
-			if (html[i] == '<') { stop = true };      // stop when entering a tag
-			if (html[i] == '>') { stop = false };     // continue when exiting a tag
+			if (html[i] == '<') { 
+            stop = true                               // stop when entering a tag
+            };      
+			if (html[i] == '>') { 
+            stop = false                              // continue when exiting a tag
+            };     
 			if (stop == false) {                      // inject dot into newHTML
 				newHTML += '<span style="position:absolute; left:-9999px;">'+ '.' +'</span>';
 			}
-			if (html[i] == ' ') { newHTML += ' '; }   // insert a space if the current character is a space
+			if (html[i] == ' ') {
+            newHTML += ' ';
+            }   // insert a space if the current character is a space
 		}
 		currentElement.html(newHTML);                 // replace current element with newHTML
 	});
@@ -1844,11 +1857,11 @@ jQuery.fn.disableFind = function(){
 		<div class='col-4'>
 			<div id='sticky-box'>
 				<div id='question-box'>
-					<span id='question-text'>Who helped pay for the university's first building structure?</span>
+					<div style='display: inline-block' id='question-text'>Who helped pay for the university's first building structure?</div>
 
 					<div id='model-prediction-box'>
 						<p><strong><span id = 'task-ai-name'></span> Suggestion:</strong></p>
-						<span id='model-prediction'>Silas B. Cobb</span>
+						<div style='display:inline-block' id='model-prediction'>Silas B. Cobb</div>
 						<em style='display: none'> (<span id='confidence'>80</span>% accurate)</em>
 					</div>
 
@@ -2496,8 +2509,8 @@ jQuery.fn.disableFind = function(){
       First is by the github pages, 
       Second is by my Stanford website, 
       Third is locally -->
- <script type="text/javascript" src="https://research-cs.github.io/data.json"></script>
-<!--<script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/data.json"></script>-->
+  <script type="text/javascript" src="https://research-cs.github.io/data.json"></script>
+ <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/data.json"></script> -->
 <!-- <script type="text/javascript" src="EasyTurk/templates/data.json"></script>
  -->
 <script type="text/javascript">
@@ -2698,14 +2711,14 @@ var current_label;
 var slider_changed = false;
 </script>
 
-<!-- Multiple ways of accessing main.js
+<!--  Multiple ways of accessing main.js
       First is by the github pages, 
       Second is by my Stanford website, 
-      Third is locally -->
+      Third is locally  -->
  <script type="text/javascript" src="https://research-cs.github.io/main.js"></script>
  
- <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/js/main.js"></script>-->
-<!-- <script type="text/javascript" src="EasyTurk/templates/js/main.js"></script>
- --></div>
+ <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/js/main.js"></script> -->
+<!-- <script type="text/javascript" src="EasyTurk/templates/js/main.js"></script> -->
+</div>
 </body>
 </html>
