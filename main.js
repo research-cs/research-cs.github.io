@@ -7,9 +7,9 @@ function main() {
   // console.log(input);
 
   // Enable the task.
-  // if (!easyturk.isPreview()){
+  if (!easyturk.isPreview()){
     enableTask();
-  //}
+  }
 
   if (idx == 0) {
     document.getElementById("onboarding").style.display = "block";
@@ -1088,7 +1088,7 @@ function saveOutput() {
 // Enable the UI.
 function enableTask() {
   enabled = true;
-  // easyturk.setupSubmit();
+  easyturk.setupSubmit();
   
 
   // Enable components
