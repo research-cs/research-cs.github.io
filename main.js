@@ -8,7 +8,7 @@ function main() {
 
   // Enable the task.
   // if (!easyturk.isPreview()){
-  //   enableTask();
+    enableTask();
   // }
 
   if (idx == 0) {
