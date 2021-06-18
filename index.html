@@ -1207,9 +1207,9 @@ jQuery.fn.disableFind = function(){
 		<div class="card">
 			<div class="card-body">
 				<p>Before we begin, please answer some demographic information.</p>
-				<p><strong>What is your Prolific ID?</strong></p>
+				<p><strong>What is your Worker ID?</strong></p>
 				  <div class="form-group">
-				    <input type="prolificID" class="form-control" id="prolificID" aria-describedby="prolificID" placeholder="Enter Prolific ID">
+				    <input type="prolificID" class="form-control" id="prolificID" aria-describedby="prolificID" placeholder="Enter Worker ID">
 				  </div>
 
 				<p><strong>What is your gender?</strong></p>
@@ -2428,8 +2428,8 @@ jQuery.fn.disableFind = function(){
   				<input type='hidden' value='' name='assignmentId' id='assignmentId'/>
   				<input type='hidden' value='' name='output' id='output'/>
   				<!-- To use with EasyTurk -->
-				<!-- <input type='submit' class='btn btn-primary' id='submit-btn' value='Submit'/>-->	
-				<!-- To use with Prolific -->
+<!-- 				 <input type='submit' class='btn btn-primary' id='submit-btn' value='Submit'/>	
+ -->				<!-- To use with Prolific -->
 				<button type="button" class="btn btn-primary" id='submit-btn'>Submit</button>
 				</form>
 			</div>
@@ -2611,6 +2611,62 @@ function make_input(json_data) {
 }
 
 
+function make_input_random(json_data){
+  var model_data_final = {
+    'Tutorial': 0,
+    'Model Correct': [],
+    'Model Incorrect': []
+  }
+  model_data_final['Tutorial'] = {
+          'id': json_data['Tutorial']['id'],
+          'question': json_data['Tutorial']['question'],
+          'interface_question': json_data['Tutorial']['interface_question'],
+          'possible_answers': json_data['Tutorial']['possible_answers'],
+          'interface_possible_answers': json_data['Tutorial']['interface_possible_answers'],
+          'model_response': json_data['Tutorial']['correct_response'],
+          'interface_model_response': json_data['Tutorial']['interface_correct_response'],
+          'correct_response': json_data['Tutorial']['correct_response'],
+          'interface_correct_response': json_data['Tutorial']['interface_correct_response'],
+          'text': json_data['Tutorial']['text'],
+          'short_text': [json_data['Tutorial']['short_text']],
+          'long_text': [0,1,2,3,4]
+    }
+
+  var model_data = shuffle(json_data['Model'])
+  var num_incorrect = 0;
+  for (let i = 0; i < model_data.length; i++){
+    if (i < 12) {
+      var shuffled_model_response = shuffle(model_data[i]['possible_answers_incorrect_w_interface_and_short_text'])
+      var model_response = shuffled_model_response[0][0]
+      var interface_model_response = shuffled_model_response[0][1]
+      var short_text = shuffled_model_response[0][2]
+      model_data[i]['text'][model_data[i]['short_text']] = short_text
+      var dict_name = 'Model Incorrect'
+    }
+    else {
+      var model_response = model_data[i]['correct_response']
+      var interface_model_response = model_data[i]['interface_correct_response']
+      var short_text = model_data[i]['short_text']
+      var dict_name = 'Model Correct'
+    }
+
+    model_data_final[dict_name].push({
+          'id': model_data[i]['id'],
+          'question': model_data[i]['question'],
+          'interface_question': model_data[i]['interface_question'],
+          'possible_answers': model_data[i]['possible_answers'],
+          'interface_possible_answers': model_data[i]['interface_possible_answers'],
+          'model_response': model_response,
+          'interface_model_response': interface_model_response,
+          'correct_response': model_data[i]['correct_response'],
+          'interface_correct_response': model_data[i]['interface_correct_response'],
+          'text': model_data[i]['text'],
+          'short_text': model_data[i]['short_text'],
+          'long_text': [0,1,2,3,4]
+    })
+  }
+    return make_input(model_data_final)
+}
 
 
 
@@ -2632,10 +2688,15 @@ function make_input(json_data) {
 // setting = 'short' | 'long'
 // var setting = 'long';
 
-var hello = 0;
+var randomness = true;
 var tutorial_task = "xai";
 var tutorial_setting = "long";
-var input = make_input(json_data);
+if (randomness == true) {
+  var input = make_input_random(json_data);
+}
+else{
+  var input = make_input(json_data);
+}
 
 var payment = 12;
 var time = 60;
@@ -2718,7 +2779,7 @@ var slider_changed = false;
  <script type="text/javascript" src="https://research-cs.github.io/main.js"></script>
  
  <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/js/main.js"></script> -->
-<!-- <script type="text/javascript" src="EasyTurk/templates/js/main.js"></script> -->
-</div>
+<!-- <script type="text/javascript" src="EasyTurk/templates/js/main.js"></script>
+ --></div>
 </body>
 </html>
