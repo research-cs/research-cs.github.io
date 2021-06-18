@@ -7,9 +7,9 @@ function main() {
   // console.log(input);
 
   // Enable the task.
-  if (!easyturk.isPreview()){
-    enableTask();
-  }
+  // if (!easyturk.isPreview()){
+  //   enableTask();
+  // }
 
   if (idx == 0) {
     document.getElementById("onboarding").style.display = "block";
@@ -1075,20 +1075,20 @@ function saveOutput() {
   //   a.click()
   // } 
   // saveText(JSON.stringify(output), Date.now())
-  if (easyturk.isPreview()) {
-    alert("This is only a preview. Here is your output: \n" + JSON.stringify(output));
-    return false;
-  } else {
-    // proliferate.submit(output)
-    easyturk.setOutput(output);
-    return true;
-  }
+  // if (easyturk.isPreview()) {
+  //   alert("This is only a preview. Here is your output: \n" + JSON.stringify(output));
+  //   return false;
+  // } else {
+    proliferate.submit(output)
+    // easyturk.setOutput(output);
+    // return true;
+  // }
 }
 
 // Enable the UI.
 function enableTask() {
   enabled = true;
-  easyturk.setupSubmit();
+  // easyturk.setupSubmit();
   
 
   // Enable components
