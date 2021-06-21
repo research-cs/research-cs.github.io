@@ -2617,7 +2617,8 @@ function make_input(json_data) {
             ]
 }
   json_input['coged'] = shuffle_matrix(json_input['coged'])
-  json_input['collaboration'] = shuffle_matrix_subset(json_input['collaboration'], 5)
+  json_input['collaboration'] = shuffle_matrix(json_input['collaboration'])
+  console.log(json_input['collaboration'][0][0]['question'])
   json_input['coged-order'] = shuffle(json_input['coged-order']);
   return json_input
 }
