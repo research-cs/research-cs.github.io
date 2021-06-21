@@ -878,7 +878,6 @@ function renderTask(condition, data, callback=null) {
 
   $('#question-text').html(data['interface_question'])
   disable($('#question-text'))
-  console.log($('#question-text').html())
 
   $('#model-prediction').html(data['interface_model_response'])
   disable($('#model-prediction'))
@@ -892,7 +891,6 @@ function renderTask(condition, data, callback=null) {
     disable($(labels[i]))
     $(labels[i]).data('possible_answers',data['possible_answers'][i])
   }
-  console.log($(labels[0]).html())
 
   // style box correctly
   highlights = $('.answer-highlight, .question-highlight, .main-highlight')
