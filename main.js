@@ -118,13 +118,24 @@ function demographicsCallback() {
     }
     save_progress_val = progress_bar_current;
     // uncomment the following for real task 
-    transition("demographics", "tutorial-start");
+    // transition("demographics", "tutorial-start");
+    // uncomment the following for between subjects
+     transition("demographics", 'begin-task');
+     repeatTask(input['coged-order'][task_repeat][1], 'collaboration-task-first-text')
+     runTask();
+     training_phase = false;
+     if (ai_condition[0] == 'short') {
+      $('#silver-credits-box').show()
+     }
+     else {
+      $('#gold-credits-box').show()
+     }
     // uncomment the following for dummy task
     // transition("demographics", "submission");
     $('#progress-text').html(progress_bar_text[progress_num]);
     save_progress_text = progress_num
     progress_num += 1;
-    runTutorial();
+    // runTutorial();
   }
 }
 
@@ -1043,10 +1054,12 @@ function repeatTask(condition, id ='switch-tasks') {
       if (current_length == 'long') {
           $(coin_id).html('50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">')
           $(length_id).html('long, which is why you receive gold credits')
-      }
+          $('#coin-explanation').html('Note that 100 gold credits equals $0.10.')      
+        }
         else {
           $(coin_id).html('50 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">')
           $(length_id).html('short, which is why you receive silver credits')
+          $('#coin-explanation').html('Note that 100 silver credits equals $0.05.')
      }
      if (current_xai_setting == 'xai') {
         $(explanation_id).css('display','inline-block')
