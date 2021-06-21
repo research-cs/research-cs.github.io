@@ -1127,13 +1127,14 @@ jQuery.fn.disableFind = function(){
 <!--       <div class='mr-auto' id='tutorial-box'>
         <a href = "https://www.youtube.com/">View Tutorial Video</a>
       </div> -->
-      <div class='ml-auto' id='credits-box' style='display:none'>
+      <!-- <div class='ml-auto' id='credits-box' style='display:none'> -->
+      <div class='ml-auto' id='credits-box'>
         <span>Total Credits:</span>
-        <button type="button" data-toggle="tooltip" data-placement="bottom" title="100 credits are worth $0.10">
+        <button type="button" data-toggle="tooltip" data-placement="bottom" title="100 credits are worth $0.10" style='display:none' id = 'gold-credits-box'>
           <span id='gold-credits'>0</span>
           <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">
         </button>
-        <button type="button" data-toggle="tooltip" data-placement="bottom" title="100 credits are worth $0.05">
+        <button type="button" data-toggle="tooltip" data-placement="bottom" title="100 credits are worth $0.05" style='display:none'id = 'silver-credits-box'>
           <span id='silver-credits'>0</span>
           <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">
         </button>
@@ -1159,8 +1160,8 @@ jQuery.fn.disableFind = function(){
 				<p> You are invited to participate in a survey. </p>
 				<p> <strong>Time: </strong> Your participation will take approximately <span id="time"></span> minutes. </p>
 				<p> <strong>Payment: </strong> You will receive $<span id="payment"></span> as payment for your participation. You will also have the opportunity to receive bonuses in this study.</p>
-				<p> <strong>Qualifications: </strong>If you do not pass the comprehension check, you will not be allowed to complete the study, so please make sure to pay attention to instructions. </p>
-			</div>
+<!-- 				<p> <strong>Qualifications: </strong>If you do not pass the comprehension check, you will not be allowed to complete the study, so please make sure to pay attention to instructions. </p>
+ -->			</div>
 		</div>
 
 		<h3>Participant Rights</h3>
@@ -1177,8 +1178,8 @@ jQuery.fn.disableFind = function(){
 
 				<p> If you agree to participate in this research, please mark "Agree" below and complete the remainder of the survey. </p>
 
-				<p> If you'd like to download this consent form as a PDF file, you can access it <a target="_blank" rel="noopener noreferrer" id="consent-form">here</a>.</p>
-
+<!-- 				<p> If you'd like to download this consent form as a PDF file, you can access it <a target="_blank" rel="noopener noreferrer" id="consent-form">here</a>.</p>
+ -->
 				<p> <strong>By clicking "Agree" below, you are agreeing to participating in this study. Participation is voluntary and can be terminated at any time. We will not be collecting identifiable information. </strong></p>
 
 				<div class="form-check">
@@ -1734,7 +1735,8 @@ jQuery.fn.disableFind = function(){
 
 		<div class="card">
 			<div class="card-body">
-				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>, which is 80% accurate.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. This passage is <span id ='length-begin-task'></span>. We will also ask you to choose between doing the task yourself versus getting a suggestion from the AI for different bonus amounts. Click the button below to begin.</p>
+				<!-- <p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>, which is 80% accurate.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. This passage is <span id ='length-begin-task'></span>. We will also ask you to choose between doing the task yourself versus getting a suggestion from the AI for different bonus amounts. Click the button below to begin.</p> -->
+				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>, which is 80% accurate.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> Click the button below to begin.</p>
 				<button type="button" class="btn btn-primary" id='begin-task-button'>Continue</button>
 			</div>
 		</div>
@@ -1825,7 +1827,7 @@ jQuery.fn.disableFind = function(){
         </button>
       </div>
       <div class="modal-body">
-        Again, you will be asked to choose between completing a task by yourself and using AI-provided assistance for each question.
+        You will be asked to choose between completing a task by yourself and using AI-provided assistance for each question.
         <br><br>
 		<strong>Each time you are asked to choose, the amount of money offered for getting the AI's suggestions will change, so please pay attention to those values.</strong>
 		<span id='coged-modal-text'></span>
@@ -2595,8 +2597,9 @@ function make_input(json_data) {
               [model_incorrect[2], model_correct[10], model_correct[11], model_correct[12], model_correct[13]],
               [model_incorrect[3], model_correct[14], model_correct[15], model_correct[16], model_correct[17]]
             ],
-  'coged-order': [['short baseline', 'short prediction'], ['short baseline', 'short xai'],
-                  ['long baseline', 'long prediction'], ['long baseline', 'long xai']],
+  'coged-order': [coged_order_temp[0]],
+  // [['short baseline', 'short prediction'], ['short baseline', 'short xai'],
+                  // ['long baseline', 'long prediction'], ['long baseline', 'long xai']],
   'collaboration': [
               [model_incorrect[4], model_incorrect[8], model_correct[18], model_correct[19], model_correct[20], model_correct[21], model_correct[50], model_correct[51], model_correct[52], model_correct[53]],
               [model_incorrect[5], model_incorrect[9], model_correct[22], model_correct[23], model_correct[24], model_correct[25], model_correct[38], model_correct[39], model_correct[40], model_correct[41]],
@@ -2688,7 +2691,10 @@ function make_input_random(json_data){
 // setting = 'short' | 'long'
 // var setting = 'long';
 
-var randomness = true;
+var coged_order_temp = shuffle([['short baseline', 'short prediction'], ['short baseline', 'short xai'],
+                  ['long baseline', 'long prediction'], ['long baseline', 'long xai']]);
+
+var randomness = false;
 var tutorial_task = "xai";
 var tutorial_setting = "long";
 if (randomness == true) {
@@ -2698,8 +2704,8 @@ else{
   var input = make_input(json_data);
 }
 
-var payment = 12;
-var time = 60;
+var payment = 3;
+var time = 15;
 var href = "https://drive.google.com/file/d/1ospZxTbEvnh_5LNzlIY8Puqvj8WRoQ2t/view?usp=sharing";
 
 // This is where we will be collecting the responses for each question;
@@ -2729,7 +2735,8 @@ var coged_phase = false;
 var coged_phase_count = -1;
 var max_coged = 5;
 var task_repeat = 0;
-var max_repeat = 4;
+// var max_repeat = 4;
+var max_repeat = 1;
 
 var average = (a, b) => (a + b) / 2;
 var cost_of_human = 100;
@@ -2753,7 +2760,8 @@ var ai_box_background_colors = ['rgba(222.0, 143.0, 5.0, 0.05)', 'rgba(204.0, 12
 var model_prediction_background_colors = ['rgba(222.0, 143.0, 5.0, 0.6)', 'rgba(204.0, 120.0, 188.0, 0.6)', 'rgb(148.0, 148.0, 148.0, 0.6)', 'rgb(2.0, 158.0, 115.0, 0.6)']
 var ai_box_border = ['3px solid rgb(222.0, 143.0, 5.0)', '3px solid rgb(204.0, 120.0, 188.0)', '3px solid rgb(148.0, 148.0, 148.0)', '3px solid rgb(2.0, 158.0, 115.0)']
 
-var progress_bar_total_clicks = 110
+// var progress_bar_total_clicks = 110
+var progress_bar_total_clicks = 27
 var progress_bar_increments = (1 / progress_bar_total_clicks) * 100;
 var progress_bar_current = progress_bar_increments;
 var progress_num = 0;
