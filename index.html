@@ -1736,7 +1736,8 @@ jQuery.fn.disableFind = function(){
 		<div class="card">
 			<div class="card-body">
 				<!-- <p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>, which is 80% accurate.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. This passage is <span id ='length-begin-task'></span>. We will also ask you to choose between doing the task yourself versus getting a suggestion from the AI for different bonus amounts. Click the button below to begin.</p> -->
-				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>, which is 80% accurate.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> Click the button below to begin.</p>
+				<!-- <p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>, which is 80% accurate.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> Click the button below to begin.</p> -->
+				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> Click the button below to begin.</p>
 				<button type="button" class="btn btn-primary" id='begin-task-button'>Continue</button>
 			</div>
 		</div>
@@ -2535,12 +2536,20 @@ function shuffle_matrix(array) {
   return array
 }
 
+function shuffle_matrix_subset(array, split) {
+  for (var i = 0; i < array.length; i ++) {
+    array[i] = shuffleSubset(array[i], split)
+  }
+  return array
+}
+
 // shuffles array starting at split
 function shuffleSubset(array, split) {
   var noShuffle = array.slice(0, split)
   var toShuffle = array.slice(split)
   toShuffle = shuffle(toShuffle)
   noShuffle.concat(toShuffle)
+  console.log("Happening")
   return noShuffle.concat(toShuffle)
 }
 
@@ -2601,14 +2610,14 @@ function make_input(json_data) {
   // [['short baseline', 'short prediction'], ['short baseline', 'short xai'],
                   // ['long baseline', 'long prediction'], ['long baseline', 'long xai']],
   'collaboration': [
-              [model_incorrect[4], model_incorrect[8], model_correct[18], model_correct[19], model_correct[20], model_correct[21], model_correct[50], model_correct[51], model_correct[52], model_correct[53]],
-              [model_incorrect[5], model_incorrect[9], model_correct[22], model_correct[23], model_correct[24], model_correct[25], model_correct[38], model_correct[39], model_correct[40], model_correct[41]],
-              [model_incorrect[6], model_incorrect[10], model_correct[26], model_correct[27], model_correct[28], model_correct[29], model_correct[42], model_correct[43], model_correct[44], model_correct[45]],
-              [model_incorrect[7], model_incorrect[11], model_correct[30], model_correct[31], model_correct[32], model_correct[33], model_correct[46], model_correct[47], model_correct[48], model_correct[49]]
+              [model_correct[18], model_correct[19], model_correct[20], model_correct[21], model_correct[50], model_correct[51], model_correct[52], model_correct[53], model_incorrect[4], model_incorrect[8]],
+              [model_correct[22], model_correct[23], model_correct[24], model_correct[25], model_correct[38], model_correct[39], model_correct[40], model_correct[41], model_incorrect[5], model_incorrect[9]],
+              [model_correct[26], model_correct[27], model_correct[28], model_correct[29], model_correct[42], model_correct[43], model_correct[44], model_correct[45], model_incorrect[6], model_incorrect[10]],
+              [model_correct[30], model_correct[31], model_correct[32], model_correct[33], model_correct[46], model_correct[47], model_correct[48], model_correct[49], model_incorrect[7], model_incorrect[11]]
             ]
 }
   json_input['coged'] = shuffle_matrix(json_input['coged'])
-  json_input['collaboration'] = shuffle_matrix(json_input['collaboration'])
+  json_input['collaboration'] = shuffle_matrix_subset(json_input['collaboration'], 5)
   json_input['coged-order'] = shuffle(json_input['coged-order']);
   return json_input
 }
