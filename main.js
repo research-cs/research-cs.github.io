@@ -608,7 +608,9 @@ function runTask() {
       'wager': wager,
       'lower': gold_lower_bound,
       'upper': gold_upper_bound,
-      'balance': num_gold_credits}
+      'balance': num_gold_credits,
+      'model_acc': curr_acc_score
+    }
    }
    else {
      choice = {
@@ -617,7 +619,9 @@ function runTask() {
       'wager': wager,
       'lower': silver_lower_bound,
       'upper': silver_upper_bound,
-      'balance': num_silver_credits}
+      'balance': num_silver_credits,
+      'model_acc': curr_acc_score
+}
    }
 
     // output['choices'][task_repeat].push(choice)
@@ -642,7 +646,9 @@ function runTask() {
       'wager': wager,
       'lower': gold_lower_bound,
       'upper': gold_upper_bound,
-      'balance': num_gold_credits}
+      'balance': num_gold_credits,
+      'model_acc': curr_acc_score
+    }
     }
     else {
       wager = silver_cost_of_ai;
@@ -652,7 +658,10 @@ function runTask() {
       'wager': wager,
       'lower': silver_lower_bound,
       'upper': silver_upper_bound,
-      'balance': num_silver_credits}
+      'balance': num_silver_credits,
+      'model_acc': curr_acc_score
+
+    }
     }
 
     //output['choices'][task_repeat].push(choice)
@@ -760,7 +769,8 @@ function readTaskResponse() {
       'correct_response': correct_label,
       'model_response': current_question['model_response'],
       'time': (question_stop_time - question_start_time) / 1000,
-      'scroll': current_label
+      'scroll': current_label,
+      'model_acc': curr_acc_score
     }
 
     $("#question-box").addClass('muted')
@@ -963,6 +973,7 @@ function questionnaireCallback() {
   q_response['choice-selection'] = $("#choice-selection").val();
   q_response['setting'] = ai_condition[0]
   q_response['condition'] = ai_condition[1]
+  q_response['model_acc'] = curr_acc_score
 
 
   if (total_checked == questions.length && slider_changed == true 
@@ -970,10 +981,18 @@ function questionnaireCallback() {
     
     output['questionnaire'].push(q_response)
     if (ai_condition[0] == 'long') {
-      output['costs'].push({'final cost' : gold_cost_of_ai, 'length': 'long', 'task':ai_condition[1], 'coin': 'gold'})
+      output['costs'].push({'final cost': gold_cost_of_ai, 
+                            'length': 'long', 
+                            'task': ai_condition[1], 
+                            'coin': 'gold',
+                            'model_acc':curr_acc_score})
    }
    else {
-     output['costs'].push({'final cost' : silver_cost_of_ai, 'length': 'short', 'task':ai_condition[1], 'coin': 'silver'})
+     output['costs'].push({'final cost': silver_cost_of_ai, 
+                          'length': 'short',
+                          'task': ai_condition[1], 
+                          'coin': 'silver',
+                          'model_acc': curr_acc_score})
    }
 
     if (task_repeat < max_repeat) {
@@ -1049,6 +1068,8 @@ function repeatTask(condition, id ='switch-tasks') {
       current_xai_setting = curr[1];
       $('#' + id).html("AI " + (ai_names[task_repeat]))
       $('#' + id).css('color', ai_colors[task_repeat])
+      $('#acc-score').html(curr_acc_score)
+      console.log(curr_acc_score)
       if (current_length == 'long') {
           $(coin_id).html('50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">')
           $(length_id).html('long, which is why you receive gold credits')
