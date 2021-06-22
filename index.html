@@ -1736,9 +1736,9 @@ jQuery.fn.disableFind = function(){
 		<div class="card">
 			<div class="card-body">
 				<!-- <p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>, which is 80% accurate.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. This passage is <span id ='length-begin-task'></span>. We will also ask you to choose between doing the task yourself versus getting a suggestion from the AI for different bonus amounts. Click the button below to begin.</p> -->
-				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>, which is <span id='acc-score'></span> accurate.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> Click the button below to begin.</p>
-<!-- 				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> Click the button below to begin.</p>
- -->				<button type="button" class="btn btn-primary" id='begin-task-button'>Continue</button>
+<!-- 				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>, which is <span id='acc-score'></span> accurate.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> Click the button below to begin.</p>
+ -->				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> Click the button below to begin.</p>
+				<button type="button" class="btn btn-primary" id='begin-task-button'>Continue</button>
 			</div>
 		</div>
 
@@ -2426,7 +2426,7 @@ jQuery.fn.disableFind = function(){
 
 		<div class="card">
 			<div class="card-body">
-				<p>Thank you for completing our entire study! Please <strong>click submit.</strong></p>
+				<p>Thank you for completing our entire study! Please <strong>click submit.</strong> It may take a moment to redirect you.</p>
 				<form id='results-form' method='post' action='dummy' class='text-center'>
   				<input type='hidden' value='' name='assignmentId' id='assignmentId'/>
   				<input type='hidden' value='' name='output' id='output'/>
@@ -2716,10 +2716,10 @@ else{
 
 var multi_acc_score = false;
 if (multi_acc_score == true) {
-  var curr_acc_score = shuffle(['95%', '50%'])[0]
+  var curr_acc_score = shuffle(['99.7%','95%', '50%'])[0]
 }
 else {
-  var curr_acc_score = '99.7%'
+  var curr_acc_score = '80%'
 }
 
 var payment = 3;
@@ -2788,6 +2788,11 @@ var save_progress_val;
 var letter;
 var progress_bar_text = ['Onboarding', 'Demographics', 'Tutorial', 'Earning Credits',
 'Comprehension Check','Training','Main Study', 'Questionnaire', 'Feedback', 'Submission'];
+
+var anthropomorphic = false;
+if (anthropomorphic == false) {
+  var ai_names = ['']
+}
 
 
 var ai_condition = input['coged-order'][task_repeat][1].split(" ");
