@@ -260,6 +260,7 @@ function runTutorial() {
 
   intro.oncomplete(function() {
     transition('task', 'tutorial-multiple-ai')
+
     for (let i = 0; i < ai_names.length; i++) {
       document.getElementById('choose-AI-tutorial-'+(i+1)).style.color = ai_colors[i];
       document.getElementById('choose-AI-tutorial-'+(i+1)).style.backgroundColor = ai_background_colors[i];
@@ -561,22 +562,42 @@ function runTask() {
           $('.alert-link').unbind('click').click(function(){
 
             transition('task', 'questionnaire');
-            $('#questionnaire-ai-1').css('color',ai_colors[task_repeat]);
-            $('#questionnaire-ai-1').html('AI ' + ai_names[task_repeat] + "\'s");
-            $('#questionnaire-ai-2').css('color',ai_colors[task_repeat]);
-            $('#questionnaire-ai-2').html('AI ' + ai_names[task_repeat]);
-            $('#questionnaire-ai-3').css('color',ai_colors[task_repeat]);
-            $('#questionnaire-ai-3').html('AI ' + ai_names[task_repeat]);
-            $('#questionnaire-ai-4').css('color',ai_colors[task_repeat]);
-            $('#questionnaire-ai-4').html('AI ' + ai_names[task_repeat] + "\'s");
-            $('#questionnaire-ai-5').css('color',ai_colors[task_repeat]);
-            $('#questionnaire-ai-5').html('AI ' + ai_names[task_repeat]);
-            $('#questionnaire-ai-5a').css('color',ai_colors[task_repeat]);
-            $('#questionnaire-ai-5a').html('AI ' + ai_names[task_repeat]);
-            $('#questionnaire-ai-6').css('color',ai_colors[task_repeat]);
-            $('#questionnaire-ai-6').html('AI ' + ai_names[task_repeat]);
-            $('#questionnaire-ai-7').css('color',ai_colors[task_repeat]);
-            $('#questionnaire-ai-7').html('AI ' + ai_names[task_repeat]);
+            if (anthropomorphic == true) {
+              $('#questionnaire-ai-1').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-1').html('AI ' + ai_names[task_repeat] + "\'s");
+              $('#questionnaire-ai-2').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-2').html('AI ' + ai_names[task_repeat]);
+              $('#questionnaire-ai-3').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-3').html('AI ' + ai_names[task_repeat]);
+              $('#questionnaire-ai-4').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-4').html('AI ' + ai_names[task_repeat] + "\'s");
+              $('#questionnaire-ai-5').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-5').html('AI ' + ai_names[task_repeat]);
+              $('#questionnaire-ai-5a').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-5a').html('AI ' + ai_names[task_repeat]);
+              $('#questionnaire-ai-6').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-6').html('AI ' + ai_names[task_repeat]);
+              $('#questionnaire-ai-7').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-7').html('AI ' + ai_names[task_repeat]);
+            }
+            else {
+              $('#questionnaire-ai-1').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-1').html('the AI\'s');
+              $('#questionnaire-ai-2').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-2').html('the AI');
+              $('#questionnaire-ai-3').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-3').html('the AI');
+              $('#questionnaire-ai-4').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-4').html('the AI\'s');
+              $('#questionnaire-ai-5').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-5').html('the AI');
+              $('#questionnaire-ai-5a').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-5a').html('the AI');
+              $('#questionnaire-ai-6').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-6').html('the AI');
+              $('#questionnaire-ai-7').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-7').html('the AI');
+            }
             window.scrollTo(0,0); 
             $("#questionnaire-form-1")[0].reset();
             $("#questionnaire-form-2")[0].reset();
@@ -938,7 +959,12 @@ function renderTask(condition, data, callback=null) {
 
   if (!tutorial_phase) {
     predBox.css('backgroundColor',model_prediction_background_colors[task_repeat])
-    $('#task-ai-name').html('AI ' + ai_names[task_repeat] + "\'s")
+    if (anthropomorphic == true) {
+      $('#task-ai-name').html('AI ' + ai_names[task_repeat] + "\'s")
+    }
+    else {
+      $('#task-ai-name').html('the AI\'s')
+    }
     $('.ai-box').css('backgroundColor', ai_box_background_colors[task_repeat])
     $('.ai-box').css('border', ai_box_border[task_repeat])
   }
@@ -1066,7 +1092,12 @@ function repeatTask(condition, id ='switch-tasks') {
       curr = condition.split(" ");
       current_length = curr[0];
       current_xai_setting = curr[1];
-      $('#' + id).html("AI " + (ai_names[task_repeat]))
+      if (anthropomorphic == true) {
+        $('#' + id).html("AI " + (ai_names[task_repeat]))
+      }
+      else {
+        $('#' + id).html("the AI")
+      }
       $('#' + id).css('color', ai_colors[task_repeat])
       $('#acc-score').html(curr_acc_score)
       console.log(curr_acc_score)
