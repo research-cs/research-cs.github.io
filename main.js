@@ -582,21 +582,21 @@ function runTask() {
             }
             else {
               $('#questionnaire-ai-1').css('color',ai_colors[task_repeat]);
-              $('#questionnaire-ai-1').html('the AI\'s');
+              $('#questionnaire-ai-1').html('AI\'s');
               $('#questionnaire-ai-2').css('color',ai_colors[task_repeat]);
-              $('#questionnaire-ai-2').html('the AI');
+              $('#questionnaire-ai-2').html('AI');
               $('#questionnaire-ai-3').css('color',ai_colors[task_repeat]);
-              $('#questionnaire-ai-3').html('the AI');
+              $('#questionnaire-ai-3').html('AI');
               $('#questionnaire-ai-4').css('color',ai_colors[task_repeat]);
-              $('#questionnaire-ai-4').html('the AI\'s');
+              $('#questionnaire-ai-4').html('AI\'s');
               $('#questionnaire-ai-5').css('color',ai_colors[task_repeat]);
-              $('#questionnaire-ai-5').html('the AI');
+              $('#questionnaire-ai-5').html('AI');
               $('#questionnaire-ai-5a').css('color',ai_colors[task_repeat]);
-              $('#questionnaire-ai-5a').html('the AI');
+              $('#questionnaire-ai-5a').html('AI');
               $('#questionnaire-ai-6').css('color',ai_colors[task_repeat]);
-              $('#questionnaire-ai-6').html('the AI');
+              $('#questionnaire-ai-6').html('AI');
               $('#questionnaire-ai-7').css('color',ai_colors[task_repeat]);
-              $('#questionnaire-ai-7').html('the AI');
+              $('#questionnaire-ai-7').html('AI');
             }
             window.scrollTo(0,0); 
             $("#questionnaire-form-1")[0].reset();
@@ -963,7 +963,7 @@ function renderTask(condition, data, callback=null) {
       $('#task-ai-name').html('AI ' + ai_names[task_repeat] + "\'s")
     }
     else {
-      $('#task-ai-name').html('the AI\'s')
+      $('#task-ai-name').html('AI\'s')
     }
     $('.ai-box').css('backgroundColor', ai_box_background_colors[task_repeat])
     $('.ai-box').css('border', ai_box_border[task_repeat])
@@ -1096,7 +1096,7 @@ function repeatTask(condition, id ='switch-tasks') {
         $('#' + id).html("AI " + (ai_names[task_repeat]))
       }
       else {
-        $('#' + id).html("the AI")
+        $('#' + id).html("AI")
       }
       $('#' + id).css('color', ai_colors[task_repeat])
       $('#acc-score').html(curr_acc_score)
