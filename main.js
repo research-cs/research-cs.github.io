@@ -118,24 +118,24 @@ function demographicsCallback() {
     }
     save_progress_val = progress_bar_current;
     // uncomment the following for real task 
-    // transition("demographics", "tutorial-start");
+    transition("demographics", "tutorial-start");
     // uncomment the following for between subjects
-     transition("demographics", 'begin-task');
-     repeatTask(input['coged-order'][task_repeat][1], 'collaboration-task-first-text')
-     runTask();
-     training_phase = false;
-     if (ai_condition[0] == 'short') {
-      $('#silver-credits-box').show()
-     }
-     else {
-      $('#gold-credits-box').show()
-     }
+     // transition("demographics", 'begin-task');
+     //repeatTask(input['coged-order'][task_repeat][1], 'collaboration-task-first-text')
+     //runTask();
+     //training_phase = false;
+     //if (ai_condition[0] == 'short') {
+     //$('#silver-credits-box').show()
+     //}
+    //else {
+     // $('#gold-credits-box').show()
+    // }
     // uncomment the following for dummy task
     // transition("demographics", "submission");
     $('#progress-text').html(progress_bar_text[progress_num]);
     save_progress_text = progress_num
     progress_num += 1;
-    // runTutorial();
+    runTutorial();
   }
 }
 
@@ -200,7 +200,8 @@ function runTutorial() {
     },
     {
       element: document.querySelector('#model-prediction-box'),
-      intro: "This AI is 80% accurate, which means that its suggestions <strong>will not always be correct</strong>. You will have to decide for yourself whether to accept its suggested answer or not. In this case, the AI's suggestion is correct."
+      intro: "You will have to decide whether to accept the AI's suggested answer or not. In this case, the AI's suggestion is correct."
+      // intro: "This AI is 80% accurate, which means that its suggestions <strong>will not always be correct</strong>. You will have to decide for yourself whether to accept its suggested answer or not. In this case, the AI's suggestion is correct."
     },
     {
     element: document.querySelector('#context-text'),
