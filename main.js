@@ -119,11 +119,20 @@ function demographicsCallback() {
     save_progress_val = progress_bar_current;
     // uncomment the following for real task 
     // transition("demographics", "tutorial-start");
-    // uncomment the following for between subjects
-     transition("demographics", 'begin-task');
-     repeatTask(input['coged-order'][task_repeat][1], 'collaboration-task-first-text')
-     runTask();
-     training_phase = false;
+    // uncomment the following for between subjects without training
+     // transition("demographics", 'begin-task');
+     // repeatTask(input['coged-order'][task_repeat][1], 'collaboration-task-first-text')
+     // runTask();
+     // training_phase = false;
+    // uncomment the following for between subjects with training
+     transition('demographics', 'training-start');
+     runTraining();
+     if (ai_condition[0] == 'short') {
+      $('#training-credits').html('For each question you get correct alone, you will receive 100 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.05.')
+     }
+     else {
+      $('#training-credits').html('For each question you get correct alone, you will receive 100 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.10.')
+     }
      $('#credits-box').show()
      if (ai_condition[0] == 'short') {
      $('#silver-credits-box').show()
@@ -452,7 +461,6 @@ function comprehensionCallback() {
 function runTraining() {
   training_phase = true;
   training_phase_count = 0;
-
 
   function trainingCallback() {
     response = readTaskResponse()
@@ -948,14 +956,17 @@ function renderTask(condition, data, callback=null) {
   }
 
   if (training_phase) {
-    if (training_phase_count == 0 || training_phase_count == 3) { 
+    // if (training_phase_count == 0 || training_phase_count == 3) { 
+    if (training_phase_count == 0) { 
       $('#training-modal').modal('toggle')
 
       if (current_setting == 'long') {
-        $('#training-modal-text').html('You will complete the next 3 question answering tasks by youself and receive 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly. These passages are long, which is why you receive gold credits.')
+        // $('#training-modal-text').html('You will complete the next 5 question answering tasks by youself and receive 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly. These passages are long, which is why you receive gold credits.')
+        $('#training-modal-text').html('You will complete the next 5 question answering tasks by youself and receive 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly.')
       }
       else {
-        $('#training-modal-text').html('You will complete the next 3 question answering tasks by youself and receive 100 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly. These passages are short, which is why you receive silver credits.')
+        // $('#training-modal-text').html('You will complete the next 5 question answering tasks by youself and receive 100 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly. These passages are short, which is why you receive silver credits.')
+        $('#training-modal-text').html('You will complete the next 5 question answering tasks by youself and receive 100 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly.')
       }
     }
   }
