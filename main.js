@@ -124,6 +124,7 @@ function demographicsCallback() {
      repeatTask(input['coged-order'][task_repeat][1], 'collaboration-task-first-text')
      runTask();
      training_phase = false;
+     $('#credits-box').show()
      if (ai_condition[0] == 'short') {
      $('#silver-credits-box').show()
      }
