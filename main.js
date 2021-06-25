@@ -118,24 +118,24 @@ function demographicsCallback() {
     }
     save_progress_val = progress_bar_current;
     // uncomment the following for real task 
-    transition("demographics", "tutorial-start");
+    // transition("demographics", "tutorial-start");
     // uncomment the following for between subjects
-     // transition("demographics", 'begin-task');
-     //repeatTask(input['coged-order'][task_repeat][1], 'collaboration-task-first-text')
-     //runTask();
-     //training_phase = false;
-     //if (ai_condition[0] == 'short') {
-     //$('#silver-credits-box').show()
-     //}
-    //else {
-     // $('#gold-credits-box').show()
-    // }
+     transition("demographics", 'begin-task');
+     repeatTask(input['coged-order'][task_repeat][1], 'collaboration-task-first-text')
+     runTask();
+     training_phase = false;
+     if (ai_condition[0] == 'short') {
+     $('#silver-credits-box').show()
+     }
+    else {
+     $('#gold-credits-box').show()
+    }
     // uncomment the following for dummy task
     // transition("demographics", "submission");
+    // runTutorial();
     $('#progress-text').html(progress_bar_text[progress_num]);
     save_progress_text = progress_num
     progress_num += 1;
-    runTutorial();
   }
 }
 
@@ -261,6 +261,7 @@ function runTutorial() {
 
   intro.oncomplete(function() {
     transition('task', 'tutorial-multiple-ai')
+    $('#tutorial-acc-score').html(curr_acc_score)
 
     for (let i = 0; i < ai_names.length; i++) {
       document.getElementById('choose-AI-tutorial-'+(i+1)).style.color = ai_colors[i];
@@ -583,21 +584,21 @@ function runTask() {
             }
             else {
               $('#questionnaire-ai-1').css('color',ai_colors[task_repeat]);
-              $('#questionnaire-ai-1').html('AI\'s');
+              $('#questionnaire-ai-1').html('the AI\'s');
               $('#questionnaire-ai-2').css('color',ai_colors[task_repeat]);
-              $('#questionnaire-ai-2').html('AI');
+              $('#questionnaire-ai-2').html('the AI');
               $('#questionnaire-ai-3').css('color',ai_colors[task_repeat]);
-              $('#questionnaire-ai-3').html('AI');
+              $('#questionnaire-ai-3').html('the AI');
               $('#questionnaire-ai-4').css('color',ai_colors[task_repeat]);
-              $('#questionnaire-ai-4').html('AI\'s');
+              $('#questionnaire-ai-4').html('the AI\'s');
               $('#questionnaire-ai-5').css('color',ai_colors[task_repeat]);
-              $('#questionnaire-ai-5').html('AI');
+              $('#questionnaire-ai-5').html('the AI');
               $('#questionnaire-ai-5a').css('color',ai_colors[task_repeat]);
               $('#questionnaire-ai-5a').html('AI');
               $('#questionnaire-ai-6').css('color',ai_colors[task_repeat]);
-              $('#questionnaire-ai-6').html('AI');
+              $('#questionnaire-ai-6').html('the AI');
               $('#questionnaire-ai-7').css('color',ai_colors[task_repeat]);
-              $('#questionnaire-ai-7').html('AI');
+              $('#questionnaire-ai-7').html('the AI');
             }
             window.scrollTo(0,0); 
             $("#questionnaire-form-1")[0].reset();
@@ -1084,11 +1085,13 @@ function repeatTask(condition, id ='switch-tasks') {
         coin_id = '#bonus-repeat-task'
         length_id = "#length-repeat-task"
         explanation_id = "#xai-repeat-task"
+        acc_id = "#repeat-acc-score"
       }
       else {
         coin_id = '#bonus-begin-task'
         length_id = "#length-begin-task"
         explanation_id = "#xai-begin-task"
+        acc_id = "#acc-score"
       }
       curr = condition.split(" ");
       current_length = curr[0];
@@ -1097,10 +1100,11 @@ function repeatTask(condition, id ='switch-tasks') {
         $('#' + id).html("AI " + (ai_names[task_repeat]))
       }
       else {
-        $('#' + id).html("AI")
+        $('#' + id).html("an AI")
       }
       $('#' + id).css('color', ai_colors[task_repeat])
-      $('#acc-score').html(curr_acc_score)
+
+      $(acc_id).html(curr_acc_score)
       console.log(curr_acc_score)
       if (current_length == 'long') {
           $(coin_id).html('50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">')
