@@ -137,6 +137,11 @@ nav {
   vertical-align: text-bottom;
 }
 
+#training-start span > img{
+  width: 1.4em;
+  padding-left: 2px;
+  vertical-align: text-bottom;
+}
 /*******************
     COMPREHENSION
 ********************/
@@ -1619,8 +1624,9 @@ jQuery.fn.disableFind = function(){
 
 		<div class="card">
 			<div class="card-body">
-				<p>In this phase, you will complete 6 practice questions. You will complete the 6 Question & Answer pairs by yourself to experience the difficulty of doing it yourself with both short and long passages.</p>
-				<button type="button" class="btn btn-primary" id='training-start-button'>Begin</button>
+<!-- 				<p>In this phase, you will complete 6 practice questions. You will complete the 6 Question & Answer pairs by yourself to experience the difficulty of doing it yourself with both short and long passages.</p>
+ -->				<p>In this phase, you will complete 5 practice questions. You will complete the 5 Question & Answer pairs by yourself to experience the difficulty of doing the task yourself. <span id='training-credits'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
+ 				<button type="button" class="btn btn-primary" id='training-start-button'>Begin</button>
 			</div>
 		</div>
 
@@ -2733,7 +2739,10 @@ if (available_acc_score == false) {
 
 var payment = 5;
 var time = 25;
+// within subjects
 // var href = "https://drive.google.com/file/d/1ospZxTbEvnh_5LNzlIY8Puqvj8WRoQ2t/view?usp=sharing";
+
+// between subjects
 var href = "https://drive.google.com/file/d/1MRjG2h4kPkNH6oy5K3uxN-fPmnxBa8qK/view?usp=sharing";
 
 // This is where we will be collecting the responses for each question;
@@ -2756,7 +2765,8 @@ var tutorial_phase = false;
 
 var training_phase = false;
 var training_phase_count = -1;
-var training_phase_order = ['short baseline' , 'short baseline' ,'short baseline' ,'long baseline','long baseline','long baseline'];
+// var training_phase_order = ['short baseline' , 'short baseline' ,'short baseline' ,'long baseline','long baseline','long baseline'];
+var training_phase_order = [coged_order_temp[0][0], coged_order_temp[0][0], coged_order_temp[0][0],coged_order_temp[0][0],coged_order_temp[0][0]];
 var collaboration_phase = false;
 
 var coged_phase = false;
@@ -2791,7 +2801,7 @@ var ai_box_border = ['3px solid rgb(222.0, 143.0, 5.0)', '3px solid rgb(204.0, 1
 
 // var progress_bar_total_clicks = 110
 // var progress_bar_total_clicks = 27
-var progress_bar_total_clicks = 37
+var progress_bar_total_clicks = 44
 var progress_bar_increments = (1 / progress_bar_total_clicks) * 100;
 var progress_bar_current = progress_bar_increments;
 var progress_num = 0;
@@ -2801,7 +2811,7 @@ var letter;
 // var progress_bar_text = ['Onboarding', 'Demographics', 'Tutorial', 'Earning Credits',
 // 'Comprehension Check','Training','Main Study', 'Questionnaire', 'Feedback', 'Submission'];
 
-var progress_bar_text = ['Onboarding', 'Demographics', 'Main Study', 'Questionnaire', 'Feedback', 'Submission'];
+var progress_bar_text = ['Onboarding', 'Demographics', 'Tutorial', 'Main Study', 'Questionnaire', 'Feedback', 'Submission'];
 
 
 var anthropomorphic = false;
