@@ -2608,20 +2608,19 @@ function make_input(json_data) {
   var model_incorrect = shuffle(json_data['Model Incorrect'])
   var json_input = {
   'tutorial': [json_data['Tutorial']],
-  'training': [model_correct[0], model_correct[1], model_correct[34], model_correct[35],model_correct[36], model_correct[37]],
+  'training': [model_correct[0], model_correct[1], model_correct[2], model_correct[3],model_correct[4], model_correct[5]],
   'coged': [
-              [model_incorrect[0], model_correct[2], model_correct[3], model_correct[4], model_correct[5]],
-              [model_incorrect[1], model_correct[6], model_correct[7], model_correct[8], model_correct[9]],
-              [model_incorrect[2], model_correct[10], model_correct[11], model_correct[12], model_correct[13]],
-              [model_incorrect[3], model_correct[14], model_correct[15], model_correct[16], model_correct[17]]
+              [model_correct[6], model_correct[7], model_correct[8], model_correct[9], model_incorrect[0]],
+              // [model_incorrect[1], model_correct[10], model_correct[11], model_correct[12], model_correct[9]],
+              // [model_incorrect[2], model_correct[10], model_correct[11], model_correct[12], model_correct[13]],
+              // [model_incorrect[3], model_correct[14], model_correct[15], model_correct[16], model_correct[17]]
             ],
   'coged-order': [coged_order_temp[0]],
   //[['short baseline', 'short prediction'], ['short baseline', 'short xai'],
                   //['long baseline', 'long prediction'], ['long baseline', 'long xai']],
   'collaboration': [
-
-              [model_correct[18], model_correct[19], model_correct[20], model_correct[21], model_correct[50], model_correct[51], model_correct[52], model_correct[53], model_incorrect[4], model_incorrect[8],
-              model_correct[22], model_correct[23], model_correct[24], model_correct[25], model_correct[38], model_correct[39], model_correct[40], model_correct[41], model_incorrect[5], model_incorrect[9]]
+              [model_correct[10], model_correct[11], model_correct[12], model_correct[13], model_correct[14], model_correct[15], model_correct[16], model_correct[17], model_incorrect[1], model_incorrect[2],
+              model_correct[18], model_correct[19], model_correct[20], model_correct[21], model_correct[22], model_correct[23], model_correct[24], model_correct[25], model_incorrect[3], model_incorrect[4]]
               // [model_correct[18], model_correct[19], model_correct[20], model_correct[21], model_correct[50], model_correct[51], model_correct[52], model_correct[53], model_incorrect[4], model_incorrect[8]],
               // [model_correct[22], model_correct[23], model_correct[24], model_correct[25], model_correct[38], model_correct[39], model_correct[40], model_correct[41], model_incorrect[5], model_incorrect[9]],
               // [model_correct[26], model_correct[27], model_correct[28], model_correct[29], model_correct[42], model_correct[43], model_correct[44], model_correct[45], model_incorrect[6], model_incorrect[10]],
