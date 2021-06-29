@@ -1143,6 +1143,12 @@ function feedbackCallback() {
   transition("feedback","submission");
   $('#progress-text').html(progress_bar_text[progress_num]);
     progress_num += 1;
+  if (ai_condition[0] == 'long') {
+      $('#long-extra-bonus').css('display','inline-block')
+    }
+  else {
+    $('#long-extra-bonus').css('display','none')
+  }
 }
 
 function saveOutput() {
