@@ -1165,7 +1165,9 @@ jQuery.fn.disableFind = function(){
 				<p> You are invited to participate in a survey. </p>
 				<p> <strong>Time: </strong> Your participation will take approximately <span id="time"></span> minutes. </p>
 				<p> <strong>Payment: </strong> You will receive $<span id="payment"></span> as payment for your participation. You will also have the opportunity to receive bonuses in this study.</p>
-				<p> <strong>Qualifications: </strong>If you do not pass the comprehension check, you will not be allowed to complete the study, so please make sure to pay attention to instructions. </p>
+				<p> <strong>Qualifications: </strong>This study is best viewed on a desktop computer and with the Google Chrome browser. </p>
+<!-- 				<p> <strong>Qualifications: </strong>If you do not pass the comprehension check, you will not be allowed to complete the study, so please make sure to pay attention to instructions. </p>
+ -->
 			</div>
 		</div>
 
@@ -1743,9 +1745,9 @@ jQuery.fn.disableFind = function(){
 		<div class="card">
 			<div class="card-body">
 <!-- 				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. This passage is <span id ='length-begin-task'></span>. We will also ask you to choose between doing the task yourself versus getting a suggestion from the AI for different bonus amounts. Click the button below to begin.</p>
- -->				<!-- <p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>, which is <span id='acc-score'></span> accurate.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> Click the button below to begin.</p> -->
-				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. Click the button below to begin.</p>
-				<button type="button" class="btn btn-primary" id='begin-task-button'>Continue</button>
+ -->				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>, which is <span id='acc-score'></span> accurate.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. Click the button below to begin. Click the button below to begin.</p>
+<!-- 				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. Click the button below to begin.</p>
+ -->				<button type="button" class="btn btn-primary" id='begin-task-button'>Continue</button>
 			</div>
 		</div>
 
@@ -2724,14 +2726,14 @@ else{
   var input = make_input(json_data);
 }
 
-var multi_acc_score = false;
+var multi_acc_score = true;
 if (multi_acc_score == true) {
-  var curr_acc_score = shuffle(['99.7%','95%', '50%'])[0]
+  var curr_acc_score = shuffle(['90%', '70%'])[0]
 }
 else {
   var curr_acc_score = '80%'
 }
-var available_acc_score = false;
+var available_acc_score = true;
 if (available_acc_score == false) {
   var curr_acc_score = 'N/A'
 }
@@ -2810,7 +2812,7 @@ var letter;
 // var progress_bar_text = ['Onboarding', 'Demographics', 'Tutorial', 'Earning Credits',
 // 'Comprehension Check','Training','Main Study', 'Questionnaire', 'Feedback', 'Submission'];
 
-var progress_bar_text = ['Onboarding', 'Demographics', 'Tutorial', 'Main Study', 'Questionnaire', 'Feedback', 'Submission'];
+var progress_bar_text = ['Onboarding', 'Demographics', 'Training', 'Main Study', 'Questionnaire', 'Feedback', 'Submission'];
 
 
 var anthropomorphic = false;
