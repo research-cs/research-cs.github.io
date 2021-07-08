@@ -142,6 +142,12 @@ nav {
   padding-left: 2px;
   vertical-align: text-bottom;
 }
+
+#training-intermediate span > img{
+  width: 1.4em;
+  padding-left: 2px;
+  vertical-align: text-bottom;
+}
 /*******************
     COMPREHENSION
 ********************/
@@ -1135,11 +1141,11 @@ jQuery.fn.disableFind = function(){
 <!--       <div class='ml-auto' id='credits-box' style='display:none'>
  -->      <div class='ml-auto' id='credits-box' style='display:none'>
         <span>Total Credits:</span>
-        <button type="button" data-toggle="tooltip" data-placement="bottom" title="100 credits are worth $0.10" id = 'gold-credits-box' style='display:none'>
+        <button type="button" data-toggle="tooltip" data-placement="bottom" title="100 credits are worth $0.10&#013;50 credits are worth $0.05" id = 'gold-credits-box' style='display:none'>
           <span id='gold-credits'>0</span>
           <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">
         </button>
-        <button type="button" data-toggle="tooltip" data-placement="bottom" title="100 credits are worth $0.05" id = 'silver-credits-box' style='display:none'>
+        <button type="button" data-toggle="tooltip" data-placement="bottom" title="100 credits are worth $0.05&#013;50 credits are worth $0.025" id = 'silver-credits-box' style='display:none'>
           <span id='silver-credits'>0</span>
           <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">
         </button>
@@ -1627,8 +1633,22 @@ jQuery.fn.disableFind = function(){
 		<div class="card">
 			<div class="card-body">
 <!-- 				<p>In this phase, you will complete 6 practice questions. You will complete the 6 Question & Answer pairs by yourself to experience the difficulty of doing it yourself with both short and long passages.</p>
- -->				<p>In this phase, you will complete 5 practice questions. You will complete the 5 Question & Answer pairs by yourself to experience the difficulty of doing the task yourself. <span id='training-credits'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
+ -->				
+ 					<p>In this phase, you will complete practice questions. You will complete the Question & Answer pairs by yourself to experience the difficulty of doing the task yourself. <span id='training-credits'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
  				<button type="button" class="btn btn-primary" id='training-start-button'>Begin</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+<div class='row' id='training-intermediate' style = "display:none;">
+	<div class='col-12'>
+		<h3>Training</h3>
+
+		<div class="card">
+			<div class="card-body">			 					
+ 					<p>In this phase, you will complete practice questions. You will complete the Question & Answer pairs with the AI to experience using the AI. <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
+ 				<button type="button" class="btn btn-primary" id='training-intermediate-button'>Begin</button>
 			</div>
 		</div>
 
@@ -1745,9 +1765,10 @@ jQuery.fn.disableFind = function(){
 		<div class="card">
 			<div class="card-body">
 <!-- 				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. This passage is <span id ='length-begin-task'></span>. We will also ask you to choose between doing the task yourself versus getting a suggestion from the AI for different bonus amounts. Click the button below to begin.</p>
- -->				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>, which is <span id='acc-score'></span> accurate.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. Click the button below to begin. Click the button below to begin.</p>
-<!-- 				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. Click the button below to begin.</p>
- -->				<button type="button" class="btn btn-primary" id='begin-task-button'>Continue</button>
+ -->				<!-- <p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>, which is <span id='acc-score'></span> accurate.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. Click the button below to begin. Click the button below to begin.</p> -->
+				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>. This is the same AI you used during the training phase. </strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span></p>
+				<p>For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. You will not be able to see how many credits you have gained in this phase. Click the button below to begin.</p>
+				<button type="button" class="btn btn-primary" id='begin-task-button'>Continue</button>
 			</div>
 		</div>
 
@@ -1910,6 +1931,8 @@ jQuery.fn.disableFind = function(){
 				<div class="alert alert-danger" style='display: none' role="alert">
 				 	Incorrect! <a href="#" class="alert-link float-right">Continue</a>
 				</div>
+				<div class="alert alert-secondary" style='display: none;' role="alert"> Click to continue<a href="#" class="alert-link float-right">Continue</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -1941,7 +1964,7 @@ jQuery.fn.disableFind = function(){
                             <input type="radio" name="Q-1" id="Q-1-2">
                         </div>
                         <label class="d-block" for="Q-1-2">
-                            Disagree<br>
+                            Disagree
                         </label>
                     </div>
                     <div class="form-group d-inline-block">
@@ -1949,7 +1972,7 @@ jQuery.fn.disableFind = function(){
                             <input type="radio" name="Q-1" id="Q-1-3">
                         </div>
                         <label class="d-block" for="Q-1-3">
-                            Neutral<br>
+                            Somewhat<br>disagree
                         </label>
                     </div>
                     <div class="form-group d-inline-block">
@@ -1957,7 +1980,7 @@ jQuery.fn.disableFind = function(){
                             <input type="radio" name="Q-1" id="Q-1-4">
                         </div>
                         <label class="d-block" for="Q-1-4">
-                            Agree<br>
+                            Neutral<br>
                         </label>
                     </div>
                     <div class="form-group d-inline-block">
@@ -1965,6 +1988,22 @@ jQuery.fn.disableFind = function(){
                             <input type="radio" name="Q-1" id="Q-1-5">
                         </div>
                         <label class="d-block" for="Q-1-5">
+                            Somewhat<br>agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-1" id="Q-1-6">
+                        </div>
+                        <label class="d-block" for="Q-1-6">
+                            Agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-1" id="Q-1-7">
+                        </div>
+                        <label class="d-block" for="Q-1-7">
                             Strongly<br>agree
                         </label>
                     </div>
@@ -1994,7 +2033,7 @@ jQuery.fn.disableFind = function(){
                             <input type="radio" name="Q-2" id="Q-2-3">
                         </div>
                         <label class="d-block" for="Q-2-3">
-                            Neutral<br>
+                            Somewhat<br>disagree
                         </label>
                     </div>
                     <div class="form-group d-inline-block">
@@ -2002,7 +2041,7 @@ jQuery.fn.disableFind = function(){
                             <input type="radio" name="Q-2" id="Q-2-4">
                         </div>
                         <label class="d-block" for="Q-2-4">
-                            Agree<br>
+                            Neutral<br>
                         </label>
                     </div>
                     <div class="form-group d-inline-block">
@@ -2010,6 +2049,22 @@ jQuery.fn.disableFind = function(){
                             <input type="radio" name="Q-2" id="Q-2-5">
                         </div>
                         <label class="d-block" for="Q-2-5">
+                            Somewhat<br>agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-2" id="Q-2-6">
+                        </div>
+                        <label class="d-block" for="Q-2-6">
+                            Agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-2" id="Q-2-7">
+                        </div>
+                        <label class="d-block" for="Q-2-7">
                             Strongly<br>agree
                         </label>
                     </div>
@@ -2031,7 +2086,7 @@ jQuery.fn.disableFind = function(){
                             <input type="radio" name="Q-3" id="Q-3-2">
                         </div>
                         <label class="d-block" for="Q-3-2">
-                            Disagree<br>
+                            Disagree
                         </label>
                     </div>
                     <div class="form-group d-inline-block">
@@ -2039,7 +2094,7 @@ jQuery.fn.disableFind = function(){
                             <input type="radio" name="Q-3" id="Q-3-3">
                         </div>
                         <label class="d-block" for="Q-3-3">
-                            Neutral<br>
+                            Somewhat<br>disagree
                         </label>
                     </div>
                     <div class="form-group d-inline-block">
@@ -2047,7 +2102,7 @@ jQuery.fn.disableFind = function(){
                             <input type="radio" name="Q-3" id="Q-3-4">
                         </div>
                         <label class="d-block" for="Q-3-4">
-                            Agree<br>
+                            Neutral<br>
                         </label>
                     </div>
                     <div class="form-group d-inline-block">
@@ -2055,6 +2110,22 @@ jQuery.fn.disableFind = function(){
                             <input type="radio" name="Q-3" id="Q-3-5">
                         </div>
                         <label class="d-block" for="Q-3-5">
+                            Somewhat<br>agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-3" id="Q-3-6">
+                        </div>
+                        <label class="d-block" for="Q-3-6">
+                            Agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-3" id="Q-3-7">
+                        </div>
+                        <label class="d-block" for="Q-3-7">
                             Strongly<br>agree
                         </label>
                     </div>
@@ -2076,7 +2147,7 @@ jQuery.fn.disableFind = function(){
                             <input type="radio" name="Q-4" id="Q-4-2">
                         </div>
                         <label class="d-block" for="Q-4-2">
-                            Disagree<br>
+                            Disagree
                         </label>
                     </div>
                     <div class="form-group d-inline-block">
@@ -2084,7 +2155,7 @@ jQuery.fn.disableFind = function(){
                             <input type="radio" name="Q-4" id="Q-4-3">
                         </div>
                         <label class="d-block" for="Q-4-3">
-                            Neutral<br>
+                            Somewhat<br>disagree
                         </label>
                     </div>
                     <div class="form-group d-inline-block">
@@ -2092,7 +2163,7 @@ jQuery.fn.disableFind = function(){
                             <input type="radio" name="Q-4" id="Q-4-4">
                         </div>
                         <label class="d-block" for="Q-4-4">
-                            Agree<br>
+                            Neutral<br>
                         </label>
                     </div>
                     <div class="form-group d-inline-block">
@@ -2100,29 +2171,86 @@ jQuery.fn.disableFind = function(){
                             <input type="radio" name="Q-4" id="Q-4-5">
                         </div>
                         <label class="d-block" for="Q-4-5">
+                            Somewhat<br>agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-4" id="Q-4-6">
+                        </div>
+                        <label class="d-block" for="Q-4-6">
+                            Agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-4" id="Q-4-7">
+                        </div>
+                        <label class="d-block" for="Q-4-7">
                             Strongly<br>agree
                         </label>
                     </div>
                 </form>
 
-                <form id = 'questionnaire-form-5'>
-                <h5>Approximately, how accurate do you think <span id = 'questionnaire-ai-5'></span> is? Please indicate using the slider below.</h5>
-                <label for="customRange1"><span id = 'questionnaire-ai-5a'></span> accuracy:</label>
+
+                <!-- Comment this out if not using!-->
+                <h5>Please select the option below which best represents how you used <span id = 'questionnaire-ai-5'></span>.</h5>
+
+                <form class='d-flex justify-content-between' id = 'questionnaire-form-5'>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-5" id="Q-5-1">
+                        </div>
+                        <label class="d-block" for="Q-5-1">
+                            I did not use the AI and completed the task by myself.
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-5" id="Q-5-2">
+                        </div>
+                        <label class="d-block" for="Q-5-2">
+                            I first completed the task myself and then verified my response with the AI's.
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-5" id="Q-5-3">
+                        </div>
+                        <label class="d-block" for="Q-5-3">
+                            I first looked at the AI's suggestion and then verified it was correct.
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-5" id="Q-5-4">
+                        </div>
+                        <label class="d-block" for="Q-5-4">
+                            I always chose the AI's suggestion. 
+                        </label>
+                    </div>
+                </form>
+
+
+                <form id = 'questionnaire-form-6'>
+                <h5>Approximately, how accurate do you think <span id = 'questionnaire-ai-6'></span> is? Please indicate using the slider below.</h5>
+                <label for="customRange1"><span id = 'questionnaire-ai-6a'></span> accuracy:</label>
                 <output for="customRange1" id="value-of-range">50%</output>
                 <br>
                 <input type="range" class="custom-range" id="customRange1" oninput="outputUpdate(value)" onchange="setSlider(true)" value="50">
                 </form>
                 <br>
-                <form id = 'questionnaire-form-6'>
-                <label for="AI-usage"><h5>In the box below, please describe how you used <span id = 'questionnaire-ai-6'></span> when its suggestions were given to you.</h5></label>
+
+
+                <form id = 'questionnaire-form-7'>
+                <label for="AI-usage"><h5>In the box below, please describe how you used <span id = 'questionnaire-ai-7'></span> when its suggestions were given to you.</h5></label>
                 <textarea class="form-control" id="AI-usage" rows="3" placeholder="Start typing feedback here..."></textarea>
                 </form>
                 <br>
-                <form id = 'questionnaire-form-7'>
-                <label for="choice-selection"><h5>In the box below, please describe how you chose between using <span id = 'questionnaire-ai-7'></span> and doing the task yourself.</h5></label>
+                <form id = 'questionnaire-form-8'>
+                <label for="choice-selection"><h5>In the box below, please describe how you chose between using <span id = 'questionnaire-ai-8'></span> and doing the task yourself.</h5></label>
                 <textarea class="form-control" id="choice-selection" rows="3" placeholder="Start typing feedback here..."></textarea>
                 </form>
-            </form>
             <button type="button" class="btn btn-primary" id='questionnaire-button'>Continue</button>
             </div>
         </div>
@@ -2610,9 +2738,10 @@ function make_input(json_data) {
   var model_incorrect = shuffle(json_data['Model Incorrect'])
   var json_input = {
   'tutorial': [json_data['Tutorial']],
-  'training': [model_correct[0], model_correct[1], model_correct[2], model_correct[3],model_correct[4], model_correct[5]],
+  'training': [model_correct[0], model_correct[1], model_incorrect[6]],
+  'training-AI': [model_correct[3],model_correct[4], model_correct[5], model_correct[6], model_incorrect[0]],
   'coged': [
-              [model_correct[6], model_correct[7], model_correct[8], model_correct[9], model_incorrect[0]],
+              [model_correct[7], model_correct[8], model_correct[9], model_correct[10], model_incorrect[1]],
               // [model_incorrect[1], model_correct[10], model_correct[11], model_correct[12], model_correct[9]],
               // [model_incorrect[2], model_correct[10], model_correct[11], model_correct[12], model_correct[13]],
               // [model_incorrect[3], model_correct[14], model_correct[15], model_correct[16], model_correct[17]]
@@ -2621,14 +2750,17 @@ function make_input(json_data) {
   //[['short baseline', 'short prediction'], ['short baseline', 'short xai'],
                   //['long baseline', 'long prediction'], ['long baseline', 'long xai']],
   'collaboration': [
-              [model_correct[10], model_correct[11], model_correct[12], model_correct[13], model_correct[14], model_correct[15], model_correct[16], model_correct[17], model_incorrect[1], model_incorrect[2],
-              model_correct[18], model_correct[19], model_correct[20], model_correct[21], model_correct[22], model_correct[23], model_correct[24], model_correct[25], model_incorrect[3], model_incorrect[4]]
+              [model_correct[11], model_correct[12], model_correct[13], model_correct[14], model_correct[15], model_correct[16], model_correct[17], model_correct[18], 
+              model_correct[19], model_correct[20], model_correct[21], model_correct[22], model_correct[23], model_correct[24], model_correct[25], model_correct[26], 
+              model_incorrect[2], model_incorrect[3], model_incorrect[4], model_incorrect[5]]
               // [model_correct[18], model_correct[19], model_correct[20], model_correct[21], model_correct[50], model_correct[51], model_correct[52], model_correct[53], model_incorrect[4], model_incorrect[8]],
               // [model_correct[22], model_correct[23], model_correct[24], model_correct[25], model_correct[38], model_correct[39], model_correct[40], model_correct[41], model_incorrect[5], model_incorrect[9]],
               // [model_correct[26], model_correct[27], model_correct[28], model_correct[29], model_correct[42], model_correct[43], model_correct[44], model_correct[45], model_incorrect[6], model_incorrect[10]],
               // [model_correct[30], model_correct[31], model_correct[32], model_correct[33], model_correct[46], model_correct[47], model_correct[48], model_correct[49], model_incorrect[7], model_incorrect[11]]
             ]
 }
+  json_input['training'] = shuffle(json_input['training'])
+  json_input['training-AI'] = shuffle(json_input['training-AI'])
   json_input['coged'] = shuffle_matrix(json_input['coged'])
   json_input['collaboration'] = shuffle_matrix(json_input['collaboration'])
   json_input['coged-order'] = shuffle(json_input['coged-order']);
@@ -2726,14 +2858,14 @@ else{
   var input = make_input(json_data);
 }
 
-var multi_acc_score = true;
+var multi_acc_score = false;
 if (multi_acc_score == true) {
   var curr_acc_score = shuffle(['90%', '70%'])[0]
 }
 else {
   var curr_acc_score = '80%'
 }
-var available_acc_score = true;
+var available_acc_score = false;
 if (available_acc_score == false) {
   var curr_acc_score = 'N/A'
 }
@@ -2765,9 +2897,12 @@ var idx = 0;
 var tutorial_phase = false;
 
 var training_phase = false;
+var training_phase_ai = false;
 var training_phase_count = -1;
 // var training_phase_order = ['short baseline' , 'short baseline' ,'short baseline' ,'long baseline','long baseline','long baseline'];
-var training_phase_order = [coged_order_temp[0][0], coged_order_temp[0][0], coged_order_temp[0][0],coged_order_temp[0][0],coged_order_temp[0][0]];
+var training_phase_order = [coged_order_temp[0][0], coged_order_temp[0][0], coged_order_temp[0][0]];
+var training_phase_order_ai = [coged_order_temp[0][1], coged_order_temp[0][1], coged_order_temp[0][1], 
+                              coged_order_temp[0][1], coged_order_temp[0][1]];
 var collaboration_phase = false;
 
 var coged_phase = false;
@@ -2802,7 +2937,7 @@ var ai_box_border = ['3px solid rgb(222.0, 143.0, 5.0)', '3px solid rgb(204.0, 1
 
 // var progress_bar_total_clicks = 110
 // var progress_bar_total_clicks = 27
-var progress_bar_total_clicks = 44
+var progress_bar_total_clicks = 46
 var progress_bar_increments = (1 / progress_bar_total_clicks) * 100;
 var progress_bar_current = progress_bar_increments;
 var progress_num = 0;
