@@ -48,7 +48,7 @@ function consentCallback() {
     output['consent'] = 'agree'
     transition("onboarding", "demographics");
     // only for debugging submission
-    // transition("onboarding", "submission");
+    // transition("onboarding", "questionnaire");
     $('#progress-text').html(progress_bar_text[progress_num]);
     progress_num += 1;
   }
@@ -129,9 +129,11 @@ function demographicsCallback() {
      runTraining();
      if (ai_condition[0] == 'short') {
       $('#training-credits').html('For each question you get correct alone, you will receive 100 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.05.')
+      $('#training-credits-ai').html('For each question you get correct with the AI, you will receive 50 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025.')
      }
      else {
       $('#training-credits').html('For each question you get correct alone, you will receive 100 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.10.')
+      $('#training-credits-ai').html('For each question you get correct with the AI, you will receive 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')     
      }
      $('#credits-box').show()
      if (ai_condition[0] == 'short') {
@@ -469,8 +471,9 @@ function runTraining() {
       output['training'].push(response)
 
       if (training_phase_count == training_phase_order.length - 1) {
+        runTrainingAI()
         $('.alert-link').unbind('click').click(
-          ()=>transition('task', 'training-end')
+          ()=>transition('task', 'training-intermediate')
         )
       }
       else {
@@ -488,17 +491,53 @@ function runTraining() {
     renderTask(training_phase_order[0], input['training'][0], trainingCallback)
 
   })
+}
+
+  function runTrainingAI() {
+  training_phase_ai = true;
+  training_phase_count_ai = 0;
+
+  function trainingCallback() {
+    response = readTaskResponse()
+
+    if (response) {
+      output['training'].push(response)
+
+      if (training_phase_count_ai == training_phase_order_ai.length - 1) {
+        $('.alert-link').unbind('click').click(
+          ()=>transition('task', 'training-end')
+        )
+      }
+      else {
+        training_phase_count_ai += 1;
+        $('.alert-link').unbind('click').click(function() {
+          renderTask(training_phase_order_ai[training_phase_count_ai], input['training-AI'][training_phase_count_ai]);
+          progress();
+        })
+      }
+    }
+  }
+  $('#training-intermediate-button').click(function() {
+    training_phase = false;
+    transition('training-intermediate', 'task');
+    renderTask(training_phase_order_ai[0], input['training-AI'][0], trainingCallback)
+  })
+}
+
 
   $('#training-end-button').click(function() {
     transition('training-end', 'begin-task');
+    $('#gold-credits').hide()
+    $('#silver-credits').hide()
     repeatTask(input['coged-order'][task_repeat][1], 'collaboration-task-first-text')
     runTask();
     $('#progress-text').html(progress_bar_text[progress_num]);
     progress_num += 1;
     training_phase = false;
+    training_phase_ai = false;
     output['coged-order'] = input['coged-order']
   })
-}
+
 
 
 var wager;
@@ -584,12 +623,14 @@ function runTask() {
               $('#questionnaire-ai-4').html('AI ' + ai_names[task_repeat] + "\'s");
               $('#questionnaire-ai-5').css('color',ai_colors[task_repeat]);
               $('#questionnaire-ai-5').html('AI ' + ai_names[task_repeat]);
-              $('#questionnaire-ai-5a').css('color',ai_colors[task_repeat]);
-              $('#questionnaire-ai-5a').html('AI ' + ai_names[task_repeat]);
               $('#questionnaire-ai-6').css('color',ai_colors[task_repeat]);
               $('#questionnaire-ai-6').html('AI ' + ai_names[task_repeat]);
+              $('#questionnaire-ai-6a').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-6a').html('AI ' + ai_names[task_repeat]);
               $('#questionnaire-ai-7').css('color',ai_colors[task_repeat]);
               $('#questionnaire-ai-7').html('AI ' + ai_names[task_repeat]);
+              $('#questionnaire-ai-8').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-8').html('AI ' + ai_names[task_repeat]);
             }
             else {
               $('#questionnaire-ai-1').css('color',ai_colors[task_repeat]);
@@ -602,12 +643,14 @@ function runTask() {
               $('#questionnaire-ai-4').html('the AI\'s');
               $('#questionnaire-ai-5').css('color',ai_colors[task_repeat]);
               $('#questionnaire-ai-5').html('the AI');
-              $('#questionnaire-ai-5a').css('color',ai_colors[task_repeat]);
-              $('#questionnaire-ai-5a').html('AI');
               $('#questionnaire-ai-6').css('color',ai_colors[task_repeat]);
               $('#questionnaire-ai-6').html('the AI');
+              $('#questionnaire-ai-6a').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-6a').html('AI');
               $('#questionnaire-ai-7').css('color',ai_colors[task_repeat]);
               $('#questionnaire-ai-7').html('the AI');
+              $('#questionnaire-ai-8').css('color',ai_colors[task_repeat]);
+              $('#questionnaire-ai-8').html('the AI');
             }
             window.scrollTo(0,0); 
             $("#questionnaire-form-1")[0].reset();
@@ -617,6 +660,7 @@ function runTask() {
             $("#questionnaire-form-5")[0].reset();
             $("#questionnaire-form-6")[0].reset();
             $("#questionnaire-form-7")[0].reset();
+            $("#questionnaire-form-8")[0].reset();
             task_repeat += 1;
           });
         // }
@@ -764,6 +808,9 @@ function readTaskResponse() {
   else if (training_phase) {
     mode = 'training'
   }
+  else if (training_phase_ai) {
+    mode = 'training-AI'
+  }
   else if (coged_phase) {
     mode = 'coged'
   }
@@ -811,7 +858,7 @@ function readTaskResponse() {
 
     for (let i = 0; i < labels.length; i++) {
       var label = $(labels[i])
-      if (label.data('possible_answers') == correct_label) {
+      if (label.data('possible_answers') == correct_label && (training_phase || training_phase_ai)){
         label.css('font-weight', 'bold')
         label.append(' <span class="badge badge-success">Correct</span>')
       }
@@ -819,7 +866,13 @@ function readTaskResponse() {
     
     if (checked_question_label == correct_label) {
       // alert("Correct!")
-      $('.alert-success').show()
+      // TODO ADD IF STATEMENT FOR COLLABORATION PHASE
+      if (training_phase || training_phase_ai) {
+        $('.alert-success').show()
+      }
+      else {
+        $('.alert-secondary').show()
+      }
 
       if (mode == 'coged') {
         if (ai_condition[0] == 'long'){
@@ -851,8 +904,23 @@ function readTaskResponse() {
           $('#silver-credits').text(num_silver_credits)
         }
       }
+      else if (mode == 'training-AI'){
+        if (training_phase_order_ai[training_phase_count_ai].split(" ")[0] == 'long'){
+          num_gold_credits += 50;
+          $('#gold-credits').text(num_gold_credits)
+        }
+        else {
+          num_silver_credits += 50;
+          $('#silver-credits').text(num_silver_credits)
+        }
+      }
     } else {
-      $('.alert-danger').show()
+      if (training_phase || training_phase_ai) {
+        $('.alert-danger').show()
+      }
+      else {
+        $('.alert-secondary').show()
+      }
       // alert("Incorrect. The correct answer was: " + correct_label)
     }
     // TODO
@@ -955,18 +1023,34 @@ function renderTask(condition, data, callback=null) {
     predBox.show()
   }
 
-  if (training_phase) {
-    // if (training_phase_count == 0 || training_phase_count == 3) { 
-    if (training_phase_count == 0) { 
+  if (training_phase || training_phase_ai) {
+    if (training_phase_count == 0 || training_phase_count_ai == 0) { 
+    // if (training_phase_count == 0) { 
       $('#training-modal').modal('toggle')
 
       if (current_setting == 'long') {
         // $('#training-modal-text').html('You will complete the next 5 question answering tasks by youself and receive 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly. These passages are long, which is why you receive gold credits.')
-        $('#training-modal-text').html('You will complete the next 5 question answering tasks by youself and receive 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly.')
+        if (current_condition == 'baseline') {
+          $('#training-modal-text').html('You will complete the next 3 question answering tasks by youself and receive 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly.')
+        }
+        else if (current_condition == 'prediction'){
+          $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly.')
+        }
+        else {
+          $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly. This AI has the ability to give <span class=\'main-highlight\'>explanations</span>.')
+        }
       }
       else {
         // $('#training-modal-text').html('You will complete the next 5 question answering tasks by youself and receive 100 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly. These passages are short, which is why you receive silver credits.')
-        $('#training-modal-text').html('You will complete the next 5 question answering tasks by youself and receive 100 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly.')
+        if (current_condition == 'baseline') {
+        $('#training-modal-text').html('You will complete the next 3 question answering tasks by youself and receive 100 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly.')
+        }
+        else if (current_condition == 'prediction'){
+        $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly.')
+        }
+        else {
+        $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly. This AI has the ability to give <span class=\'main-highlight\'>explanations</span>.')
+        }
       }
     }
   }
@@ -993,13 +1077,13 @@ function renderTask(condition, data, callback=null) {
 
 function questionnaireCallback() {
 
-  let questions = ['#Q-1','#Q-2', '#Q-3', '#Q-4'];
+  let questions = ['#Q-1','#Q-2', '#Q-3', '#Q-4', "#Q-5"];
   let total_checked = 0;
 
   let q_response = {}
 
   for (let i = 0; i < questions.length; i++) {
-    for (let j = 0; j < 5; j++) {
+    for (let j = 0; j < 7; j++) {
       if ($(questions[i] + "-" + (j+1)).is(":checked")) {
 
         q_response[questions[i].slice(1)] = j+1
@@ -1112,7 +1196,7 @@ function repeatTask(condition, id ='switch-tasks') {
         $('#' + id).html("AI " + (ai_names[task_repeat]))
       }
       else {
-        $('#' + id).html("an AI")
+        $('#' + id).html("the AI")
       }
       $('#' + id).css('color', ai_colors[task_repeat])
 
@@ -1121,12 +1205,12 @@ function repeatTask(condition, id ='switch-tasks') {
       if (current_length == 'long') {
           $(coin_id).html('50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">')
           $(length_id).html('long, which is why you receive gold credits')
-          $('#coin-explanation').html('Note that 100 gold credits equals $0.10.')      
+          // $('#coin-explanation').html('Note that 100 gold credits equals $0.10.')      
         }
         else {
           $(coin_id).html('50 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">')
           $(length_id).html('short, which is why you receive silver credits')
-          $('#coin-explanation').html('Note that 100 silver credits equals $0.05.')
+          // $('#coin-explanation').html('Note that 100 silver credits equals $0.05.')
      }
      if (current_xai_setting == 'xai') {
         $(explanation_id).css('display','inline-block')
