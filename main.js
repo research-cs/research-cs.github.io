@@ -471,11 +471,21 @@ function runTraining() {
       output['training'].push(response)
 
       if (training_phase_count == training_phase_order.length - 1) {
-        $('#training-ai-name').css('color',ai_colors[task_repeat]);
-        $('#training-ai-name').html('the AI');
         runTrainingAI();
-        $('.alert-link').unbind('click').click(
-          ()=>transition('task', 'training-intermediate')
+        $('.alert-link').unbind('click').click(function() {
+          
+          $('#training-ai-name').css('color',ai_colors[task_repeat]);
+          $('#training-ai-name').html('the AI');
+          $('#training-ai-acc').html(curr_acc_score);
+          if (ai_condition[1] == 'xai') {
+            $('#xai-begin-training').css('display','inline-block')
+            $('.main-highlight').removeClass('no-highlight')
+          }
+          else {
+            $('#xai-begin-training').css('display','none')
+          }
+          transition('task', 'training-intermediate')
+        }
         )
       }
       else {
