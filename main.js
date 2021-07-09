@@ -471,7 +471,9 @@ function runTraining() {
       output['training'].push(response)
 
       if (training_phase_count == training_phase_order.length - 1) {
-        runTrainingAI()
+        $('#training-ai-name').css('color',ai_colors[task_repeat]);
+        $('#training-ai-name').html('the AI');
+        runTrainingAI();
         $('.alert-link').unbind('click').click(
           ()=>transition('task', 'training-intermediate')
         )
@@ -529,6 +531,7 @@ function runTraining() {
     transition('training-end', 'begin-task');
     $('#gold-credits').hide()
     $('#silver-credits').hide()
+    $('#total-credits').hide()
     repeatTask(input['coged-order'][task_repeat][1], 'collaboration-task-first-text')
     runTask();
     $('#progress-text').html(progress_bar_text[progress_num]);
@@ -549,27 +552,25 @@ function runTask() {
     ai_condition = input['coged-order'][task_repeat][1].split(" ");
     baseline_condition = input['coged-order'][task_repeat][0].split(" ");
     if (ai_condition[0] == 'long') {
-      document.getElementById("cost-of-AI").innerHTML = gold_cost_of_ai + " gold credits";
-      document.getElementById("cost-of-human").innerHTML = cost_of_human + " gold credits";
-      document.getElementById('gold-coin-image').style.display = 'inline-block';
-      document.getElementById('silver-coin-image').style.display = 'none';
-      document.getElementById('gold-coin-image-2').style.display = 'inline-block';
-      document.getElementById('silver-coin-image-2').style.display = 'none';
-
-     
+      $(choose_cost_AI).html(gold_cost_of_ai + " gold credits")
+      $(choose_cost_human).html(cost_of_human + " gold credits")
+      $(choose_silver_img).css('display','none')
+      $(choose_gold_img).css('display','inline-block')
+      $(choose_gold_img_2).css('display','inline-block')
+      $(choose_silver_img_2).css('display','none')
     }
     else {
-      document.getElementById("cost-of-AI").innerHTML = silver_cost_of_ai + " silver credits";
-      document.getElementById("cost-of-human").innerHTML = cost_of_human + " silver credits";
-      document.getElementById('silver-coin-image').style.display = 'inline-block';
-      document.getElementById('gold-coin-image').style.display = 'none';
-      document.getElementById('silver-coin-image-2').style.display = 'inline-block';
-      document.getElementById('gold-coin-image-2').style.display = 'none';
+      $(choose_cost_AI).html(silver_cost_of_ai + " silver credits")
+      $(choose_cost_human).html(cost_of_human + " silver credits")
+      $(choose_silver_img).css('display','inline-block')
+      $(choose_gold_img).css('display','none')
+      $(choose_gold_img_2).css('display','none')
+      $(choose_silver_img_2).css('display','inline-block')
     }
-      document.getElementById('choose-AI').style.color = ai_colors[task_repeat];
-      document.getElementById('choose-AI').style.backgroundColor = ai_background_colors[task_repeat];
-      document.getElementById('choose-AI').style.border = ai_border[task_repeat];
-      document.getElementById('choose-ai-name').innerHTML = ai_names[task_repeat];
+    $(choose_AI_type).css('color', ai_colors[task_repeat])
+    $(choose_AI_type).css('backgroundolor', ai_background_colors[task_repeat])
+    $(choose_AI_type).css('border', ai_border[task_repeat])
+    $(choose_AI_name).html(ai_names[task_repeat])
   }
   var collaboration_count = 0;
   function collaborationCallBack() {
@@ -579,15 +580,15 @@ function runTask() {
       output['collaboration'].push(response)
       if (collaboration_count == input['collaboration'][task_repeat].length - 1) {
         $('.alert-link').unbind('click').click(function(){
-            populateChoice()
-            transition('task', 'choose')
-            $('#coged-modal').modal('toggle')
-            if (current_setting == 'long') {
-              $('#coged-modal-text').html('Remember that 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> is equal to a $0.10 bonus.')
-            }
-            else {
-              $('#coged-modal-text').html('Remember that 100 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> is equal to a $0.05 bonus.')
-            }
+          transition('task', 'coged-task')
+          $('#coged-ai-name').css('color',ai_colors[task_repeat]);
+          $('#coged-ai-name').html('the AI\'s');
+          if (current_setting == 'long') {
+            $('#coged-text').html('Remember that 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> is equal to a $0.10 bonus.')
+          }
+          else {
+            $('#coged-text').html('Remember that 100 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> is equal to a $0.05 bonus.')
+          }
           });
     }
     else {
@@ -599,6 +600,12 @@ function runTask() {
     }
   }
 }
+
+$('#coged-task-button').click(function() {
+    populateChoice()
+    transition('coged-task', choose_type)
+    $('#coged-modal').modal('toggle')
+});
 
   function taskCallBack() {
     response = readTaskResponse();
@@ -668,13 +675,13 @@ function runTask() {
       else {
         populateChoice();
         $('.alert-link').unbind('click').click(
-            ()=>transition('task', 'choose')
+            ()=>transition('task', choose_type)
         )
       }
     }
   }
 
-  $('#choose-human').click(function(){
+  $(choose_human_type).click(function(){
     wager = 100;
 
     if (ai_condition[0] == 'long') {
@@ -707,12 +714,12 @@ function runTask() {
     silver_lower_bound = silver_cost_of_ai;
     gold_cost_of_ai = Math.round(average(gold_lower_bound, gold_upper_bound));
     silver_cost_of_ai = Math.round(average(silver_lower_bound, silver_upper_bound));
-    transition("choose","task");
+    transition(choose_type,"task");
     renderTask(input['coged-order'][task_repeat][0], input['coged'][task_repeat][coged_phase_count], taskCallBack);
     coged_phase_count += 1;
   });
 
-  $('#choose-AI').click(function(){
+  $(choose_AI_type).click(function(){
     var task = ai_condition[1]
     if (ai_condition[0] == 'long') {
       wager = gold_cost_of_ai;
@@ -747,7 +754,7 @@ function runTask() {
     silver_upper_bound = silver_cost_of_ai;
     gold_cost_of_ai = Math.round(average(gold_lower_bound, gold_upper_bound));
     silver_cost_of_ai = Math.round(average(silver_lower_bound, silver_upper_bound));
-    transition("choose", "task");
+    transition(choose_type, "task");
     renderTask(input['coged-order'][task_repeat][1], input['coged'][task_repeat][coged_phase_count], taskCallBack);
     coged_phase_count += 1;
   });
@@ -1229,9 +1236,12 @@ function feedbackCallback() {
     progress_num += 1;
   if (ai_condition[0] == 'long') {
       $('#long-extra-bonus').css('display','inline-block')
+      $('#total-bonus-text').html(num_gold_credits + ' gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> in bonus.')
     }
   else {
     $('#long-extra-bonus').css('display','none')
+    $('#total-bonus-text').html(num_silver_credits + ' silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> in bonus.')
+
   }
 }
 
