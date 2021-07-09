@@ -1653,7 +1653,7 @@ jQuery.fn.disableFind = function(){
 			<div class="card-body">
 <!-- 				<p>In this phase, you will complete 6 practice questions. You will complete the 6 Question & Answer pairs by yourself to experience the difficulty of doing it yourself with both short and long passages.</p>
  -->				
- 					<p>In this phase, you will complete practice questions. You will complete the Question & Answer pairs by yourself to experience the difficulty of doing the task yourself. <span id='training-credits'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
+ 					<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs by yourself to experience the difficulty of doing the task yourself.</strong> <span id='training-credits'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
  				<button type="button" class="btn btn-primary" id='training-start-button'>Begin</button>
 			</div>
 		</div>
@@ -1666,7 +1666,7 @@ jQuery.fn.disableFind = function(){
 
 		<div class="card">
 			<div class="card-body">			 					
- 					<p>In this phase, you will complete practice questions. You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI. <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
+ 					<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI, which is <span id='training-ai-acc'></span> accurate. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</strong> <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
  				<button type="button" class="btn btn-primary" id='training-intermediate-button'>Begin</button>
 			</div>
 		</div>
@@ -1785,7 +1785,7 @@ jQuery.fn.disableFind = function(){
 			<div class="card-body">
 <!-- 				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. This passage is <span id ='length-begin-task'></span>. We will also ask you to choose between doing the task yourself versus getting a suggestion from the AI for different bonus amounts. Click the button below to begin.</p>
  -->				<!-- <p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>, which is <span id='acc-score'></span> accurate.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. Click the button below to begin. Click the button below to begin.</p> -->
-				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>. This is the same AI you used during the training phase. </strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span></p>
+				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>. This is the same AI you used during the training phase. This AI is <span id='acc-score'></span> accurate. <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span></strong></p>
 				<p>For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. <strong>You will not be able to see how many credits you have gained in this phase, but we will tell you how many credits you earned at the end of the study.</strong> Click the button below to begin.</p>
 				<button type="button" class="btn btn-primary" id='begin-task-button'>Continue</button>
 			</div>
@@ -2922,14 +2922,14 @@ else{
   var input = make_input(json_data);
 }
 
-var multi_acc_score = false;
+var multi_acc_score = true;
 if (multi_acc_score == true) {
-  var curr_acc_score = shuffle(['90%', '70%'])[0]
+  var curr_acc_score = shuffle(['95%', '65%', '80%'])[0]
 }
 else {
   var curr_acc_score = '80%'
 }
-var available_acc_score = false;
+var available_acc_score = true;
 if (available_acc_score == false) {
   var curr_acc_score = 'N/A'
 }
