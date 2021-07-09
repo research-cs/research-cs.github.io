@@ -161,12 +161,18 @@ nav {
 /*******************
        CHOICE
 ********************/
-#choose p {
+#coged-task span > img{
+  width: 1.4em;
+  padding-left: 2px;
+  vertical-align: text-bottom;
+}
+
+#choose, #choose-flipped p {
   margin-bottom: 4rem; 
   font-size: 1.3rem;
 }
 
-#choose-AI, #choose-AI-tutorial, #choose-AI-funnymoney, 
+#choose-AI, #choose-AI-flipped, #choose-AI-tutorial, #choose-AI-funnymoney, 
 #choose-AI-tutorial-1, #choose-AI-tutorial-2, #choose-AI-tutorial-3,
 #choose-AI-tutorial-4{
   color: rgb(235, 87, 87);
@@ -175,7 +181,7 @@ nav {
   border: 5px solid rgb(235, 87, 87);
 }
 
-#choose-human, #choose-human-tutorial, #choose-human-funnymoney,
+#choose-human, #choose-human-flipped, #choose-human-tutorial, #choose-human-funnymoney,
 #choose-human-tutorial-1, #choose-human-tutorial-2, #choose-human-tutorial-3,
 #choose-human-tutorial-4 {
   color: rgb(47, 128, 237);
@@ -199,6 +205,9 @@ nav {
 #choose .choice-box {
   cursor: pointer;
 }
+#choose-flipped .choice-box {
+  cursor: pointer;
+}
 
 .choice-box span {
   font-size: 2rem;
@@ -214,7 +223,7 @@ nav {
 #question-response-form {
   margin-bottom: 0;
 }
-#cost-of-AI, #cost-of-human,
+#cost-of-AI, #cost-of-human, #cost-of-AI-flipped, #cost-of-human-flipped,
 #funnymoney-cost-of-AI, #funnymoney-cost-of-human {
   color: black;
 }
@@ -400,6 +409,16 @@ nav {
 #questionnaire-human .form-group > label{
   padding-top: 10px;
   font-size: 0.9em;
+}
+
+/*******************
+   SUBMISSION
+********************/
+
+#submission span > img{
+  width: 1.4em;
+  padding-left: 2px;
+  vertical-align: text-bottom;
 }
 </style>
   <script type="text/javascript">
@@ -1140,7 +1159,7 @@ jQuery.fn.disableFind = function(){
       </div> -->
 <!--       <div class='ml-auto' id='credits-box' style='display:none'>
  -->      <div class='ml-auto' id='credits-box' style='display:none'>
-        <span>Total Credits:</span>
+        <span id='total-credits'>Total Credits:</span>
         <button type="button" data-toggle="tooltip" data-placement="bottom" title="100 credits are worth $0.10&#013;50 credits are worth $0.05" id = 'gold-credits-box' style='display:none'>
           <span id='gold-credits'>0</span>
           <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">
@@ -1647,7 +1666,7 @@ jQuery.fn.disableFind = function(){
 
 		<div class="card">
 			<div class="card-body">			 					
- 					<p>In this phase, you will complete practice questions. You will complete the Question & Answer pairs with the AI to experience using the AI. <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
+ 					<p>In this phase, you will complete practice questions. You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI. <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
  				<button type="button" class="btn btn-primary" id='training-intermediate-button'>Begin</button>
 			</div>
 		</div>
@@ -1767,7 +1786,7 @@ jQuery.fn.disableFind = function(){
 <!-- 				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. This passage is <span id ='length-begin-task'></span>. We will also ask you to choose between doing the task yourself versus getting a suggestion from the AI for different bonus amounts. Click the button below to begin.</p>
  -->				<!-- <p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>, which is <span id='acc-score'></span> accurate.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. Click the button below to begin. Click the button below to begin.</p> -->
 				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>. This is the same AI you used during the training phase. </strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span></p>
-				<p>For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. You will not be able to see how many credits you have gained in this phase. Click the button below to begin.</p>
+				<p>For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. <strong>You will not be able to see how many credits you have gained in this phase, but we will tell you how many credits you earned at the end of the study.</strong> Click the button below to begin.</p>
 				<button type="button" class="btn btn-primary" id='begin-task-button'>Continue</button>
 			</div>
 		</div>
@@ -1850,6 +1869,40 @@ jQuery.fn.disableFind = function(){
 	</div>
 </div>
 
+<div id='choose-flipped' style='display:none'>
+	<div class='row'>
+		<div class='col-12 text-center'>
+			<h1>Choose a task for the next question:</h1>
+			<p>Take your time and choose carefully</p>
+		</div>
+	</div>
+	<div class='row'>
+		<div class='col-5 text-center'>
+			<div class='choice-box d-flex align-items-center justify-content-center' id='choose-human-flipped'>
+				<div>
+					<h2 id='text-of-baseline-flipped'>Complete by yourself</h2>
+					<span id='cost-of-human-flipped'>100</span>
+					<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"id = 'silver-coin-image-flipped' style='display:none'>
+			        <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png" id = 'gold-coin-image-flipped'style='display:none'>
+			    </div>
+			</div>
+		</div>
+		<div class='col-2 text-center align-middle my-auto'>
+			<h5>or</h5>
+		</div>
+		<div class='col-5 text-center'>
+			<div class='choice-box d-flex align-items-center justify-content-center' id='choose-AI-flipped'>
+				<div>
+					<h2 id='text-of-ai-flipped'>Get suggestion from AI <span id= 'choose-ai-name-flipped'></span></h2>
+					<span id='cost-of-AI-flipped'></span>
+			        <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"id = 'silver-coin-image-2-flipped' style='display:none'>
+			        <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png" id = 'gold-coin-image-2-flipped'style='display:none'>
+		    	</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="modal fade" id="coged-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -1860,16 +1913,29 @@ jQuery.fn.disableFind = function(){
         </button>
       </div>
       <div class="modal-body">
-        You will be asked to choose between completing a task by yourself and using AI-provided assistance for each question.
-        <br><br>
 		<strong>Each time you are asked to choose, the amount of money offered for getting the AI's suggestions will change, so please pay attention to those values.</strong>
-		<span id='coged-modal-text'></span>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
+</div>
+
+<div class='row' id='coged-task' style = "display:none;">
+	<div class='col-12'>
+		<h3>Choice Task</h3>
+
+		<div class="card">
+			<div class="card-body">
+				<p>You will be asked to choose between completing a task by yourself and using <span id='coged-ai-name'></span> assistance for each question. 
+				<br><br>
+				<strong>Each time you are asked to choose, the amount of money offered for getting the AI's suggestions will change, so please pay attention to those values. </strong><span id='coged-text'></span></p>
+				<button type="button" class="btn btn-primary" id='coged-task-button'>Continue</button>
+			</div>
+		</div>
+
+	</div>
 </div>
     <div class='qa-task' id='task' style='display:none'>
 	<div class='row'>
@@ -2565,7 +2631,10 @@ jQuery.fn.disableFind = function(){
 
 		<div class="card">
 			<div class="card-body">
-				<p>Thank you for completing our entire study! <span id = "long-extra-bonus" style = "display:none;">Since you were placed in a longer version of the study, we will be bonusing you $1, in addition to the other bonuses you received.</span> Please <strong>click submit.</strong> It may take a moment to redirect you.</p>
+				<p>Thank you for completing our entire study! 
+				You received <span id='total-bonus-text'></span> 
+				<span id = "long-extra-bonus" style = "display:none;">Since you were placed in a longer version of the study, we will be bonusing you $1, in addition to the other bonuses you received. </span> 
+				Please <strong>click submit.</strong> It may take a moment to redirect you.</p>
 				<form id='results-form' method='post' action='dummy' class='text-center'>
   				<input type='hidden' value='' name='assignmentId' id='assignmentId'/>
   				<input type='hidden' value='' name='output' id='output'/>
@@ -2738,13 +2807,12 @@ function make_input(json_data) {
   var model_incorrect = shuffle(json_data['Model Incorrect'])
   var json_input = {
   'tutorial': [json_data['Tutorial']],
-  'training': [model_correct[0], model_correct[1], model_incorrect[6]],
-  'training-AI': [model_correct[3],model_correct[4], model_correct[5], model_correct[6], model_incorrect[0]],
+  'training': 
+  [model_correct[0], model_correct[1], model_incorrect[6]],
+  'training-AI': 
+  [model_correct[3],model_correct[4], model_correct[5], model_correct[6], model_incorrect[0]],
   'coged': [
               [model_correct[7], model_correct[8], model_correct[9], model_correct[10], model_incorrect[1]],
-              // [model_incorrect[1], model_correct[10], model_correct[11], model_correct[12], model_correct[9]],
-              // [model_incorrect[2], model_correct[10], model_correct[11], model_correct[12], model_correct[13]],
-              // [model_incorrect[3], model_correct[14], model_correct[15], model_correct[16], model_correct[17]]
             ],
   'coged-order': [coged_order_temp[0]],
   //[['short baseline', 'short prediction'], ['short baseline', 'short xai'],
@@ -2753,11 +2821,7 @@ function make_input(json_data) {
               [model_correct[11], model_correct[12], model_correct[13], model_correct[14], model_correct[15], model_correct[16], model_correct[17], model_correct[18], 
               model_correct[19], model_correct[20], model_correct[21], model_correct[22], model_correct[23], model_correct[24], model_correct[25], model_correct[26], 
               model_incorrect[2], model_incorrect[3], model_incorrect[4], model_incorrect[5]]
-              // [model_correct[18], model_correct[19], model_correct[20], model_correct[21], model_correct[50], model_correct[51], model_correct[52], model_correct[53], model_incorrect[4], model_incorrect[8]],
-              // [model_correct[22], model_correct[23], model_correct[24], model_correct[25], model_correct[38], model_correct[39], model_correct[40], model_correct[41], model_incorrect[5], model_incorrect[9]],
-              // [model_correct[26], model_correct[27], model_correct[28], model_correct[29], model_correct[42], model_correct[43], model_correct[44], model_correct[45], model_incorrect[6], model_incorrect[10]],
-              // [model_correct[30], model_correct[31], model_correct[32], model_correct[33], model_correct[46], model_correct[47], model_correct[48], model_correct[49], model_incorrect[7], model_incorrect[11]]
-            ]
+              ]
 }
   json_input['training'] = shuffle(json_input['training'])
   json_input['training-AI'] = shuffle(json_input['training-AI'])
@@ -2899,6 +2963,7 @@ var tutorial_phase = false;
 var training_phase = false;
 var training_phase_ai = false;
 var training_phase_count = -1;
+var training_phase_count_ai;
 // var training_phase_order = ['short baseline' , 'short baseline' ,'short baseline' ,'long baseline','long baseline','long baseline'];
 var training_phase_order = [coged_order_temp[0][0], coged_order_temp[0][0], coged_order_temp[0][0]];
 var training_phase_order_ai = [coged_order_temp[0][1], coged_order_temp[0][1], coged_order_temp[0][1], 
@@ -2937,7 +3002,7 @@ var ai_box_border = ['3px solid rgb(222.0, 143.0, 5.0)', '3px solid rgb(204.0, 1
 
 // var progress_bar_total_clicks = 110
 // var progress_bar_total_clicks = 27
-var progress_bar_total_clicks = 46
+var progress_bar_total_clicks = 49
 var progress_bar_increments = (1 / progress_bar_total_clicks) * 100;
 var progress_bar_current = progress_bar_increments;
 var progress_num = 0;
@@ -2962,6 +3027,27 @@ var baseline_condition = input['coged-order'][task_repeat][0].split(" ");
 var current_label;
 
 var slider_changed = false;
+
+var choose_ = [['choose','#choose-human', '#text-of-baseline', '#cost-of-human', '#silver-coin-image', '#gold-coin-image',
+'#choose-AI', '#text-of-ai','#choose-ai-name','#cost-of-AI','#silver-coin-image-2', '#gold-coin-image-2'],
+['choose-flipped','#choose-human-flipped', '#text-of-baseline-flipped', '#cost-of-human-flipped', '#silver-coin-image-flipped', '#gold-coin-image-flipped',
+'#choose-AI-flipped', '#text-of-ai-flipped','#choose-ai-name-flipped','#cost-of-AI-flipped','#silver-coin-image-2-flipped', '#gold-coin-image-2-flipped']]
+
+var choose_ = shuffle(choose_)[0]
+
+var choose_type = choose_[0]
+var choose_human_type = choose_[1]
+var choose_text_baseline = choose_[2]
+var choose_cost_human = choose_[3]
+var choose_silver_img = choose_[4]
+var choose_gold_img = choose_[5]
+var choose_AI_type = choose_[6]
+var choose_text_AI = choose_[7]
+var choose_AI_name = choose_[8]
+var choose_cost_AI = choose_[9]
+var choose_silver_img_2 = choose_[10]
+var choose_gold_img_2 = choose_[11]
+
 </script>
 
 <!--  Multiple ways of accessing main.js
