@@ -382,6 +382,27 @@ nav {
   font-size: 0.9em;
 }
 
+#questionnaire-trust .form-group {
+  text-align: center;
+  width: 19%;
+  padding: 10px;
+}
+
+#questionnaire-trust h5 {
+  font-size: 1.1em;
+  margin-bottom: 20px
+}
+
+#questionnaire-trust .form-group > input{
+  height: 1em;
+  width: 100%;
+}
+
+#questionnaire-trust .form-group > label{
+  padding-top: 10px;
+  font-size: 0.9em;
+}
+
 #customRange1 {
   width:75%;
 }
@@ -1666,8 +1687,11 @@ jQuery.fn.disableFind = function(){
 
 		<div class="card">
 			<div class="card-body">			 					
- 					<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI, which is <span id='training-ai-acc'></span> accurate. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</strong> <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
- 				<button type="button" class="btn btn-primary" id='training-intermediate-button'>Begin</button>
+<!--  					<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI, which is <span id='training-ai-acc'></span> accurate. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</strong> <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
+ --> 				
+  			<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</strong> <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
+
+ 			<button type="button" class="btn btn-primary" id='training-intermediate-button'>Begin</button>
 			</div>
 		</div>
 
@@ -1783,9 +1807,9 @@ jQuery.fn.disableFind = function(){
 
 		<div class="card">
 			<div class="card-body">
-<!-- 				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. This passage is <span id ='length-begin-task'></span>. We will also ask you to choose between doing the task yourself versus getting a suggestion from the AI for different bonus amounts. Click the button below to begin.</p>
- -->				<!-- <p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>, which is <span id='acc-score'></span> accurate.</strong> <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. Click the button below to begin. Click the button below to begin.</p> -->
-				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>. This is the same AI you used during the training phase. This AI is <span id='acc-score'></span> accurate. <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span></strong></p>
+<!-- 				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>. This is the same AI you used during the training phase. This AI is <span id='acc-score'></span> accurate. <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span></strong></p>
+				<p>For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. <strong>You will not be able to see how many credits you have gained in this phase, but we will tell you how many credits you earned at the end of the study.</strong> Click the button below to begin.</p> -->
+				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>. This is the same AI you used during the training phase. <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span></strong></p>
 				<p>For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. <strong>You will not be able to see how many credits you have gained in this phase, but we will tell you how many credits you earned at the end of the study.</strong> Click the button below to begin.</p>
 				<button type="button" class="btn btn-primary" id='begin-task-button'>Continue</button>
 			</div>
@@ -2015,7 +2039,7 @@ jQuery.fn.disableFind = function(){
                 <p><strong>The following questions are about the task.</strong> For each of the statements below, please indicate the extent to which you agree with it.</p>
 
                 <br>
-                <h5>I trust <span id = 'questionnaire-ai-1'></span> suggestions.</h5>
+<!--                 <h5>I trust <span id = 'questionnaire-ai-1'></span> suggestions.</h5>
                 <form class='d-flex' id = 'questionnaire-form-1'>
                     <div class="form-group d-inline-block">
                         <div class="d-block">
@@ -2074,7 +2098,7 @@ jQuery.fn.disableFind = function(){
                         </label>
                     </div>
                 </form>
-
+ -->
                 <h5>I found this task difficult without <span id = 'questionnaire-ai-2'></span>.</h5>
 
                 <form class='d-flex' id = 'questionnaire-form-2'>
@@ -2318,6 +2342,386 @@ jQuery.fn.disableFind = function(){
                 <textarea class="form-control" id="choice-selection" rows="3" placeholder="Start typing feedback here..."></textarea>
                 </form>
             <button type="button" class="btn btn-primary" id='questionnaire-button'>Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id='questionnaire-trust'style = "display:none;">
+      <div class='col-12'>
+        <h3>Questionnaire</h3>
+
+        <div class="card">
+            <div class="card-body">
+                <p>Please complete the following questionnaire.</p>
+                <hr>
+
+                <p><strong>The following questions are about the task.</strong> For each of the statements below, please indicate the extent to which you agree with it.</p>
+
+                <br>
+                <h5>I believe <span id = 'questionnaire-ai-1-trust'></span> is a competent performer.</h5>
+                <form class='d-flex' id = 'questionnaire-form-1-trust'>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-1-trust" id="Q-1-trust-1">
+                        </div>
+                        <label class="d-block" for="Q-1-trust-1">
+                            Strongly<br>disagree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-1-trust" id="Q-1-trust-2">
+                        </div>
+                        <label class="d-block" for="Q-1-trust-2">
+                            Disagree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-1-trust" id="Q-1-trust-3">
+                        </div>
+                        <label class="d-block" for="Q-1-trust-3">
+                            Somewhat<br>disagree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-1-trust" id="Q-1-trust-4">
+                        </div>
+                        <label class="d-block" for="Q-1-trust-4">
+                            Neutral<br>
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-1-trust" id="Q-1-trust-5">
+                        </div>
+                        <label class="d-block" for="Q-1-trust-5">
+                            Somewhat<br>agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-1-trust" id="Q-1-trust-6">
+                        </div>
+                        <label class="d-block" for="Q-1-trust-6">
+                            Agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-1-trust" id="Q-1-trust-7">
+                        </div>
+                        <label class="d-block" for="Q-1-trust-7">
+                            Strongly<br>agree
+                        </label>
+                    </div>
+                </form>
+
+                <h5>I trust <span id = 'questionnaire-ai-2-trust'></span>.</h5>
+
+                <form class='d-flex' id = 'questionnaire-form-2-trust'>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-2-trust" id="Q-2-trust-1">
+                        </div>
+                        <label class="d-block" for="Q-2-trust-1">
+                            Strongly<br>disagree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-2-trust" id="Q-2-trust-2">
+                        </div>
+                        <label class="d-block" for="Q-2-trust-2">
+                            Disagree<br>
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-2-trust" id="Q-2-trust-3">
+                        </div>
+                        <label class="d-block" for="Q-2-trust-3">
+                            Somewhat<br>disagree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-2-trust" id="Q-2-trust-4">
+                        </div>
+                        <label class="d-block" for="Q-2-trust-4">
+                            Neutral<br>
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-2-trust" id="Q-2-trust-5">
+                        </div>
+                        <label class="d-block" for="Q-2-trust-5">
+                            Somewhat<br>agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-2-trust" id="Q-2-trust-6">
+                        </div>
+                        <label class="d-block" for="Q-2-trust-6">
+                            Agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-2-trust" id="Q-2-trust-7">
+                        </div>
+                        <label class="d-block" for="Q-2-trust-7">
+                            Strongly<br>agree
+                        </label>
+                    </div>
+                </form>
+
+                <h5>I have confidence in the advice given by <span id = 'questionnaire-ai-3-trust'></span>.</h5>
+
+                <form class='d-flex' id = 'questionnaire-form-3-trust'>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-3-trust" id="Q-3-trust-1">
+                        </div>
+                        <label class="d-block" for="Q-3-trust-1">
+                            Strongly<br>disagree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-3-trust" id="Q-3-trust-2">
+                        </div>
+                        <label class="d-block" for="Q-3-trust-2">
+                            Disagree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-3-trust" id="Q-3-trust-3">
+                        </div>
+                        <label class="d-block" for="Q-3-trust-3">
+                            Somewhat<br>disagree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-3-trust" id="Q-3-trust-4">
+                        </div>
+                        <label class="d-block" for="Q-3-trust-4">
+                            Neutral<br>
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-3-trust" id="Q-3-trust-5">
+                        </div>
+                        <label class="d-block" for="Q-3-trust-5">
+                            Somewhat<br>agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-3-trust" id="Q-3-trust-6">
+                        </div>
+                        <label class="d-block" for="Q-3-trust-6">
+                            Agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-3-trust" id="Q-3-trust-7">
+                        </div>
+                        <label class="d-block" for="Q-3-trust-7">
+                            Strongly<br>agree
+                        </label>
+                    </div>
+                </form>
+
+                <h5>I can depend on <span id = 'questionnaire-ai-4-trust'></span>.</h5>
+
+                <form class='d-flex' id = 'questionnaire-form-4-trust'>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-4-trust" id="Q-4-trust-1">
+                        </div>
+                        <label class="d-block" for="Q-4-trust-1">
+                            Strongly<br>disagree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-4-trust" id="Q-4-trust-2">
+                        </div>
+                        <label class="d-block" for="Q-4-trust-2">
+                            Disagree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-4-trust" id="Q-4-trust-3">
+                        </div>
+                        <label class="d-block" for="Q-4-trust-3">
+                            Somewhat<br>disagree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-4-trust" id="Q-4-trust-4">
+                        </div>
+                        <label class="d-block" for="Q-4-trust-4">
+                            Neutral<br>
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-4-trust" id="Q-4-trust-5">
+                        </div>
+                        <label class="d-block" for="Q-4-trust-5">
+                            Somewhat<br>agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-4-trust" id="Q-4-trust-6">
+                        </div>
+                        <label class="d-block" for="Q-4-trust-6">
+                            Agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-4-trust" id="Q-4-trust-7">
+                        </div>
+                        <label class="d-block" for="Q-4-trust-7">
+                            Strongly<br>agree
+                        </label>
+                    </div>
+                </form>
+
+                <h5>I can rely on <span id = 'questionnaire-ai-5-trust'></span> to behave in consistent ways.</h5>
+
+                <form class='d-flex' id = 'questionnaire-form-5-trust'>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-5-trust" id="Q-5-trust-1">
+                        </div>
+                        <label class="d-block" for="Q-5-trust-1">
+                            Strongly<br>disagree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-5-trust" id="Q-5-trust-2">
+                        </div>
+                        <label class="d-block" for="Q-5-trust-2">
+                            Disagree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-5-trust" id="Q-5-trust-3">
+                        </div>
+                        <label class="d-block" for="Q-5-trust-3">
+                            Somewhat<br>disagree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-5-trust" id="Q-5-trust-4">
+                        </div>
+                        <label class="d-block" for="Q-5-trust-4">
+                            Neutral<br>
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-5-trust" id="Q-5-trust-5">
+                        </div>
+                        <label class="d-block" for="Q-5-trust-5">
+                            Somewhat<br>agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-5-trust" id="Q-5-trust-6">
+                        </div>
+                        <label class="d-block" for="Q-5-trust-6">
+                            Agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-5-trust" id="Q-5-trust-7">
+                        </div>
+                        <label class="d-block" for="Q-5-trust-7">
+                            Strongly<br>agree
+                        </label>
+                    </div>
+                </form>
+                <h5>I can rely on <span id = 'questionnaire-ai-6-trust'></span> to do its best every time I take its advice.</h5>
+
+                <form class='d-flex' id = 'questionnaire-form-6-trust'>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-6-trust" id="Q-6-trust-1">
+                        </div>
+                        <label class="d-block" for="Q-6-trust-1">
+                            Strongly<br>disagree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-6-trust" id="Q-6-trust-2">
+                        </div>
+                        <label class="d-block" for="Q-6-trust-2">
+                            Disagree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-6-trust" id="Q-6-trust-3">
+                        </div>
+                        <label class="d-block" for="Q-6-trust-3">
+                            Somewhat<br>disagree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-6-trust" id="Q-6-trust-4">
+                        </div>
+                        <label class="d-block" for="Q-6-trust-4">
+                            Neutral<br>
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-6-trust" id="Q-6-trust-5">
+                        </div>
+                        <label class="d-block" for="Q-6-trust-5">
+                            Somewhat<br>agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-6-trust" id="Q-6-trust-6">
+                        </div>
+                        <label class="d-block" for="Q-6-trust-6">
+                            Agree
+                        </label>
+                    </div>
+                    <div class="form-group d-inline-block">
+                        <div class="d-block">
+                            <input type="radio" name="Q-6-trust" id="Q-6-trust-7">
+                        </div>
+                        <label class="d-block" for="Q-6-trust-7">
+                            Strongly<br>agree
+                        </label>
+                    </div>
+                </form>
+            <button type="button" class="btn btn-primary" id='questionnaire-trust-button'>Continue</button>
             </div>
         </div>
     </div>
@@ -2922,14 +3326,14 @@ else{
   var input = make_input(json_data);
 }
 
-var multi_acc_score = true;
+var multi_acc_score = false;
 if (multi_acc_score == true) {
   var curr_acc_score = shuffle(['95%', '65%', '80%'])[0]
 }
 else {
   var curr_acc_score = '80%'
 }
-var available_acc_score = true;
+var available_acc_score = false;
 if (available_acc_score == false) {
   var curr_acc_score = 'N/A'
 }
@@ -2952,7 +3356,8 @@ var output = {
   'coged': [],
   'choices': [],
   'costs': [],
-  'questionnaire':[]
+  'questionnaire':[],
+  'questionnaire-trust':[]
 };
 
 // Some variables to track state of the HIT.
@@ -3002,7 +3407,7 @@ var ai_box_border = ['3px solid rgb(222.0, 143.0, 5.0)', '3px solid rgb(204.0, 1
 
 // var progress_bar_total_clicks = 110
 // var progress_bar_total_clicks = 27
-var progress_bar_total_clicks = 49
+var progress_bar_total_clicks = 51
 var progress_bar_increments = (1 / progress_bar_total_clicks) * 100;
 var progress_bar_current = progress_bar_increments;
 var progress_num = 0;
