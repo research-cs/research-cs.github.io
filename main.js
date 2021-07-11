@@ -538,42 +538,53 @@ function runTraining() {
 
 
   $('#training-end-button').click(function() {
-    transition('training-end', 'questionnaire-trust');
-    if (anthropomorphic == true) {
-      $('#questionnaire-ai-1-trust').css('color',ai_colors[task_repeat]);
-      $('#questionnaire-ai-1-trust').html('AI ' + ai_names[task_repeat]);
-      $('#questionnaire-ai-2-trust').css('color',ai_colors[task_repeat]);
-      $('#questionnaire-ai-2-trust').html('AI ' + ai_names[task_repeat]);
-      $('#questionnaire-ai-3-trust').css('color',ai_colors[task_repeat]);
-      $('#questionnaire-ai-3-trust').html('AI ' + ai_names[task_repeat]);
-      $('#questionnaire-ai-4-trust').css('color',ai_colors[task_repeat]);
-      $('#questionnaire-ai-4-trust').html('AI ' + ai_names[task_repeat]);
-      $('#questionnaire-ai-5-trust').css('color',ai_colors[task_repeat]);
-      $('#questionnaire-ai-5-trust').html('AI ' + ai_names[task_repeat]);
-      $('#questionnaire-ai-6-trust').css('color',ai_colors[task_repeat]);
-      $('#questionnaire-ai-6-trust').html('AI ' + ai_names[task_repeat]);
-    }
-    else {
-      $('#questionnaire-ai-1-trust').css('color',ai_colors[task_repeat]);
-      $('#questionnaire-ai-1-trust').html('the AI');
-      $('#questionnaire-ai-2-trust').css('color',ai_colors[task_repeat]);
-      $('#questionnaire-ai-2-trust').html('the AI');
-      $('#questionnaire-ai-3-trust').css('color',ai_colors[task_repeat]);
-      $('#questionnaire-ai-3-trust').html('the AI');
-      $('#questionnaire-ai-4-trust').css('color',ai_colors[task_repeat]);
-      $('#questionnaire-ai-4-trust').html('the AI');
-      $('#questionnaire-ai-5-trust').css('color',ai_colors[task_repeat]);
-      $('#questionnaire-ai-5-trust').html('the AI');
-      $('#questionnaire-ai-6-trust').css('color',ai_colors[task_repeat]);
-      $('#questionnaire-ai-6-trust').html('the AI');
-    }
-    window.scrollTo(0,0); 
-    $("#questionnaire-form-1-trust")[0].reset();
-    $("#questionnaire-form-2-trust")[0].reset();
-    $("#questionnaire-form-3-trust")[0].reset();
-    $("#questionnaire-form-4-trust")[0].reset();
-    $("#questionnaire-form-5-trust")[0].reset();
-    $("#questionnaire-form-6-trust")[0].reset();
+    transition('training-end', 'begin-task');
+    $('#gold-credits').hide()
+    $('#silver-credits').hide()
+    $('#total-credits').hide()
+    repeatTask(input['coged-order'][task_repeat][1], 'collaboration-task-first-text')
+    runTask();
+    $('#progress-text').html(progress_bar_text[progress_num]);
+    progress_num += 1;
+    training_phase = false;
+    training_phase_ai = false;
+    output['coged-order'] = input['coged-order']
+    // transition('training-end', 'questionnaire-trust');
+    // if (anthropomorphic == true) {
+    //   $('#questionnaire-ai-1-trust').css('color',ai_colors[task_repeat]);
+    //   $('#questionnaire-ai-1-trust').html('AI ' + ai_names[task_repeat]);
+    //   $('#questionnaire-ai-2-trust').css('color',ai_colors[task_repeat]);
+    //   $('#questionnaire-ai-2-trust').html('AI ' + ai_names[task_repeat]);
+    //   $('#questionnaire-ai-3-trust').css('color',ai_colors[task_repeat]);
+    //   $('#questionnaire-ai-3-trust').html('AI ' + ai_names[task_repeat]);
+    //   $('#questionnaire-ai-4-trust').css('color',ai_colors[task_repeat]);
+    //   $('#questionnaire-ai-4-trust').html('AI ' + ai_names[task_repeat]);
+    //   $('#questionnaire-ai-5-trust').css('color',ai_colors[task_repeat]);
+    //   $('#questionnaire-ai-5-trust').html('AI ' + ai_names[task_repeat]);
+    //   $('#questionnaire-ai-6-trust').css('color',ai_colors[task_repeat]);
+    //   $('#questionnaire-ai-6-trust').html('AI ' + ai_names[task_repeat]);
+    // }
+    // else {
+    //   $('#questionnaire-ai-1-trust').css('color',ai_colors[task_repeat]);
+    //   $('#questionnaire-ai-1-trust').html('the AI');
+    //   $('#questionnaire-ai-2-trust').css('color',ai_colors[task_repeat]);
+    //   $('#questionnaire-ai-2-trust').html('the AI');
+    //   $('#questionnaire-ai-3-trust').css('color',ai_colors[task_repeat]);
+    //   $('#questionnaire-ai-3-trust').html('the AI');
+    //   $('#questionnaire-ai-4-trust').css('color',ai_colors[task_repeat]);
+    //   $('#questionnaire-ai-4-trust').html('the AI');
+    //   $('#questionnaire-ai-5-trust').css('color',ai_colors[task_repeat]);
+    //   $('#questionnaire-ai-5-trust').html('the AI');
+    //   $('#questionnaire-ai-6-trust').css('color',ai_colors[task_repeat]);
+    //   $('#questionnaire-ai-6-trust').html('the AI');
+    // }
+    // window.scrollTo(0,0); 
+    // $("#questionnaire-form-1-trust")[0].reset();
+    // $("#questionnaire-form-2-trust")[0].reset();
+    // $("#questionnaire-form-3-trust")[0].reset();
+    // $("#questionnaire-form-4-trust")[0].reset();
+    // $("#questionnaire-form-5-trust")[0].reset();
+    // $("#questionnaire-form-6-trust")[0].reset();
   })
 
 
