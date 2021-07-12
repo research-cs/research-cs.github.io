@@ -1674,7 +1674,7 @@ jQuery.fn.disableFind = function(){
 			<div class="card-body">
 <!-- 				<p>In this phase, you will complete 6 practice questions. You will complete the 6 Question & Answer pairs by yourself to experience the difficulty of doing it yourself with both short and long passages.</p>
  -->				
- 					<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs by yourself to experience the difficulty of doing the task yourself.</strong> <span id='training-credits'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
+ 					<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs by yourself to experience the difficulty of doing the task yourself.</strong> <span id='training-credits'></span>. You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
  				<button type="button" class="btn btn-primary" id='training-start-button'>Begin</button>
 			</div>
 		</div>
@@ -1689,7 +1689,7 @@ jQuery.fn.disableFind = function(){
 			<div class="card-body">			 					
 <!--  					<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI, which is <span id='training-ai-acc'></span> accurate. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</strong> <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
  --> 				
-  			<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</strong> <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
+  			<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</strong> <span id='training-credits-ai'></span> <span id='training-credits-ai-double'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
 
  			<button type="button" class="btn btn-primary" id='training-intermediate-button'>Begin</button>
 			</div>
@@ -3336,6 +3336,14 @@ else {
 var available_acc_score = false;
 if (available_acc_score == false) {
   var curr_acc_score = 'N/A'
+}
+
+var variable_reward_system = false;
+if (variable_reward_system) {
+  var curr_reward_system = shuffle(["normal", "double"])[0]
+}
+else {
+  var curr_reward_system = "normal"
 }
 
 var payment = 5;
