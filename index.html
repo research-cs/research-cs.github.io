@@ -148,6 +148,10 @@ nav {
   padding-left: 2px;
   vertical-align: text-bottom;
 }
+
+#training-reward-table img {
+  width: 50%;
+}
 /*******************
     COMPREHENSION
 ********************/
@@ -234,9 +238,17 @@ nav {
   vertical-align: text-bottom;
 }
 
+#reward-table-coged img {
+  width:50%;
+}
+
 /*******************
        TASK
 ********************/
+
+#reward-table-begin-task img {
+  width:50%;
+}
 
 .qa-task .card {
   border-radius: 20px;
@@ -1689,7 +1701,9 @@ jQuery.fn.disableFind = function(){
 			<div class="card-body">			 					
 <!--  					<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI, which is <span id='training-ai-acc'></span> accurate. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</strong> <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
  --> 				
-  			<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</strong> <br><br><span id="training-credits-double"><strong>The amount of credits you receive depends on whether the AI is correct or not.</strong></span> <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
+  			<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</strong> <br><br><span id="training-credits-double" style="display:none"><strong>The amount of credits you receive depends on whether the AI is correct or not.</strong></span> <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
+
+  			<p id="training-reward-table"></p>
 
  			<button type="button" class="btn btn-primary" id='training-intermediate-button'>Begin</button>
 			</div>
@@ -1810,7 +1824,9 @@ jQuery.fn.disableFind = function(){
 <!-- 				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>. This is the same AI you used during the training phase. This AI is <span id='acc-score'></span> accurate. <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span></strong></p>
 				<p>For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. <strong>You will not be able to see how many credits you have gained in this phase, but we will tell you how many credits you earned at the end of the study.</strong> Click the button below to begin.</p> -->
 				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>. This is the same AI you used during the training phase. <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span></strong></p>
-				<p><span id = 'bonus-begin-task'></span> <span id="double-bonus-begin-task"></span> <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. <strong>You will not be able to see how many credits you have gained in this phase, but we will tell you how many credits you earned at the end of the study.</strong> Click the button below to begin.</p>
+				<p><span id = 'bonus-begin-task'></span> <span id="double-bonus-begin-task"></span> <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. </p>
+				<p id="reward-table-begin-task"></p>
+				<p><strong>You will not be able to see how many credits you have gained in this phase, but we will tell you how many credits you earned at the end of the study.</strong> Click the button below to begin.</p>
 				<button type="button" class="btn btn-primary" id='begin-task-button'>Continue</button>
 			</div>
 		</div>
@@ -1825,8 +1841,7 @@ jQuery.fn.disableFind = function(){
 		<div class="card">
 			<div class="card-body">
 				<p><strong>You will now be asked to collaborate with <span id= 'switch-tasks'></span>.</strong> <span id = 'xai-repeat-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-repeat-task'></span> in bonus. This passage is <span id ='length-repeat-task'></span>. We will also ask you to choose between doing the task yourself versus getting a suggestion from the AI for different bonus amounts. Click the button below to begin.</p>
-<!-- 				<p><strong>You will now be asked to collaborate with <span id= 'switch-tasks'></span>, which is <span id='repeat-acc-score'></span> accurate.</strong> <span id = 'xai-repeat-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-repeat-task'></span> in bonus. This passage is <span id ='length-repeat-task'></span>. We will also ask you to choose between doing the task yourself versus getting a suggestion from the AI for different bonus amounts. Click the button below to begin.</p>
- -->
+				<!-- <p><strong>You will now be asked to collaborate with <span id= 'switch-tasks'></span>, which is <span id='repeat-acc-score'></span> accurate.</strong> <span id = 'xai-repeat-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-repeat-task'></span> in bonus. This passage is <span id ='length-repeat-task'></span>. We will also ask you to choose between doing the task yourself versus getting a suggestion from the AI for different bonus amounts. Click the button below to begin.</p> -->
 				<button type="button" class="btn btn-primary" id='repeat-task-button'>Continue</button>
 			</div>
 		</div>
@@ -1937,7 +1952,7 @@ jQuery.fn.disableFind = function(){
         </button>
       </div>
       <div class="modal-body">
-		<strong>Each time you are asked to choose, the amount of money offered for getting the AI's suggestions will change, so please pay attention to those values. <span id="coged-text-modal"></span></strong>
+		<strong>Each time you are asked to choose, the amount of money offered for getting the AI's suggestions will change, so please pay attention to those values. <span id= "coged-modal-forced-AI" style="display:none"> In this phase, if you choose the AI's assistance, you will have to respond with its answer. </span> <span id= "coged-modal-AI" style="display:none"> In this phase, if you choose the AI's assistance, you will be able to collaborate with it and decide whether or not you would like to use its answer. </span><span id="coged-text-modal"></span></strong>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -1952,9 +1967,10 @@ jQuery.fn.disableFind = function(){
 
 		<div class="card">
 			<div class="card-body">
-				<p>You will be asked to choose between completing a task by yourself and using <span id='coged-ai-name'></span> assistance for each question. 
+				<p>You will be asked to choose between completing a task by yourself and using <span id='coged-ai-name'></span> assistance for each question. <span id= "coged-forced-AI" style="display:none"> In this phase, if you choose the AI's assistance, you will have to respond with its answer. </span><span id= "coged-AI" style="display:none"> In this phase, if you choose the AI's assistance, you will be able to collaborate with it and decide whether or not you would like to use its answer. </span>
 				<br><br>
 				<strong>Each time you are asked to choose, the amount of money offered for getting the AI's suggestions will change, so please pay attention to those values. </strong><span id='coged-text'></span></p>
+				<p id= "reward-table-coged"></p>
 				<button type="button" class="btn btn-primary" id='coged-task-button'>Continue</button>
 			</div>
 		</div>
@@ -3209,22 +3225,25 @@ var randomize = true;
 function make_input(json_data) {
   var model_correct = shuffle(json_data['Model Correct'])
   var model_incorrect = shuffle(json_data['Model Incorrect'])
+  var model_correct = json_data['Model Correct']
+  var model_incorrect = json_data['Model Incorrect']
   var json_input = {
   'tutorial': [json_data['Tutorial']],
   'training': 
-  [model_correct[0], model_correct[1], model_incorrect[6]],
+  [model_correct[0], model_correct[1], model_correct[3]],
   'training-AI': 
-  [model_correct[3],model_correct[4], model_correct[5], model_correct[6], model_incorrect[0]],
+  [model_correct[4],model_correct[5], model_correct[6], model_correct[7], model_incorrect[0]],
   'coged': [
-              [model_correct[7], model_correct[8], model_correct[9], model_correct[10], model_incorrect[1]],
+              [model_correct[8], model_correct[9], model_correct[10], model_correct[11], model_incorrect[1]],
+              [model_correct[12], model_correct[13], model_correct[14], model_correct[15], model_incorrect[2]],
             ],
   'coged-order': [coged_order_temp[0]],
   //[['short baseline', 'short prediction'], ['short baseline', 'short xai'],
                   //['long baseline', 'long prediction'], ['long baseline', 'long xai']],
   'collaboration': [
-              [model_correct[11], model_correct[12], model_correct[13], model_correct[14], model_correct[15], model_correct[16], model_correct[17], model_correct[18], 
-              model_correct[19], model_correct[20], model_correct[21], model_correct[22], model_correct[23], model_correct[24], model_correct[25], model_correct[26], 
-              model_incorrect[2], model_incorrect[3], model_incorrect[4], model_incorrect[5]]
+                 [model_correct[16], model_correct[17], model_correct[18], model_correct[19], model_correct[20], model_correct[21], model_correct[22], model_correct[23], 
+               model_correct[24], model_correct[25], model_correct[26], model_correct[27], model_correct[28], model_correct[29], model_correct[30], model_correct[31], 
+               model_incorrect[3], model_incorrect[4], model_incorrect[5], model_incorrect[6]]
               ]
 }
   json_input['training'] = shuffle(json_input['training'])
@@ -3315,7 +3334,7 @@ function make_input_random(json_data){
 
 // var coged_order_temp = shuffle([['short baseline', 'short prediction'], ['short baseline', 'short xai'],
 //                   ['long baseline', 'long prediction'], ['long baseline', 'long xai']]);
-var coged_order_temp = shuffle([['short baseline', 'short xai']]);
+var coged_order_temp = shuffle([['long baseline', 'long xai'], ['short baseline', 'short xai']]);
 var randomness = false;
 var tutorial_task = "xai";
 var tutorial_setting = "long";
@@ -3346,9 +3365,21 @@ if (variable_reward_system) {
   var curr_reward_system = shuffle(["double", "overreliance"])[0]
 }
 else {
-  var curr_reward_system = "overreliance"
+  var curr_reward_system = "double"
 }
 var curr_penalty_system = false;
+
+// MAKING COMPARATIVE CHOICE!
+var comparative_coged = false;
+var num_comparative = 0;
+var curr_choose_coged;
+if (comparative_coged) {
+  curr_choose_coged = shuffle(["human-AI", "human-forced-AI"])
+}
+else {
+  curr_choose_coged = ["human-AI"]
+}
+
 // if (curr_reward_system == "double") {
 //   curr_penalty_system = true;
 // }
@@ -3422,7 +3453,12 @@ var ai_box_border = ['3px solid rgb(222.0, 143.0, 5.0)', '3px solid rgb(204.0, 1
 
 // var progress_bar_total_clicks = 110
 // var progress_bar_total_clicks = 27
-var progress_bar_total_clicks = 50
+if (comparative_coged) {
+  var progress_bar_total_clicks = 61
+}
+else {
+  var progress_bar_total_clicks = 50
+}
 var progress_bar_increments = (1 / progress_bar_total_clicks) * 100;
 var progress_bar_current = progress_bar_increments;
 var progress_num = 0;
