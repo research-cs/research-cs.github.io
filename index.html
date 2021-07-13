@@ -3202,18 +3202,21 @@ var randomize = true;
 //   'short_text': [3],
 //   'long_text': [0,1,2,3,4]
 // }
+// var coged_order_temp = shuffle([['long baseline', 'long xai'], ['short baseline', 'short xai']]);
 
-// var json_input = {
+// var input = {
 //   'tutorial': [DEFAULT_QUESTION],
 //   'training': [DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION],
+//   'training-AI': [DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION],
 //   'coged': [
 //               [DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION],
 //               [DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION],
 //               [DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION],
 //               [DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION]
 //             ],
-//   'coged-order': [['short baseline', 'short prediction'], ['short baseline', 'short xai'],
-//                   ['long baseline', 'long prediction'], ['long baseline', 'long xai']],
+//   'coged-order': [coged_order_temp[0]],
+//   // [['short baseline', 'short prediction'], ['short baseline', 'short xai'],
+//   //                 ['long baseline', 'long prediction'], ['long baseline', 'long xai']],
 //   'collaboration': [
 //               [DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION],
 //               [DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION],
@@ -3225,8 +3228,8 @@ var randomize = true;
 function make_input(json_data) {
   var model_correct = shuffle(json_data['Model Correct'])
   var model_incorrect = shuffle(json_data['Model Incorrect'])
-  var model_correct = json_data['Model Correct']
-  var model_incorrect = json_data['Model Incorrect']
+  // var model_correct = json_data['Model Correct']
+  // var model_incorrect = json_data['Model Incorrect']
   var json_input = {
   'tutorial': [json_data['Tutorial']],
   'training': 
@@ -3246,11 +3249,11 @@ function make_input(json_data) {
                model_incorrect[3], model_incorrect[4], model_incorrect[5], model_incorrect[6]]
               ]
 }
-  json_input['training'] = shuffle(json_input['training'])
-  json_input['training-AI'] = shuffle(json_input['training-AI'])
-  json_input['coged'] = shuffle_matrix(json_input['coged'])
-  json_input['collaboration'] = shuffle_matrix(json_input['collaboration'])
-  json_input['coged-order'] = shuffle(json_input['coged-order']);
+  // json_input['training'] = shuffle(json_input['training'])
+  // json_input['training-AI'] = shuffle(json_input['training-AI'])
+  // json_input['coged'] = shuffle_matrix(json_input['coged'])
+  // json_input['collaboration'] = shuffle_matrix(json_input['collaboration'])
+  // json_input['coged-order'] = shuffle(json_input['coged-order']);
   return json_input
 }
 
