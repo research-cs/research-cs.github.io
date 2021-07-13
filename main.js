@@ -144,7 +144,7 @@ function demographicsCallback() {
 
      if (curr_reward_system == "double") {
         $("#training-credits-double").show()
-        training_credits_text += 'For every question you get correct when the AI is incorrect, you will gain 5x credits (e.g. if you are being offered 50 credits, you would gain 50x5, or 250, credits) for that question. '
+          training_credits_text += "When the AI is incorrect, but you get the question correct, you will gain 5x credits (e.g. if you are being offered 50 credits, you would gain 50 x 5 = 250 credits) for that question. "
         if (curr_penalty_system) {
           training_credits_text += "For each question you get incorrect with the AI, you will lose the amount of credits offered."
         }
@@ -656,7 +656,7 @@ function runTask() {
             coged_text += 'Remember that 100 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> is equal to a $0.05 bonus. '
           }
           if (curr_reward_system == "double") {
-            coged_text += "For every question you get correct when the AI is incorrect, you will gain 5x credits (e.g. if you are being offered 50 credits, you would gain 50x5, or 250, credits) for that question. "
+            coged_text += "When the AI is incorrect, but you get the question correct, you will gain 5x credits (e.g. if you are being offered 50 credits, you would gain 50 x 5 = 250 credits) for that question. "
           }
           if (curr_penalty_system) {
             coged_text += "For each question you get incorrect with the AI, you will lose the amount of credits offered. "
@@ -682,7 +682,7 @@ $('#coged-task-button').click(function() {
       coged_text_modal += "You will only get rewarded for the questions BOTH you and the AI get correct. "
     }
     if (curr_reward_system == "double") {
-      coged_text_modal += "For every question you get correct when the AI is incorrect, you will gain 5x credits (e.g. if you are being offered 50 credits, you would gain 50x5, or 250, credits) for that question. "
+      coged_text_modal += "When the AI is incorrect, but you get the question correct, you will gain 5x credits (e.g. if you are being offered 50 credits, you would gain 50 x 5 = 250 credits) for that question. "
     }
     if (curr_penalty_system) {
       coged_text_modal += "For each question you get incorrect with the AI, you will lose the amount of credits offered. "
@@ -1222,7 +1222,7 @@ function renderTask(condition, data, callback=null) {
             training_modal_text += "<br><br>For each question you get correct, you will gain 50 gold credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini.png\">, which is equal to $0.05. "
           }
           if (curr_reward_system == "double") {
-            training_modal_text += "For every question you get correct when the AI is incorrect, you will gain 5x credits (e.g. if you are being offered 50 credits, you would gain 50x5, or 250, credits) for that question. "
+            training_modal_text += "When the AI is incorrect, but you get the question correct, you will gain 5x credits (e.g. if you are being offered 50 credits, you would gain 50 x 5 = 250 credits) for that question. "
           }
           if (curr_penalty_system) {
             training_modal_text += "For each question you get incorrect with the AI, you will lose the amount of credits offered. "
@@ -1253,7 +1253,7 @@ function renderTask(condition, data, callback=null) {
             training_modal_text += "<br><br>For each question you get correct, you will gain 50 silver credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png\">, which is equal to $0.025. "
           }
           if (curr_reward_system == "double") {
-            training_modal_text += "For every question you get correct when the AI is incorrect, you will gain 5x credits (e.g. if you are being offered 50 credits, you would gain 50x5, or 250, credits) for that question. "
+            training_modal_text += "When the AI is incorrect, but you get the question correct, you will gain 5x credits (e.g. if you are being offered 50 credits, you would gain 50 x 5 = 250 credits) for that question. "
           }
           if (curr_penalty_system) {
             training_modal_text += "For each question you get incorrect with the AI, you will lose the amount of credits offered. "
@@ -1531,7 +1531,7 @@ function repeatTask(condition, id ='switch-tasks') {
           $(length_id).html('long, which is why you gain gold credits')
           // $('#coin-explanation').html('Note that 100 gold credits equals $0.10.')  
           if (curr_reward_system == "double") {
-            double_bonus_text += "For every question you get correct when the AI is incorrect, you will gain 5x credits (e.g. if you are being offered 50 credits, you would gain 50x5, or 250, credits) for that question. "
+            double_bonus_text += "When the AI is incorrect, but you get the question correct, you will gain 5x credits (e.g. if you are being offered 50 credits, you would gain 50 x 5 = 250 credits) for that question. "
           } 
           if (curr_penalty_system) {
             double_bonus_text += "For each question you get incorrect with the AI, you will lose the amount of credits offered. "
@@ -1547,7 +1547,7 @@ function repeatTask(condition, id ='switch-tasks') {
           $(length_id).html('short, which is why you gain silver credits')
           // $('#coin-explanation').html('Note that 100 silver credits equals $0.05.')
           if (curr_reward_system == "double") {
-            double_bonus_text += "For every question you get correct when the AI is incorrect, you will gain 5x credits (e.g. if you are being offered 50 credits, you would gain 50x5, or 250, credits) for that question. "
+            double_bonus_text += "When the AI is incorrect, but you get the question correct, you will gain 5x credits (e.g. if you are being offered 50 credits, you would gain 50 x 5 = 250 credits) for that question. "
           }
           if (curr_penalty_system) {
             double_bonus_text += "For each question you get incorrect with the AI, you will lose the amount of credits offered. "
