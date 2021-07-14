@@ -3341,10 +3341,10 @@ function make_input(json_data) {
   'coged-order': [coged_order_temp[0]],
   //[['short baseline', 'short prediction'], ['short baseline', 'short xai'],
                   //['long baseline', 'long prediction'], ['long baseline', 'long xai']],
-  'collaboration': [[model_correct[16]]
-               //   [model_correct[16], model_correct[17], model_correct[18], model_correct[19], model_correct[20], model_correct[21], model_correct[22], model_correct[23], 
-               // model_correct[24], model_correct[25], model_correct[26], model_correct[27], model_correct[28], model_correct[29], model_correct[30], model_correct[31], 
-               // model_incorrect[3], model_incorrect[4], model_incorrect[5], model_incorrect[6]]
+  'collaboration': [
+                 [model_correct[16], model_correct[17], model_correct[18], model_correct[19], model_correct[20], model_correct[21], model_correct[22], model_correct[23], 
+               model_correct[24], model_correct[25], model_correct[26], model_correct[27], model_correct[28], model_correct[29], model_correct[30], model_correct[31], 
+               model_incorrect[3], model_incorrect[4], model_incorrect[5], model_incorrect[6]]
               ]
 }
   json_input['training'] = shuffle(json_input['training'])
