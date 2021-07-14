@@ -644,7 +644,7 @@ function runTask() {
     coged_phase = true;
     ai_condition = input['coged-order'][task_repeat][1].split(" ");
     baseline_condition = input['coged-order'][task_repeat][0].split(" ");
-    if(curr_choose_coged[num_comparative] == "human-forced-AI") {
+    if(comparative_coged && curr_choose_coged[num_comparative] == "human-forced-AI") {
       $(choose_text_AI).html("Only use the AI's response")
     }
     else {
@@ -715,11 +715,41 @@ function runTask() {
           }
           if(comparative_coged && curr_choose_coged[num_comparative] == "human-forced-AI") {
             $("#coged-forced-AI").show()
+            $("#summary-coged-change-forced-AI").show()
+
             $("#coged-AI").hide()
+            $("#summary-coged-change-AI").hide()
+            // $("#coged-example-forced-AI").show()
+            // if (ai_condition[0] == "long") {
+            //   $("#coged-example-forced-AI-cost-of-AI").html("50 gold credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini.png\">")
+            //   $("#coged-example-forced-AI-cost-of-human").html("100 silver credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png\">")
+            // }
+            // else {
+            //   $("#coged-example-forced-AI-cost-of-AI").html("50 silver credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png\">")
+            //   $("#coged-example-forced-AI-cost-of-human").html("100 silver credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png\">")
+            // }
+            // $("#coged-example-forced-AI-choose-AI").css('color', ai_colors[task_repeat])
+            // $("#coged-example-forced-AI-choose-AI").css('backgroundolor', ai_background_colors[task_repeat])
+            // $("#coged-example-forced-AI-choose-AI").css('border', ai_border[task_repeat])
           }
           else if (comparative_coged && curr_choose_coged[num_comparative] == "human-AI") {
-            $("#coged-forced-AI").hide()
             $("#coged-AI").show()
+            $("#summary-coged-change-AI").show()
+
+            $("#coged-forced-AI").hide()
+            $("#summary-coged-change-forced-AI").hide()
+            // $("#coged-example-AI").show()
+            // if (ai_condition[0] == "long") {
+            //   $("#coged-example-AI-cost-of-AI").html("50 gold credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini.png\">")
+            //   $("#coged-example-AI-cost-of-human").html("100 gold credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini.png\">")
+            // }
+            // else {
+            //   $("#coged-example-AI-cost-of-AI").html("50 silver credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png\">")
+            //   $("#coged-example-AI-cost-of-human").html("100 silver credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png\">")
+            // }
+            // $("#coged-example-AI-choose-AI").css('color', ai_colors[task_repeat])
+            // $("#coged-example-AI-choose-AI").css('backgroundolor', ai_background_colors[task_repeat])
+            // $("#coged-example-AI-choose-AI").css('border', ai_border[task_repeat])
           }
           $('#coged-text').html(coged_text)
           });
@@ -794,10 +824,14 @@ $('#coged-task-button').click(function() {
               if(curr_choose_coged[num_comparative] == "human-forced-AI") {
                 $("#coged-forced-AI").show()
                 $("#coged-AI").hide()
+                $("#summary-coged-change-forced-AI").show()
+                $("#summary-coged-change-AI").hide()
               }
               else {
                 $("#coged-forced-AI").hide()
                 $("#coged-AI").show()
+                $("#summary-coged-change-forced-AI").hide()
+                $("#summary-coged-change-AI").show()
               }
               coged_phase_count = 0
               gold_lower_bound = 0
