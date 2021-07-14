@@ -1989,15 +1989,15 @@ jQuery.fn.disableFind = function(){
 				<div id='summary-coged-change-AI-second' style="display:none">
 					<strong>Here is a summary of what has changed from the previous sections:</strong>
 					<ul>
-					  <li>You will be asked to choose between doing it yourself or with the AI</li>
 					  <li>If you choose to do it with the AI, you WILL be able to change its answer</li>
-					  <li>Each time you are asked to choose, the amount of money offered for using the AI will change</li>
 					</ul>
 				</div>
 				<div id='summary-coged-change-forced-AI' style="display:none">
 					<strong>Here is a summary of what has changed from the previous sections:</strong>
 					<ul>
+					  <li>You will be asked to choose between doing it yourself or with the AI</li>
 					  <li>If you choose to do it with the AI, you will NOT be able to change its answer</li>
+					  <li>Each time you are asked to choose, the amount of money offered for using the AI will change</li>
 					</ul>
 				</div>
 				<div id='summary-coged-change-forced-AI-second' style="display:none">
@@ -3433,18 +3433,12 @@ function make_input_random(json_data){
 // setting = 'short' | 'long'
 // var setting = 'long';
 
-// var coged_order_temp = shuffle([['short baseline', 'short prediction'], ['short baseline', 'short xai'],
-//                   ['long baseline', 'long prediction'], ['long baseline', 'long xai']]);
-var coged_order_temp = shuffle([['short baseline', 'short xai']]);
+var coged_order_temp = shuffle([['short baseline', 'short prediction'], ['short baseline', 'short xai'],
+                  ['long baseline', 'long prediction'], ['long baseline', 'long xai']]);
+// var coged_order_temp = shuffle([['short baseline', 'short xai']]);
 var randomness = false;
 var tutorial_task = "xai";
 var tutorial_setting = "long";
-if (randomness == true) {
-  var input = make_input_random(json_data);
-}
-else{
-  var input = make_input(json_data);
-}
 
 // MAKING NEW ACCURACIES
 var multi_acc_score = false;
@@ -3461,14 +3455,23 @@ if (available_acc_score == false) {
 
 // MAKING NEW REWARD SYSTEM
 // Types: Normal, Double, Overreliance
-var variable_reward_system = false;
+var variable_reward_system = true;
 if (variable_reward_system) {
-  var curr_reward_system = shuffle(["double", "overreliance"])[0]
+  var curr_reward_system = shuffle(["normal", "double", "overreliance"])[0]
 }
 else {
   var curr_reward_system = "normal"
 }
+
+if (curr_reward_system == "double" || curr_reward_system == "overreliance") {
+  var coged_order_temp = shuffle([['short baseline', 'short xai']])
+}
+
 var curr_penalty_system = false;
+
+// if (curr_reward_system == "double") {
+//   curr_penalty_system = true;
+// }
 
 // MAKING COMPARATIVE CHOICE!
 var comparative_coged = true;
@@ -3481,9 +3484,12 @@ else {
   curr_choose_coged = ["human-AI"]
 }
 
-// if (curr_reward_system == "double") {
-//   curr_penalty_system = true;
-// }
+if (randomness == true) {
+  var input = make_input_random(json_data);
+}
+else{
+  var input = make_input(json_data);
+}
 
 var payment = 6;
 var time = 30;

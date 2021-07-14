@@ -824,14 +824,18 @@ $('#coged-task-button').click(function() {
               if(curr_choose_coged[num_comparative] == "human-forced-AI") {
                 $("#coged-forced-AI").show()
                 $("#coged-AI").hide()
-                $("#summary-coged-change-forced-AI").show()
+                $("#summary-coged-change-forced-AI").hide()
                 $("#summary-coged-change-AI").hide()
+                $("#summary-coged-change-forced-AI-second").show()
+                $("#summary-coged-change-AI-second").hide()
               }
               else {
                 $("#coged-forced-AI").hide()
                 $("#coged-AI").show()
+                $("#summary-coged-change-forced-AI-second").hide()
+                $("#summary-coged-change-AI-second").show()
                 $("#summary-coged-change-forced-AI").hide()
-                $("#summary-coged-change-AI").show()
+                $("#summary-coged-change-AI").hide()
               }
               coged_phase_count = 0
               gold_lower_bound = 0
