@@ -3249,11 +3249,11 @@ function make_input(json_data) {
                model_incorrect[3], model_incorrect[4], model_incorrect[5], model_incorrect[6]]
               ]
 }
-  // json_input['training'] = shuffle(json_input['training'])
-  // json_input['training-AI'] = shuffle(json_input['training-AI'])
-  // json_input['coged'] = shuffle_matrix(json_input['coged'])
-  // json_input['collaboration'] = shuffle_matrix(json_input['collaboration'])
-  // json_input['coged-order'] = shuffle(json_input['coged-order']);
+  json_input['training'] = shuffle(json_input['training'])
+  json_input['training-AI'] = shuffle(json_input['training-AI'])
+  json_input['coged'] = shuffle_matrix(json_input['coged'])
+  json_input['collaboration'] = shuffle_matrix(json_input['collaboration'])
+  json_input['coged-order'] = shuffle(json_input['coged-order']);
   return json_input
 }
 
@@ -3337,7 +3337,7 @@ function make_input_random(json_data){
 
 // var coged_order_temp = shuffle([['short baseline', 'short prediction'], ['short baseline', 'short xai'],
 //                   ['long baseline', 'long prediction'], ['long baseline', 'long xai']]);
-var coged_order_temp = shuffle([['long baseline', 'long xai'], ['short baseline', 'short xai']]);
+var coged_order_temp = shuffle([['short baseline', 'short xai']]);
 var randomness = false;
 var tutorial_task = "xai";
 var tutorial_setting = "long";
@@ -3363,17 +3363,17 @@ if (available_acc_score == false) {
 
 // MAKING NEW REWARD SYSTEM
 // Types: Normal, Double, Overreliance
-var variable_reward_system = true;
+var variable_reward_system = false;
 if (variable_reward_system) {
   var curr_reward_system = shuffle(["double", "overreliance"])[0]
 }
 else {
-  var curr_reward_system = "double"
+  var curr_reward_system = "normal"
 }
 var curr_penalty_system = false;
 
 // MAKING COMPARATIVE CHOICE!
-var comparative_coged = false;
+var comparative_coged = true;
 var num_comparative = 0;
 var curr_choose_coged;
 if (comparative_coged) {
@@ -3513,10 +3513,10 @@ var choose_gold_img_2 = choose_[11]
       First is by the github pages, 
       Second is by my Stanford website, 
       Third is locally  -->
- <script type="text/javascript" src="https://research-cs.github.io/main.js"></script>
- 
+<!--  <script type="text/javascript" src="https://research-cs.github.io/main.js"></script>
+ --> 
  <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/js/main.js"></script> -->
-<!-- <script type="text/javascript" src="EasyTurk/templates/js/main.js"></script>
- --></div>
+<script type="text/javascript" src="EasyTurk/templates/js/main.js"></script>
+</div>
 </body>
 </html>
