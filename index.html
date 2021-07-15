@@ -1705,7 +1705,9 @@ jQuery.fn.disableFind = function(){
 			<div class="card-body">			 					
 <!--  					<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI, which is <span id='training-ai-acc'></span> accurate. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</strong> <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
  --> 				
-  			<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</strong> <br><br><span id="training-credits-double" style="display:none"><strong>The amount of credits you receive depends on whether the AI is correct or not.</strong></span> <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
+  			<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> <span id = 'training-same-AI-text' style="display:none">This is the same AI you used previously. </span><span id = 'xai-compare-training' style="display:none">The AI will now show you <span class='main-highlight'>explanations</span>.</strong></span> <br><br>
+
+  			<span id="training-credits-double" style="display:none"><strong>The amount of credits you receive depends on whether the AI is correct or not.</strong></span> <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
 
   			<p id="training-reward-table"></p>
 
@@ -1956,10 +1958,29 @@ jQuery.fn.disableFind = function(){
         </button>
       </div>
       <div class="modal-body">
-		<strong>Each time you are asked to choose, the amount of money offered for getting the AI's suggestions will change, so please pay attention to those values. </strong>
-		<br><br>
+		<strong><span id = 'coged-modal-DIY-AI' style="display:none">Each time you are asked to choose, the amount of money offered for getting the AI's suggestions will change, so please pay attention to those values. </span></strong>
+
+		<strong><span id = 'coged-modal-AI-xai' style="display:none">Each time you are asked to choose, the amount of money offered for getting the AI's suggestions and explanations will change, so please pay attention to those values.</span></strong>
+
+		
 		<span id= "coged-modal-forced-AI" style="display:none">In this phase, if you choose the AI's assistance, you will have to respond with its answer. <span class="important-text">You will NOT be able to change its answer.</span></span> 
-		<span id= "coged-modal-AI" style="display:none"> In this phase, if you choose the AI's assistance, you will be able to collaborate with it and decide whether or not you would like to use its answer. <span class="important-text">You WILL be able to change its answer.</span></span><span id="coged-text-modal"></span></strong>
+
+		<span id= "coged-modal-AI" style="display:none"> In this phase, if you choose the AI's assistance, you will be able to collaborate with it and decide whether or not you would like to use its answer. <span class="important-text">You WILL be able to change its answer.</span></span>
+
+		
+
+		<span id="coged-modal-overreliance"  style="display:none">
+			<br><br>You will only get rewarded for the question if BOTH you and the AI are correct. 
+		</span>
+
+		<span id="coged-modal-double"  style="display:none">
+			<br><br>When using the AI, if you answer a question correctly that the AI answered incorrectly, you will gain 5x credits offered. 
+		</span>
+
+		<span id="coged-modal-penalty"  style="display:none">
+			For each question you get incorrect with the AI, you will lose the amount of credits offered. 
+		</span>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -1974,10 +1995,70 @@ jQuery.fn.disableFind = function(){
 
 		<div class="card">
 			<div class="card-body">
-				<p>You will be asked to choose between completing a task by yourself and using <span id='coged-ai-name'></span> assistance for each question. <span id= "coged-forced-AI" style="display:none"> <strong>In this phase, if you choose the AI's assistance, you will have to respond with its answer. <span class="important-text">You will NOT be able to change its answer. </span></strong></span><span id= "coged-AI" style="display:none"><strong>In this phase, if you choose the AI's assistance, you will be able to collaborate with it and decide whether or not you would like to use its answer. <span class="important-text">You WILL be able to change its answer. </span></strong></span>
-				<br><br>
-				<strong>Each time you are asked to choose, the amount of money offered for getting the AI's suggestions will change, so please pay attention to those values. </strong><span id='coged-text'></span></p>
-				<p id= "reward-table-coged"></p>
+				<p id = 'coged-DIY-AI' style="display:none">You will be asked to choose between completing a task by yourself and using <span id='coged-ai-name'></span> assistance for each question. 
+				</p>
+				<p id = 'coged-AI-xai' style="display:none">You will be asked to choose between completing a task with the AI's suggestion and completing a task with the AI's suggestion and explanation.
+				</p>
+				<p>
+				<span id= "coged-forced-AI" style="display:none"> <strong>In this phase, if you choose the AI's assistance, you will have to respond with its answer. <span class="important-text">You will NOT be able to change its answer. </span></strong><br><br></span>
+
+				<span id= "coged-AI" style="display:none"><strong>In this phase, if you choose the AI's assistance, you will be able to collaborate with it and decide whether or not you would like to use its answer. <span class="important-text">You WILL be able to change its answer. </span></strong><br><br></span>
+
+				
+				<span id = 'coged-DIY-AI-attention'><strong>Each time you are asked to choose, the amount of money offered for getting the AI's suggestions will change, so please pay attention to those values. </strong></span>
+
+				<span id = 'coged-AI-xai-attention'><strong>Each time you are asked to choose, the amount of money offered for getting the AI's suggestions and explanations will change, so please pay attention to those values. </strong></span>
+
+				<span id='coged-text-long' style="display:none">
+					Remember that 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> is equal to a $0.10 bonus. 
+				</span>
+
+				<span id='coged-text-overreliance-long' style="display:none">
+				You will only get rewarded for the question if BOTH you and the AI are correct.
+                <strong>
+                If you answer a question correctly that the AI answered incorrectly, you will receive 0 gold credits.</strong>
+				</span>
+
+				<span id='coged-text-double-long' style="display:none">
+				When using the AI, if you answer a question correctly that the AI answered incorrectly, you will gain 5x credits offered.
+				</span>
+
+				<span id='coged-text-short' style="display:none">
+					Remember that 100 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> is equal to a $0.05 bonus. 
+				</span>
+
+				<span id='coged-text-overreliance-short' style="display:none">
+				You will only get rewarded for the question if BOTH you and the AI are correct.
+                <strong>
+                If you answer a question correctly that the AI answered incorrectly, you will receive 0 silver credits.</strong>
+				</span>
+
+				<span id='coged-text-double-short' style="display:none">
+				When using the AI, if you answer a question correctly that the AI answered incorrectly, you will gain 5x credits offered.
+				</span>
+
+				<span id='coged-text-penalty' style="display:none">
+					For each question you get incorrect with the AI, you will lose the amount of credits offered. 
+				</span>
+				</p>
+
+				<p id= "reward-table-coged-overreliance-long" style="display:none">
+				You can also view the reward format in the table below. <br><br> 
+				<img src="https://cs.stanford.edu/people/joerke/xai/overreliance.svg">
+				</p>
+				<p id= "reward-table-coged-double-long" style="display:none">
+				You can also view the reward format in the table below. <br><br> 
+				<img src="https://cs.stanford.edu/people/joerke/xai/verification.svg">
+				</p>
+				<p id= "reward-table-coged-overreliance-short" style="display:none">
+				You can also view the reward format in the table below. <br><br> 
+				<img src="https://cs.stanford.edu/people/joerke/xai/overreliance-short.svg">
+				</p>
+				<p id= "reward-table-coged-double-short" style="display:none">
+				You can also view the reward format in the table below. <br><br> 
+				<img src="https://cs.stanford.edu/people/joerke/xai/verification-short.svg">
+				</p>
+
 				<div id='summary-coged-change-AI' style="display:none">
 					<strong>Here is a summary of what has changed from the previous sections:</strong>
 					<ul>
@@ -2006,74 +2087,21 @@ jQuery.fn.disableFind = function(){
 					  <li>If you choose to do it with the AI, you will NOT be able to change its answer</li>
 					</ul>
 				</div>
+
+				<div id='summary-coged-change-AI-compare' style="display:none">
+					<strong>Here is a summary of what has changed from the previous sections:</strong>
+					<ul>
+					  <li>You will be asked to choose between between completing a task with the AI's suggestion or with the AI's suggestion and explanation</li>
+					  <li>Each time you are asked to choose, the amount of money offered for using the AI will change</li>
+					</ul>
+				</div>
 				<button type="button" class="btn btn-primary" id='coged-task-button'>Continue</button>
 			</div>
 		</div>
 
 	</div>
-
-	<div id='coged-example-AI' style="display:none">
-			<div class='row'>
-				<div class='col-12 text-center'>
-					<h1>Example Task</h1>
-					<p>Notice the difference in credits.</p>
-				</div>
-			</div>
-			<div class='row'>
-				<div class='col-5 text-center'>
-					<div class='choice-box d-flex align-items-center justify-content-center' id='coged-example-AI-choose-AI'>
-						<div>
-							<h2>Get suggestion from AI</h2>
-							<span id='coged-example-AI-cost-of-AI'></span>
-				    	</div>
-					</div>
-				</div>
-				<div class='col-2 text-center align-middle my-auto'>
-					<h5>or</h5>
-				</div>
-				<div class='col-5 text-center'>
-					<div class='choice-box d-flex align-items-center justify-content-center' id='coged-example-AI-choose-human'>
-						<div>
-							<h2>Complete by yourself</h2>
-							<span id='coged-example-AI-cost-of-human'></span>
-					    </div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-	<div id='coged-example-forced-AI' style="display:none">
-			<div class='row'>
-				<div class='col-12 text-center'>
-					<h1>Example Task</h1>
-					<p>Notice the difference in credits.</p>
-				</div>
-			</div>
-			<div class='row'>
-				<div class='col-5 text-center'>
-					<div class='choice-box d-flex align-items-center justify-content-center' id='coged-example-forced-AI-choose-AI'>
-						<div>
-							<h2>Only use the AI's response</h2>
-							<span id='coged-example-forced-AI-cost-of-AI'></span>
-				    	</div>
-					</div>
-				</div>
-				<div class='col-2 text-center align-middle my-auto'>
-					<h5>or</h5>
-				</div>
-				<div class='col-5 text-center'>
-					<div class='choice-box d-flex align-items-center justify-content-center' id='coged-example-forced-AI-choose-human'>
-						<div>
-							<h2>Complete by yourself</h2>
-							<span id='coged-example-forced-AI-cost-of-human'></span>
-					    </div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-
 </div>
+
 
     <div class='qa-task' id='task' style='display:none'>
 	<div class='row'>
@@ -3352,6 +3380,9 @@ function make_input(json_data) {
   json_input['coged'] = shuffle_matrix(json_input['coged'])
   json_input['collaboration'] = shuffle_matrix(json_input['collaboration'])
   json_input['coged-order'] = shuffle(json_input['coged-order']);
+  if (compare_conditions) {
+    json_input['training-AI-compare'] = json_input['coged'][1]
+  }
   return json_input
 }
 
@@ -3455,7 +3486,7 @@ if (available_acc_score == false) {
 
 // MAKING NEW REWARD SYSTEM
 // Types: Normal, Double, Overreliance
-var variable_reward_system = true;
+var variable_reward_system = false;
 if (variable_reward_system) {
   var curr_reward_system = shuffle(["normal", "double", "overreliance"])[0]
 }
@@ -3474,7 +3505,7 @@ var curr_penalty_system = false;
 // }
 
 // MAKING COMPARATIVE CHOICE!
-var comparative_coged = true;
+var comparative_coged = false;
 var num_comparative = 0;
 var curr_choose_coged;
 if (comparative_coged) {
@@ -3484,12 +3515,23 @@ else {
   curr_choose_coged = ["human-AI"]
 }
 
+
+// MAKING COMPARISON BETWEEN PREDICTION AND EXPLANATION
+var compare_conditions = true;
+if (compare_conditions) {
+  var coged_order_temp = shuffle([['long baseline', 'long xai', 'long prediction']])
+  var training_phase_order_ai_pred = [coged_order_temp[0][2], coged_order_temp[0][2], coged_order_temp[0][2], 
+                                coged_order_temp[0][2], coged_order_temp[0][2]]
+  var compare_conditions_training_phase_num = 0
+}
+
 if (randomness == true) {
   var input = make_input_random(json_data);
 }
 else{
   var input = make_input(json_data);
 }
+
 
 var payment = 6;
 var time = 30;
@@ -3526,6 +3568,7 @@ var training_phase_count_ai;
 var training_phase_order = [coged_order_temp[0][0], coged_order_temp[0][0], coged_order_temp[0][0]];
 var training_phase_order_ai = [coged_order_temp[0][1], coged_order_temp[0][1], coged_order_temp[0][1], 
                               coged_order_temp[0][1], coged_order_temp[0][1]];
+
 var collaboration_phase = false;
 
 var coged_phase = false;
@@ -3563,6 +3606,9 @@ var ai_box_border = ['3px solid rgb(222.0, 143.0, 5.0)', '3px solid rgb(204.0, 1
 if (comparative_coged) {
   var progress_bar_total_clicks = 61
 }
+else if (compare_conditions) {
+  var progress_bar_total_clicks = 57
+}
 else {
   var progress_bar_total_clicks = 50
 }
@@ -3586,6 +3632,7 @@ if (anthropomorphic == false) {
 
 var ai_condition = input['coged-order'][task_repeat][1].split(" ");
 var baseline_condition = input['coged-order'][task_repeat][0].split(" ");
+
 
 var current_label;
 
