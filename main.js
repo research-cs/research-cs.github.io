@@ -526,7 +526,7 @@ function runTraining() {
         runTrainingAI();
         $('.alert-link').unbind('click').click(function() {
           if (compare_conditions && compare_conditions_training_phase_num == 1) {
-            $('#training-ai-name').css('color',ai_colors[task_repeat+1]);
+            $('#training-ai-name').css('color',ai_colors[task_repeat]);
             $('#training-ai-name').html('the AI');
           }
           else {
@@ -714,9 +714,9 @@ function runTask() {
       $(choose_silver_img_2).css('display','inline-block')
     }
     if (compare_conditions) {
-      $(choose_human_type).css('color', ai_colors[task_repeat+1])
-      $(choose_human_type).css('backgroundColor', ai_background_colors[task_repeat+1])
-      $(choose_human_type).css('border', ai_border[task_repeat+1])
+      $(choose_human_type).css('color', ai_colors[task_repeat])
+      $(choose_human_type).css('backgroundColor', ai_background_colors[task_repeat])
+      $(choose_human_type).css('border', ai_border[task_repeat])
     }
       $(choose_AI_type).css('color', ai_colors[task_repeat])
       $(choose_AI_type).css('backgroundColor', ai_background_colors[task_repeat])
@@ -1530,9 +1530,9 @@ function renderTask(condition, data, callback=null) {
       $('#task-ai-name').html('AI\'s')
     }
     if (compare_conditions && current_condition == 'prediction') {
-      $('.ai-box').css('backgroundColor', ai_box_background_colors[task_repeat+1])
-      $('.ai-box').css('border', ai_box_border[task_repeat+1])
-      predBox.css('backgroundColor',model_prediction_background_colors[task_repeat+1])
+      $('.ai-box').css('backgroundColor', ai_box_background_colors[task_repeat])
+      $('.ai-box').css('border', ai_box_border[task_repeat])
+      predBox.css('backgroundColor',model_prediction_background_colors[task_repeat])
     }
     else {
       $('.ai-box').css('backgroundColor', ai_box_background_colors[task_repeat])
@@ -1630,6 +1630,7 @@ function questionnaireTrustCallback() {
         $('#questionnaire-ai-6a').html('the AI');
         $('#questionnaire-ai-7').html('the AI');
         $('#questionnaire-ai-8').html('the AI');
+        $('#questionnaire-form-8-text').html('In the box below, please describe how you chose between using the AI\'s suggestions and the AI\'s suggestions with explanations.')
 
       }
       else {

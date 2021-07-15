@@ -2482,7 +2482,7 @@ jQuery.fn.disableFind = function(){
                 </form>
                 <br>
                 <form id = 'questionnaire-form-8'>
-                <label for="choice-selection"><h5>In the box below, please describe how you chose between using <span id = 'questionnaire-ai-8'></span> and doing the task yourself.</h5></label>
+                <label for="choice-selection"><h5 id = 'questionnaire-form-8-text'>In the box below, please describe how you chose between using <span id = 'questionnaire-ai-8'></span> and doing the task yourself.</h5></label>
                 <textarea class="form-control" id="choice-selection" rows="3" placeholder="Start typing feedback here..."></textarea>
                 </form>
             <button type="button" class="btn btn-primary" id='questionnaire-button'>Continue</button>
@@ -3494,7 +3494,7 @@ if (variable_reward_system) {
   var curr_reward_system = shuffle(["normal", "double", "overreliance"])[0]
 }
 else {
-  var curr_reward_system = "double"
+  var curr_reward_system = "normal"
 }
 
 if (curr_reward_system == "double" || curr_reward_system == "overreliance") {
@@ -3521,7 +3521,7 @@ else {
 
 
 // MAKING COMPARISON BETWEEN PREDICTION AND EXPLANATION
-var compare_conditions = false
+var compare_conditions = true
 var compare_conditions_type = 'human-AI';
 if (compare_conditions) {
   var coged_order_temp = shuffle([['long baseline', 'long xai', 'long prediction']])
