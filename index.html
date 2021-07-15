@@ -3372,6 +3372,7 @@ function make_input(json_data) {
   //[['short baseline', 'short prediction'], ['short baseline', 'short xai'],
                   //['long baseline', 'long prediction'], ['long baseline', 'long xai']],
   'collaboration': [
+                   // [model_correct[16]]
                  [model_correct[16], model_correct[17], model_correct[18], model_correct[19], model_correct[20], model_correct[21], model_correct[22], model_correct[23], 
                model_correct[24], model_correct[25], model_correct[26], model_correct[27], model_correct[28], model_correct[29], model_correct[30], model_correct[31], 
                model_incorrect[3], model_incorrect[4], model_incorrect[5], model_incorrect[6]]
@@ -3468,7 +3469,7 @@ function make_input_random(json_data){
 
 // var coged_order_temp = shuffle([['short baseline', 'short prediction'], ['short baseline', 'short xai'],
 //                   ['long baseline', 'long prediction'], ['long baseline', 'long xai']]);
-var coged_order_temp = shuffle([['short baseline', 'short xai']]);
+var coged_order_temp = shuffle([['long baseline', 'long xai']]);
 var randomness = false;
 var tutorial_task = "xai";
 var tutorial_setting = "long";
@@ -3494,11 +3495,11 @@ if (variable_reward_system) {
   var curr_reward_system = shuffle(["normal", "double", "overreliance"])[0]
 }
 else {
-  var curr_reward_system = "overreliance"
+  var curr_reward_system = "normal"
 }
 
 if (curr_reward_system == "double" || curr_reward_system == "overreliance") {
-  var coged_order_temp = shuffle([['short baseline', 'short xai']])
+  var coged_order_temp = shuffle([['long baseline', 'long xai']])
 }
 
 var curr_penalty_system = false;
@@ -3516,7 +3517,7 @@ if (comparative_coged) {
   have_coged_phase = true
 }
 else {
-  curr_choose_coged = ["human-AI"]
+  curr_choose_coged = ["human-forced-AI"]
 }
 
 
@@ -3531,6 +3532,31 @@ if (compare_conditions) {
   var compare_conditions_type = 'Pred-XAI'
   have_coged_phase = true
 }
+
+
+var study_3 = true
+if (study_3) {
+  var study_3_type = shuffle(['human-forced-AI', 'Pred-XAI'])[0]
+  if (study_3_type == 'Pred-XAI') {
+    var coged_order_temp = shuffle([['long baseline', 'long xai', 'long prediction']])
+    var training_phase_order_ai_pred = [coged_order_temp[0][2], coged_order_temp[0][2], coged_order_temp[0][2], 
+                                  coged_order_temp[0][2], coged_order_temp[0][2]]
+    var compare_conditions_training_phase_num = 0
+    var compare_conditions_type = 'Pred-XAI'
+    have_coged_phase = true
+    compare_conditions = true
+    // alert('Pred-XAI')
+    curr_choose_coged = [""]
+  }
+  else {
+    var coged_order_temp = shuffle([['long baseline', 'long xai']]);
+    have_coged_phase = true
+    compare_conditions_type = "human-forced-AI"
+    curr_choose_coged = ["human-forced-AI"]
+  }
+
+}
+
 
 if (randomness == true) {
   var input = make_input_random(json_data);

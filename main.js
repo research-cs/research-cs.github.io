@@ -686,7 +686,7 @@ function runTask() {
     coged_phase = true;
     ai_condition = input['coged-order'][task_repeat][1].split(" ");
     baseline_condition = input['coged-order'][task_repeat][0].split(" ");
-    if(comparative_coged && curr_choose_coged[num_comparative] == "human-forced-AI") {
+    if(curr_choose_coged[num_comparative] == "human-forced-AI") {
       $(choose_text_AI).html("Only use the AI's response")
     }
     else if (compare_conditions) {
@@ -777,14 +777,14 @@ function runTask() {
                 }
               }
           }
-          if(comparative_coged && curr_choose_coged[num_comparative] == "human-forced-AI") {
+          if(curr_choose_coged[num_comparative] == "human-forced-AI") {
             $("#coged-forced-AI").show()
             $("#summary-coged-change-forced-AI").show()
 
             $("#coged-AI").hide()
             $("#summary-coged-change-AI").hide()
           }
-          else if (comparative_coged && curr_choose_coged[num_comparative] == "human-AI") {
+          else if (curr_choose_coged[num_comparative] == "human-AI") {
             $("#coged-AI").show()
             $("#summary-coged-change-AI").show()
 
@@ -827,11 +827,11 @@ $('#coged-task-button').click(function() {
       $('#coged-modal-overreliance').hide()
       $('#coged-modal-double').hide()
     }
-    if(comparative_coged && curr_choose_coged[num_comparative] == "human-forced-AI") {
+    if(curr_choose_coged[num_comparative] == "human-forced-AI") {
       $("#coged-modal-forced-AI").show()
       $("#coged-modal-AI").hide()
     }
-    else if(comparative_coged && curr_choose_coged[num_comparative] == "human-AI") {
+    else if(curr_choose_coged[num_comparative] == "human-AI") {
       $("#coged-modal-forced-AI").hide()
       $("#coged-modal-AI").show()
     }
@@ -937,15 +937,15 @@ $('#coged-task-button').click(function() {
       $('#questionnaire-ai-6-trust').html('AI ' + ai_names[task_repeat]);
     }
     else {
-      if (compare_conditions) {
-        $('#questionnaire-ai-1-trust').html('the AI');
-        $('#questionnaire-ai-2-trust').html('the AI');
-        $('#questionnaire-ai-3-trust').html('the AI');
-        $('#questionnaire-ai-4-trust').html('the AI');
-        $('#questionnaire-ai-5-trust').html('the AI');
-        $('#questionnaire-ai-6-trust').html('the AI');
-      }
-      else {
+      // if (compare_conditions) {
+      //   $('#questionnaire-ai-1-trust').html('the AI');
+      //   $('#questionnaire-ai-2-trust').html('the AI');
+      //   $('#questionnaire-ai-3-trust').html('the AI');
+      //   $('#questionnaire-ai-4-trust').html('the AI');
+      //   $('#questionnaire-ai-5-trust').html('the AI');
+      //   $('#questionnaire-ai-6-trust').html('the AI');
+      // }
+      // else {
         $('#questionnaire-ai-1-trust').css('color',ai_colors[task_repeat]);
         $('#questionnaire-ai-1-trust').html('the AI');
         $('#questionnaire-ai-2-trust').css('color',ai_colors[task_repeat]);
@@ -958,7 +958,7 @@ $('#coged-task-button').click(function() {
         $('#questionnaire-ai-5-trust').html('the AI');
         $('#questionnaire-ai-6-trust').css('color',ai_colors[task_repeat]);
         $('#questionnaire-ai-6-trust').html('the AI');
-      }
+      // }
     }
     window.scrollTo(0,0); 
     $("#questionnaire-form-1-trust")[0].reset();
@@ -1622,18 +1622,18 @@ function questionnaireTrustCallback() {
     }
     else {
       if (compare_conditions) {
-        $('#questionnaire-ai-2').html('the AI');
-        $('#questionnaire-ai-3').html('the AI');
-        $('#questionnaire-ai-4').html('the AI\'s');
-        $('#questionnaire-ai-5').html('the AI');
-        $('#questionnaire-ai-6').html('the AI');
-        $('#questionnaire-ai-6a').html('the AI');
-        $('#questionnaire-ai-7').html('the AI');
-        $('#questionnaire-ai-8').html('the AI');
+        // $('#questionnaire-ai-2').html('the AI');
+        // $('#questionnaire-ai-3').html('the AI');
+        // $('#questionnaire-ai-4').html('the AI\'s');
+        // $('#questionnaire-ai-5').html('the AI');
+        // $('#questionnaire-ai-6').html('the AI');
+        // $('#questionnaire-ai-6a').html('the AI');
+        // $('#questionnaire-ai-7').html('the AI');
+        // $('#questionnaire-ai-8').html('the AI');
         $('#questionnaire-form-8-text').html('In the box below, please describe how you chose between using the AI\'s suggestions and the AI\'s suggestions with explanations.')
 
       }
-      else {
+      // else {
       // $('#questionnaire-ai-1').css('color',ai_colors[task_repeat]);
       // $('#questionnaire-ai-1').html('the AI\'s');
       $('#questionnaire-ai-2').css('color',ai_colors[task_repeat]);
@@ -1652,7 +1652,7 @@ function questionnaireTrustCallback() {
       $('#questionnaire-ai-7').html('the AI');
       $('#questionnaire-ai-8').css('color',ai_colors[task_repeat]);
       $('#questionnaire-ai-8').html('the AI');
-    }
+    // }
     }
     window.scrollTo(0,0);
     // $("#questionnaire-form-1")[0].reset();
