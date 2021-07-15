@@ -856,7 +856,8 @@ $('#coged-task-button').click(function() {
                                        'coin': 'gold',
                                        'model_acc':curr_acc_score,
                                        'strategy': curr_reward_system,
-                                       'choice-type': curr_choose_coged[num_comparative]})
+                                       'choice-type': curr_choose_coged[num_comparative],
+                                       'coged-comparison': compare_conditions_type})
               }
               else {
                 output['costs'].push({'final cost': silver_cost_of_ai, 
@@ -865,7 +866,8 @@ $('#coged-task-button').click(function() {
                                      'coin': 'silver',
                                      'model_acc': curr_acc_score,
                                      'strategy': curr_reward_system,
-                                     'choice-type': curr_choose_coged[num_comparative]})
+                                     'choice-type': curr_choose_coged[num_comparative],
+                                      'coged-comparison': compare_conditions_type})
               }
               num_comparative +=1
               transition('task', 'coged-task')
@@ -966,7 +968,8 @@ $('#coged-task-button').click(function() {
       'balance': num_gold_credits,
       'model_acc': curr_acc_score,
       'strategy': curr_reward_system,
-      'choice-type': curr_choose_coged[num_comparative]
+      'choice-type': curr_choose_coged[num_comparative],
+      'coged-comparison': compare_conditions_type
     }
    }
    else {
@@ -979,7 +982,8 @@ $('#coged-task-button').click(function() {
       'balance': num_silver_credits,
       'model_acc': curr_acc_score,
       'strategy': curr_reward_system,
-      'choice-type': curr_choose_coged[num_comparative]
+      'choice-type': curr_choose_coged[num_comparative],
+      'coged-comparison': compare_conditions_type
     }
    }
 
@@ -1008,7 +1012,8 @@ $('#coged-task-button').click(function() {
       'balance': num_gold_credits,
       'model_acc': curr_acc_score,
       'strategy': curr_reward_system,
-      'choice-type': curr_choose_coged[num_comparative]
+      'choice-type': curr_choose_coged[num_comparative],
+      'coged-comparison': compare_conditions_type
       }
     }
     else {
@@ -1022,7 +1027,8 @@ $('#coged-task-button').click(function() {
       'balance': num_silver_credits,
       'model_acc': curr_acc_score,
       'strategy': curr_reward_system,
-      'choice-type': curr_choose_coged[num_comparative]
+      'choice-type': curr_choose_coged[num_comparative],
+      'coged-comparison': compare_conditions_type
       }
     }
 
@@ -1143,7 +1149,8 @@ function readTaskResponse() {
       'time': (question_stop_time - question_start_time) / 1000,
       'scroll': current_label,
       'model_acc': curr_acc_score,
-      'strategy': curr_reward_system
+      'strategy': curr_reward_system,
+      'coged-comparison': compare_conditions_type
     }
 
     $("#question-box").addClass('muted')
