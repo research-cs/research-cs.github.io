@@ -242,7 +242,9 @@ nav {
   vertical-align: text-bottom;
 }
 
-#reward-table-coged img {
+#reward-table-coged, #reward-table-coged-overreliance-long,
+#reward-table-coged-overreliance-short, #reward-table-coged-double-long,
+#reward-table-coged-double-short img {
   width:50%;
 }
 
@@ -1974,7 +1976,7 @@ jQuery.fn.disableFind = function(){
 		</span>
 
 		<span id="coged-modal-double"  style="display:none">
-			<br><br>When using the AI, if you answer a question correctly that the AI answered incorrectly, you will gain 5x credits offered. 
+			<br><br>When using the AI, if you answer a question correctly that the AI answered incorrectly, you will gain 10x credits offered. 
 		</span>
 
 		<span id="coged-modal-penalty"  style="display:none">
@@ -2020,7 +2022,7 @@ jQuery.fn.disableFind = function(){
 				</span>
 
 				<span id='coged-text-double-long' style="display:none">
-				When using the AI, if you answer a question correctly that the AI answered incorrectly, you will gain 5x credits offered.
+				When using the AI, if you answer a question correctly that the AI answered incorrectly, you will gain 10x credits offered.
 				</span>
 
 				<span id='coged-text-short' style="display:none">
@@ -2034,7 +2036,7 @@ jQuery.fn.disableFind = function(){
 				</span>
 
 				<span id='coged-text-double-short' style="display:none">
-				When using the AI, if you answer a question correctly that the AI answered incorrectly, you will gain 5x credits offered.
+				When using the AI, if you answer a question correctly that the AI answered incorrectly, you will gain 10x credits offered.
 				</span>
 
 				<span id='coged-text-penalty' style="display:none">
@@ -2056,7 +2058,7 @@ jQuery.fn.disableFind = function(){
 				</p>
 				<p id= "reward-table-coged-double-short" style="display:none">
 				You can also view the reward format in the table below. <br><br> 
-				<img src="https://cs.stanford.edu/people/joerke/xai/verification-short.svg">
+				<img src="https://cs.stanford.edu/people/joerke/xai/verification-10x.svg">
 				</p>
 
 				<div id='summary-coged-change-AI' style="display:none">
@@ -3464,12 +3466,13 @@ function make_input_random(json_data){
 // setting = 'short' | 'long'
 // var setting = 'long';
 
-var coged_order_temp = shuffle([['short baseline', 'short prediction'], ['short baseline', 'short xai'],
-                  ['long baseline', 'long prediction'], ['long baseline', 'long xai']]);
-// var coged_order_temp = shuffle([['short baseline', 'short xai']]);
+// var coged_order_temp = shuffle([['short baseline', 'short prediction'], ['short baseline', 'short xai'],
+//                   ['long baseline', 'long prediction'], ['long baseline', 'long xai']]);
+var coged_order_temp = shuffle([['short baseline', 'short xai']]);
 var randomness = false;
 var tutorial_task = "xai";
 var tutorial_setting = "long";
+var have_coged_phase = false;
 
 // MAKING NEW ACCURACIES
 var multi_acc_score = false;
@@ -3491,7 +3494,7 @@ if (variable_reward_system) {
   var curr_reward_system = shuffle(["normal", "double", "overreliance"])[0]
 }
 else {
-  var curr_reward_system = "normal"
+  var curr_reward_system = "double"
 }
 
 if (curr_reward_system == "double" || curr_reward_system == "overreliance") {
@@ -3510,6 +3513,7 @@ var num_comparative = 0;
 var curr_choose_coged;
 if (comparative_coged) {
   curr_choose_coged = shuffle(["human-AI", "human-forced-AI"])
+  have_coged_phase = true
 }
 else {
   curr_choose_coged = ["human-AI"]
@@ -3517,7 +3521,7 @@ else {
 
 
 // MAKING COMPARISON BETWEEN PREDICTION AND EXPLANATION
-var compare_conditions = true
+var compare_conditions = false
 var compare_conditions_type = 'human-AI';
 if (compare_conditions) {
   var coged_order_temp = shuffle([['long baseline', 'long xai', 'long prediction']])
@@ -3525,6 +3529,7 @@ if (compare_conditions) {
                                 coged_order_temp[0][2], coged_order_temp[0][2]]
   var compare_conditions_training_phase_num = 0
   var compare_conditions_type = 'Pred-XAI'
+  have_coged_phase = true
 }
 
 if (randomness == true) {
@@ -3534,9 +3539,16 @@ else{
   var input = make_input(json_data);
 }
 
+if (have_coged_phase) {
 
-var payment = 6;
-var time = 30;
+}
+else {
+
+}
+
+
+var payment = 4;
+var time = 20;
 // within subjects
 // var href = "https://drive.google.com/file/d/1ospZxTbEvnh_5LNzlIY8Puqvj8WRoQ2t/view?usp=sharing";
 
@@ -3611,8 +3623,11 @@ if (comparative_coged) {
 else if (compare_conditions) {
   var progress_bar_total_clicks = 57
 }
-else {
+else if (have_coged_phase) {
   var progress_bar_total_clicks = 50
+}
+else {
+  var progress_bar_total_clicks = 39
 }
 var progress_bar_increments = (1 / progress_bar_total_clicks) * 100;
 var progress_bar_current = progress_bar_increments;
@@ -3634,6 +3649,13 @@ if (anthropomorphic == false) {
 
 var ai_condition = input['coged-order'][task_repeat][1].split(" ");
 var baseline_condition = input['coged-order'][task_repeat][0].split(" ");
+
+if (have_coged_phase) {
+  var coged_available = 'yes'
+}
+else {
+  var coged_available = 'no'
+}
 
 
 var current_label;
