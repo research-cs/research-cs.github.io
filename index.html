@@ -3517,12 +3517,14 @@ else {
 
 
 // MAKING COMPARISON BETWEEN PREDICTION AND EXPLANATION
-var compare_conditions = true;
+var compare_conditions = true
+var compare_conditions_type = 'human-AI';
 if (compare_conditions) {
   var coged_order_temp = shuffle([['long baseline', 'long xai', 'long prediction']])
   var training_phase_order_ai_pred = [coged_order_temp[0][2], coged_order_temp[0][2], coged_order_temp[0][2], 
                                 coged_order_temp[0][2], coged_order_temp[0][2]]
   var compare_conditions_training_phase_num = 0
+  var compare_conditions_type = 'Pred-XAI'
 }
 
 if (randomness == true) {
