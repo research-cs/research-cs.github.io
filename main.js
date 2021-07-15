@@ -1685,7 +1685,8 @@ function questionnaireCallback() {
                             'coin': 'gold',
                             'model_acc':curr_acc_score,
                             'strategy': curr_reward_system,
-                            'choice-type': curr_choose_coged[num_comparative]})
+                            'choice-type': curr_choose_coged[num_comparative],
+                            'coged-comparison': compare_conditions_type})
    }
    else {
      output['costs'].push({'final cost': silver_cost_of_ai, 
@@ -1694,7 +1695,8 @@ function questionnaireCallback() {
                           'coin': 'silver',
                           'model_acc': curr_acc_score,
                           'strategy': curr_reward_system,
-                          'choice-type': curr_choose_coged[num_comparative]})
+                          'choice-type': curr_choose_coged[num_comparative],
+                          'coged-comparison': compare_conditions_type})
    }
 
     if (task_repeat < max_repeat) {
