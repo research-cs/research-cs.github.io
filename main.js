@@ -618,7 +618,12 @@ function runTraining() {
   $('#training-intermediate-button').click(function() {
     training_phase = false;
     transition('training-intermediate', 'task');
-    renderTask(training_phase_order_ai[0], input['training-AI'][0], trainingCallback)
+    if (compare_conditions && compare_conditions_training_phase_num == 2) {
+      renderTask(training_phase_order_ai[0], input['training-AI-compare'][0], trainingCallback)
+    }
+    else {
+      renderTask(training_phase_order_ai[0], input['training-AI'][0], trainingCallback)
+    }
   })
 }
 
