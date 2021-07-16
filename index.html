@@ -1232,6 +1232,7 @@ jQuery.fn.disableFind = function(){
 				<p> <strong>Qualifications: </strong>This study is best viewed on a desktop computer and with the Google Chrome browser. </p>
 <!-- 				<p> <strong>Qualifications: </strong>If you do not pass the comprehension check, you will not be allowed to complete the study, so please make sure to pay attention to instructions. </p>
  -->
+ 			<p> <strong>ATTENTION:  DO NOT DO THIS STUDY IF YOU HAVE DONE IT ALREADY. THE STUDY IS THE SAME AND YOU WILL BE REJECTED. </strong></p>
 			</div>
 		</div>
 
@@ -3534,9 +3535,12 @@ if (compare_conditions) {
 }
 
 
-var study_3 = false
+var study_3 = true
 if (study_3) {
-  var study_3_type = shuffle(['human-forced-AI', 'Pred-XAI'])[0]
+  // var study_3_type = shuffle(['human-forced-AI', 'Pred-XAI'])[0]
+  var study_3_type = shuffle(['Pred-XAI'])[0]
+  // comment this out, just for debug
+  // study_3_type = 'human-forced-AI'
   if (study_3_type == 'Pred-XAI') {
     var coged_order_temp = shuffle([['long baseline', 'long xai', 'long prediction']])
     var training_phase_order_ai_pred = [coged_order_temp[0][2], coged_order_temp[0][2], coged_order_temp[0][2], 
