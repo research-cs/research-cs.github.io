@@ -3467,9 +3467,9 @@ function make_input_random(json_data){
 // setting = 'short' | 'long'
 // var setting = 'long';
 
-// var coged_order_temp = shuffle([['short baseline', 'short prediction'], ['short baseline', 'short xai'],
-//                   ['long baseline', 'long prediction'], ['long baseline', 'long xai']]);
-var coged_order_temp = shuffle([['short baseline', 'short xai']]);
+var coged_order_temp = shuffle([['short baseline', 'short prediction'], ['short baseline', 'short xai'],
+                  ['long baseline', 'long prediction'], ['long baseline', 'long xai']]);
+// var coged_order_temp = shuffle([['short baseline', 'short xai']]);
 var randomness = false;
 var tutorial_task = "xai";
 var tutorial_setting = "long";
@@ -3490,12 +3490,12 @@ if (available_acc_score == false) {
 
 // MAKING NEW REWARD SYSTEM
 // Types: Normal, Double, Overreliance
-var variable_reward_system = true;
+var variable_reward_system = false;
 if (variable_reward_system) {
   var curr_reward_system = shuffle(["double", "overreliance"])[0]
 }
 else {
-  var curr_reward_system = "normal"
+  var curr_reward_system = "uniform"
 }
 
 if (curr_reward_system == "double" || curr_reward_system == "overreliance") {
