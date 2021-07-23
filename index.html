@@ -3313,8 +3313,11 @@ function make_input_random(json_data){
 // setting = 'short' | 'long'
 // var setting = 'long';
 
-var coged_order_temp = shuffle([['short baseline', 'short prediction'], ['short baseline', 'short xai'],
-                  ['long baseline', 'long prediction'], ['long baseline', 'long xai']]);
+var coged_order_temp = shuffle([
+  // ['short baseline', 'short prediction'], ['short baseline', 'short xai'],
+                  ['long baseline', 'long prediction'], 
+                  // ['long baseline', 'long xai']
+                  ]);
 
 var randomness = false;
 var tutorial_task = "xai";
