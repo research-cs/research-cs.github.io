@@ -188,6 +188,7 @@ function demographicsCallback() {
      }
      else {
         $('#gold-credits-box').show()
+        $('#post-demographics-long-modal').modal('toggle')
      }
     // uncomment the following for dummy task
     // transition("demographics", "submission");
@@ -296,7 +297,8 @@ function runTutorial() {
     // first transition from choice to task
     if (this._currentStep == 2) {
       transition("tutorial-choose","task");
-      renderTask(tutorial_setting + " " + 'baseline', input['tutorial'][0])
+      // renderTask(tutorial_setting + " " + 'baseline', input['tutorial'][0])
+      renderTask(tutorial_setting + " " + 'baseline', input['tutorial'][0], dimensions['tutorial'][0])
       $('#answer-question').attr('disabled', true)
       $('#q1,#q2,#q3,#q4').attr('disabled', true)
     // transition from task back to choice
@@ -306,7 +308,7 @@ function runTutorial() {
     // second transition from choice to task
     } else if (this._currentStep == 6) {
       transition("tutorial-choose","task");
-      renderTask(tutorial_setting + " " + tutorial_task, input['tutorial'][0])
+      renderTask(tutorial_setting + " " + tutorial_task, input['tutorial'][0], dimensions['tutorial'][0])
       $('#answer-question').attr('disabled', true)
       $('#q1,#q2,#q3,#q4').attr('disabled', true)
       // var targetElement = $('.main-highlight').parent()[0]
@@ -548,7 +550,8 @@ function runTraining() {
       else {
         training_phase_count += 1;
         $('.alert-link').unbind('click').click(function() {
-          renderTask(training_phase_order[training_phase_count], input['training'][training_phase_count]);
+          renderTask(training_phase_order[training_phase_count], input['training'][0][training_phase_count], 
+            dimensions['training'][0][training_phase_count]);
           progress();
         })
       }
@@ -557,7 +560,7 @@ function runTraining() {
 
   $('#training-start-button').click(function() {
     transition('training-start', 'task');
-    renderTask(training_phase_order[0], input['training'][0], trainingCallback)
+    renderTask(training_phase_order[0], input['training'][0][0], dimensions['training'][0][0], trainingCallback)
 
   })
 }
@@ -605,10 +608,12 @@ function runTraining() {
         training_phase_count_ai += 1;
         $('.alert-link').unbind('click').click(function() {
           if (compare_conditions && compare_conditions_training_phase_num == 2) {
-            renderTask(training_phase_order_ai[training_phase_count_ai], input['training-AI-compare'][training_phase_count_ai]);
+            renderTask(training_phase_order_ai[training_phase_count_ai], input['training-AI-compare'][training_phase_count_ai], 
+              dimensions['training-AI-compare'][0][training_phase_count_ai]);
           }
           else {
-            renderTask(training_phase_order_ai[training_phase_count_ai], input['training-AI'][training_phase_count_ai]);
+            renderTask(training_phase_order_ai[training_phase_count_ai], input['training-AI'][0][training_phase_count_ai],
+              dimensions['training-AI'][0][training_phase_count_ai]);
           }
           progress();
         })
@@ -619,10 +624,10 @@ function runTraining() {
     training_phase = false;
     transition('training-intermediate', 'task');
     if (compare_conditions && compare_conditions_training_phase_num == 2) {
-      renderTask(training_phase_order_ai[0], input['training-AI-compare'][0], trainingCallback)
+      renderTask(training_phase_order_ai[0], input['training-AI-compare'][0][0], dimensions['training-AI-compare'][0][0], trainingCallback)
     }
     else {
-      renderTask(training_phase_order_ai[0], input['training-AI'][0], trainingCallback)
+      renderTask(training_phase_order_ai[0], input['training-AI'][0][0], dimensions['training-AI'][0][0], trainingCallback)
     }
   })
 }
@@ -807,7 +812,8 @@ function runTask() {
     else {
       $('.alert-link').unbind('click').click(function() {
         collaboration_count +=1;
-        renderTask(input['coged-order'][task_repeat][1], input['collaboration'][task_repeat][collaboration_count], collaborationCallBack);
+        renderTask(input['coged-order'][task_repeat][1], input['collaboration'][0][collaboration_count], 
+          dimensions['collaboration'][0][collaboration_count], collaborationCallBack);
         progress();
          });
     }
@@ -868,7 +874,7 @@ $('#coged-task-button').click(function() {
                                        'coin': 'gold',
                                        'model_acc':curr_acc_score,
                                        'strategy': curr_reward_system,
-                                       'choice-type': curr_choose_coged[num_comparative],
+                                       // 'choice-type': curr_choose_coged[num_comparative],
                                        'coged-comparison': compare_conditions_type,
                                        'coged-available': coged_available})
               }
@@ -879,7 +885,7 @@ $('#coged-task-button').click(function() {
                                      'coin': 'silver',
                                      'model_acc': curr_acc_score,
                                      'strategy': curr_reward_system,
-                                     'choice-type': curr_choose_coged[num_comparative],
+                                     // 'choice-type': curr_choose_coged[num_comparative],
                                       'coged-comparison': compare_conditions_type,
                                     'coged-available': coged_available})
               }
@@ -989,7 +995,7 @@ $('#coged-task-button').click(function() {
       'balance': num_gold_credits,
       'model_acc': curr_acc_score,
       'strategy': curr_reward_system,
-      'choice-type': curr_choose_coged[num_comparative],
+      // 'choice-type': curr_choose_coged[num_comparative],
       'coged-comparison': compare_conditions_type,
       'coged-available': coged_available
     }
@@ -1004,7 +1010,7 @@ $('#coged-task-button').click(function() {
       'balance': num_silver_credits,
       'model_acc': curr_acc_score,
       'strategy': curr_reward_system,
-      'choice-type': curr_choose_coged[num_comparative],
+      // 'choice-type': curr_choose_coged[num_comparative],
       'coged-comparison': compare_conditions_type,
       'coged-available': coged_available
     }
@@ -1018,7 +1024,8 @@ $('#coged-task-button').click(function() {
     gold_cost_of_ai = Math.round(average(gold_lower_bound, gold_upper_bound));
     silver_cost_of_ai = Math.round(average(silver_lower_bound, silver_upper_bound));
     transition(choose_type,"task");
-    renderTask(input['coged-order'][task_repeat][0], input['coged'][num_comparative][coged_phase_count], taskCallBack);
+    renderTask(input['coged-order'][task_repeat][0], input['coged'][0][coged_phase_count], 
+      dimensions['coged'][0][coged_phase_count], taskCallBack);
     coged_phase_count += 1;
   });
 
@@ -1035,7 +1042,7 @@ $('#coged-task-button').click(function() {
       'balance': num_gold_credits,
       'model_acc': curr_acc_score,
       'strategy': curr_reward_system,
-      'choice-type': curr_choose_coged[num_comparative],
+      // 'choice-type': curr_choose_coged[num_comparative],
       'coged-comparison': compare_conditions_type,
       'coged-available': coged_available
       }
@@ -1051,7 +1058,7 @@ $('#coged-task-button').click(function() {
       'balance': num_silver_credits,
       'model_acc': curr_acc_score,
       'strategy': curr_reward_system,
-      'choice-type': curr_choose_coged[num_comparative],
+      // 'choice-type': curr_choose_coged[num_comparative],
       'coged-comparison': compare_conditions_type,
       'coged-available': coged_available
       }
@@ -1065,7 +1072,8 @@ $('#coged-task-button').click(function() {
     gold_cost_of_ai = Math.round(average(gold_lower_bound, gold_upper_bound));
     silver_cost_of_ai = Math.round(average(silver_lower_bound, silver_upper_bound));
     transition(choose_type, "task");
-    renderTask(input['coged-order'][task_repeat][1], input['coged'][num_comparative][coged_phase_count], taskCallBack);
+    renderTask(input['coged-order'][task_repeat][1], input['coged'][num_comparative][coged_phase_count], 
+      dimensions['coged'][0][coged_phase_count], taskCallBack);
     coged_phase_count += 1;
   });
 
@@ -1075,7 +1083,8 @@ $('#coged-task-button').click(function() {
     // output['collaboration'].push([])
 
     transition('begin-task', 'task');
-    renderTask(input['coged-order'][task_repeat][1], input['collaboration'][task_repeat][collaboration_count], collaborationCallBack)
+    renderTask(input['coged-order'][task_repeat][1], input['collaboration'][0][collaboration_count], 
+      dimensions['collaboration'][0][collaboration_count], collaborationCallBack)
     collaboration_phase = true;
     coged_phase = false;
   })
@@ -1098,7 +1107,8 @@ $('#coged-task-button').click(function() {
     gold_cost_of_ai = Math.round(average(gold_lower_bound, gold_upper_bound));
     silver_cost_of_ai = Math.round(average(silver_lower_bound, silver_upper_bound));
     transition('repeat-task', 'task');
-    renderTask(input['coged-order'][task_repeat][1], input['collaboration'][task_repeat][collaboration_count], collaborationCallBack)
+    renderTask(input['coged-order'][task_repeat][1], input['collaboration'][0][collaboration_count], 
+      dimensions['collaboration'][0][collaboration_count], collaborationCallBack)
   })
 
   // $('#end-task-button').click(function() {
@@ -1139,8 +1149,8 @@ function readTaskResponse() {
   let labels = ['#q1-label', '#q2-label', '#q3-label', '#q4-label']
   let checked_question = false;
   let checked_question_label = null;
-  var correct_label = current_question['correct_response'];
-  var model_response = current_question['model_response']
+  var correct_label = current_question['possible_answers'][current_question_2['c_r']];
+  var model_response = current_question['possible_answers'][current_question_2['m_r']];
   for (let i = 0; i < questions.length; i++) {
     var input = $(questions[i])
     var label = $(labels[i])
@@ -1345,11 +1355,13 @@ function readTaskResponse() {
 }
 
 var current_question;
+var current_question_2;
 var current_condition;
 var current_setting;
-function renderTask(condition, data, callback=null) {
+function renderTask(condition, data, data_2, callback=null) {
   curr = condition.split(" ");
   current_question = data;
+  current_question_2 = data_2
   current_condition = curr[1];
   current_setting = curr[0];
 
@@ -1410,7 +1422,8 @@ function renderTask(condition, data, callback=null) {
   $('#question-text').html(data['interface_question'])
   disable($('#question-text'))
 
-  $('#model-prediction').html(data['interface_model_response'])
+  // $('#model-prediction').html(data['interface_model_response'])
+  $('#model-prediction').html(data['interface_possible_answers'][data_2['m_r']])
   disable($('#model-prediction'))
   $('#confidence').html(data['confidence'])
 
@@ -1713,7 +1726,7 @@ function questionnaireCallback() {
                             'coin': 'gold',
                             'model_acc':curr_acc_score,
                             'strategy': curr_reward_system,
-                            'choice-type': curr_choose_coged[num_comparative],
+                            // 'choice-type': curr_choose_coged[num_comparative],
                             'coged-comparison': compare_conditions_type,
                           'coged-available': coged_available})
    }
@@ -1724,7 +1737,7 @@ function questionnaireCallback() {
                           'coin': 'silver',
                           'model_acc': curr_acc_score,
                           'strategy': curr_reward_system,
-                          'choice-type': curr_choose_coged[num_comparative],
+                          // 'choice-type': curr_choose_coged[num_comparative],
                           'coged-comparison': compare_conditions_type,
                         'coged-available': coged_available})
    }
