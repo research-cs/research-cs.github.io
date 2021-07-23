@@ -1232,8 +1232,8 @@ jQuery.fn.disableFind = function(){
 				<p> <strong>Qualifications: </strong>This study is best viewed on a desktop computer and with the Google Chrome browser. </p>
 <!-- 				<p> <strong>Qualifications: </strong>If you do not pass the comprehension check, you will not be allowed to complete the study, so please make sure to pay attention to instructions. </p>
  -->
- 			<p> <strong>ATTENTION:  DO NOT DO THIS STUDY IF YOU HAVE DONE IT ALREADY. THE STUDY IS THE SAME AND YOU WILL BE REJECTED. </strong></p>
-			</div>
+<!--  			<p> <strong>ATTENTION:  DO NOT DO THIS STUDY IF YOU HAVE DONE IT ALREADY. THE STUDY IS THE SAME AND YOU WILL BE REJECTED. </strong></p>
+ -->			</div>
 		</div>
 
 		<h3>Participant Rights</h3>
@@ -1371,6 +1371,25 @@ jQuery.fn.disableFind = function(){
 		</div>
 
 	</div>
+</div>
+
+<div class="modal fade" id="post-demographics-long-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Attention!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	You have been placed in a longer version of the study, so the study will take you an extra 10 minutes. We will give you an additional $1 bonus to compensate for this extra time. 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
     <div class='row' id='tutorial-start' style='display:none'>
 	<div class='col-12'>
@@ -3273,6 +3292,16 @@ jQuery.fn.disableFind = function(){
  <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/data.json"></script> -->
 <!-- <script type="text/javascript" src="EasyTurk/templates/data.json"></script>
  -->
+
+ <!-- Multiple ways of accessing data_2.json
+      First is by the github pages, 
+      Second is by my Stanford website, 
+      Third is locally -->
+  <script type="text/javascript" src="https://research-cs.github.io/data_2.json"></script>
+ <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/data_2.json"></script> -->
+<!-- <script type="text/javascript" src="EasyTurk/templates/data_2.json"></script>
+ -->
+
 <script type="text/javascript">
 // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 // Randomize array in-place using Durstenfeld shuffle algorithm 
@@ -3284,6 +3313,19 @@ function shuffle(array) {
         array[j] = temp;
     }
     return array
+}
+
+function shuffle_multiple(array, array_2) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+        var temp_2 = array_2[i];
+        array_2[i] = array_2[j];
+        array_2[j] = temp_2;
+    }
+    return [array, array_2]
 }
 
 function shuffle_matrix(array) {
@@ -3355,98 +3397,139 @@ var randomize = true;
 // }
 
 function make_input(json_data) {
-  var model_correct = shuffle(json_data['Model Correct'])
-  var model_incorrect = shuffle(json_data['Model Incorrect'])
+  var temp_data = shuffle_multiple(json_data['Model Correct'], json_data_2['Model Correct'])
+  var model_correct = temp_data[0]
+  var width = temp_data[1]
+  var temp_data = shuffle_multiple(json_data['Model Incorrect'], json_data_2['Model Incorrect'])
+  var model_incorrect = temp_data[0]
+  var height = temp_data[1]
   // var model_correct = json_data['Model Correct']
   // var model_incorrect = json_data['Model Incorrect']
   var json_input = {
-  'tutorial': [json_data['Tutorial']],
+  'tutorial': [json_data['Tutorial'], json_data_2['Tutorial']],
   'training': 
-  [model_correct[0], model_correct[1], model_correct[3]],
+  [[model_correct[0], model_correct[1], model_correct[3]]],
   'training-AI': 
-  [model_correct[4],model_correct[5], model_correct[6], model_correct[7], model_incorrect[0]],
+  [[model_correct[4],model_correct[5], model_correct[6], model_correct[7], model_incorrect[0]]],
   'coged': [
-              [model_correct[8], model_correct[9], model_correct[10], model_correct[11], model_incorrect[1]],
-              [model_correct[12], model_correct[13], model_correct[14], model_correct[15], model_incorrect[2]],
+              [model_correct[8], model_correct[9], model_correct[10], model_correct[11], model_incorrect[1]]
+              // [model_correct[12], model_correct[13], model_correct[14], model_correct[15], model_incorrect[2]],
+              // [width[12], width[13], width[14], width[15], height[2]],
+            ],
+  'coged-order': [coged_order_temp[0]],
+  //[['short baseline', 'short prediction'], ['short baseline', 'short xai'],
+                  //['long baseline', 'long prediction'], ['long baseline', 'long xai']],
+  'collaboration': [
+              
+               [model_correct[16], model_correct[17], model_correct[18], model_correct[19], model_correct[20], model_correct[21], model_correct[22], model_correct[23], 
+               // model_correct[24], model_correct[25], model_correct[26], model_correct[27], model_correct[28], model_correct[29], model_correct[30], model_correct[31], 
+               // model_incorrect[3], model_incorrect[4], 
+               model_incorrect[5], model_incorrect[6]
+               ],
+              ]
+}
+var dimensions = {
+  'tutorial': [json_data_2['Tutorial']],
+  'training': 
+  [[width[0], width[1], width[3]]],
+  'training-AI': 
+    [[width[4],width[5], width[6], width[7], height[0]]],
+  'coged': [
+              // [model_correct[12], model_correct[13], model_correct[14], model_correct[15], model_incorrect[2]],
+              [width[8], width[9], width[10], width[11], height[1]]
+              // [width[12], width[13], width[14], width[15], height[2]],
             ],
   'coged-order': [coged_order_temp[0]],
   //[['short baseline', 'short prediction'], ['short baseline', 'short xai'],
                   //['long baseline', 'long prediction'], ['long baseline', 'long xai']],
   'collaboration': [
                    // [model_correct[16]]
-                 [model_correct[16], model_correct[17], model_correct[18], model_correct[19], model_correct[20], model_correct[21], model_correct[22], model_correct[23], 
-               model_correct[24], model_correct[25], model_correct[26], model_correct[27], model_correct[28], model_correct[29], model_correct[30], model_correct[31], 
-               model_incorrect[3], model_incorrect[4], model_incorrect[5], model_incorrect[6]]
+               [width[16], width[17], width[18], width[19], width[20], width[21], width[22], width[23], 
+               // width[24], width[25], width[26], width[27], width[28], width[29], width[30], width[31], 
+               // height[3], height[4], 
+               height[5], height[6]
+               ]
               ]
 }
-  json_input['training'] = shuffle(json_input['training'])
-  json_input['training-AI'] = shuffle(json_input['training-AI'])
-  json_input['coged'] = shuffle_matrix(json_input['coged'])
-  json_input['collaboration'] = shuffle_matrix(json_input['collaboration'])
-  json_input['coged-order'] = shuffle(json_input['coged-order']);
+  temp_data = shuffle_multiple(json_input['training'][0], dimensions['training'][0])
+  json_input['training'][0] = temp_data[0]
+  dimensions['training'][0] = temp_data[1]
+
+  temp_data = shuffle_multiple(json_input['training-AI'][0], dimensions['training-AI'][0])
+  json_input['training-AI'][0] = temp_data[0]
+  dimensions['training-AI'][0] = temp_data[1]
+
+  temp_data = shuffle_multiple(json_input['coged'][0], dimensions['coged'][0])
+  json_input['coged'][0] = temp_data[0]
+  dimensions['coged'][0] = temp_data[1]
+
+  temp_data = shuffle_multiple(json_input['collaboration'][0], dimensions['collaboration'][0])
+  json_input['collaboration'][0] = temp_data[0]
+  dimensions['collaboration'][0] = temp_data[1]
+  // json_input['coged-order'] = shuffle_multiple(json_input['coged-order']);
   if (compare_conditions) {
     json_input['training-AI-compare'] = json_input['coged'][1]
   }
-  return json_input
+  return [json_input, dimensions]
 }
 
 
-function make_input_random(json_data){
-  var model_data_final = {
-    'Tutorial': 0,
-    'Model Correct': [],
-    'Model Incorrect': []
-  }
-  model_data_final['Tutorial'] = {
-          'id': json_data['Tutorial']['id'],
-          'question': json_data['Tutorial']['question'],
-          'interface_question': json_data['Tutorial']['interface_question'],
-          'possible_answers': json_data['Tutorial']['possible_answers'],
-          'interface_possible_answers': json_data['Tutorial']['interface_possible_answers'],
-          'model_response': json_data['Tutorial']['correct_response'],
-          'interface_model_response': json_data['Tutorial']['interface_correct_response'],
-          'correct_response': json_data['Tutorial']['correct_response'],
-          'interface_correct_response': json_data['Tutorial']['interface_correct_response'],
-          'text': json_data['Tutorial']['text'],
-          'short_text': [json_data['Tutorial']['short_text']],
-          'long_text': [0,1,2,3,4]
-    }
+// function make_input_random(json_data){
+//   var model_data_final = {
+//     'Tutorial': 0,
+//     'Model Correct': [],
+//     'Model Incorrect': []
+//   }
+//   model_data_final['Tutorial'] = {
+//           'id': json_data['Tutorial']['id'],
+//           'question': json_data['Tutorial']['question'],
+//           'interface_question': json_data['Tutorial']['interface_question'],
+//           'possible_answers': json_data['Tutorial']['possible_answers'],
+//           'interface_possible_answers': json_data['Tutorial']['interface_possible_answers'],
+//           'model_response': json_data['Tutorial']['correct_response'],
+//           'interface_model_response': json_data['Tutorial']['interface_correct_response'],
+//           'correct_response': json_data['Tutorial']['correct_response'],
+//           'interface_correct_response': json_data['Tutorial']['interface_correct_response'],
+//           'text': json_data['Tutorial']['text'],
+//           'short_text': [json_data['Tutorial']['short_text']],
+//           'long_text': [0,1,2,3,4]
+//     }
 
-  var model_data = shuffle(json_data['Model'])
-  var num_incorrect = 0;
-  for (let i = 0; i < model_data.length; i++){
-    if (i < 12) {
-      var shuffled_model_response = shuffle(model_data[i]['possible_answers_incorrect_w_interface_and_short_text'])
-      var model_response = shuffled_model_response[0][0]
-      var interface_model_response = shuffled_model_response[0][1]
-      var short_text = shuffled_model_response[0][2]
-      model_data[i]['text'][model_data[i]['short_text']] = short_text
-      var dict_name = 'Model Incorrect'
-    }
-    else {
-      var model_response = model_data[i]['correct_response']
-      var interface_model_response = model_data[i]['interface_correct_response']
-      var short_text = model_data[i]['short_text']
-      var dict_name = 'Model Correct'
-    }
+//   var model_data = shuffle(json_data['Model'])
+//   var num_incorrect = 0;
+//   for (let i = 0; i < model_data.length; i++){
+//     if (i < 12) {
+//       var shuffled_model_response = shuffle(model_data[i]['possible_answers_incorrect_w_interface_and_short_text'])
+//       var model_response = shuffled_model_response[0][0]
+//       var interface_model_response = shuffled_model_response[0][1]
+//       var short_text = shuffled_model_response[0][2]
+//       model_data[i]['text'][model_data[i]['short_text']] = short_text
+//       var dict_name = 'Model Incorrect'
+//     }
+//     else {
+//       var model_response = model_data[i]['correct_response']
+//       var interface_model_response = model_data[i]['interface_correct_response']
+//       var short_text = model_data[i]['short_text']
+//       var dict_name = 'Model Correct'
+//     }
 
-    model_data_final[dict_name].push({
-          'id': model_data[i]['id'],
-          'question': model_data[i]['question'],
-          'interface_question': model_data[i]['interface_question'],
-          'possible_answers': model_data[i]['possible_answers'],
-          'interface_possible_answers': model_data[i]['interface_possible_answers'],
-          'model_response': model_response,
-          'interface_model_response': interface_model_response,
-          'correct_response': model_data[i]['correct_response'],
-          'interface_correct_response': model_data[i]['interface_correct_response'],
-          'text': model_data[i]['text'],
-          'short_text': model_data[i]['short_text'],
-          'long_text': [0,1,2,3,4]
-    })
-  }
-    return make_input(model_data_final)
-}
+//     model_data_final[dict_name].push({
+//           'id': model_data[i]['id'],
+//           'question': model_data[i]['question'],
+//           'interface_question': model_data[i]['interface_question'],
+//           'possible_answers': model_data[i]['possible_answers'],
+//           'interface_possible_answers': model_data[i]['interface_possible_answers'],
+//           'model_response': model_response,
+//           'interface_model_response': interface_model_response,
+//           'correct_response': model_data[i]['correct_response'],
+//           'interface_correct_response': model_data[i]['interface_correct_response'],
+//           'text': model_data[i]['text'],
+//           'short_text': model_data[i]['short_text'],
+//           'long_text': [0,1,2,3,4]
+//     })
+//   }
+//     return make_input(model_data_final)
+// }
 
 
 
@@ -3467,9 +3550,11 @@ function make_input_random(json_data){
 // var task = "xai";
 // setting = 'short' | 'long'
 // var setting = 'long';
-
-var coged_order_temp = shuffle([['short baseline', 'short prediction'], ['short baseline', 'short xai'],
-                  ['long baseline', 'long prediction'], ['long baseline', 'long xai']]);
+var coged_order_temp = shuffle([
+  // ['short baseline', 'short prediction'], ['short baseline', 'short xai'],
+                  ['long baseline', 'long prediction']
+                  // , ['long baseline', 'long xai']
+                  ]);
 // var coged_order_temp = shuffle([['short baseline', 'short xai']]);
 var randomness = false;
 var tutorial_task = "xai";
@@ -3567,13 +3652,15 @@ if (randomness == true) {
 }
 else{
   var input = make_input(json_data);
+  var dimensions = input[1]
+  var input = input[0]
 }
 
 
 
 
-var payment = 6;
-var time = 30;
+var payment = 4;
+var time = 20;
 // within subjects
 // var href = "https://drive.google.com/file/d/1ospZxTbEvnh_5LNzlIY8Puqvj8WRoQ2t/view?usp=sharing";
 
@@ -3652,7 +3739,8 @@ else if (have_coged_phase) {
   var progress_bar_total_clicks = 50
 }
 else {
-  var progress_bar_total_clicks = 39
+  // var progress_bar_total_clicks = 39
+  var progress_bar_total_clicks = 29
 }
 var progress_bar_increments = (1 / progress_bar_total_clicks) * 100;
 var progress_bar_current = progress_bar_increments;
@@ -3713,10 +3801,10 @@ var choose_gold_img_2 = choose_[11]
       First is by the github pages, 
       Second is by my Stanford website, 
       Third is locally  -->
- <script type="text/javascript" src="https://research-cs.github.io/main.js"></script>
- 
+<!--  <script type="text/javascript" src="https://research-cs.github.io/main.js"></script>
+ --> 
  <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/js/main.js"></script> -->
-<!-- <script type="text/javascript" src="EasyTurk/templates/js/main.js"></script>
- --></div>
+<script type="text/javascript" src="EasyTurk/templates/js/main.js"></script>
+</div>
 </body>
 </html>

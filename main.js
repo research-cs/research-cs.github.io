@@ -188,7 +188,8 @@ function demographicsCallback() {
      }
      else {
         $('#gold-credits-box').show()
-        $('#post-demographics-long-modal').modal('toggle')
+        // uncomment if you want to have a modal for the long task 
+        // $('#post-demographics-long-modal').modal('toggle')
      }
     // uncomment the following for dummy task
     // transition("demographics", "submission");
@@ -1884,7 +1885,8 @@ function feedbackCallback() {
   $('#progress-text').html(progress_bar_text[progress_num]);
     progress_num += 1;
   if (ai_condition[0] == 'long') {
-      $('#long-extra-bonus').css('display','inline-block')
+      // uncomment here if you want to have an extra bonus for long
+      // $('#long-extra-bonus').css('display','inline-block')
       $('#total-bonus-text').html(num_gold_credits + ' gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> in bonus.')
     }
   else {
