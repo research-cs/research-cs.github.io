@@ -1881,6 +1881,7 @@ function repeatTask(condition, id ='switch-tasks') {
 
 function feedbackCallback() {
   output['feedback'] = $('#feedbackform').val();
+  progress_bar_current += (11 * progress_bar_increments)
   transition("feedback","submission");
   $('#progress-text').html(progress_bar_text[progress_num]);
     progress_num += 1;
