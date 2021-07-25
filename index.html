@@ -3288,19 +3288,19 @@ jQuery.fn.disableFind = function(){
       First is by the github pages, 
       Second is by my Stanford website, 
       Third is locally -->
-  <script type="text/javascript" src="https://research-cs.github.io/data.json"></script>
- <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/data.json"></script> -->
-<!-- <script type="text/javascript" src="EasyTurk/templates/data.json"></script>
- -->
+<!--   <script type="text/javascript" src="https://research-cs.github.io/data.json"></script>
+ --> <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/data.json"></script> -->
+<script type="text/javascript" src="EasyTurk/templates/data.json"></script>
+
 
  <!-- Multiple ways of accessing data_2.json
       First is by the github pages, 
       Second is by my Stanford website, 
       Third is locally -->
-  <script type="text/javascript" src="https://research-cs.github.io/data_2.json"></script>
- <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/data_2.json"></script> -->
-<!-- <script type="text/javascript" src="EasyTurk/templates/data_2.json"></script>
- -->
+<!--   <script type="text/javascript" src="https://research-cs.github.io/data_2.json"></script>
+ --> <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/data_2.json"></script> -->
+<script type="text/javascript" src="EasyTurk/templates/data_2.json"></script>
+
 
 <script type="text/javascript">
 // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
@@ -3408,7 +3408,7 @@ function make_input(json_data) {
   var json_input = {
   'tutorial': [json_data['Tutorial'], json_data_2['Tutorial']],
   'training': 
-  [[model_correct[0], model_correct[1], model_correct[3]]],
+  [[model_correct[0], model_correct[1], model_incorrect[2]]],
   'training-AI': 
   [[model_correct[4],model_correct[5], model_correct[6], model_correct[7], model_incorrect[0]]],
   'coged': [
@@ -3431,7 +3431,7 @@ function make_input(json_data) {
 var dimensions = {
   'tutorial': [json_data_2['Tutorial']],
   'training': 
-  [[width[0], width[1], width[3]]],
+  [[width[0], width[1], height[2]]],
   'training-AI': 
     [[width[4],width[5], width[6], width[7], height[0]]],
   'coged': [
@@ -3659,8 +3659,8 @@ else{
 
 
 
-var payment = 4;
-var time = 20;
+var payment = 5;
+var time = 25;
 // within subjects
 // var href = "https://drive.google.com/file/d/1ospZxTbEvnh_5LNzlIY8Puqvj8WRoQ2t/view?usp=sharing";
 
@@ -3801,10 +3801,10 @@ var choose_gold_img_2 = choose_[11]
       First is by the github pages, 
       Second is by my Stanford website, 
       Third is locally  -->
- <script type="text/javascript" src="https://research-cs.github.io/main.js"></script>
- 
+<!--  <script type="text/javascript" src="https://research-cs.github.io/main.js"></script>
+ --> 
  <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/js/main.js"></script> -->
-<!-- <script type="text/javascript" src="EasyTurk/templates/js/main.js"></script>
- --></div>
+<script type="text/javascript" src="EasyTurk/templates/js/main.js"></script>
+</div>
 </body>
 </html>
