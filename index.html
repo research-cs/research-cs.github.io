@@ -1727,8 +1727,10 @@ jQuery.fn.disableFind = function(){
 			<div class="card-body">			 					
 <!--  					<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI, which is <span id='training-ai-acc'></span> accurate. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</strong> <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
  --> 				
-  			<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> <span id = 'training-same-AI-text' style="display:none">This is the same AI you used previously. </span><span id = 'xai-compare-training' style="display:none">The AI will now show you <span class='main-highlight'>explanations</span>.</strong></span> <br><br>
+  			<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> <span id = 'training-same-AI-text' style="display:none">This is the same AI you used previously. </span><span id = 'xai-compare-training' style="display:none">The AI will now show you <span class='main-highlight'>explanations</span>.</strong></span> 
 
+<!--   				<br><br>
+ -->
   			<span id="training-credits-double" style="display:none"><strong>The amount of credits you receive depends on whether the AI is correct or not.</strong></span> <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
 
   			<p id="training-reward-table"></p>
@@ -1852,9 +1854,13 @@ jQuery.fn.disableFind = function(){
 <!-- 				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>. This is the same AI you used during the training phase. This AI is <span id='acc-score'></span> accurate. <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span></strong></p>
 				<p>For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. <strong>You will not be able to see how many credits you have gained in this phase, but we will tell you how many credits you earned at the end of the study.</strong> Click the button below to begin.</p> -->
 				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>. This is the same AI you used during the training phase. <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span></strong></p>
-				<p><span id = 'bonus-begin-task'></span> <span id="double-bonus-begin-task"></span> <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. </p>
-				<p id="reward-table-begin-task"></p>
-				<p><strong>You will not be able to see how many credits you have gained in this phase, but we will tell you how many credits you earned at the end of the study.</strong> Click the button below to begin.</p>
+				<p><span id = 'bonus-begin-task'></span> <span id="double-bonus-begin-task"></span> <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. 
+<!-- 				</p>
+				<p id="reward-table-begin-task">
+					
+				</p>
+				<p> -->
+					<strong>You will not be able to see how many credits you have gained in this phase, but we will tell you how many credits you earned at the end of the study.</strong> Click the button below to begin.</p>
 				<button type="button" class="btn btn-primary" id='begin-task-button'>Continue</button>
 			</div>
 		</div>

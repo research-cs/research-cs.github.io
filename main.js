@@ -127,14 +127,20 @@ function demographicsCallback() {
     // uncomment the following for between subjects with training
      transition('demographics', 'training-start');
      runTraining();
-     var training_credits_text = ""
+     // var training_credits_text = ""
      // if (curr_reward_system == "overreliance") {
      //    training_credits_text += "You will only get rewarded for the question if BOTH you and the AI are correct. "
      //    // $("#training-credits-overreliance").show()
      // }
 
      if (ai_condition[0] == 'short') {
+        // "Gained" writing
         $('#training-credits').html('For each question you get correct alone, you will gain 100 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.05. ')
+        
+        // "Receive" writing
+        $('#training-credits').html('For each question you get correct alone, you will receive 100 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.05.')
+        $('#training-credits-ai').html('For each question you get correct with the AI, you will receive 50 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025.')
+
         // if (curr_reward_system == "overreliance") {
         //   training_credits_text += "You will only get rewarded for the question if BOTH you and the AI are correct. "
         //   training_credits_text += 'For each question that you answer correctly AND that the AI answers correctly, you will gain 50 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025. '
@@ -151,11 +157,21 @@ function demographicsCallback() {
         //   $("#training-reward-table").html("You can also view the reward format in the table below. <br><br> <img src=\"https://cs.stanford.edu/people/joerke/xai/verification-10x.svg\">")
         // }
         // else {
-          training_credits_text += 'For each question that you answer correctly, you will gain 50 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025. '
+
+          // "Gained" writing
+          // training_credits_text += 'For each question that you answer correctly, you will gain 50 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025. '
+        
         // }
      }
      else {
+        // "Gained" writing
         $('#training-credits').html('For each question you get correct alone, you will gain 100 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.10. ')
+        
+        // "Receive" writing
+        $('#training-credits').html('For each question you get correct alone, you will receive 100 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.10.')
+        $('#training-credits-ai').html('For each question you get correct with the AI, you will receive 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')
+
+
         // if (curr_reward_system == "overreliance") {
         //   training_credits_text += "You will only get rewarded for the question if BOTH you and the AI are correct. "
         //   training_credits_text += 'For each question that you answer correctly AND that the AI answers correctly, you will gain 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05. '  
@@ -172,7 +188,10 @@ function demographicsCallback() {
         //   $("#training-reward-table").html("You can also view the reward format in the table below. <br><br> <img src=\"https://cs.stanford.edu/people/joerke/xai/verification.svg\">")
         // }
         // else {
-          training_credits_text += 'For each question that you answer correctly, you will gain 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05. '  
+
+          // "Gained" writing
+          // training_credits_text += 'For each question that you answer correctly, you will gain 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05. '   
+        
         // }
      }
 
@@ -180,7 +199,9 @@ function demographicsCallback() {
     //     training_credits_text += "<strong>If you answer a question correctly that the AI answered incorrectly, you will receive 0 silver credits. "
     //     // $("#training-credits-overreliance").show()
     //  }
-     $('#training-credits-ai').html(training_credits_text)
+
+    // "Gained" writing
+    // $('#training-credits-ai').html(training_credits_text)
 
      $('#credits-box').show()
      if (ai_condition[0] == 'short') {
@@ -1461,84 +1482,116 @@ function renderTask(condition, data, data_2, callback=null) {
     if (training_phase_count == 0 || training_phase_count_ai == 0) { 
     // if (training_phase_count == 0) { 
       $('#training-modal').modal('toggle')
-      var training_modal_text = ""
+      // "Received writing"
       if (current_setting == 'long') {
-        if (current_condition == "baseline") {
-          training_modal_text += "You will complete the next 3 question answering tasks by youself. "
-          // if (curr_reward_system == "overreliance") {
-          //   training_modal_text += "You will gain 100 gold credits <img src='https://cs.stanford.edu/people/joerke/xai/coin-mini.png'> for each question BOTH you and the AI answer correctly. "
-          // } 
-          // else {
-            training_modal_text += "You will gain 100 gold credits <img src='https://cs.stanford.edu/people/joerke/xai/coin-mini.png'> for each question you answer correctly. "
-          // }
+        // $('#training-modal-text').html('You will complete the next 5 question answering tasks by youself and receive 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly. These passages are long, which is why you receive gold credits.')
+        if (current_condition == 'baseline') {
+          $('#training-modal-text').html('You will complete the next 3 question answering tasks by youself and receive 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly.')
+        }
+        else if (current_condition == 'prediction'){
+          $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly.')
         }
         else {
-          training_modal_text += "You will complete the next 5 question answering tasks with the AI to experience using the AI. "
-          if (current_condition == 'xai' && !compare_conditions){
-            training_modal_text += "This AI has the ability to give <span class=\'main-highlight\'>explanations</span>. "
-          }
-          if (compare_conditions && compare_conditions_training_phase_num == 2) {
-            training_modal_text += "This is the same AI you used previously. "
-            training_modal_text += "The AI will now show you <span class=\'main-highlight\'>explanations</span>. "
-          }
-          // if (curr_reward_system == "overreliance") {
-          //   training_modal_text += "<br><br>You will only get rewarded for the question if BOTH you and the AI are correct. "
-          //   training_modal_text += 'For each question that you answer correctly AND that the AI answers correctly, you will gain 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05. '
-          //   training_modal_text += "<strong>If you answer a question correctly that the AI answered incorrectly, you will receive 0 gold credits. "
-          // }
-          // else if (curr_reward_system == "double") {
-          //   training_modal_text += "For each question that you answer correctly and that the AI answers correctly, you will gain 50 gold credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini.png\">, which is equal to $0.05. "
-          //   training_modal_text += "However, if you answer a question correctly that the AI answered incorrectly, you will gain 10x credits (in this case, 500 gold credits = $0.50). " 
-          //   if (curr_penalty_system) {
-          //     training_modal_text += "For each question you get incorrect with the AI, you will lose the amount of credits offered. "
-          //   }
-          // }
-          // else {
-            training_modal_text += "<br><br>For each question you get correct, you will gain 50 gold credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini.png\">, which is equal to $0.05. "
-          // }
+          $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly. This AI has the ability to give <span class=\'main-highlight\'>explanations</span>.')
         }
       }
       else {
-        // $('#training-modal-text').html('You will complete the next 5 question answering tasks by youself and gain 100 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly. These passages are short, which is why you gain silver credits.')
-        if (current_condition == "baseline") {
-          training_modal_text += "You will complete the next 3 question answering tasks by youself. "
-          // if (curr_reward_system == "overreliance") {
-          //   training_modal_text += "You will gain 100 silver credits <img src='https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png'> for each question BOTH you and the AI answer correctly. "
-          // } 
-          // else {
-            training_modal_text += "You will gain 100 silver credits <img src='https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png'> for each question you answer correctly. "
-          // }
+        // $('#training-modal-text').html('You will complete the next 5 question answering tasks by youself and receive 100 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly. These passages are short, which is why you receive silver credits.')
+        if (current_condition == 'baseline') {
+        $('#training-modal-text').html('You will complete the next 3 question answering tasks by youself and receive 100 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly.')
+        }
+        else if (current_condition == 'prediction'){
+        $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly.')
         }
         else {
-          training_modal_text = "You will complete the next 5 question answering tasks with the AI to experience using the AI. "
-          if (current_condition == 'xai'  && !compare_conditions){
-            training_modal_text += "This AI has the ability to give <span class=\'main-highlight\'>explanations</span>. "
-          }
-          if (compare_conditions && compare_conditions_training_phase_num == 2) {
-            training_modal_text += "This is the same AI you used previously. "
-            training_modal_text += "The AI will now show you <span class=\'main-highlight\'>explanations</span>. "
-          }
-          // if (curr_reward_system == "overreliance") {
-          //   training_modal_text += "<br><br>You will only get rewarded for the question if BOTH you and the AI are correct. "
-          //   training_modal_text += 'For each question that you answer correctly AND that the AI answers correctly, you will gain 50 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025. '
-          //   training_modal_text += "<strong>If you answer a question correctly that the AI answered incorrectly, you will receive 0 silver credits. "
-          // }
-          // else if (curr_reward_system == "double") {
-          //   training_modal_text += "<br><br>For each question that you answer correctly and that the AI answers correctly, you will gain 50 silver credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png\">, which is equal to $0.025. "
-          //   training_modal_text += "However, if you answer a question correctly that the AI answered incorrectly, you will gain 10x credits (in this case, 500 silver credits = $0.25). " 
-          //   if (curr_penalty_system) {
-          //     training_modal_text += "For each question you get incorrect with the AI, you will lose the amount of credits offered. "
-          //   }
-          // }
-          // else {
-            training_modal_text += "<br><br>For each question you get correct, you will gain 50 silver credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png\">, which is equal to $0.025. "
-          // }
-
+        $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly. This AI has the ability to give <span class=\'main-highlight\'>explanations</span>.')
         }
       }
-      $('#training-modal-text').html(training_modal_text)
     }
   }
+
+
+
+
+      // "Gained" writing
+      // var training_modal_text = ""
+      // if (current_setting == 'long') {
+      //   if (current_condition == "baseline") {
+      //     training_modal_text += "You will complete the next 3 question answering tasks by youself. "
+      //     // if (curr_reward_system == "overreliance") {
+      //     //   training_modal_text += "You will gain 100 gold credits <img src='https://cs.stanford.edu/people/joerke/xai/coin-mini.png'> for each question BOTH you and the AI answer correctly. "
+      //     // } 
+      //     // else {
+      //       training_modal_text += "You will gain 100 gold credits <img src='https://cs.stanford.edu/people/joerke/xai/coin-mini.png'> for each question you answer correctly. "
+      //     // }
+      //   }
+      //   else {
+      //     training_modal_text += "You will complete the next 5 question answering tasks with the AI to experience using the AI. "
+      //     if (current_condition == 'xai' && !compare_conditions){
+      //       training_modal_text += "This AI has the ability to give <span class=\'main-highlight\'>explanations</span>. "
+      //     }
+      //     if (compare_conditions && compare_conditions_training_phase_num == 2) {
+      //       training_modal_text += "This is the same AI you used previously. "
+      //       training_modal_text += "The AI will now show you <span class=\'main-highlight\'>explanations</span>. "
+      //     }
+      //     // if (curr_reward_system == "overreliance") {
+      //     //   training_modal_text += "<br><br>You will only get rewarded for the question if BOTH you and the AI are correct. "
+      //     //   training_modal_text += 'For each question that you answer correctly AND that the AI answers correctly, you will gain 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05. '
+      //     //   training_modal_text += "<strong>If you answer a question correctly that the AI answered incorrectly, you will receive 0 gold credits. "
+      //     // }
+      //     // else if (curr_reward_system == "double") {
+      //     //   training_modal_text += "For each question that you answer correctly and that the AI answers correctly, you will gain 50 gold credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini.png\">, which is equal to $0.05. "
+      //     //   training_modal_text += "However, if you answer a question correctly that the AI answered incorrectly, you will gain 10x credits (in this case, 500 gold credits = $0.50). " 
+      //     //   if (curr_penalty_system) {
+      //     //     training_modal_text += "For each question you get incorrect with the AI, you will lose the amount of credits offered. "
+      //     //   }
+      //     // }
+      //     // else {
+      //       training_modal_text += "<br><br>For each question you get correct, you will gain 50 gold credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini.png\">, which is equal to $0.05. "
+      //     // }
+      //   }
+      // }
+      // else {
+      //   // $('#training-modal-text').html('You will complete the next 5 question answering tasks by youself and gain 100 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly. These passages are short, which is why you gain silver credits.')
+      //   if (current_condition == "baseline") {
+      //     training_modal_text += "You will complete the next 3 question answering tasks by youself. "
+      //     // if (curr_reward_system == "overreliance") {
+      //     //   training_modal_text += "You will gain 100 silver credits <img src='https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png'> for each question BOTH you and the AI answer correctly. "
+      //     // } 
+      //     // else {
+      //       training_modal_text += "You will gain 100 silver credits <img src='https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png'> for each question you answer correctly. "
+      //     // }
+      //   }
+      //   else {
+      //     training_modal_text = "You will complete the next 5 question answering tasks with the AI to experience using the AI. "
+      //     if (current_condition == 'xai'  && !compare_conditions){
+      //       training_modal_text += "This AI has the ability to give <span class=\'main-highlight\'>explanations</span>. "
+      //     }
+      //     if (compare_conditions && compare_conditions_training_phase_num == 2) {
+      //       training_modal_text += "This is the same AI you used previously. "
+      //       training_modal_text += "The AI will now show you <span class=\'main-highlight\'>explanations</span>. "
+      //     }
+      //     // if (curr_reward_system == "overreliance") {
+      //     //   training_modal_text += "<br><br>You will only get rewarded for the question if BOTH you and the AI are correct. "
+      //     //   training_modal_text += 'For each question that you answer correctly AND that the AI answers correctly, you will gain 50 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025. '
+      //     //   training_modal_text += "<strong>If you answer a question correctly that the AI answered incorrectly, you will receive 0 silver credits. "
+      //     // }
+      //     // else if (curr_reward_system == "double") {
+      //     //   training_modal_text += "<br><br>For each question that you answer correctly and that the AI answers correctly, you will gain 50 silver credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png\">, which is equal to $0.025. "
+      //     //   training_modal_text += "However, if you answer a question correctly that the AI answered incorrectly, you will gain 10x credits (in this case, 500 silver credits = $0.25). " 
+      //     //   if (curr_penalty_system) {
+      //     //     training_modal_text += "For each question you get incorrect with the AI, you will lose the amount of credits offered. "
+      //     //   }
+      //     // }
+      //     // else {
+      //       training_modal_text += "<br><br>For each question you get correct, you will gain 50 silver credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png\">, which is equal to $0.025. "
+      //     // }
+
+      //   }
+      // }
+      // $('#training-modal-text').html(training_modal_text)
+    // }
+  // }
 
   if (!tutorial_phase) {
     predBox.css('backgroundColor',model_prediction_background_colors[task_repeat])
@@ -1825,49 +1878,61 @@ function repeatTask(condition, id ='switch-tasks') {
       $('#' + id).css('color', ai_colors[task_repeat])
 
       $(acc_id).html(curr_acc_score)
-      var bonus_text = ""
-
+      // "Received" writing
       if (current_length == 'long') {
-          if (curr_reward_system == "overreliance") {
-            bonus_text += "You will only get rewarded for the question if BOTH you and the AI are correct. "
-            bonus_text += 'For each question that you answer correctly AND that the AI answers correctly, you will gain 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05. '
-            bonus_text += "<strong>If you answer a question correctly that the AI answered incorrectly, you will receive 0 gold credits. "
-            $("#reward-table-begin-task").html("You can also view the reward format in the table below. <br><br> <img src=\"https://cs.stanford.edu/people/joerke/xai/overreliance.svg\">")
-          }
-          else if (curr_reward_system == "double") {
-            bonus_text += "For each question that you answer correctly and that the AI answers correctly, you will gain 50 gold credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini.png\">, which is equal to $0.05. "
-            bonus_text += "However, if you answer a question correctly that the AI answered incorrectly, you will gain 5x credits (in this case, 250 gold credits = $0.25). "           
-            $("#reward-table-begin-task").html("You can also view the reward format in the table below. <br><br> <img src=\"https://cs.stanford.edu/people/joerke/xai/verification.svg\">")
-            if (curr_penalty_system) {
-              bonus_text += "For each question you get incorrect with the AI, you will lose the amount of credits offered. "
-            }
-          }
-          else {
-            bonus_text += 'For each question you get correct, you will gain 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05. '
-          }
-          // $(length_id).html('long, which is why you gain gold credits')
-          // $('#coin-explanation').html('Note that 100 gold credits equals $0.10.') 
-        }
-        else {
-          if (curr_reward_system == "overreliance") {
-            bonus_text += "You will only get rewarded for the question if BOTH you and the AI are correct. "
-            bonus_text += 'For each question that you answer correctly AND that the AI answers correctly, you will gain 50 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025. '
-            bonus_text += "<strong>If you answer a question correctly that the AI answered incorrectly, you will receive 0 silver credits. "
-            $("#reward-table-begin-task").html("You can also view the reward format in the table below. <br><br> <img src=\"https://cs.stanford.edu/people/joerke/xai/overreliance-short.svg\">")
-          }
-          else if (curr_reward_system == "double") {
-            bonus_text += "For each question that you answer correctly and that the AI answers correctly, you will gain 50 silver credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png\">, which is equal to $0.025. "
-            bonus_text += "However, if you answer a question correctly that the AI answered incorrectly, you will gain 5x credits (in this case, 500 silver credits = $0.125). "           
-            $("#reward-table-begin-task").html("You can also view the reward format in the table below. <br><br> <img src=\"https://cs.stanford.edu/people/joerke/xai/verification-short.svg\">")
-            if (curr_penalty_system) {
-              bonus_text += "For each question you get incorrect with the AI, you will lose the amount of credits offered. "
-            }
-          }
-          else {
-            bonus_text += 'For each question you get correct, you will gain 50 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025. '
-          }
+        $(coin_id).html('For each question you get correct, you will initially receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> in bonus.')
+        // $(length_id).html('long, which is why you receive gold credits')
+          // $('#coin-explanation').html('Note that 100 gold credits equals $0.10.')      
       }
-     $(coin_id).html(bonus_text)
+      else {
+        $(coin_id).html('For each question you get correct, you will initially receive 50 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> in bonus.')
+        // $(length_id).html('short, which is why you receive silver credits')
+          // $('#coin-explanation').html('Note that 100 silver credits equals $0.05.')
+     }
+
+      // "Gained" writing 
+      // var bonus_text = ""
+      // if (current_length == 'long') {
+      //     if (curr_reward_system == "overreliance") {
+      //       bonus_text += "You will only get rewarded for the question if BOTH you and the AI are correct. "
+      //       bonus_text += 'For each question that you answer correctly AND that the AI answers correctly, you will gain 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05. '
+      //       bonus_text += "<strong>If you answer a question correctly that the AI answered incorrectly, you will receive 0 gold credits. "
+      //       $("#reward-table-begin-task").html("You can also view the reward format in the table below. <br><br> <img src=\"https://cs.stanford.edu/people/joerke/xai/overreliance.svg\">")
+      //     }
+      //     else if (curr_reward_system == "double") {
+      //       bonus_text += "For each question that you answer correctly and that the AI answers correctly, you will gain 50 gold credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini.png\">, which is equal to $0.05. "
+      //       bonus_text += "However, if you answer a question correctly that the AI answered incorrectly, you will gain 5x credits (in this case, 250 gold credits = $0.25). "           
+      //       $("#reward-table-begin-task").html("You can also view the reward format in the table below. <br><br> <img src=\"https://cs.stanford.edu/people/joerke/xai/verification.svg\">")
+      //       if (curr_penalty_system) {
+      //         bonus_text += "For each question you get incorrect with the AI, you will lose the amount of credits offered. "
+      //       }
+      //     }
+      //     else {
+      //       bonus_text += 'For each question you get correct, you will gain 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05. '
+      //     }
+      //     // $(length_id).html('long, which is why you gain gold credits')
+      //     // $('#coin-explanation').html('Note that 100 gold credits equals $0.10.') 
+      //   }
+      //   else {
+      //     if (curr_reward_system == "overreliance") {
+      //       bonus_text += "You will only get rewarded for the question if BOTH you and the AI are correct. "
+      //       bonus_text += 'For each question that you answer correctly AND that the AI answers correctly, you will gain 50 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025. '
+      //       bonus_text += "<strong>If you answer a question correctly that the AI answered incorrectly, you will receive 0 silver credits. "
+      //       $("#reward-table-begin-task").html("You can also view the reward format in the table below. <br><br> <img src=\"https://cs.stanford.edu/people/joerke/xai/overreliance-short.svg\">")
+      //     }
+      //     else if (curr_reward_system == "double") {
+      //       bonus_text += "For each question that you answer correctly and that the AI answers correctly, you will gain 50 silver credits<img src=\"https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png\">, which is equal to $0.025. "
+      //       bonus_text += "However, if you answer a question correctly that the AI answered incorrectly, you will gain 5x credits (in this case, 500 silver credits = $0.125). "           
+      //       $("#reward-table-begin-task").html("You can also view the reward format in the table below. <br><br> <img src=\"https://cs.stanford.edu/people/joerke/xai/verification-short.svg\">")
+      //       if (curr_penalty_system) {
+      //         bonus_text += "For each question you get incorrect with the AI, you will lose the amount of credits offered. "
+      //       }
+      //     }
+      //     else {
+      //       bonus_text += 'For each question you get correct, you will gain 50 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025. '
+      //     }
+      // }
+     // $(coin_id).html(bonus_text)
 
      if (current_xai_setting == 'xai') {
         $(explanation_id).css('display','inline-block')
