@@ -169,7 +169,7 @@ function demographicsCallback() {
         
         // "Receive" writing
         $('#training-credits').html('For each question you get correct alone, you will receive 100 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.10.')
-        $('#training-credits-ai').html('For each question you get correct with the AI, you will receive 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">.')
+        $('#training-credits-ai').html('For each question you get correct with the AI, you will receive 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')
 
 
         // if (curr_reward_system == "overreliance") {
@@ -1486,14 +1486,10 @@ function renderTask(condition, data, data_2, callback=null) {
       if (current_setting == 'long') {
         // $('#training-modal-text').html('You will complete the next 5 question answering tasks by yourself and receive 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly. These passages are long, which is why you receive gold credits.')
         if (current_condition == 'baseline') {
-          $('#training-modal-text').html('You will complete the next 3 question answering tasks by yourself.')
-
-          // $('#training-modal-text').html('You will complete the next 3 question answering tasks by yourself and receive 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly.')
+          $('#training-modal-text').html('You will complete the next 3 question answering tasks by yourself and receive 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.10, for each question you answer correctly.')
         }
         else if (current_condition == 'prediction'){
-          $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI.')
-        // $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly.')
-
+          $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 gold credits <span style="white-space: nowrap"><img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">,</span> which is equal to $0.05, for each question you answer correctly.')
         }
         else {
           $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly. This AI has the ability to give <span class=\'main-highlight\'>explanations</span>.')
@@ -1884,7 +1880,7 @@ function repeatTask(condition, id ='switch-tasks') {
       $(acc_id).html(curr_acc_score)
       // "Received" writing
       if (current_length == 'long') {
-        // $(coin_id).html('For each question you get correct, you will initially receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> in bonus.')
+        $(coin_id).html('For each question you get correct, you will initially receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05, in bonus.')
         // $(length_id).html('long, which is why you receive gold credits')
           // $('#coin-explanation').html('Note that 100 gold credits equals $0.10.')      
       }
