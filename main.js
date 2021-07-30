@@ -169,8 +169,7 @@ function demographicsCallback() {
         
         // "Receive" writing
         $('#training-credits').html('For each question you get correct alone, you will receive 100 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.10.')
-        // $('#training-credits-ai').html('For each question you get correct with the AI, you will receive 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')
-        $('#training-credits-ai').html('For each question you get correct with the AI, you will receive 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">.')
+        $('#training-credits-ai').html('For each question you get correct with the AI, you will receive 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')
 
 
         // if (curr_reward_system == "overreliance") {
