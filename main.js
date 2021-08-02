@@ -13,7 +13,7 @@ function main() {
 
   if (idx == 0) {
     document.getElementById("onboarding").style.display = "block";
-    $('#progress-text').html(progress_bar_text[progress_num]);
+    // $('#progress-text').html(progress_bar_text[progress_num]);
     $('#payment').html(payment);
     $('#time').html(time);
     $('#consent-form').attr("href", href);
@@ -37,8 +37,8 @@ function transition(current,next) {
 
 function progress() {
     progress_bar_current += progress_bar_increments;
-    $('#progress-bar').attr('aria-valuenow', Math.round(progress_bar_current)).css('width', Math.round(progress_bar_current)+'%');
-    document.getElementById("progress-bar").innerHTML = Math.round(progress_bar_current) + '%';
+    // $('#progress-bar').attr('aria-valuenow', Math.round(progress_bar_current)).css('width', Math.round(progress_bar_current)+'%');
+    // document.getElementById("progress-bar").innerHTML = Math.round(progress_bar_current) + '%';
 }
 
 
@@ -49,13 +49,13 @@ function consentCallback() {
     transition("onboarding", "demographics");
     // only for debugging submission
     // transition("onboarding", "questionnaire");
-    $('#progress-text').html(progress_bar_text[progress_num]);
+    // $('#progress-text').html(progress_bar_text[progress_num]);
     progress_num += 1;
   }
   else if ($("#disagree").is(":checked")) {
     output['consent'] = 'disagree'
     transition("onboarding","exit");
-    $('#progress-text').html('Exit');
+    // $('#progress-text').html('Exit');
   }
   else {
     alert('Please answer the consent question.');
@@ -138,8 +138,9 @@ function demographicsCallback() {
         // $('#training-credits').html('For each question you get correct alone, you will gain 100 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.05. ')
         
         // "Receive" writing
-        $('#training-credits').html('For each question you get correct alone, you will receive 100 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.05.')
-        $('#training-credits-ai').html('For each question you get correct with the AI, you will receive 50 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025.')
+        $('#training-credits').html('For each question you get correct, you will receive 50 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025.')
+        // $('#training-credits').html('For each question you get correct alone, you will receive 100 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.05.')
+        // $('#training-credits-ai').html('For each question you get correct with the AI, you will receive 50 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025.')
 
         // if (curr_reward_system == "overreliance") {
         //   training_credits_text += "You will only get rewarded for the question if BOTH you and the AI are correct. "
@@ -168,8 +169,9 @@ function demographicsCallback() {
         // $('#training-credits').html('For each question you get correct alone, you will gain 100 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.10. ')
         
         // "Receive" writing
-        $('#training-credits').html('For each question you get correct alone, you will receive 100 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.10.')
-        $('#training-credits-ai').html('For each question you get correct with the AI, you will receive 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')
+        $('#training-credits').html('For each question you get correct, you will receive 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')
+        // $('#training-credits').html('For each question you get correct alone, you will receive 100 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.10.')
+        // $('#training-credits-ai').html('For each question you get correct with the AI, you will receive 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')
 
 
         // if (curr_reward_system == "overreliance") {
@@ -203,19 +205,19 @@ function demographicsCallback() {
     // "Gained" writing
     // $('#training-credits-ai').html(training_credits_text)
 
-     $('#credits-box').show()
-     if (ai_condition[0] == 'short') {
-        $('#silver-credits-box').show()
-     }
-     else {
-        $('#gold-credits-box').show()
+     // $('#credits-box').show()
+     // if (ai_condition[0] == 'short') {
+     //    $('#silver-credits-box').show()
+     // }
+     // else {
+     //    $('#gold-credits-box').show()
         // uncomment if you want to have a modal for the long task 
         // $('#post-demographics-long-modal').modal('toggle')
-     }
+     // }
     // uncomment the following for dummy task
     // transition("demographics", "submission");
     // runTutorial();
-    $('#progress-text').html(progress_bar_text[progress_num]);
+    // $('#progress-text').html(progress_bar_text[progress_num]);
     save_progress_text = progress_num
     progress_num += 1;
   }
@@ -358,7 +360,7 @@ function runTutorial() {
       transition('tutorial-multiple-ai', 'funnymoney')
       tutorial_phase = false
       $('#credits-box').show()
-      $('#progress-text').html(progress_bar_text[progress_num]);
+      // $('#progress-text').html(progress_bar_text[progress_num]);
     progress_num += 1;
       
   });
@@ -370,7 +372,7 @@ $('#funnymoney-button').click(function() {
 
 $('#funnymoney-2-button').click(function() {
     transition('funnymoney-2', 'comprehension-check');
-    $('#progress-text').html(progress_bar_text[progress_num]);
+    // $('#progress-text').html(progress_bar_text[progress_num]);
     progress_num += 1;
     $('#comprehension-check-button').css('display', 'block')
     $('#comprehension-check-button-2').css('display', 'none')
@@ -493,7 +495,7 @@ function comprehensionCallback() {
       $('#comprehension-check-button').css('display', 'none')
       $('#comprehension-check-button-4').click(function() {
       transition("comprehension-check","exit");
-      $('#progress-text').html('Exit');
+      // $('#progress-text').html('Exit');
       });
     }
     else if (comprehension_incorrect > 0) {
@@ -505,7 +507,7 @@ function comprehensionCallback() {
         progress_bar_current = save_progress_val
         transition('comprehension-check', 'tutorial-start');
         progress_num = save_progress_text
-        $('#progress-text').html(progress_bar_text[progress_num]);
+        // $('#progress-text').html(progress_bar_text[progress_num]);
         progress_num += 1;
       });
     }
@@ -515,7 +517,7 @@ function comprehensionCallback() {
       $('#comprehension-check-button').css('display', 'none')
       $('#comprehension-check-button-2').click(function() {
         transition('comprehension-check', 'training-start');
-        $('#progress-text').html(progress_bar_text[progress_num]);
+        // $('#progress-text').html(progress_bar_text[progress_num]);
         progress_num += 1;
         runTraining();
       });
@@ -534,6 +536,8 @@ function comprehensionCallback() {
 function runTraining() {
   training_phase = true;
   training_phase_count = 0;
+  $('#progress-box').show()
+
 
   function trainingCallback() {
     response = readTaskResponse()
@@ -665,7 +669,7 @@ function runTraining() {
     $('#total-credits').hide()
     repeatTask(input['coged-order'][task_repeat][1], 'collaboration-task-first-text')
     runTask();
-    $('#progress-text').html(progress_bar_text[progress_num]);
+    // $('#progress-text').html(progress_bar_text[progress_num]);
     progress_num += 1;
     training_phase = false;
     training_phase_ai = false;
@@ -874,7 +878,7 @@ $('#coged-task-button').click(function() {
     else {
       $('#coged-modal-DIY-AI').show()
     }
-    $('#coged-modal').modal('toggle')
+    // $('#coged-modal').modal('toggle')
 
 });
 
@@ -955,6 +959,7 @@ $('#coged-task-button').click(function() {
 
 
   function FillQuestionnaireTrust() {
+    $('#progress-box').hide()
     if (anthropomorphic == true) {
       $('#questionnaire-ai-1-trust').css('color',ai_colors[task_repeat]);
       $('#questionnaire-ai-1-trust').html('AI ' + ai_names[task_repeat]);
@@ -1381,6 +1386,8 @@ var current_question_2;
 var current_condition;
 var current_setting;
 function renderTask(condition, data, data_2, callback=null) {
+  questions_num += 1;
+  $("#progress-text").html(questions_num + " / 28")
   curr = condition.split(" ");
   current_question = data;
   current_question_2 = data_2
@@ -1481,30 +1488,37 @@ function renderTask(condition, data, data_2, callback=null) {
   if (training_phase || training_phase_ai) {
     if (training_phase_count == 0 || training_phase_count_ai == 0) { 
     // if (training_phase_count == 0) { 
-      $('#training-modal').modal('toggle')
+      // $('#training-modal').modal('toggle')
       // "Received writing"
       if (current_setting == 'long') {
         // $('#training-modal-text').html('You will complete the next 5 question answering tasks by yourself and receive 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly. These passages are long, which is why you receive gold credits.')
         if (current_condition == 'baseline') {
-          $('#training-modal-text').html('You will complete the next 3 question answering tasks by yourself and receive 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly.')
+          // $('#training-modal-text').html('You will complete the next 3 question answering tasks by yourself and receive 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly.')
+          $('#training-modal-text').html('You will complete the next 3 question answering tasks by yourself.')
         }
         else if (current_condition == 'prediction'){
-          $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly.')
+          // $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly.')
+          $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI.')
         }
         else {
-          $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly. This AI has the ability to give <span class=\'main-highlight\'>explanations</span>.')
+          // $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly. This AI has the ability to give <span class=\'main-highlight\'>explanations</span>.')
+          $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. This AI has the ability to give <span class=\'main-highlight\'>explanations</span>.')
+
         }
       }
       else {
         // $('#training-modal-text').html('You will complete the next 5 question answering tasks by yourself and receive 100 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly. These passages are short, which is why you receive silver credits.')
         if (current_condition == 'baseline') {
-        $('#training-modal-text').html('You will complete the next 3 question answering tasks by yourself and receive 100 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly.')
+        // $('#training-modal-text').html('You will complete the next 3 question answering tasks by yourself and receive 100 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly.')
+        $('#training-modal-text').html('You will complete the next 3 question answering tasks by yourself.')
         }
         else if (current_condition == 'prediction'){
-        $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly.')
+        // $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly.')
+        $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI.')
         }
         else {
-        $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly. This AI has the ability to give <span class=\'main-highlight\'>explanations</span>.')
+        // $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> for each question you answer correctly. This AI has the ability to give <span class=\'main-highlight\'>explanations</span>.')
+        $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. This AI has the ability to give <span class=\'main-highlight\'>explanations</span>.')
         }
       }
     }
@@ -1663,7 +1677,7 @@ function questionnaireTrustCallback() {
       $('#total-credits').hide()
       repeatTask(input['coged-order'][task_repeat][1], 'collaboration-task-first-text')
       runTask();
-      $('#progress-text').html(progress_bar_text[progress_num]);
+      // $('#progress-text').html(progress_bar_text[progress_num]);
       progress_num += 1;
       training_phase = false;
       training_phase_ai = false;
@@ -1727,7 +1741,7 @@ function questionnaireTrustCallback() {
     // }
     }
     window.scrollTo(0,0);
-    // $("#questionnaire-form-1")[0].reset();
+    $("#questionnaire-form-1")[0].reset();
     $("#questionnaire-form-2")[0].reset();
     $("#questionnaire-form-3")[0].reset();
     $("#questionnaire-form-4")[0].reset();
@@ -1746,7 +1760,7 @@ function questionnaireTrustCallback() {
 
 function questionnaireCallback() {
 
-  let questions = ['#Q-2', '#Q-3', '#Q-4', "#Q-5"];
+  let questions = ['#Q-1', '#Q-2', '#Q-3', '#Q-4', "#Q-5"];
   let total_checked = 0;
 
   let q_response = {}
@@ -1806,7 +1820,7 @@ function questionnaireCallback() {
         'gold': num_gold_credits,
         'silver': num_silver_credits
       }
-      $('#progress-text').html(progress_bar_text[progress_num]);
+      // $('#progress-text').html(progress_bar_text[progress_num]);
       progress_num += 1;
       coged_phase = false;
     }
@@ -1843,7 +1857,7 @@ function questionnaireHumanCallback() {
   if (total_checked == questions.length) {
     output['nfc'] = nfc_response
     transition("questionnaire-human","feedback");
-    $('#progress-text').html(progress_bar_text[progress_num]);
+    // $('#progress-text').html(progress_bar_text[progress_num]);
     progress_num += 1;
   } else {
     alert("Please answer all of the questions.")
@@ -1880,12 +1894,12 @@ function repeatTask(condition, id ='switch-tasks') {
       $(acc_id).html(curr_acc_score)
       // "Received" writing
       if (current_length == 'long') {
-        $(coin_id).html('For each question you get correct, you will initially receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> in bonus.')
+        // $(coin_id).html('For each question you get correct, you will initially receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> in bonus.')
         // $(length_id).html('long, which is why you receive gold credits')
           // $('#coin-explanation').html('Note that 100 gold credits equals $0.10.')      
       }
       else {
-        $(coin_id).html('For each question you get correct, you will initially receive 50 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> in bonus.')
+        // $(coin_id).html('For each question you get correct, you will initially receive 50 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> in bonus.')
         // $(length_id).html('short, which is why you receive silver credits')
           // $('#coin-explanation').html('Note that 100 silver credits equals $0.05.')
      }
@@ -1948,7 +1962,7 @@ function feedbackCallback() {
   output['feedback'] = $('#feedbackform').val();
   progress_bar_current += (11 * progress_bar_increments)
   transition("feedback","submission");
-  $('#progress-text').html(progress_bar_text[progress_num]);
+  // $('#progress-text').html(progress_bar_text[progress_num]);
     progress_num += 1;
   if (ai_condition[0] == 'long') {
       // uncomment here if you want to have an extra bonus for long

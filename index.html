@@ -30,7 +30,7 @@
           a.appendChild(r);
       })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
   </script>
-  
+
   <style type="text/css">
 
 body {
@@ -73,7 +73,8 @@ nav {
 
 #progress-box {
   margin-top: 20px;
-  margin-bottom: 50px;
+/*  margin-bottom: 50px;*/  
+  margin-bottom: 20px;
 }
 
 .progress {
@@ -123,6 +124,12 @@ nav {
 
 #self-description {
   width: 200px;
+}
+
+#demographics h3 {
+  margin-top: 40px;
+  margin-bottom: 10px;
+  margin-left: 5px;
 }
 
 /*******************
@@ -436,6 +443,12 @@ nav {
   width:75%;
 }
 
+#questionnaire, #questionnaire-trust h3 {
+  margin-top: 40px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+}
+
 /*******************
    QUESTIONNAIRE HUMAN
 ********************/
@@ -461,6 +474,12 @@ nav {
   font-size: 0.9em;
 }
 
+#questionnaire-human h3 {
+  margin-top: 40px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+}
+
 /*******************
    SUBMISSION
 ********************/
@@ -469,6 +488,12 @@ nav {
   width: 1.4em;
   padding-left: 2px;
   vertical-align: text-bottom;
+}
+
+#submission, #feedback h3 {
+  margin-top: 40px;
+  margin-bottom: 10px;
+  margin-left: 5px;
 }
 </style>
   <script type="text/javascript">
@@ -1210,12 +1235,16 @@ jQuery.fn.disableFind = function(){
 <!--       <div class='ml-auto' id='credits-box' style='display:none'>
  -->      <div class='ml-auto' id='credits-box' style='display:none'>
         <span id='total-credits'>Total Credits:</span>
-        <button type="button" data-toggle="tooltip" data-placement="bottom" title="100 credits are worth $0.10&#013;50 credits are worth $0.05" id = 'gold-credits-box' style='display:none'>
-          <span id='gold-credits'>0</span>
+<!--         <button type="button" data-toggle="tooltip" data-placement="bottom" title="100 credits are worth $0.10&#013;50 credits are worth $0.05" id = 'gold-credits-box' style='display:none'>
+ -->          
+              <button type="button" data-toggle="tooltip" data-placement="bottom" title="50 credits are worth $0.05" id = 'gold-credits-box' style='display:none'>
+              <span id='gold-credits'>0</span>
           <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">
         </button>
-        <button type="button" data-toggle="tooltip" data-placement="bottom" title="100 credits are worth $0.05&#013;50 credits are worth $0.025" id = 'silver-credits-box' style='display:none'>
-          <span id='silver-credits'>0</span>
+<!--         <button type="button" data-toggle="tooltip" data-placement="bottom" title="100 credits are worth $0.05&#013;50 credits are worth $0.025" id = 'silver-credits-box' style='display:none'>
+ -->          
+            <button type="button" data-toggle="tooltip" data-placement="bottom" title="50 credits are worth $0.025" id = 'silver-credits-box' style='display:none'>
+            <span id='silver-credits'>0</span>
           <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">
         </button>
       </div>
@@ -1223,11 +1252,14 @@ jQuery.fn.disableFind = function(){
   </nav>
 
   <div class='container main'>
-    <div id='progress-box'>
-      <h5>Total Progress: <span id='progress-text' class='text-muted' style='float:right'></span></h5>
-      <div class="progress">
+    <div id='progress-box' style='display:none'>
+      <h5>
+        Total Question Progress: 
+        <span id='progress-text'>0 / 28</span></h5>
+        <!-- style='float:right'class='text-muted' -->
+<!--       <div class="progress">
         <div class="progress-bar" id= "progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
-      </div>
+      </div> -->
     </div>
 
     <div class='row' id='onboarding' style="display:none">
@@ -1723,7 +1755,9 @@ jQuery.fn.disableFind = function(){
 			<div class="card-body">
 <!-- 				<p>In this phase, you will complete 6 practice questions. You will complete the 6 Question & Answer pairs by yourself to experience the difficulty of doing it yourself with both short and long passages.</p>
  -->				
- 					<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs by yourself to experience the difficulty of doing the task yourself.</strong> <span id='training-credits'></span> <span id ="training-credits-overreliance" style= "display:none"><strong>You will only get rewarded for the questions BOTH you and the AI (which you will use soon) get correct.</strong></span> <span id ='training-credits-hover'>You can also find out how much money credits are worth by hovering over the icon in the top right.</span></p>
+ 					<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs by yourself to experience the difficulty of doing the task yourself.</strong> <span id='training-credits'></span> <span id ="training-credits-overreliance" style= "display:none"><strong>You will only get rewarded for the questions BOTH you and the AI (which you will use soon) get correct.</strong></span> 
+<!--  						<span id ='training-credits-hover'>You can also find out how much money credits are worth by hovering over the icon in the top right.</span>
+ --> 					</p>
  				<button type="button" class="btn btn-primary" id='training-start-button'>Begin</button>
 			</div>
 		</div>
@@ -1742,7 +1776,9 @@ jQuery.fn.disableFind = function(){
 
 <!--   				<br><br>
  -->
-  			<span id="training-credits-double" style="display:none"><strong>The amount of credits you receive depends on whether the AI is correct or not.</strong></span> <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
+  			<span id="training-credits-double" style="display:none"><strong>The amount of credits you receive depends on whether the AI is correct or not.</strong></span> <span id='training-credits-ai'></span> 
+<!--   		You can also find out how much money credits are worth by hovering over the icon in the top right.
+ -->  	</p>
 
   			<p id="training-reward-table"></p>
 
@@ -1865,13 +1901,16 @@ jQuery.fn.disableFind = function(){
 <!-- 				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>. This is the same AI you used during the training phase. This AI is <span id='acc-score'></span> accurate. <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span></strong></p>
 				<p>For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. <strong>You will not be able to see how many credits you have gained in this phase, but we will tell you how many credits you earned at the end of the study.</strong> Click the button below to begin.</p> -->
 				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>. This is the same AI you used during the training phase. <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span></strong></p>
-				<p><span id = 'bonus-begin-task'></span> <span id="double-bonus-begin-task"></span> <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. 
-<!-- 				</p>
+				<p><span id = 'bonus-begin-task'></span> <span id="double-bonus-begin-task"></span> <span id= 'coin-explanation'></span> 
+<!-- 					You can also find out how much money credits are worth by hovering over the icon in the top right. 
+ --><!-- 				</p>
 				<p id="reward-table-begin-task">
 					
 				</p>
 				<p> -->
-					<strong>You will not be able to see how many credits you have gained in this phase, but we will tell you how many credits you earned at the end of the study.</strong> Click the button below to begin.</p>
+					<!-- <strong>You will not be able to see how many credits you have gained in this phase, but we will tell you how many credits you earned at the end of the study.</strong>  -->
+				<strong>You will not be able to see whether you got an answer correct or not in this phase.</strong>
+				Click the button below to begin.</p>
 				<button type="button" class="btn btn-primary" id='begin-task-button'>Continue</button>
 			</div>
 		</div>
@@ -2221,7 +2260,9 @@ jQuery.fn.disableFind = function(){
 
                 <br>
 <!--                 <h5>I trust <span id = 'questionnaire-ai-1'></span> suggestions.</h5>
-                <form class='d-flex' id = 'questionnaire-form-1'>
+ -->                
+                    <h5>I found this task interesting.</h5>
+                    <form class='d-flex' id = 'questionnaire-form-1'>
                     <div class="form-group d-inline-block">
                         <div class="d-block">
                             <input type="radio" name="Q-1" id="Q-1-1">
@@ -2279,7 +2320,7 @@ jQuery.fn.disableFind = function(){
                         </label>
                     </div>
                 </form>
- -->
+
                 <h5>I found this task difficult without <span id = 'questionnaire-ai-2'></span>.</h5>
 
                 <form class='d-flex' id = 'questionnaire-form-2'>
@@ -3762,6 +3803,7 @@ else {
 var progress_bar_increments = (1 / progress_bar_total_clicks) * 100;
 var progress_bar_current = progress_bar_increments;
 var progress_num = 0;
+var questions_num = 0;
 var save_progress_text;
 var save_progress_val;
 var letter;
