@@ -138,7 +138,8 @@ function demographicsCallback() {
         // $('#training-credits').html('For each question you get correct alone, you will gain 100 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.05. ')
         
         // "Receive" writing
-        $('#training-credits').html('For each question you get correct, you will receive 50 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025.')
+        $('#training-credits').html('For each question you get correct, you will receive $0.025.')
+        // $('#training-credits').html('For each question you get correct, you will receive 50 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025.')
         // $('#training-credits').html('For each question you get correct alone, you will receive 100 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.05.')
         // $('#training-credits-ai').html('For each question you get correct with the AI, you will receive 50 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025.')
 
@@ -169,7 +170,8 @@ function demographicsCallback() {
         // $('#training-credits').html('For each question you get correct alone, you will gain 100 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.10. ')
         
         // "Receive" writing
-        $('#training-credits').html('For each question you get correct, you will receive 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')
+        $('#training-credits').html('For each question you get correct, you will receive $0.05.')
+        // $('#training-credits').html('For each question you get correct, you will receive 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')
         // $('#training-credits').html('For each question you get correct alone, you will receive 100 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.10.')
         // $('#training-credits-ai').html('For each question you get correct with the AI, you will receive 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')
 
@@ -1295,7 +1297,7 @@ function readTaskResponse() {
             // num_gold_credits = num_gold_credits;
           // }
           // else {
-            num_gold_credits += 100;
+            num_gold_credits += 50;
             $('#gold-credits').text(num_gold_credits)
           // }
         }
@@ -1304,7 +1306,7 @@ function readTaskResponse() {
             // num_silver_credits = num_silver_credits;
           // }
           // else {
-            num_silver_credits += 100;
+            num_silver_credits += 50;
             $('#silver-credits').text(num_silver_credits)
           // }
         }
@@ -1964,14 +1966,18 @@ function feedbackCallback() {
   transition("feedback","submission");
   // $('#progress-text').html(progress_bar_text[progress_num]);
     progress_num += 1;
+    var bonus;
   if (ai_condition[0] == 'long') {
       // uncomment here if you want to have an extra bonus for long
       // $('#long-extra-bonus').css('display','inline-block')
-      $('#total-bonus-text').html(num_gold_credits + ' gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> in bonus.')
+      bonus = num_gold_credits * 0.10 / 100
+      $('#total-bonus-text').html('$' + bonus + ' in bonus.')
+      // $('#total-bonus-text').html(num_gold_credits + ' gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> in bonus.')
     }
   else {
+    bonus = num_gold_credits * 0.5 / 100
     $('#long-extra-bonus').css('display','none')
-    $('#total-bonus-text').html(num_silver_credits + ' silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> in bonus.')
+    $('#total-bonus-text').html('$' + bonus + ' in bonus.')
 
   }
 }
