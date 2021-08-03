@@ -1389,7 +1389,7 @@ var current_condition;
 var current_setting;
 function renderTask(condition, data, data_2, callback=null) {
   questions_num += 1;
-  $("#progress-text").html(questions_num + " / 28")
+  $("#progress-text").html(questions_num + " / 40")
   curr = condition.split(" ");
   current_question = data;
   current_question_2 = data_2
