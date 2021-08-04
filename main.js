@@ -1488,7 +1488,7 @@ function renderTask(condition, data, data_2, callback=null) {
   if (training_phase || training_phase_ai) {
     if (training_phase_count == 0 || training_phase_count_ai == 0) { 
     // if (training_phase_count == 0) { 
-      $('#training-modal').modal('toggle')
+      // $('#training-modal').modal('toggle')
       // "Received writing"
       if (current_setting == 'long') {
         // $('#training-modal-text').html('You will complete the next 5 question answering tasks by yourself and receive 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly. These passages are long, which is why you receive gold credits.')
