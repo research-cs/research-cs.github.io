@@ -13,7 +13,7 @@ function main() {
 
   if (idx == 0) {
     document.getElementById("onboarding").style.display = "block";
-    $('#progress-text').html(progress_bar_text[progress_num]);
+    // $('#progress-text').html(progress_bar_text[progress_num]);
     $('#payment').html(payment);
     $('#time').html(time);
     $('#consent-form').attr("href", href);
@@ -50,13 +50,13 @@ function consentCallback() {
     transition("onboarding", "demographics");
     // only for debugging submission
     // transition("onboarding", "questionnaire");
-    $('#progress-text').html(progress_bar_text[progress_num]);
+    // $('#progress-text').html(progress_bar_text[progress_num]);
     progress_num += 1;
   }
   else if ($("#disagree").is(":checked")) {
     output['consent'] = 'disagree'
     transition("onboarding","exit");
-    $('#progress-text').html('Exit');
+    // $('#progress-text').html('Exit');
   }
   else {
     alert('Please answer the consent question.');
@@ -218,7 +218,7 @@ function demographicsCallback() {
     // uncomment the following for dummy task
     // transition("demographics", "submission");
     // runTutorial();
-    $('#progress-text').html(progress_bar_text[progress_num]);
+    // $('#progress-text').html(progress_bar_text[progress_num]);
     save_progress_text = progress_num
     progress_num += 1;
   }
@@ -634,7 +634,7 @@ function runTraining() {
             $('#total-credits').hide()
             repeatTask(input['coged-order'][task_repeat][1], 'collaboration-task-first-text')
             runTask();
-            $('#progress-text').html(progress_bar_text[progress_num]);
+            // $('#progress-text').html(progress_bar_text[progress_num]);
             progress_num += 1;
             training_phase = false;
             training_phase_ai = false;
@@ -681,7 +681,7 @@ function runTraining() {
     $('#total-credits').hide()
     repeatTask(input['coged-order'][task_repeat][1], 'collaboration-task-first-text')
     runTask();
-    $('#progress-text').html(progress_bar_text[progress_num]);
+    // $('#progress-text').html(progress_bar_text[progress_num]);
     progress_num += 1;
     training_phase = false;
     training_phase_ai = false;
@@ -1690,7 +1690,7 @@ function questionnaireTrustCallback() {
       $('#total-credits').hide()
       repeatTask(input['coged-order'][task_repeat][1], 'collaboration-task-first-text')
       runTask();
-      $('#progress-text').html(progress_bar_text[progress_num]);
+      // $('#progress-text').html(progress_bar_text[progress_num]);
       progress_num += 1;
       training_phase = false;
       training_phase_ai = false;
@@ -1833,7 +1833,7 @@ function questionnaireCallback() {
         'gold': num_gold_credits,
         'silver': num_silver_credits
       }
-      $('#progress-text').html(progress_bar_text[progress_num]);
+      // $('#progress-text').html(progress_bar_text[progress_num]);
       progress_num += 1;
       coged_phase = false;
     }
@@ -1870,7 +1870,7 @@ function questionnaireHumanCallback() {
   if (total_checked == questions.length) {
     output['nfc'] = nfc_response
     transition("questionnaire-human","feedback");
-    $('#progress-text').html(progress_bar_text[progress_num]);
+    // $('#progress-text').html(progress_bar_text[progress_num]);
     progress_num += 1;
   } else {
     alert("Please answer all of the questions.")
@@ -1975,7 +1975,7 @@ function feedbackCallback() {
   output['feedback'] = $('#feedbackform').val();
   progress_bar_current += (11 * progress_bar_increments)
   transition("feedback","submission");
-  $('#progress-text').html(progress_bar_text[progress_num]);
+  // $('#progress-text').html(progress_bar_text[progress_num]);
     progress_num += 1;
   if (ai_condition[0] == 'long') {
       // uncomment here if you want to have an extra bonus for long
