@@ -191,6 +191,12 @@ nav {
        CHOICE
 ********************/
 
+#choose, #choose-flipped, #coged-task h3{
+    margin-top: 40px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+}
+
 .important-text {
 }
 
@@ -2101,7 +2107,9 @@ jQuery.fn.disableFind = function(){
 				<p id = 'coged-AI-xai' style="display:none">You will be asked to choose between completing a task with the AI's suggestion and completing a task with the AI's suggestion and explanation.
 				</p>
 				<p>
-				<span id= "coged-forced-AI" style="display:none"> <strong>In this phase, if you choose the AI's assistance, you will have to respond with its answer. <span class="important-text">You will NOT be able to change its answer. </span></strong><br><br></span>
+				<span id= "coged-forced-AI" style="display:none"> You will be asked to choose between completing a task by yourself and using the AI's suggestion for each question. <strong>In this phase, if you choose the AI's assistance, you will have to respond with its answer. 
+<!-- 					<span class="important-text">You will NOT be able to change its answer. </span>
+ -->				</strong><br><br></span>
 
 				<span id= "coged-AI" style="display:none"><strong>In this phase, if you choose the AI's assistance, you will be able to collaborate with it and decide whether or not you would like to use its answer. <span class="important-text">You WILL be able to change its answer. </span></strong><br><br></span>
 
@@ -3635,7 +3643,7 @@ var dimensions = {
 var coged_order_temp = shuffle([
   // ['short baseline', 'short prediction'],
   // ['short baseline', 'short xai']
-                  ['long baseline', 'long prediction'],
+                  // ['long baseline', 'long prediction'],
                   ['long baseline', 'long xai']
                   ])
 // var coged_order_temp = shuffle([['short baseline', 'short xai']]);
@@ -3703,10 +3711,10 @@ if (compare_conditions) {
 }
 
 
-var study_3 = false
+var study_3 = true
 if (study_3) {
   // var study_3_type = shuffle(['human-forced-AI', 'Pred-XAI'])[0]
-  var study_3_type = shuffle(['Pred-XAI'])[0]
+  var study_3_type = shuffle(['human-forced-AI'])[0]
   // comment this out, just for debug
   // study_3_type = 'human-forced-AI'
   if (study_3_type == 'Pred-XAI') {
