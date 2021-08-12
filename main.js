@@ -1908,12 +1908,12 @@ function repeatTask(condition, id ='switch-tasks') {
       $(acc_id).html(curr_acc_score)
       // "Received" writing
       if (current_length == 'long') {
-        // $(coin_id).html('For each question you get correct, you will initially receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> in bonus.')
+        $(coin_id).html('For each question you get correct, you will initially receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')
         // $(length_id).html('long, which is why you receive gold credits')
           // $('#coin-explanation').html('Note that 100 gold credits equals $0.10.')      
       }
       else {
-        // $(coin_id).html('For each question you get correct, you will initially receive 50 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> in bonus.')
+        $(coin_id).html('For each question you get correct, you will initially receive 50 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025.')
         // $(length_id).html('short, which is why you receive silver credits')
           // $('#coin-explanation').html('Note that 100 silver credits equals $0.05.')
      }

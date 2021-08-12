@@ -2111,7 +2111,12 @@ jQuery.fn.disableFind = function(){
 <!-- 					<span class="important-text">You will NOT be able to change its answer. </span>
  -->				</strong><br><br></span>
 
-				<span id= "coged-AI" style="display:none"><strong>In this phase, if you choose the AI's assistance, you will be able to collaborate with it and decide whether or not you would like to use its answer. <span class="important-text">You WILL be able to change its answer. </span></strong><br><br></span>
+				<span id= "coged-AI" style="display:none">
+<!-- 					<strong>
+In this phase, if you choose the AI's assistance, you will be able to collaborate with it and decide whether or not you would like to use its answer. 
+<span class="important-text">You WILL be able to change its answer. </span>
+				</strong><br><br> -->
+				</span>
 
 				
 				<span id = 'coged-DIY-AI-attention'><strong>Each time you are asked to choose, the amount of money offered for getting the AI's suggestions will change, so please pay attention to those values. </strong></span>
@@ -3511,7 +3516,8 @@ function make_input(json_data) {
                   //['long baseline', 'long prediction'], ['long baseline', 'long xai']],
   'collaboration': [
               
-               [model_correct[16], model_correct[17], model_correct[18], model_correct[19], model_correct[20], model_correct[21], model_correct[22], model_correct[23], 
+               [
+               model_correct[16], model_correct[17], model_correct[18], model_correct[19], model_correct[20], model_correct[21], model_correct[22], model_correct[23], 
                model_correct[24], model_correct[25], model_correct[26], model_correct[27], model_correct[28], model_correct[29], model_correct[30], model_correct[31], 
                model_incorrect[3], model_incorrect[4], 
                model_incorrect[5], model_incorrect[6]
@@ -3534,7 +3540,8 @@ var dimensions = {
                   //['long baseline', 'long prediction'], ['long baseline', 'long xai']],
   'collaboration': [
                    // [model_correct[16]]
-               [width[16], width[17], width[18], width[19], width[20], width[21], width[22], width[23], 
+               [
+               width[16], width[17], width[18], width[19], width[20], width[21], width[22], width[23], 
                width[24], width[25], width[26], width[27], width[28], width[29], width[30], width[31], 
                height[3], height[4], 
                height[5], height[6]
@@ -3714,7 +3721,7 @@ if (compare_conditions) {
 var study_3 = true
 if (study_3) {
   // var study_3_type = shuffle(['human-forced-AI', 'Pred-XAI'])[0]
-  var study_3_type = shuffle(['human-forced-AI'])[0]
+  var study_3_type = shuffle(['human-AI'])[0]
   // comment this out, just for debug
   // study_3_type = 'human-forced-AI'
   if (study_3_type == 'Pred-XAI') {
@@ -3728,11 +3735,17 @@ if (study_3) {
     // alert('Pred-XAI')
     curr_choose_coged = [""]
   }
-  else {
+  else if (study_3_type == 'human-forced-AI') {
     var coged_order_temp = shuffle([['long baseline', 'long xai']]);
     have_coged_phase = true
     compare_conditions_type = "human-forced-AI"
     curr_choose_coged = ["human-forced-AI"]
+  }
+  else {
+    var coged_order_temp = shuffle([['long baseline', 'long xai']]);
+    have_coged_phase = true
+    compare_conditions_type = "human-AI"
+    curr_choose_coged = ["human-AI"]
   }
 
 }
