@@ -206,6 +206,12 @@ nav {
   vertical-align: text-bottom;
 }
 
+#coged-task p > img{
+  width: 1.4em;
+  padding-left: 2px;
+  vertical-align: text-bottom;
+}
+
 #choose, #choose-flipped p {
   margin-bottom: 4rem; 
   font-size: 1.3rem;
@@ -2104,7 +2110,7 @@ jQuery.fn.disableFind = function(){
 			<div class="card-body">
 				<p id = 'coged-DIY-AI' style="display:none">You will be asked to choose between completing a task by yourself and using <span id='coged-ai-name'></span> assistance for each question. 
 				</p>
-				<p id = 'coged-AI-xai' style="display:none">You will be asked to choose between completing a task with the AI's suggestion and completing a task with the AI's suggestion and explanation.
+				<p id = 'coged-AI-xai' style="display:none">You will be asked to choose between completing a task with the AI's suggestion <strong>or</strong> completing a task with the AI's suggestion and <span class='main-highlight'>explanations</span>. You will be offered gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for choosing, which have no real monetary value. 
 				</p>
 				<p>
 				<span id= "coged-forced-AI" style="display:none"> You will be asked to choose between completing a task by yourself and using the AI's suggestion for each question. <strong>In this phase, if you choose the AI's assistance, you will have to respond with its answer. 
@@ -2121,7 +2127,7 @@ In this phase, if you choose the AI's assistance, you will be able to collaborat
 				
 				<span id = 'coged-DIY-AI-attention'><strong>Each time you are asked to choose, the amount of money offered for getting the AI's suggestions will change, so please pay attention to those values. </strong></span>
 
-				<span id = 'coged-AI-xai-attention'><strong>Each time you are asked to choose, the amount of money offered for getting the AI's suggestions and explanations will change, so please pay attention to those values. </strong></span>
+				<span id = 'coged-AI-xai-attention'><strong>Each time you are asked to choose, the amount of credits offered for getting the AI's suggestions and explanations will change, so please pay attention to those values. </strong></span>
 
 				<span id='coged-text-long' style="display:none">
 					Remember that 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> is equal to a $0.10 bonus. 
@@ -3506,6 +3512,8 @@ function make_input(json_data) {
   [[model_correct[0], model_correct[1], model_incorrect[2]]],
   'training-AI': 
   [[model_correct[4],model_correct[5], model_correct[6], model_correct[7], model_incorrect[0]]],
+  'training-AI-compare': 
+  [[model_correct[0], model_correct[1], model_incorrect[2], model_correct[32], model_correct[33]]],
   'coged': [
               [model_correct[8], model_correct[9], model_correct[10], model_correct[11], model_incorrect[1]]
               // [model_correct[12], model_correct[13], model_correct[14], model_correct[15], model_incorrect[2]],
@@ -3530,6 +3538,8 @@ var dimensions = {
   [[width[0], width[1], height[2]]],
   'training-AI': 
     [[width[4],width[5], width[6], width[7], height[0]]],
+  'training-AI-compare': 
+    [[width[0],width[1], height[2], width[32], width[33]]],
   'coged': [
               // [model_correct[12], model_correct[13], model_correct[14], model_correct[15], model_incorrect[2]],
               [width[8], width[9], width[10], width[11], height[1]]
@@ -3556,6 +3566,10 @@ var dimensions = {
   json_input['training-AI'][0] = temp_data[0]
   dimensions['training-AI'][0] = temp_data[1]
 
+  temp_data = shuffle_multiple(json_input['training-AI-compare'][0], dimensions['training-AI-compare'][0])
+  json_input['training-AI-compare'][0] = temp_data[0]
+  dimensions['training-AI-compare'][0] = temp_data[1]
+
   temp_data = shuffle_multiple(json_input['coged'][0], dimensions['coged'][0])
   json_input['coged'][0] = temp_data[0]
   dimensions['coged'][0] = temp_data[1]
@@ -3564,9 +3578,9 @@ var dimensions = {
   json_input['collaboration'][0] = temp_data[0]
   dimensions['collaboration'][0] = temp_data[1]
   // json_input['coged-order'] = shuffle_multiple(json_input['coged-order']);
-  if (compare_conditions) {
-    json_input['training-AI-compare'] = json_input['coged'][1]
-  }
+  // if (compare_conditions) {
+  //   json_input['training-AI-compare'] = json_input['coged'][1]
+  // }
   return [json_input, dimensions]
 }
 
@@ -3721,7 +3735,7 @@ if (compare_conditions) {
 var study_3 = true
 if (study_3) {
   // var study_3_type = shuffle(['human-forced-AI', 'Pred-XAI'])[0]
-  var study_3_type = shuffle(['human-forced-AI'])[0]
+  var study_3_type = shuffle(['Pred-XAI'])[0]
   // comment this out, just for debug
   // study_3_type = 'human-forced-AI'
   if (study_3_type == 'Pred-XAI') {

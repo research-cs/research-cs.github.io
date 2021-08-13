@@ -126,8 +126,10 @@ function demographicsCallback() {
      // runTask();
      // training_phase = false;
     // uncomment the following for between subjects with training
-     transition('demographics', 'training-start');
-     runTraining();
+     // transition('demographics', 'training-start');
+     // runTraining();
+     transition('demographics', 'training-intermediate');
+     runTrainingAI();
      // var training_credits_text = ""
      // if (curr_reward_system == "overreliance") {
      //    training_credits_text += "You will only get rewarded for the question if BOTH you and the AI are correct. "
@@ -140,8 +142,8 @@ function demographicsCallback() {
         
         // "Receive" writing
         // $('#training-credits-ai').html('For each question you get correct, you will receive $0.025.')
-        $('#training-credits').html('For each question you get correct alone, you will receive 100 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.05.')
-        $('#training-credits-ai').html('For each question you get correct with the AI, you will receive 50 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025.')
+        // $('#training-credits').html('For each question you get correct alone, you will receive 100 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.05.')
+        // $('#training-credits-ai').html('For each question you get correct with the AI, you will receive 50 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025.')
 
         // if (curr_reward_system == "overreliance") {
         //   training_credits_text += "You will only get rewarded for the question if BOTH you and the AI are correct. "
@@ -171,8 +173,8 @@ function demographicsCallback() {
         
         // "Receive" writing
         // $('#training-credits-ai').html('For each question you get correct, you will receive $0.01.')
-        $('#training-credits').html('For each question you get correct alone, you will receive 100 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.10.')
-        $('#training-credits-ai').html('For each question you get correct with the AI, you will receive 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')
+        // $('#training-credits').html('For each question you get correct alone, you will receive 100 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.10.')
+        // $('#training-credits-ai').html('For each question you get correct with the AI, you will receive 50 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')
 
 
         // if (curr_reward_system == "overreliance") {
@@ -547,11 +549,6 @@ function runTraining() {
       output['training'].push(response)
 
       if (training_phase_count == training_phase_order.length - 1) {
-        if (compare_conditions && compare_conditions_training_phase_num == 0) {
-          compare_conditions_training_phase_num += 1
-          ai_condition[1] = 'prediction'
-          training_phase_order_ai = training_phase_order_ai_pred
-        }
         $('.alert-link').unbind('click').click(function() {
           transition('task', 'training-intermediate')
           runTrainingAI();
@@ -579,15 +576,12 @@ function runTraining() {
   function runTrainingAI() {
   training_phase_ai = true;
   training_phase_count_ai = 0;
-  if (compare_conditions && compare_conditions_training_phase_num == 1) {
-    $('#training-ai-name').css('color',ai_colors[task_repeat]);
-    $('#training-ai-name').html('the AI');
-  }
-  else {
-    $('#training-ai-name').css('color',ai_colors[task_repeat]);
-    $('#training-ai-name').html('the AI');
-  }
   $('#training-ai-acc').html(curr_acc_score);
+  if (compare_conditions && compare_conditions_training_phase_num == 0) {
+    compare_conditions_training_phase_num += 1
+    ai_condition[1] = 'prediction'
+    training_phase_order_ai = training_phase_order_ai_pred
+  }
   if (ai_condition[1] == 'xai') {
     $('#xai-begin-training').css('display','inline-block')
     $('.main-highlight').removeClass('no-highlight')
@@ -595,6 +589,17 @@ function runTraining() {
   else {
     $('#xai-begin-training').css('display','none')
   }
+
+  if (compare_conditions && compare_conditions_training_phase_num == 1) {
+    $('#training-ai-name').css('color',ai_colors[task_repeat]);
+    $('#training-ai-name').html('the AI');
+  }
+  else {
+    $('#training-ai-name').css('color',ai_colors[task_repeat]);
+    $('#training-ai-name').html('the AI');
+    $('#xai-begin-training').css('display','none')
+  }
+
 
   function trainingCallback() {
     response = readTaskResponse()
@@ -608,7 +613,6 @@ function runTraining() {
           ai_condition[1] = 'xai'
           training_phase_order_ai = [coged_order_temp[0][1], coged_order_temp[0][1], coged_order_temp[0][1], 
                               coged_order_temp[0][1], coged_order_temp[0][1]]
-          runTrainingAI();
           $('.alert-link').unbind('click').click(function() {
             transition('task', 'training-intermediate')
             $('#training-ai-name').css('color',ai_colors[task_repeat]);
@@ -623,6 +627,7 @@ function runTraining() {
             else {
               $('#xai-compare-training').css('display','none')
             }
+            runTrainingAI();
           })
         }
         else {
@@ -646,7 +651,7 @@ function runTraining() {
         training_phase_count_ai += 1;
         $('.alert-link').unbind('click').click(function() {
           if (compare_conditions && compare_conditions_training_phase_num == 2) {
-            renderTask(training_phase_order_ai[training_phase_count_ai], input['training-AI-compare'][training_phase_count_ai], 
+            renderTask(training_phase_order_ai[training_phase_count_ai], input['training-AI-compare'][0][training_phase_count_ai], 
               dimensions['training-AI-compare'][0][training_phase_count_ai]);
           }
           else {
@@ -1516,7 +1521,6 @@ function renderTask(condition, data, data_2, callback=null) {
         else {
           // $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. You will receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for each question you answer correctly. This AI has the ability to give <span class=\'main-highlight\'>explanations</span>.')
           $('#training-modal-text').html('You will complete the next 5 question answering tasks with the AI to experience using the AI. This AI has the ability to give <span class=\'main-highlight\'>explanations</span>.')
-
         }
       }
       else {
@@ -1908,12 +1912,12 @@ function repeatTask(condition, id ='switch-tasks') {
       $(acc_id).html(curr_acc_score)
       // "Received" writing
       if (current_length == 'long') {
-        $(coin_id).html('For each question you get correct, you will initially receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')
+        // $(coin_id).html('For each question you get correct, you will initially receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')
         // $(length_id).html('long, which is why you receive gold credits')
           // $('#coin-explanation').html('Note that 100 gold credits equals $0.10.')      
       }
       else {
-        $(coin_id).html('For each question you get correct, you will initially receive 50 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025.')
+        // $(coin_id).html('For each question you get correct, you will initially receive 50 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to $0.025.')
         // $(length_id).html('short, which is why you receive silver credits')
           // $('#coin-explanation').html('Note that 100 silver credits equals $0.05.')
      }
