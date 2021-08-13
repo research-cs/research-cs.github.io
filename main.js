@@ -743,7 +743,7 @@ function runTask() {
       $(choose_text_AI).html("Only use the AI's response")
     }
     else if (compare_conditions) {
-      $(choose_text_baseline).html("Only get suggestion from AI")
+      $(choose_text_baseline).html("Get suggestion from AI")
       $(choose_text_AI).html("Get suggestion and explanation from AI")
       baseline_condition[1] = 'prediction'
     }
