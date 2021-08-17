@@ -3664,7 +3664,7 @@ var dimensions = {
 var coged_order_temp = shuffle([
   // ['short baseline', 'short prediction'],
   // ['short baseline', 'short xai']
-                  // ['long baseline', 'long prediction'],
+                  ['long baseline', 'long prediction'],
                   ['long baseline', 'long xai']
                   ])
 // var coged_order_temp = shuffle([['short baseline', 'short xai']]);
@@ -3732,7 +3732,7 @@ if (compare_conditions) {
 }
 
 
-var study_3 = true
+var study_3 = false
 if (study_3) {
   // var study_3_type = shuffle(['human-forced-AI', 'Pred-XAI'])[0]
   var study_3_type = shuffle(['Pred-XAI'])[0]
