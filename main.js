@@ -599,7 +599,7 @@ function runTraining() {
   else {
     $('#training-ai-name').css('color',ai_colors[task_repeat]);
     $('#training-ai-name').html('the AI');
-    $('#xai-begin-training').css('display','none')
+    //$('#xai-begin-training').css('display','none')
   }
 
 
