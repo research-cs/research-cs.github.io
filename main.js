@@ -812,7 +812,7 @@ function runTask() {
             $("#coged-AI-xai-attention").hide()
           }
           if (current_length == 'long') {
-            // $("#coged-text-long").show()
+            $("#coged-text-long").show()
               if (curr_reward_system == "overreliance") {
               $("#coged-text-overreliance-long").show()
               $("#reward-table-coged-overreliance-long").show()
