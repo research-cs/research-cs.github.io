@@ -3732,10 +3732,10 @@ if (compare_conditions) {
 }
 
 
-var study_3 = false
+var study_3 = true
 if (study_3) {
   // var study_3_type = shuffle(['human-forced-AI', 'Pred-XAI'])[0]
-  var study_3_type = shuffle(['Pred-XAI'])[0]
+  var study_3_type = shuffle(['human-AI'])[0]
   // comment this out, just for debug
   // study_3_type = 'human-forced-AI'
   if (study_3_type == 'Pred-XAI') {
@@ -3756,7 +3756,6 @@ if (study_3) {
     curr_choose_coged = ["human-forced-AI"]
   }
   else {
-    var coged_order_temp = shuffle([['long baseline', 'long xai']]);
     have_coged_phase = true
     compare_conditions_type = "human-AI"
     curr_choose_coged = ["human-AI"]
@@ -3923,7 +3922,7 @@ var choose_gold_img_2 = choose_[11]
  <script type="text/javascript" src="https://research-cs.github.io/main.js"></script>
  
  <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/js/main.js"></script> -->
-<!-- <script type="text/javascript" src="EasyTurk/templates/js/main.js"></script>
- --></div>
+<!-- <script type="text/javascript" src="EasyTurk/templates/js/main.js"></script> -->
+</div>
 </body>
 </html>
