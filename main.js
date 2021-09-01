@@ -8,7 +8,7 @@ function main() {
 
   // Enable the task.
   // if (!easyturk.isPreview()){
-    enableTask();
+    // enableTask();
   // }
 
   if (idx == 0) {
@@ -1236,7 +1236,7 @@ function readTaskResponse() {
       'correct_response': correct_label,
       'model_response': model_response,
       'time': (question_stop_time - question_start_time) / 1000,
-      'scroll': current_label,
+      // 'scroll': current_label,
       'model_acc': curr_acc_score,
       'strategy': curr_reward_system,
       'coged-comparison': compare_conditions_type,
@@ -1436,18 +1436,18 @@ function renderTask(condition, data, data_2, callback=null) {
   contextText.empty()
 
   // Scroll Tracking
-  current_label = "0%";
-  var tracker = window.ScrollTracker({
-        context: '#context-text'
-      });
+  // current_label = "0%";
+  // var tracker = window.ScrollTracker({
+  //       context: '#context-text'
+  //     });
 
-  tracker.on({
-   percentages: {
-    every: [5]
-    }
-  }, function(evt) {
-    current_label = evt.data.label
-  });
+  // tracker.on({
+  //  percentages: {
+  //   every: [5]
+  //   }
+  // }, function(evt) {
+  //   current_label = evt.data.label
+  // });
 
   // End of scroll tracking
 

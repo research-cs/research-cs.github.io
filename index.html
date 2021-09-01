@@ -594,7 +594,7 @@ jQuery.fn.disableFind = function(){
 	});
 };
 </script>
-  <script type="text/javascript">
+<!--   <script type="text/javascript">
 
 /**
  * Emits events based on scrolling behavior in a given context. Shouldn't
@@ -1256,7 +1256,7 @@ jQuery.fn.disableFind = function(){
  */
 
 </script>
-</head>
+ --></head>
 
 <body>
   <nav class='navbar sticky-top'>
@@ -1309,8 +1309,8 @@ jQuery.fn.disableFind = function(){
  -->			</p>
 <!-- 				<p> <strong>Qualifications: </strong>If you do not pass the comprehension check, you will not be allowed to complete the study, so please make sure to pay attention to instructions. </p>
  -->
-<!--  			<p> <strong>ATTENTION:  DO NOT DO THIS STUDY IF YOU HAVE DONE IT ALREADY. THE STUDY IS THE SAME AND YOU WILL BE REJECTED. </strong></p>
- -->			</div>
+ 			<p> <strong>ATTENTION:  DO NOT DO THIS STUDY IF YOU HAVE DONE IT ALREADY. THE STUDY IS THE SAME AND YOU WILL BE REJECTED. </strong></p>
+			</div>
 		</div>
 		<br><br>
 		<h3>Participant Rights</h3>
@@ -1468,319 +1468,6 @@ jQuery.fn.disableFind = function(){
     </div>
   </div>
 </div>
-    <div class='row' id='tutorial-start' style='display:none'>
-	<div class='col-12'>
-		<h3>Tutorial</h3>
-
-		<div class="card">
-			<div class="card-body">
-				<p>We will begin with a brief tutorial, which will walk you through the study interface and explain the task. </p>
-				<button type="button" class="btn btn-primary" id='tutorial-start-button'>Begin</button>
-			</div>
-		</div>
-
-	</div>
-</div>
-
-<div id='tutorial-choose' style='display:none'>
-<!-- 	<div class='row'>
-		<div class='col-12 text-center' id='tutorial-choose-text'>
-			<h1><span id='tour-start'>Choose a task for the next question:</span></h1>
-			<p>Take your time and choose carefully</p>
-		</div>
-	</div> -->
-	<div class='row'>
-		<div class='col-5 text-center'>
-			<div class='choice-box d-flex align-items-center justify-content-center' id="choose-AI-tutorial">
-				<div>
-					<h2>Get suggestion from AI</h2>
-		    	</div>
-			</div>
-		</div>
-		<div class='col-2 text-center align-middle my-auto'>
-			<h5>or</h5>	
-		</div>
-		<div class='col-5 text-center'>
-			<div class='choice-box d-flex align-items-center justify-content-center' id="choose-human-tutorial">
-				<div>
-					<h2>Complete by yourself</h2>
-			    </div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class='row' id='tutorial-multiple-ai' style='display:none'>
-	<div class='col-12'>
-		<h3>Tutorial</h3>
-
-		<div class="card">
-			<div class="card-body">
-				<p>Throughout this study, <strong>you will be able to get suggestions from four AI agents.</strong> Some AI agents will have the ability to give explanations. All AI agents throughout this study are <span id='tutorial-acc-score'></span> accurate. Below, you will see examples of what the interface can look like with the four different AI agents.</p>
-<!-- 				<p>Throughout this study, <strong>you will be able to get suggestions from four AI agents.</strong> Some AI agents will have the ability to give explanations. Below, you will see examples of what the interface can look like with the four different AI agents.</p>
- -->				<br>
-				<div class='row'>
-					<div class='col-5 text-center'>
-						<div class='choice-box d-flex align-items-center justify-content-center' id="choose-AI-tutorial-1">
-							<div>
-								<h2 id='text-of-ai-1'>Get suggestion from AI <span id= 'choose-ai-name-1'></span></h2>
-					    	</div>
-						</div>
-					</div>
-					<div class='col-2 text-center align-middle my-auto'>
-						<h5>or</h5>	
-					</div>
-					<div class='col-5 text-center'>
-						<div class='choice-box d-flex align-items-center justify-content-center' id="choose-human-tutorial-1">
-							<div>
-								<h2>Complete by yourself</h2>
-						    </div>
-						</div>
-					</div>
-				</div>
-				<br>
-				<div class='row'>
-					<div class='col-5 text-center'>
-						<div class='choice-box d-flex align-items-center justify-content-center' id="choose-AI-tutorial-2">
-							<div>
-								<h2 id='text-of-ai-2'>Get suggestion from AI <span id= 'choose-ai-name-2'></span></h2>
-					    	</div>
-						</div>
-					</div>
-					<div class='col-2 text-center align-middle my-auto'>
-						<h5>or</h5>	
-					</div>
-					<div class='col-5 text-center'>
-						<div class='choice-box d-flex align-items-center justify-content-center' id="choose-human-tutorial-2">
-							<div>
-								<h2>Complete by yourself</h2>
-						    </div>
-						</div>
-					</div>
-				</div>
-				<br>
-				<div class='row'>
-					<div class='col-5 text-center'>
-						<div class='choice-box d-flex align-items-center justify-content-center' id="choose-AI-tutorial-3">
-							<div>
-								<h2 id='text-of-ai-3'>Get suggestion from AI <span id= 'choose-ai-name-3'></span></h2>
-					    	</div>
-						</div>
-					</div>
-					<div class='col-2 text-center align-middle my-auto'>
-						<h5>or</h5>	
-					</div>
-					<div class='col-5 text-center'>
-						<div class='choice-box d-flex align-items-center justify-content-center' id="choose-human-tutorial-3">
-							<div>
-								<h2>Complete by yourself</h2>
-						    </div>
-						</div>
-					</div>
-				</div>
-				<br>
-				<div class='row'>
-					<div class='col-5 text-center'>
-						<div class='choice-box d-flex align-items-center justify-content-center' id="choose-AI-tutorial-4">
-							<div>
-								<h2 id='text-of-ai-4'>Get suggestion from AI <span id= 'choose-ai-name-4'></span></h2>
-					    	</div>
-						</div>
-					</div>
-					<div class='col-2 text-center align-middle my-auto'>
-						<h5>or</h5>	
-					</div>
-					<div class='col-5 text-center'>
-						<div class='choice-box d-flex align-items-center justify-content-center' id="choose-human-tutorial-4">
-							<div>
-								<h2>Complete by yourself</h2>
-						    </div>
-						</div>
-					</div>
-				</div>
-				<br>
-
-				<button type="button" class="btn btn-primary" id='tutorial-multiple-ai-button'>Continue</button>
-			</div>
-		</div>
-
-	</div>
-</div>
-    <div class='row' id='comprehension-check' style="display:none">
-	<div class='col-12'>
-		<h3>Comprehension Check</h3>
-
-		<div class="card">
-			<div class="card-body">
-				<p>Please answer the following comprehension check so that we know you understand the study guidelines. If you do not pass the comprehension check, you will be reprompted back to the tutorial.</p>
-				<p><strong>1. When do you receive gold credits versus silver credits?</strong></p>
-				<form id='comprehension-response-form'>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="difference-credits" id="long-short">
-				  <label class="form-check-label" for="long-short">
-				    You receive gold credits with long passages and silver credits with short passages.
-				  </label>
-				</div>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="difference-credits" id="yourself-AI">
-				  <label class="form-check-label" for="yourself-AI">
-				    You receive gold credits when you complete the passages yourself and silver credits when you get an AI's suggestions.
-				  </label>
-				</div>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="difference-credits" id="AI-explanations">
-				  <label class="form-check-label" for="AI-explanations">
-				    You receive gold credits when you get an AI's suggestions and silver credits when you get an AI's explanations.
-				  </label>
-				</div>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="difference-credits" id="short-long">
-				  <label class="form-check-label" for="short-long">
-				    You receive gold credits with short passages and silver credits with long passages.
-				  </label>
-				</div>
-				<div class="alert alert-success" style='display: none' role="alert" id="q1-correct">
-				 	Correct!
-				</div>
-				<div class="alert alert-danger" style='display: none' role="alert" id="q1-incorrect">
-				 	Incorrect!
-				</div>
-				<br>
-				<p><strong>2. Fill in the blanks: You will be asked to choose between doing the passage _____ and _____.</strong></p>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="choose-question" id="ai-ai">
-				  <label class="form-check-label" for="ai-ai">
-				    with an AI, with another AI
-				  </label>
-				</div>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="choose-question" id="ai-xai">
-				  <label class="form-check-label" for="ai-xai">
-				    with an AI, with another AI that can offer explanations
-				  </label>
-				</div>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="choose-question" id="yourself-ai">
-				  <label class="form-check-label" for="yourself-ai">
-				    by yourself, with an AI
-				  </label>
-				</div>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="choose-question" id="ai-badai">
-				  <label class="form-check-label" for="ai-badai">
-				    with an AI, with another AI that is less accurate
-				  </label>
-				</div>
-				<div class="alert alert-success" style='display: none' role="alert" id="q2-correct">
-				 	Correct!
-				</div>
-				<div class="alert alert-danger" style='display: none' role="alert" id="q2-incorrect">
-				 	Incorrect!
-				</div>
-				<br>
-				<p><strong>3. With how many AI(s) are we asking you to complete the passages?</strong></p>
-				  <div class="form-group">
-				    <select class="form-control" id="how-many-AI-to-collaborate">
-				   	  <option id='please-select'>Please select</option>
-				      <option id= 'select-1'>1 AI</option>
-				      <option id= 'select-2'>2 AIs</option>
-				      <option id= 'select-3'>3 AIs</option>
-				      <option id= 'select-4'>4 AIs</option>
-				      <option id= 'select-5'>5 AIs</option>
-				      <option id= 'select-6'>6 AIs</option>
-				      <option id= 'select-7'>7 AIs</option>
-				      <option id= 'select-8'>8 AIs</option>
-				      <option id= 'select-9'>9 AIs</option>
-				      <option id= 'select-10'>10 AIs</option>
-				    </select>
-				  </div>
-				<div class="alert alert-success" style='display: none' role="alert" id="q3-correct">
-				 	Correct!
-				</div>
-				<div class="alert alert-danger" style='display: none' role="alert" id="q3-incorrect">
-				 	Incorrect!
-				</div>
-				<br>
-				<p><strong>4. Some of the AI you will collaborate with have the ability to</strong></p>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="ability-question" id="offer-confidence">
-				  <label class="form-check-label" for="offer-confidence">
-				    offer their confidence score.
-				  </label>
-				</div>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="ability-question" id="offer-xai">
-				  <label class="form-check-label" for="offer-xai">
-				    offer explanations through highlights.
-				  </label>
-				</div>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="ability-question" id="offer-alternative">
-				  <label class="form-check-label" for="offer-alternative">
-				    offer alternative suggestions.
-				  </label>
-				</div>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="ability-question" id="offer-similar">
-				  <label class="form-check-label" for="offer-similar">
-				  	offer similar examples of the passage.
-				  </label>
-				</div>
-				<div class="alert alert-success" style='display: none' role="alert" id="q4-correct">
-				 	Correct!
-				</div>
-				<div class="alert alert-danger" style='display: none' role="alert" id="q4-incorrect">
-				 	Incorrect!
-				</div>
-				<br>
-				<p><strong>5. You will only receive the bonus for that particular question if you get it correct.</strong></p>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="bonus-question" id="true">
-				  <label class="form-check-label" for="true">
-				    True
-				  </label>
-				</div>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="bonus-question" id="false">
-				  <label class="form-check-label" for="false">
-				    False
-				  </label>
-				</div>
-				<div class="alert alert-success" style='display: none' role="alert" id="q5-correct">
-				 	Correct!
-				</div>
-				<div class="alert alert-danger" style='display: none' role="alert" id="q5-incorrect">
-				 	Incorrect!
-				</div>
-			</form>
-				<button type="button" class="btn btn-primary" id='comprehension-check-button'>Check your responses</button>
-				<button type="button" class="btn btn-primary" id='comprehension-check-button-2' style='display: none'>Continue to the study</button>
-				<button type="button" class="btn btn-primary" id='comprehension-check-button-3' style='display: none'>Go back to the tutorial</button>
-				<button type="button" class="btn btn-primary" id='comprehension-check-button-4' style='display: none'>Exit the study</button>
-			</div>
-		</div>
-
-	</div>
-</div>
-
-<div class="modal fade" id="comprehension-check-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Training phase</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" id="comprehension-check-modal-text">
-      	You have not passed the comprehension check. Please review the questions. We will ask you to go through the tutorial phase one last time. If you fail the comprehension check, you will be exited from the study.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
     <div class='row' id='training-start' style = "display:none;">
 	<div class='col-12'>
 		<h3>Training</h3>
@@ -1852,79 +1539,6 @@ jQuery.fn.disableFind = function(){
       </div>
     </div>
   </div>
-</div>
-    <div id='funnymoney' style="display:none;">
-	<div class='row'>
-		<div class='col-12'>
-			<h3>Earning Credits</h3>
-
-			<div class="card">
-				<div class="card-body">
-					<p><strong style='color:red'>Please read this section carefully.</strong></p>
-
-					<p></strong> During the main study, each option (of choosing between doing the task yourself versus receiving the AI's suggestions) will be associated with a varying number of credits, which we explain below.</p>
-
-					<p>Credits look like this: <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> and <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">. Throughout this study, <strong>your goal will be to gather as many credits as possible.</strong> Credits will be associated with an actual monetary bonus. Gold credits are worth $0.10 per 100 credits (paid in USD). Silver credits are worth $0.05 per 100 credits (paid in USD). Certain options that earn many credits will require significantly more time and/or effort. It is up to you to determine which tasks are worth the provided credits. The bonuses you earn will be given to you after you complete the study.</p>
-
-					<p>The difference between receiving gold and silver credits is due to the different lengths of passages you will read. You can receive gold credits for long passages. You can receive silver credits for short passages.</p>
-
-					<p>During the main study, <strong>you will be asked to choose between completing a task by yourself and using AI-provided assistance.</strong> Now, each choice will be associated with a certain amount of credits, as you can see below. Completing the task correctly will add that many credits to your total balance. Completing the task incorrectly will earn you 0 credits. You can see your total credit balance in the upper right. </p>
-					<hr>
-					<p><strong>If you have carefully read the instructions above and wish to continue with the study, click the button below.</strong></p>
-					<button type="button" class="btn btn-primary" id='funnymoney-button'>Continue</button>
-				</div>
-			</div>
-
-		</div>
-	</div>
-
-	<div id='funnymoney-choose'>
-		<div class='row'>
-			<div class='col-12 text-center'>
-				<h1>Example Task</h1>
-				<p>Notice the difference in credits.</p>
-			</div>
-		</div>
-		<div class='row'>
-			<div class='col-5 text-center'>
-				<div class='choice-box d-flex align-items-center justify-content-center' id='choose-AI-funnymoney'>
-					<div>
-						<h2>Get suggestion from AI</h2>
-						<span id='funnymoney-cost-of-AI'>50 gold credits</span>
-				        <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">
-			    	</div>
-				</div>
-			</div>
-			<div class='col-2 text-center align-middle my-auto'>
-				<h5>or</h5>
-			</div>
-			<div class='col-5 text-center'>
-				<div class='choice-box d-flex align-items-center justify-content-center' id='choose-human-funnymoney'>
-					<div>
-						<h2>Complete by yourself</h2>
-						<span id='funnymoney-cost-of-human'>100 gold credits</span>
-				        <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">
-				    </div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div id='funnymoney-2' style="display:none;">
-	<div class='row'>
-		<div class='col-12'>
-			<h3>Earning Credits</h3>
-
-			<div class="card">
-				<div class="card-body">
-					<p>Remember, the difference in monetary reward in the silver and gold credits is because tasks that yield silver credits are easier than those that yield gold. You can find out how much money gold and silver credits are worth by hovering over the icons in the top right (Try now!).</p>
-					<button type="button" class="btn btn-primary" id='funnymoney-2-button'>Continue</button>
-				</div>
-			</div>
-
-		</div>
-	</div>
 </div>
     <div class='row' id='begin-task' style = "display:none;">
 	<div class='col-12'>
@@ -2229,16 +1843,6 @@ In this phase, if you choose the AI's assistance, you will be able to collaborat
 		<div class='col-8'>
 			<div class="card" id = "main-task">
 				<div class="card-body context-body" id='context-text'>
-					<p>The University of Chicago (UChicago, Chicago, or U of C) is a private research university in Chicago. The university, established in 1890, consists of The College, various graduate programs, interdisciplinary committees organized into four academic research divisions and seven professional schools. Beyond the arts and sciences, Chicago is also well known for its professional schools, which include the Pritzker School of Medicine, the University of Chicago Booth School of Business, the Law School, the School of Social Service Administration, the Harris School of Public Policy Studies, the Graham School of Continuing Liberal and Professional Studies and the Divinity School. The university currently enrolls approximately 5,000 students in the College and around 15,000 students overall.</p>
-
-					<p>University of Chicago scholars have played a major role in the development of various academic disciplines, including: the Chicago school of economics, the Chicago school of sociology, the law and economics movement in legal analysis, the Chicago school of literary criticism, the Chicago school of religion, and the behavioralism school of political science. Chicago's physics department helped develop the world's first man-made, self-sustaining nuclear reaction beneath the university's Stagg Field. Chicago's research pursuits have been aided by unique affiliations with world-renowned institutions like the nearby Fermilab and Argonne National Laboratory, as well as the Marine Biological Laboratory. The university is also home to the University of Chicago Press, the largest university press in the United States. With an estimated completion date of 2020, the Barack Obama Presidential Center will be housed at the university and include both the Obama presidential library and offices of the Obama Foundation.</p>
-					
-					<p>Founded by the American Baptist Education Society with a donation from oil magnate and wealthiest man in history John D. Rockefeller, the University of Chicago was incorporated in 1890; William Rainey Harper became the university's first president in 1891, and the first classes were held in 1892. Both Harper and future president Robert Maynard Hutchins advocated for Chicago's curriculum to be based upon theoretical and perennial issues rather than on applied sciences and commercial utility. With Harper's vision in mind, the University of Chicago also became one of the 14 founding members of the Association of American Universities, an international organization of leading research universities, in 1900. </p>
-
-					<p> The University of Chicago was created and incorporated as a coeducational, secular institution in 1890 by the American Baptist Education Society and a donation from oil magnate and philanthropist John D. Rockefeller on land donated by Marshall Field. While the Rockefeller donation provided money for academic operations and long-term endowment, it was stipulated that such money could not be used for <span class='question-highlight'>building</span>s. The original physical campus was financed by donations from wealthy Chicagoans like <span class='main-highlight'>Silas B. Cobb</span> who provided the funds for the campus' first <span class='question-highlight'>building</span>, <span class='answer-highlight'>Cobb</span> Lecture Hall, and matched Marshall Field's pledge of $100,000. Other early benefactors included businessmen Charles L. Hutchinson (trustee, treasurer and donor of Hutchinson Commons), Martin A. Ryerson (president of the board of trustees and donor of the Ryerson Physical Laboratory) Adolphus Clay Bartlett and Leon Mandel, who funded the construction of the gymnasium and assembly hall, and George C. Walker of the Walker Museum, a relative of <span class='answer-highlight'>Cobb</span> who encouraged his inaugural donation for facilities. </p>
-
-					<p> In the 1890s, the University of Chicago, fearful that its vast resources would injure smaller schools by drawing away good students, affiliated with several regional colleges and universities: Des Moines College, Kalamazoo College, Butler University, and Stetson University. In 1896, the university affiliated with Shimer College in Mount Carroll, Illinois. Under the terms of the affiliation, the schools were required to have courses of study comparable to those at the university, to notify the university early of any contemplated faculty appointments or dismissals, to make no faculty appointment without the university's approval, and to send copies of examinations for suggestions. The University of Chicago agreed to confer a degree on any graduating senior from an affiliated school who made a grade of A for all four years, and on any other graduate who took twelve weeks additional study at the University of Chicago. A student or faculty member of an affiliated school was entitled to free tuition at the University of Chicago, and Chicago students were eligible to attend an affiliated school on the same terms and receive credit for their work. The University of Chicago also agreed to provide affiliated schools with books and scientific apparatus and supplies at cost; special instructors and lecturers without cost except travel expenses; and a copy of every book and journal published by the University of Chicago Press at no cost. The agreement provided that either party could terminate the affiliation on proper notice. Several University of Chicago professors disliked the program, as it involved uncompensated additional labor on their part, and they believed it cheapened the academic reputation of the university. The program passed into history by 1910.
-					</p>
 				</div>
 			</div>
 		</div>
@@ -3456,47 +3060,6 @@ function shuffleSubset(array, split) {
 
 var randomize = true;
 
-// randomly shuffles questions that are assigned to COGED phase
-// if (randomize) {
-//   json_data = shuffleSubset(json_data, 5);
-// }
-
-// var DEFAULT_QUESTION = {
-//   'id': 0,
-//   'question': "Who helped pay for the university's first building structure?",
-//   'possible_answers': ['John D. Rockefeller',
-//                        'Marshall Field',
-//                        'Charles L. Hutchinson',
-//                        'Silas B. Cobb'],
-//   'model_response': 'Silas B. Cobb',
-//   'confidence': 84,
-//   'correct_response': 'Silas B. Cobb',
-//   'text': ["<p><nobr>The</nobr> <nobr>University</nobr> <nobr>of</nobr> <nobr>Chicago</nobr> <nobr>(UChicago,</nobr> <nobr>Chicago,</nobr> <nobr>or</nobr> <nobr>U</nobr> <nobr>of</nobr> <nobr>C)</nobr> <nobr>is</nobr> <nobr>a</nobr> <nobr>private</nobr> <nobr>research</nobr> <nobr>university</nobr> <nobr>in</nobr> <nobr>Chicago.</nobr> <nobr>The</nobr> <nobr>university,</nobr> <nobr>established</nobr> <nobr>in</nobr> <nobr>1890,</nobr> <nobr>consists</nobr> <nobr>of</nobr> <nobr>The</nobr> <nobr>College,</nobr> <nobr>various</nobr> <nobr>graduate</nobr> <nobr>programs,</nobr> <nobr>interdisciplinary</nobr> <nobr>committees</nobr> <nobr>organized</nobr> <nobr>into</nobr> <nobr>four</nobr> <nobr>academic</nobr> <nobr>research</nobr> <nobr>divisions</nobr> <nobr>and</nobr> <nobr>seven</nobr> <nobr>professional</nobr> <nobr>schools.</nobr> <nobr>Beyond</nobr> <nobr>the</nobr> <nobr>arts</nobr> <nobr>and</nobr> <nobr>sciences,</nobr> <nobr>Chicago</nobr> <nobr>is</nobr> <nobr>also</nobr> <nobr>well</nobr> <nobr>known</nobr> <nobr>for</nobr> <nobr>its</nobr> <nobr>professional</nobr> <nobr>schools,</nobr> <nobr>which</nobr> <nobr>include</nobr> <nobr>the</nobr> <nobr>Pritzker</nobr> <nobr>School</nobr> <nobr>of</nobr> <nobr>Medicine,</nobr> <nobr>the</nobr> <nobr>University</nobr> <nobr>of</nobr> <nobr>Chicago</nobr> <nobr>Booth</nobr> <nobr>School</nobr> <nobr>of</nobr> <nobr>Business,</nobr> <nobr>the</nobr> <nobr>Law</nobr> <nobr>School,</nobr> <nobr>the</nobr> <nobr>School</nobr> <nobr>of</nobr> <nobr>Social</nobr> <nobr>Service</nobr> <nobr>Administration,</nobr> <nobr>the</nobr> <nobr>Harris</nobr> <nobr>School</nobr> <nobr>of</nobr> <nobr>Public</nobr> <nobr>Policy</nobr> <nobr>Studies,</nobr> <nobr>the</nobr> <nobr>Graham</nobr> <nobr>School</nobr> <nobr>of</nobr> <nobr>Continuing</nobr> <nobr>Liberal</nobr> <nobr>and</nobr> <nobr>Professional</nobr> <nobr>Studies</nobr> <nobr>and</nobr> <nobr>the</nobr> <nobr>Divinity</nobr> <nobr>School.</nobr> <nobr>The</nobr> <nobr>university</nobr> <nobr>currently</nobr> <nobr>enrolls</nobr> <nobr>approximately</nobr> <nobr>5,000</nobr> <nobr>students</nobr> <nobr>in</nobr> <nobr>the</nobr> <nobr>College</nobr> <nobr>and</nobr> <nobr>around</nobr> <nobr>15,000</nobr> <nobr>students</nobr> <nobr>overall.</nobr></p>", "<p><nobr>University</nobr> <nobr>of</nobr> <nobr>Chicago</nobr> <nobr>scholars</nobr> <nobr>have</nobr> <nobr>played</nobr> <nobr>a</nobr> <nobr>major</nobr> <nobr>role</nobr> <nobr>in</nobr> <nobr>the</nobr> <nobr>development</nobr> <nobr>of</nobr> <nobr>various</nobr> <nobr>academic</nobr> <nobr>disciplines,</nobr> <nobr>including:</nobr> <nobr>the</nobr> <nobr>Chicago</nobr> <nobr>school</nobr> <nobr>of</nobr> <nobr>economics,</nobr> <nobr>the</nobr> <nobr>Chicago</nobr> <nobr>school</nobr> <nobr>of</nobr> <nobr>sociology,</nobr> <nobr>the</nobr> <nobr>law</nobr> <nobr>and</nobr> <nobr>economics</nobr> <nobr>movement</nobr> <nobr>in</nobr> <nobr>legal</nobr> <nobr>analysis,</nobr> <nobr>the</nobr> <nobr>Chicago</nobr> <nobr>school</nobr> <nobr>of</nobr> <nobr>literary</nobr> <nobr>criticism,</nobr> <nobr>the</nobr> <nobr>Chicago</nobr> <nobr>school</nobr> <nobr>of</nobr> <nobr>religion,</nobr> <nobr>and</nobr> <nobr>the</nobr> <nobr>behavioralism</nobr> <nobr>school</nobr> <nobr>of</nobr> <nobr>political</nobr> <nobr>science.</nobr> <nobr>Chicago's</nobr> <nobr>physics</nobr> <nobr>department</nobr> <nobr>helped</nobr> <nobr>develop</nobr> <nobr>the</nobr> <nobr>world's</nobr> <nobr>first</nobr> <nobr>man-made,</nobr> <nobr>self-sustaining</nobr> <nobr>nuclear</nobr> <nobr>reaction</nobr> <nobr>beneath</nobr> <nobr>the</nobr> <nobr>university's</nobr> <nobr>Stagg</nobr> <nobr>Field.</nobr> <nobr>Chicago's</nobr> <nobr>research</nobr> <nobr>pursuits</nobr> <nobr>have</nobr> <nobr>been</nobr> <nobr>aided</nobr> <nobr>by</nobr> <nobr>unique</nobr> <nobr>affiliations</nobr> <nobr>with</nobr> <nobr>world-renowned</nobr> <nobr>institutions</nobr> <nobr>like</nobr> <nobr>the</nobr> <nobr>nearby</nobr> <nobr>Fermilab</nobr> <nobr>and</nobr> <nobr>Argonne</nobr> <nobr>National</nobr> <nobr>Laboratory,</nobr> <nobr>as</nobr> <nobr>well</nobr> <nobr>as</nobr> <nobr>the</nobr> <nobr>Marine</nobr> <nobr>Biological</nobr> <nobr>Laboratory.</nobr> <nobr>The</nobr> <nobr>university</nobr> <nobr>is</nobr> <nobr>also</nobr> <nobr>home</nobr> <nobr>to</nobr> <nobr>the</nobr> <nobr>University</nobr> <nobr>of</nobr> <nobr>Chicago</nobr> <nobr>Press,</nobr> <nobr>the</nobr> <nobr>largest</nobr> <nobr>university</nobr> <nobr>press</nobr> <nobr>in</nobr> <nobr>the</nobr> <nobr>United</nobr> <nobr>States.</nobr> <nobr>With</nobr> <nobr>an</nobr> <nobr>estimated</nobr> <nobr>completion</nobr> <nobr>date</nobr> <nobr>of</nobr> <nobr>2020,</nobr> <nobr>the</nobr> <nobr>Barack</nobr> <nobr>Obama</nobr> <nobr>Presidential</nobr> <nobr>Center</nobr> <nobr>will</nobr> <nobr>be</nobr> <nobr>housed</nobr> <nobr>at</nobr> <nobr>the</nobr> <nobr>university</nobr> <nobr>and</nobr> <nobr>include</nobr> <nobr>both</nobr> <nobr>the</nobr> <nobr>Obama</nobr> <nobr>presidential</nobr> <nobr>library</nobr> <nobr>and</nobr> <nobr>offices</nobr> <nobr>of</nobr> <nobr>the</nobr> <nobr>Obama</nobr> <nobr>Foundation.</nobr></p>", "<p><nobr>Founded</nobr> <nobr>by</nobr> <nobr>the</nobr> <nobr>American</nobr> <nobr>Baptist</nobr> <nobr>Education</nobr> <nobr>Society</nobr> <nobr>with</nobr> <nobr>a</nobr> <nobr>donation</nobr> <nobr>from</nobr> <nobr>oil</nobr> <nobr>magnate</nobr> <nobr>and</nobr> <nobr>wealthiest</nobr> <nobr>man</nobr> <nobr>in</nobr> <nobr>history</nobr> <nobr>John</nobr> <nobr>D.</nobr> <nobr>Rockefeller,</nobr> <nobr>the</nobr> <nobr>University</nobr> <nobr>of</nobr> <nobr>Chicago</nobr> <nobr>was</nobr> <nobr>incorporated</nobr> <nobr>in</nobr> <nobr>1890;</nobr> <nobr>William</nobr> <nobr>Rainey</nobr> <nobr>Harper</nobr> <nobr>became</nobr> <nobr>the</nobr> <nobr>university's</nobr> <nobr>first</nobr> <nobr>president</nobr> <nobr>in</nobr> <nobr>1891,</nobr> <nobr>and</nobr> <nobr>the</nobr> <nobr>first</nobr> <nobr>classes</nobr> <nobr>were</nobr> <nobr>held</nobr> <nobr>in</nobr> <nobr>1892.</nobr> <nobr>Both</nobr> <nobr>Harper</nobr> <nobr>and</nobr> <nobr>future</nobr> <nobr>president</nobr> <nobr>Robert</nobr> <nobr>Maynard</nobr> <nobr>Hutchins</nobr> <nobr>advocated</nobr> <nobr>for</nobr> <nobr>Chicago's</nobr> <nobr>curriculum</nobr> <nobr>to</nobr> <nobr>be</nobr> <nobr>based</nobr> <nobr>upon</nobr> <nobr>theoretical</nobr> <nobr>and</nobr> <nobr>perennial</nobr> <nobr>issues</nobr> <nobr>rather</nobr> <nobr>than</nobr> <nobr>on</nobr> <nobr>applied</nobr> <nobr>sciences</nobr> <nobr>and</nobr> <nobr>commercial</nobr> <nobr>utility.</nobr> <nobr>With</nobr> <nobr>Harper's</nobr> <nobr>vision</nobr> <nobr>in</nobr> <nobr>mind,</nobr> <nobr>the</nobr> <nobr>University</nobr> <nobr>of</nobr> <nobr>Chicago</nobr> <nobr>also</nobr> <nobr>became</nobr> <nobr>one</nobr> <nobr>of</nobr> <nobr>the</nobr> <nobr>14</nobr> <nobr>founding</nobr> <nobr>members</nobr> <nobr>of</nobr> <nobr>the</nobr> <nobr>Association</nobr> <nobr>of</nobr> <nobr>American</nobr> <nobr>Universities,</nobr> <nobr>an</nobr> <nobr>international</nobr> <nobr>organization</nobr> <nobr>of</nobr> <nobr>leading</nobr> <nobr>research</nobr> <nobr>universities,</nobr> <nobr>in</nobr> <nobr>1900.</nobr></p>", "<p><nobr>The</nobr> <nobr>University</nobr> <nobr>of</nobr> <nobr>Chicago</nobr> <nobr>was</nobr> <nobr>created</nobr> <nobr>and</nobr> <nobr>incorporated</nobr> <nobr>as</nobr> <nobr>a</nobr> <nobr>coeducational,</nobr> <nobr>secular</nobr> <nobr>institution</nobr> <nobr>in</nobr> <nobr>1890</nobr> <nobr>by</nobr> <nobr>the</nobr> <nobr>American</nobr> <nobr>Baptist</nobr> <nobr>Education</nobr> <nobr>Society</nobr> <nobr>and</nobr> <nobr>a</nobr> <nobr>donation</nobr> <nobr>from</nobr> <nobr>oil</nobr> <nobr>magnate</nobr> <nobr>and</nobr> <nobr>philanthropist</nobr> <nobr>John</nobr> <nobr>D.</nobr> <nobr>Rockefeller</nobr> <nobr>on</nobr> <nobr>land</nobr> <nobr>donated</nobr> <nobr>by</nobr> <nobr>Marshall</nobr> <nobr>Field.</nobr> <nobr>While</nobr> <nobr>the</nobr> <nobr>Rockefeller</nobr> <nobr>donation</nobr> <nobr>provided</nobr> <nobr>money</nobr> <nobr>for</nobr> <nobr>academic</nobr> <nobr>operations</nobr> <nobr>and</nobr> <nobr>long-term</nobr> <nobr>endowment,</nobr> <nobr>it</nobr> <nobr>was</nobr> <nobr>stipulated</nobr> <nobr>that</nobr> <nobr>such</nobr> <nobr>money</nobr> <nobr>could</nobr> <nobr>not</nobr> <nobr>be</nobr> <nobr>used</nobr> <nobr>for</nobr> <nobr>buildings.</nobr> <nobr>The</nobr> <nobr>original</nobr> <nobr>physical</nobr> <nobr>campus</nobr> <nobr>was</nobr> <nobr>financed</nobr> <nobr>by</nobr> <nobr>donations</nobr> <nobr>from</nobr> <nobr>wealthy</nobr> <nobr>Chicagoans</nobr> <nobr>like</nobr> <span class='main-highlight'><nobr>Silas</nobr> <nobr>B.</nobr> <nobr>Cobb</nobr></span> <nobr>who</nobr> <nobr>provided</nobr> <nobr>the</nobr> <nobr>funds</nobr> <nobr>for</nobr> <nobr>the</nobr> <nobr>campus'</nobr> <span class='question-highlight'><nobr>first</nobr> <nobr>building,</nobr></span> <span class='answer-highlight'><nobr>Cobb</nobr></span> <nobr>Lecture</nobr> <nobr>Hall,</nobr> <nobr>and</nobr> <nobr>matched</nobr> <nobr>Marshall</nobr> <nobr>Field's</nobr> <nobr>pledge</nobr> <nobr>of</nobr> <nobr>$100,000.</nobr> <nobr>Other</nobr> <nobr>early</nobr> <nobr>benefactors</nobr> <nobr>included</nobr> <nobr>businessmen</nobr> <nobr>Charles</nobr> <nobr>L.</nobr> <nobr>Hutchinson</nobr> <nobr>(trustee,</nobr> <nobr>treasurer</nobr> <nobr>and</nobr> <nobr>donor</nobr> <nobr>of</nobr> <nobr>Hutchinson</nobr> <nobr>Commons),</nobr> <nobr>Martin</nobr> <nobr>A.</nobr> <nobr>Ryerson</nobr> <nobr>(president</nobr> <nobr>of</nobr> <nobr>the</nobr> <nobr>board</nobr> <nobr>of</nobr> <nobr>trustees</nobr> <nobr>and</nobr> <nobr>donor</nobr> <nobr>of</nobr> <nobr>the</nobr> <nobr>Ryerson</nobr> <nobr>Physical</nobr> <nobr>Laboratory)</nobr> <nobr>Adolphus</nobr> <nobr>Clay</nobr> <nobr>Bartlett</nobr> <nobr>and</nobr> <nobr>Leon</nobr> <nobr>Mandel,</nobr> <nobr>who</nobr> <nobr>funded</nobr> <nobr>the</nobr> <nobr>construction</nobr> <nobr>of</nobr> <nobr>the</nobr> <nobr>gymnasium</nobr> <nobr>and</nobr> <nobr>assembly</nobr> <nobr>hall,</nobr> <nobr>and</nobr> <nobr>George</nobr> <nobr>C.</nobr> <nobr>Walker</nobr> <nobr>of</nobr> <nobr>the</nobr> <nobr>Walker</nobr> <nobr>Museum,</nobr> <nobr>a</nobr> <nobr>relative</nobr> <nobr>of</nobr> <span class='answer-highlight'><nobr>Cobb</nobr></span> <nobr>who</nobr> <nobr>encouraged</nobr> <nobr>his</nobr> <nobr>inaugural</nobr> <nobr>donation</nobr> <nobr>for</nobr> <nobr>facilities.</nobr></p>", "<p><nobr>In</nobr> <nobr>the</nobr> <nobr>1890s,</nobr> <nobr>the</nobr> <nobr>University</nobr> <nobr>of</nobr> <nobr>Chicago,</nobr> <nobr>fearful</nobr> <nobr>that</nobr> <nobr>its</nobr> <nobr>vast</nobr> <nobr>resources</nobr> <nobr>would</nobr> <nobr>injure</nobr> <nobr>smaller</nobr> <nobr>schools</nobr> <nobr>by</nobr> <nobr>drawing</nobr> <nobr>away</nobr> <nobr>good</nobr> <nobr>students,</nobr> <nobr>affiliated</nobr> <nobr>with</nobr> <nobr>several</nobr> <nobr>regional</nobr> <nobr>colleges</nobr> <nobr>and</nobr> <nobr>universities:</nobr> <nobr>Des</nobr> <nobr>Moines</nobr> <nobr>College,</nobr> <nobr>Kalamazoo</nobr> <nobr>College,</nobr> <nobr>Butler</nobr> <nobr>University,</nobr> <nobr>and</nobr> <nobr>Stetson</nobr> <nobr>University.</nobr> <nobr>In</nobr> <nobr>1896,</nobr> <nobr>the</nobr> <nobr>university</nobr> <nobr>affiliated</nobr> <nobr>with</nobr> <nobr>Shimer</nobr> <nobr>College</nobr> <nobr>in</nobr> <nobr>Mount</nobr> <nobr>Carroll,</nobr> <nobr>Illinois.</nobr> <nobr>Under</nobr> <nobr>the</nobr> <nobr>terms</nobr> <nobr>of</nobr> <nobr>the</nobr> <nobr>affiliation,</nobr> <nobr>the</nobr> <nobr>schools</nobr> <nobr>were</nobr> <nobr>required</nobr> <nobr>to</nobr> <nobr>have</nobr> <nobr>courses</nobr> <nobr>of</nobr> <nobr>study</nobr> <nobr>comparable</nobr> <nobr>to</nobr> <nobr>those</nobr> <nobr>at</nobr> <nobr>the</nobr> <nobr>university,</nobr> <nobr>to</nobr> <nobr>notify</nobr> <nobr>the</nobr> <nobr>university</nobr> <nobr>early</nobr> <nobr>of</nobr> <nobr>any</nobr> <nobr>contemplated</nobr> <nobr>faculty</nobr> <nobr>appointments</nobr> <nobr>or</nobr> <nobr>dismissals,</nobr> <nobr>to</nobr> <nobr>make</nobr> <nobr>no</nobr> <nobr>faculty</nobr> <nobr>appointment</nobr> <nobr>without</nobr> <nobr>the</nobr> <nobr>university's</nobr> <nobr>approval,</nobr> <nobr>and</nobr> <nobr>to</nobr> <nobr>send</nobr> <nobr>copies</nobr> <nobr>of</nobr> <nobr>examinations</nobr> <nobr>for</nobr> <nobr>suggestions.</nobr> <nobr>The</nobr> <nobr>University</nobr> <nobr>of</nobr> <nobr>Chicago</nobr> <nobr>agreed</nobr> <nobr>to</nobr> <nobr>confer</nobr> <nobr>a</nobr> <nobr>degree</nobr> <nobr>on</nobr> <nobr>any</nobr> <nobr>graduating</nobr> <nobr>senior</nobr> <nobr>from</nobr> <nobr>an</nobr> <nobr>affiliated</nobr> <nobr>school</nobr> <nobr>who</nobr> <nobr>made</nobr> <nobr>a</nobr> <nobr>grade</nobr> <nobr>of</nobr> <nobr>A</nobr> <nobr>for</nobr> <nobr>all</nobr> <nobr>four</nobr> <nobr>years,</nobr> <nobr>and</nobr> <nobr>on</nobr> <nobr>any</nobr> <nobr>other</nobr> <nobr>graduate</nobr> <nobr>who</nobr> <nobr>took</nobr> <nobr>twelve</nobr> <nobr>weeks</nobr> <nobr>additional</nobr> <nobr>study</nobr> <nobr>at</nobr> <nobr>the</nobr> <nobr>University</nobr> <nobr>of</nobr> <nobr>Chicago.</nobr> <nobr>A</nobr> <nobr>student</nobr> <nobr>or</nobr> <nobr>faculty</nobr> <nobr>member</nobr> <nobr>of</nobr> <nobr>an</nobr> <nobr>affiliated</nobr> <nobr>school</nobr> <nobr>was</nobr> <nobr>entitled</nobr> <nobr>to</nobr> <nobr>free</nobr> <nobr>tuition</nobr> <nobr>at</nobr> <nobr>the</nobr> <nobr>University</nobr> <nobr>of</nobr> <nobr>Chicago,</nobr> <nobr>and</nobr> <nobr>Chicago</nobr> <nobr>students</nobr> <nobr>were</nobr> <nobr>eligible</nobr> <nobr>to</nobr> <nobr>attend</nobr> <nobr>an</nobr> <nobr>affiliated</nobr> <nobr>school</nobr> <nobr>on</nobr> <nobr>the</nobr> <nobr>same</nobr> <nobr>terms</nobr> <nobr>and</nobr> <nobr>receive</nobr> <nobr>credit</nobr> <nobr>for</nobr> <nobr>their</nobr> <nobr>work.</nobr> <nobr>The</nobr> <nobr>University</nobr> <nobr>of</nobr> <nobr>Chicago</nobr> <nobr>also</nobr> <nobr>agreed</nobr> <nobr>to</nobr> <nobr>provide</nobr> <nobr>affiliated</nobr> <nobr>schools</nobr> <nobr>with</nobr> <nobr>books</nobr> <nobr>and</nobr> <nobr>scientific</nobr> <nobr>apparatus</nobr> <nobr>and</nobr> <nobr>supplies</nobr> <nobr>at</nobr> <nobr>cost;</nobr> <nobr>special</nobr> <nobr>instructors</nobr> <nobr>and</nobr> <nobr>lecturers</nobr> <nobr>without</nobr> <nobr>cost</nobr> <nobr>except</nobr> <nobr>travel</nobr> <nobr>expenses;</nobr> <nobr>and</nobr> <nobr>a</nobr> <nobr>copy</nobr> <nobr>of</nobr> <nobr>every</nobr> <nobr>book</nobr> <nobr>and</nobr> <nobr>journal</nobr> <nobr>published</nobr> <nobr>by</nobr> <nobr>the</nobr> <nobr>University</nobr> <nobr>of</nobr> <nobr>Chicago</nobr> <nobr>Press</nobr> <nobr>at</nobr> <nobr>no</nobr> <nobr>cost.</nobr> <nobr>The</nobr> <nobr>agreement</nobr> <nobr>provided</nobr> <nobr>that</nobr> <nobr>either</nobr> <nobr>party</nobr> <nobr>could</nobr> <nobr>terminate</nobr> <nobr>the</nobr> <nobr>affiliation</nobr> <nobr>on</nobr> <nobr>proper</nobr> <nobr>notice.</nobr> <nobr>Several</nobr> <nobr>University</nobr> <nobr>of</nobr> <nobr>Chicago</nobr> <nobr>professors</nobr> <nobr>disliked</nobr> <nobr>the</nobr> <nobr>program,</nobr> <nobr>as</nobr> <nobr>it</nobr> <nobr>involved</nobr> <nobr>uncompensated</nobr> <nobr>additional</nobr> <nobr>labor</nobr> <nobr>on</nobr> <nobr>their</nobr> <nobr>part,</nobr> <nobr>and</nobr> <nobr>they</nobr> <nobr>believed</nobr> <nobr>it</nobr> <nobr>cheapened</nobr> <nobr>the</nobr> <nobr>academic</nobr> <nobr>reputation</nobr> <nobr>of</nobr> <nobr>the</nobr> <nobr>university.</nobr> <nobr>The</nobr> <nobr>program</nobr> <nobr>passed</nobr> <nobr>into</nobr> <nobr>history</nobr> <nobr>by</nobr> <nobr>1910.</nobr></p>"],
-//   'short_text': [3],
-//   'long_text': [0,1,2,3,4]
-// }
-// var coged_order_temp = shuffle([['long baseline', 'long xai'], ['short baseline', 'short xai']]);
-
-// var input = {
-//   'tutorial': [DEFAULT_QUESTION],
-//   'training': [DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION],
-//   'training-AI': [DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION],
-//   'coged': [
-//               [DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION],
-//               [DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION],
-//               [DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION],
-//               [DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION]
-//             ],
-//   'coged-order': [coged_order_temp[0]],
-//   // [['short baseline', 'short prediction'], ['short baseline', 'short xai'],
-//   //                 ['long baseline', 'long prediction'], ['long baseline', 'long xai']],
-//   'collaboration': [
-//               [DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION],
-//               [DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION],
-//               [DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION],
-//               [DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION, DEFAULT_QUESTION]
-//             ]
-// }
 
 function make_input(json_data) {
   var temp_data = shuffle_multiple(json_data['Model Correct'], json_data_2['Model Correct'])
@@ -3584,84 +3147,6 @@ var dimensions = {
   // }
   return [json_input, dimensions]
 }
-
-
-// function make_input_random(json_data){
-//   var model_data_final = {
-//     'Tutorial': 0,
-//     'Model Correct': [],
-//     'Model Incorrect': []
-//   }
-//   model_data_final['Tutorial'] = {
-//           'id': json_data['Tutorial']['id'],
-//           'question': json_data['Tutorial']['question'],
-//           'interface_question': json_data['Tutorial']['interface_question'],
-//           'possible_answers': json_data['Tutorial']['possible_answers'],
-//           'interface_possible_answers': json_data['Tutorial']['interface_possible_answers'],
-//           'model_response': json_data['Tutorial']['correct_response'],
-//           'interface_model_response': json_data['Tutorial']['interface_correct_response'],
-//           'correct_response': json_data['Tutorial']['correct_response'],
-//           'interface_correct_response': json_data['Tutorial']['interface_correct_response'],
-//           'text': json_data['Tutorial']['text'],
-//           'short_text': [json_data['Tutorial']['short_text']],
-//           'long_text': [0,1,2,3,4]
-//     }
-
-//   var model_data = shuffle(json_data['Model'])
-//   var num_incorrect = 0;
-//   for (let i = 0; i < model_data.length; i++){
-//     if (i < 12) {
-//       var shuffled_model_response = shuffle(model_data[i]['possible_answers_incorrect_w_interface_and_short_text'])
-//       var model_response = shuffled_model_response[0][0]
-//       var interface_model_response = shuffled_model_response[0][1]
-//       var short_text = shuffled_model_response[0][2]
-//       model_data[i]['text'][model_data[i]['short_text']] = short_text
-//       var dict_name = 'Model Incorrect'
-//     }
-//     else {
-//       var model_response = model_data[i]['correct_response']
-//       var interface_model_response = model_data[i]['interface_correct_response']
-//       var short_text = model_data[i]['short_text']
-//       var dict_name = 'Model Correct'
-//     }
-
-//     model_data_final[dict_name].push({
-//           'id': model_data[i]['id'],
-//           'question': model_data[i]['question'],
-//           'interface_question': model_data[i]['interface_question'],
-//           'possible_answers': model_data[i]['possible_answers'],
-//           'interface_possible_answers': model_data[i]['interface_possible_answers'],
-//           'model_response': model_response,
-//           'interface_model_response': interface_model_response,
-//           'correct_response': model_data[i]['correct_response'],
-//           'interface_correct_response': model_data[i]['interface_correct_response'],
-//           'text': model_data[i]['text'],
-//           'short_text': model_data[i]['short_text'],
-//           'long_text': [0,1,2,3,4]
-//     })
-//   }
-//     return make_input(model_data_final)
-// }
-
-
-
-// json_input['coged-order'] = shuffle(json_input['coged-order']);
-// var json_input = {
-//   'tutorial': [json_data[0]],
-//   'training': [json_data[1], json_data[2], json_data[3], json_data[4]],
-//   'coged': [
-//               [json_data[5], json_data[6], json_data[7], json_data[8], json_data[9]],
-//               [json_data[10], json_data[11], json_data[12], json_data[13], json_data[14]],
-//               [json_data[15], json_data[16], json_data[17], json_data[18], json_data[19]]
-//             ]
-// }
-
-// can also be DEFAULT_INPUT for debugging
-
-// task = 'xai' | 'prediction'
-// var task = "xai";
-// setting = 'short' | 'long'
-// var setting = 'long';
 var coged_order_temp = shuffle([
   // ['short baseline', 'short prediction']
   // ['short baseline', 'short xai']
@@ -3777,7 +3262,7 @@ else{
 
 
 
-var payment = 3.75;
+var payment = 5;
 var time = 25;
 // within subjects
 // var href = "https://drive.google.com/file/d/1ospZxTbEvnh_5LNzlIY8Puqvj8WRoQ2t/view?usp=sharing";
@@ -3920,9 +3405,9 @@ var choose_gold_img_2 = choose_[11]
       First is by the github pages, 
       Second is by my Stanford website, 
       Third is locally  -->
- <script type="text/javascript" src="https://research-cs.github.io/main.js"></script>
- 
- <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/js/main.js"></script> -->
+<!--  <script type="text/javascript" src="https://research-cs.github.io/main.js"></script>
+ --> 
+ <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/js/main.js"></script>
 <!-- <script type="text/javascript" src="EasyTurk/templates/js/main.js"></script>
  --></div>
 </body>
