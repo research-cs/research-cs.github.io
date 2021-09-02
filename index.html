@@ -1309,8 +1309,8 @@ jQuery.fn.disableFind = function(){
  -->			</p>
 <!-- 				<p> <strong>Qualifications: </strong>If you do not pass the comprehension check, you will not be allowed to complete the study, so please make sure to pay attention to instructions. </p>
  -->
- 			<p> <strong>ATTENTION:  DO NOT DO THIS STUDY IF YOU HAVE DONE IT ALREADY. THE STUDY IS THE SAME AND YOU WILL BE REJECTED. </strong></p>
-			</div>
+<!--  			<p> <strong>ATTENTION:  DO NOT DO THIS STUDY IF YOU HAVE DONE IT ALREADY. THE STUDY IS THE SAME AND YOU WILL BE REJECTED. </strong></p>
+ -->			</div>
 		</div>
 		<br><br>
 		<h3>Participant Rights</h3>
@@ -1356,7 +1356,23 @@ jQuery.fn.disableFind = function(){
 
 		<div class="card">
 			<div class="card-body">
-				<p>Before we begin, please answer some demographic information.</p>
+				<p>Before we begin, please answer some preliminary information.</p>
+
+				<p><strong>I confirm that I have not done this study before.</strong></p>
+				<div class="form-check">
+				  <input class="form-check-input" type="radio" name="completed-task" id="yes">
+				  <label class="form-check-label" for="yes">
+				    Yes, I confirm
+				  </label>
+				</div>
+				<div class="form-check">
+				  <input class="form-check-input" type="radio" name="completed-task" id="no">
+				  <label class="form-check-label" for="no">
+				    No, I do not confirm
+				  </label>
+				</div>
+				<br>
+
 				<p><strong>What is your Worker ID?</strong></p>
 				  <div class="form-group">
 				    <input type="prolificID" class="form-control" id="prolificID" aria-describedby="prolificID" placeholder="Enter Worker ID">
@@ -2928,7 +2944,7 @@ In this phase, if you choose the AI's assistance, you will be able to collaborat
 
 		<div class="card">
 			<div class="card-body">
-				<p>You either did not consent to the terms of our study or failed the comprehension check too many times. We thank you for your time.</p>
+				<p>You either did not consent to the terms of our study or have already done the study before. Please return the study. We thank you for your time.</p>
 			</div>
 		</div>
 	</div>
@@ -3408,7 +3424,8 @@ var choose_gold_img_2 = choose_[11]
  <script type="text/javascript" src="https://research-cs.github.io/main.js"></script>
  
 <!--  <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/js/main.js"></script>
- --><!-- <script type="text/javascript" src="EasyTurk/templates/js/main.js"></script>
+ -->
+<!--  <script type="text/javascript" src="EasyTurk/templates/js/main.js"></script>
  --></div>
 </body>
 </html>

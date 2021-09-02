@@ -64,9 +64,19 @@ function consentCallback() {
 }
 
 function demographicsCallback() {
+  let confirm = ['#yes','#no'];
+  let checked_confirm = false;
+  let chosen_confirm;
+  for (let i = 0; i < confirm.length; i++) {
+    if($(confirm[i]).is(":checked")) {
+      chosen_confirm = confirm[i].slice(1)
+      checked_confirm = true;
+      break;
+    }
+  }
+
   let checked_prolificID = false;
   let written_prolificID;
-
   if ($.trim($("#prolificID").val())) {
         written_prolificID = $("#prolificID").val();
         checked_prolificID = true;
@@ -101,22 +111,29 @@ function demographicsCallback() {
       break;
     }
   }
+  if (checked_confirm == false) {
+    alert('Please answer the question about whether or not you have completed this study before.');
+  }
   if (checked_prolificID == false) {
-    alert('Please answer the question about your ID');
+    alert('Please answer the question about your ID.');
   }
 
   if (checked_gender == false) {
-    alert('Please answer the question about your gender');
+    alert('Please answer the question about your gender.');
   }
   if (checked_age == false) {
-    alert('Please answer the question about your age');
+    alert('Please answer the question about your age.');
   }
-  if (checked_gender == true && checked_age == true && checked_prolificID == true) {
+  if (checked_confirm == true && checked_gender == true && checked_age == true && checked_prolificID == true) {
     output['demographics'] = {
       'prolific':written_prolificID,
       'gender': chosen_gender,
       'age': chosen_age
     }
+    if (chosen_confirm == 'no') {
+      transition("demographics","exit");
+    }
+
     save_progress_val = progress_bar_current;
     // uncomment the following for real task 
     // transition("demographics", "tutorial-start");
