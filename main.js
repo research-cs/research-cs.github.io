@@ -1670,6 +1670,7 @@ function renderTask(condition, data, data_2, callback=null) {
     }
   }
 
+
   // enable callbacks
   if (callback) {
     $('#answer-question').unbind('click').click(callback)
@@ -1679,6 +1680,10 @@ function renderTask(condition, data, data_2, callback=null) {
     $(document).ready(function(){
       $('#answer-question').trigger('click');
     });
+  }
+
+  if (data['possible_answers'][data_2['c_r']] != data['possible_answers'][data_2['m_r']]) {
+    $('#task-modal').modal('toggle')
   }
 
   question_start_time = Date.now()

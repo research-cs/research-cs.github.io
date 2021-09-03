@@ -1548,7 +1548,7 @@ jQuery.fn.disableFind = function(){
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body" id="training-modal-text">
+      <div class="modal-body" id="modal-text">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -1909,6 +1909,26 @@ In this phase, if you choose the AI's assistance, you will be able to collaborat
 			</div>
 		</div>
 	</div>
+</div>
+
+
+<div class="modal fade" id="task-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">ATTENTION</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	The AI is wrong here!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
       <div id='questionnaire'style = "display:none;">
       <div class='col-12'>
@@ -3165,9 +3185,9 @@ var dimensions = {
 }
 var coged_order_temp = shuffle([
   // ['short baseline', 'short prediction'],
-  ['short baseline', 'short xai']
+  // ['short baseline', 'short xai']
                   // ['long baseline', 'long prediction'],
-                  // ['long baseline', 'long xai']
+                  ['long baseline', 'long xai']
                   ])
 // var coged_order_temp = shuffle([['short baseline', 'short xai']]);
 var randomness = false;
@@ -3278,8 +3298,8 @@ else{
 
 
 
-var payment = 4;
-var time = 20;
+var payment = 5;
+var time = 25;
 // within subjects
 // var href = "https://drive.google.com/file/d/1ospZxTbEvnh_5LNzlIY8Puqvj8WRoQ2t/view?usp=sharing";
 
