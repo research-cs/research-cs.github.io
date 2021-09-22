@@ -240,6 +240,12 @@ function demographicsCallback() {
     // transition("demographics", "submission");
     // runTutorial();
     // $('#progress-text').html(progress_bar_text[progress_num]);
+    if (ai_condition[0] == 'long') {
+      $('#length-repeat-training').html('long')
+    }
+    else {
+      $('#length-repeat-training').html('short')
+    }
     save_progress_text = progress_num
     progress_num += 1;
   }
@@ -630,8 +636,8 @@ function runTraining() {
         if (compare_conditions && compare_conditions_training_phase_num == 1) {
           compare_conditions_training_phase_num += 1
           ai_condition[1] = 'xai'
-          training_phase_order_ai = [coged_order_temp[0][1], coged_order_temp[0][1], coged_order_temp[0][1], 
-                              coged_order_temp[0][1], coged_order_temp[0][1]]
+          training_phase_order_ai = [coged_order_temp[task_repeat][1], coged_order_temp[task_repeat][1], coged_order_temp[task_repeat][1], 
+                              coged_order_temp[task_repeat][1], coged_order_temp[task_repeat][1]]
           $('.alert-link').unbind('click').click(function() {
             transition('task', 'training-intermediate')
             $('#training-ai-name').css('color',ai_colors[task_repeat]);
@@ -674,8 +680,8 @@ function runTraining() {
               dimensions['training-AI-compare'][0][training_phase_count_ai]);
           }
           else {
-            renderTask(training_phase_order_ai[training_phase_count_ai], input['training-AI'][0][training_phase_count_ai],
-              dimensions['training-AI'][0][training_phase_count_ai]);
+            renderTask(training_phase_order_ai[training_phase_count_ai], input['training-AI'][task_repeat][training_phase_count_ai],
+              dimensions['training-AI'][task_repeat][training_phase_count_ai]);
           }
           progress();
         })
@@ -689,7 +695,7 @@ function runTraining() {
       renderTask(training_phase_order_ai[0], input['training-AI-compare'][0][0], dimensions['training-AI-compare'][0][0], trainingCallback)
     }
     else {
-      renderTask(training_phase_order_ai[0], input['training-AI'][0][0], dimensions['training-AI'][0][0], trainingCallback)
+      renderTask(training_phase_order_ai[0], input['training-AI'][task_repeat][0], dimensions['training-AI'][task_repeat][0], trainingCallback)
     }
   })
 }
@@ -1682,9 +1688,9 @@ function renderTask(condition, data, data_2, callback=null) {
     });
   }
 
-  if (data['possible_answers'][data_2['c_r']] != data['possible_answers'][data_2['m_r']]) {
-    $('#task-modal').modal('toggle')
-  }
+  // if (data['possible_answers'][data_2['c_r']] != data['possible_answers'][data_2['m_r']]) {
+  //   $('#task-modal').modal('toggle')
+  // }
 
   question_start_time = Date.now()
 }
@@ -1858,10 +1864,20 @@ function questionnaireCallback() {
                           'coged-comparison': compare_conditions_type,
                         'coged-available': coged_available})
    }
+   if (total_checked != questions.length) {
+      alert("Please answer all of the questions.")
+    }
+    else if (slider_changed == false) {
+      alert("Please answer the slider question.")
+    }
+    else if (!$.trim($("#AI-usage").val()) || !$.trim($("#choice-selection").val())) {
+      alert("Please input your response in the text box.")
+    }
+    else if (task_repeat < max_repeat) {
+      repeatTaskAndTrain()
 
-    if (task_repeat < max_repeat) {
-      transition("questionnaire","repeat-task");
-      repeatTask(input['coged-order'][task_repeat][1]);
+      // transition("questionnaire","repeat-task");
+      // repeatTask(input['coged-order'][task_repeat][1]);
       }
     else {
       transition("questionnaire","questionnaire-human");
@@ -1873,18 +1889,33 @@ function questionnaireCallback() {
       progress_num += 1;
       coged_phase = false;
     }
-  } else {
-    if (total_checked != questions.length) {
-      alert("Please answer all of the questions.")
-    }
-    else if (slider_changed == false) {
-      alert("Please answer the slider question.")
-    }
-    else if (!$.trim($("#AI-usage").val()) || !$.trim($("#choice-selection").val())) {
-      alert("Please input your response in the text box.")
-    }
-   }
- } 
+ }
+}
+
+function repeatTaskAndTrain() {
+  ai_condition = input['coged-order'][task_repeat][1].split(" ");
+  baseline_condition = input['coged-order'][task_repeat][0].split(" ");
+  training_phase_order_ai = [coged_order_temp[task_repeat][1], coged_order_temp[task_repeat][1], coged_order_temp[task_repeat][1], 
+                              coged_order_temp[task_repeat][1], coged_order_temp[task_repeat][1]];
+  transition("questionnaire", "training-intermediate")
+  training_phase_count_ai = 0;
+  $('#training-ai-name').css('color',ai_colors[task_repeat]);
+  $('#training-ai-name').html('the AI');
+  $('#training-ai-acc').html(curr_acc_score);
+  $('#training-different-AI-text').show()
+  if (ai_condition[1] == 'xai') {
+    $('#training-different-AI-text').show()
+    $('.main-highlight').removeClass('no-highlight')
+  }
+  if (ai_condition[0] == 'long') {
+    $('#length-repeat-training').html('long')
+  }
+  else {
+    $('#length-repeat-training').html('short')
+  }
+  runTrainingAI();
+}
+
 
 function questionnaireHumanCallback() {
   // window.scrollTo(0,0);
@@ -1945,13 +1976,13 @@ function repeatTask(condition, id ='switch-tasks') {
       if (current_length == 'long') {
         // $(coin_id).html('For each question you get correct, you will receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.25.')
         // $(coin_id).html('For each question you get correct, you will receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')
-        // $(length_id).html('long, which is why you receive gold credits')
+        $(length_id).html('long')
           // $('#coin-explanation').html('Note that 100 gold credits equals $0.10.')      
       }
       else {
         // $(coin_id).html('For each question you get correct, you will receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')
         // $(coin_id).html('For each question you get correct, you will receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.025.')
-        // $(length_id).html('short, which is why you receive silver credits')
+        $(length_id).html('short')
           // $('#coin-explanation').html('Note that 100 silver credits equals $0.05.')
      }
 
@@ -2041,8 +2072,8 @@ function saveOutput() {
   //   alert("This is only a preview. Here is your output: \n" + JSON.stringify(output));
   //   return false;
   // } else {
-    proliferate.submit(output)
-    // easyturk.setOutput(output);
+    // proliferate.submit(output)
+    easyturk.setOutput(output);
     // return true;
   // }
 }
@@ -2050,7 +2081,7 @@ function saveOutput() {
 // Enable the UI.
 function enableTask() {
   enabled = true;
-  // easyturk.setupSubmit();
+  easyturk.setupSubmit();
   
 
   // Enable components
