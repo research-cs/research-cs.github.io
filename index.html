@@ -3138,8 +3138,8 @@ function make_input(json_data) {
   [[model_correct[0], model_correct[1], model_incorrect[2],  model_correct[34], model_correct[35]]],
   'training-AI': 
   [
-  [model_correct[4],model_correct[5], model_correct[6], model_correct[7], model_incorrect[0]],
-  [model_correct[8], model_correct[9], model_correct[10], model_correct[11], model_incorrect[1]]
+  [model_correct[4],model_correct[5], model_correct[6], model_correct[7], model_incorrect[0]]
+  // [model_correct[8], model_correct[9], model_correct[10], model_correct[11], model_incorrect[1]]
   ],
   'training-AI-compare': 
   [[model_correct[0], model_correct[1], model_incorrect[2], model_correct[32], model_correct[33]]],
@@ -3165,8 +3165,8 @@ var dimensions = {
   [[width[0], width[1], height[2], width[34], width[35],]],
   'training-AI': 
     [
-    [width[4],width[5], width[6], width[7], height[0]],
-    [width[8], width[9], width[10], width[11], height[1]]
+    [width[4],width[5], width[6], width[7], height[0]]
+    // [width[8], width[9], width[10], width[11], height[1]]
     ],
   'training-AI-compare': 
      [[width[0],width[1], height[2], width[32], width[33]]],
@@ -3361,14 +3361,42 @@ if (interleaved_design == true) {
   dimensions['collaboration'] = [temp[2]]
   var interleaved_order_collaboration_count = 0
 
+  var interleaved_order_human = ['long baseline', 'short baseline']
+  // FOR TRAINING HUMAN
+  var interleaved_order_training = []
+  for (let i = 0; i < 2; i++) {
+    interleaved_order_training.push(interleaved_order_human[0])
+  }
+  for (let i = 0; i < 2; i++) {
+    interleaved_order_training.push(interleaved_order_human[1])
+  }
+  var random_temp = shuffle(interleaved_order_human)[0]
+  interleaved_order_training.push(random_temp)
+
+  temp = input['training'].flat()
+  temp_2 = dimensions['training'].flat()
+  temp = shuffle_three(interleaved_order_training, temp, temp_2)
+  interleaved_order_training = temp[0]
+  input['training'] =[temp[1]]
+  dimensions['training'] = [temp[2]]
+  var interleaved_order_training_count = 0
+
+  training_phase_order = interleaved_order_training
+
+
+
+
   // FOR TRAINING AI
   var interleaved_order_training_AI = []
-  for (let i = 0; i < input['training-AI'][0].length; i++) {
+  for (let i = 0; i < 2; i++) {
     interleaved_order_training_AI.push(interleaved_order[0])
   }
-  for (let i = 0; i < input['training-AI'][1].length; i++) {
+  for (let i = 0; i < 2; i++) {
     interleaved_order_training_AI.push(interleaved_order[1])
   }
+  var random_temp = shuffle(interleaved_order)[0]
+  interleaved_order_training_AI.push(random_temp)
+
   temp = input['training-AI'].flat()
   temp_2 = dimensions['training-AI'].flat()
   temp = shuffle_three(interleaved_order_training_AI, temp, temp_2)
