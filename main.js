@@ -143,10 +143,10 @@ function demographicsCallback() {
      // runTask();
      // training_phase = false;
     // uncomment the following for between subjects with training
-     // transition('demographics', 'training-start');
-     // runTraining();
-     transition('demographics', 'training-intermediate');
-     runTrainingAI();
+     transition('demographics', 'training-start');
+     runTraining();
+     // transition('demographics', 'training-intermediate');
+     // runTrainingAI();
      // var training_credits_text = ""
      // if (curr_reward_system == "overreliance") {
      //    training_credits_text += "You will only get rewarded for the question if BOTH you and the AI are correct. "
@@ -1481,6 +1481,17 @@ function renderTask(condition, data, data_2, callback=null) {
   $('.alert').hide()
 
   // parse and load data
+  if (interleaved_design && collaboration_phase) {
+    current_setting = interleaved_order_collaboration[interleaved_order_collaboration_count].split(" ")[0]
+    current_condition = interleaved_order_collaboration[interleaved_order_collaboration_count].split(" ")[1]
+    interleaved_order_collaboration_count+=1;
+  }
+  else if (interleaved_design && training_phase_ai) {
+    current_setting = interleaved_order_training_AI[interleaved_order_training_AI_count].split(" ")[0]
+    current_condition = interleaved_order_training_AI[interleaved_order_training_AI_count].split(" ")[1]
+    interleaved_order_training_AI_count+=1;
+  }
+
   if (current_setting == 'short') {
     idx_list = data['short_text']
   } 
@@ -1873,7 +1884,7 @@ function questionnaireCallback() {
     else if (!$.trim($("#AI-usage").val()) || !$.trim($("#choice-selection").val())) {
       alert("Please input your response in the text box.")
     }
-    else if (task_repeat < max_repeat) {
+    else if (task_repeat < max_repeat && mixed_within) {
       repeatTaskAndTrain()
 
       // transition("questionnaire","repeat-task");
@@ -1976,13 +1987,13 @@ function repeatTask(condition, id ='switch-tasks') {
       if (current_length == 'long') {
         // $(coin_id).html('For each question you get correct, you will receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.25.')
         // $(coin_id).html('For each question you get correct, you will receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')
-        $(length_id).html('long')
+        // $(length_id).html('long')
           // $('#coin-explanation').html('Note that 100 gold credits equals $0.10.')      
       }
       else {
         // $(coin_id).html('For each question you get correct, you will receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.05.')
         // $(coin_id).html('For each question you get correct, you will receive 50 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to $0.025.')
-        $(length_id).html('short')
+        // $(length_id).html('short')
           // $('#coin-explanation').html('Note that 100 silver credits equals $0.05.')
      }
 
@@ -2072,8 +2083,8 @@ function saveOutput() {
   //   alert("This is only a preview. Here is your output: \n" + JSON.stringify(output));
   //   return false;
   // } else {
-    // proliferate.submit(output)
-    easyturk.setOutput(output);
+    proliferate.submit(output)
+    // easyturk.setOutput(output);
     // return true;
   // }
 }
@@ -2081,7 +2092,7 @@ function saveOutput() {
 // Enable the UI.
 function enableTask() {
   enabled = true;
-  easyturk.setupSubmit();
+  // easyturk.setupSubmit();
   
 
   // Enable components

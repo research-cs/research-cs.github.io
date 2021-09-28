@@ -1509,7 +1509,7 @@ jQuery.fn.disableFind = function(){
 			<div class="card-body">			 					
 <!--  					<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI, which is <span id='training-ai-acc'></span> accurate. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</strong> <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
  --> 				
-  			<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> <span id = 'training-same-AI-text' style="display:none">This is the same AI you used previously. </span><span id = 'training-different-AI-text' style="display:none">This is a different AI from the one you used previously. </span><span id = 'xai-compare-training' style="display:none">The AI will now show you <span class='main-highlight'>explanations</span>.</strong> These passages are <span id = 'length-repeat-training'></span>.
+  			<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> <span id = 'training-same-AI-text' style="display:none">This is the same AI you used previously. </span><span id = 'training-different-AI-text' style="display:none">This is a different AI from the one you used previously. </span><span id = 'xai-compare-training' style="display:none">The AI will now show you <span class='main-highlight'>explanations</span>.</strong> <!-- These passages are <span id = 'length-repeat-training'></span>. -->
 
 <!--   				<br><br>
  -->
@@ -1564,7 +1564,7 @@ jQuery.fn.disableFind = function(){
 			<div class="card-body">
 <!-- 				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>. This is the same AI you used during the training phase. This AI is <span id='acc-score'></span> accurate. <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span></strong></p>
 				<p>For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. <strong>You will not be able to see how many credits you have gained in this phase, but we will tell you how many credits you earned at the end of the study.</strong> Click the button below to begin.</p> -->
-				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>. This is the same AI you used during the training phase. <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span></strong> These passages are <span id ='length-begin-task'></span>.</p>
+				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>. This is the same AI you used during the training phase. <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span></strong> <!-- These passages are <span id ='length-begin-task'></span>. --></p>
 				<p><span id = 'bonus-begin-task'></span> <span id="double-bonus-begin-task"></span> <span id= 'coin-explanation'></span> 
 <!-- 					You can also find out how much money credits are worth by hovering over the icon in the top right.
  --><!-- 				</p>
@@ -1591,7 +1591,7 @@ jQuery.fn.disableFind = function(){
 			<div class="card-body">
 				<p><strong>You will now be asked to collaborate with <span id= 'switch-tasks'></span>.</strong> This is the same AI you used during the training phase. <span id = 'xai-repeat-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> 
 <!-- 					For each question you get correct, you will initially receive <span id = 'bonus-repeat-task'></span> in bonus. 
- -->					These passage are <span id ='length-repeat-task'></span>. 
+ -->					<!-- These passage are <span id ='length-repeat-task'></span>.  -->
 <!-- We will also ask you to choose between doing the task yourself versus getting a suggestion from the AI for different bonus amounts. 
  --></p>
 				<!-- <p><strong>You will now be asked to collaborate with <span id= 'switch-tasks'></span>, which is <span id='repeat-acc-score'></span> accurate.</strong> <span id = 'xai-repeat-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-repeat-task'></span> in bonus. This passage is <span id ='length-repeat-task'></span>. We will also ask you to choose between doing the task yourself versus getting a suggestion from the AI for different bonus amounts. Click the button below to begin.</p> -->
@@ -2953,10 +2953,10 @@ In this phase, if you choose the AI's assistance, you will be able to collaborat
   				<input type='hidden' value='' name='assignmentId' id='assignmentId'/>
   				<input type='hidden' value='' name='output' id='output'/>
   				<!-- To use with EasyTurk -->
-				 <input type='submit' class='btn btn-primary' id='submit-btn' value='Submit'/>	
-				<!-- To use with Prolific -->
-<!-- 				<button type="button" class="btn btn-primary" id='submit-btn'>Submit</button>
- -->				</form>
+<!-- 				 <input type='submit' class='btn btn-primary' id='submit-btn' value='Submit'/>	
+ -->				<!-- To use with Prolific -->
+				<button type="button" class="btn btn-primary" id='submit-btn'>Submit</button>
+				</form>
 			</div>
 		</div>
 
@@ -3074,6 +3074,22 @@ function shuffle_multiple(array, array_2) {
     return [array, array_2]
 }
 
+function shuffle_three(array, array_2, array_3) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+        var temp_2 = array_2[i];
+        array_2[i] = array_2[j];
+        array_2[j] = temp_2;
+        var temp_3 = array_3[i];
+        array_3[i] = array_3[j];
+        array_3[j] = temp_3;
+    }
+    return [array, array_2, array_3]
+}
+
 function shuffle_matrix(array) {
   for (var i = 0; i < array.length; i ++) {
     array[i] = shuffle(array[i])
@@ -3123,7 +3139,7 @@ function make_input(json_data) {
   'training-AI': 
   [
   [model_correct[4],model_correct[5], model_correct[6], model_correct[7], model_incorrect[0]],
-  [model_correct[0], model_correct[1], model_incorrect[2], model_correct[32], model_correct[33]]
+  [model_correct[8], model_correct[9], model_correct[10], model_correct[11], model_incorrect[1]]
   ],
   'training-AI-compare': 
   [[model_correct[0], model_correct[1], model_incorrect[2], model_correct[32], model_correct[33]]],
@@ -3137,10 +3153,8 @@ function make_input(json_data) {
                   //['long baseline', 'long prediction'], ['long baseline', 'long xai']],
   'collaboration': [
                [model_correct[16], model_correct[17], model_correct[18], model_correct[19], model_correct[20], model_correct[21], model_correct[22], model_correct[23],
-               model_incorrect[3], model_incorrect[4], 
-               ],
-               [
-               model_correct[24], model_correct[25], model_correct[26], model_correct[27], model_correct[28], model_correct[29], model_correct[30], model_correct[31],
+               model_incorrect[3], model_incorrect[4]], 
+               [model_correct[24], model_correct[25], model_correct[26], model_correct[27], model_correct[28], model_correct[29], model_correct[30], model_correct[31],
                model_incorrect[5], model_incorrect[6]
                ]
               ]
@@ -3152,10 +3166,10 @@ var dimensions = {
   'training-AI': 
     [
     [width[4],width[5], width[6], width[7], height[0]],
-    [width[0],width[1], height[2], width[32], width[33]]
+    [width[8], width[9], width[10], width[11], height[1]]
     ],
   'training-AI-compare': 
-    [[width[0],width[1], height[2], width[32], width[33]]],
+     [[width[0],width[1], height[2], width[32], width[33]]],
   'coged': [
               // [model_correct[12], model_correct[13], model_correct[14], model_correct[15], model_incorrect[2]],
               [width[8], width[9], width[10], width[11], height[1]]
@@ -3167,10 +3181,8 @@ var dimensions = {
   'collaboration': [
                [
                width[16], width[17], width[18], width[19], width[20], width[21], width[22], width[23], 
-               height[3], height[4], 
-               ],
-               [
-               width[24], width[25], width[26], width[27], width[28], width[29], width[30], width[31], 
+               height[3], height[4]],
+               [width[24], width[25], width[26], width[27], width[28], width[29], width[30], width[31], 
                height[5], height[6]
                ]
               ]
@@ -3201,10 +3213,10 @@ var dimensions = {
   return [json_input, dimensions]
 }
 var coged_order_temp = shuffle([
-  // ['short baseline', 'short prediction'],
+  ['short baseline', 'short prediction']
   // ['short baseline', 'short xai']
                   // ['long baseline', 'long prediction'],
-                  ['long baseline', 'long xai']
+                  // ['long baseline', 'long xai']
                   ])
 // var coged_order_temp = shuffle([['short baseline', 'short xai']]);
 var randomness = false;
@@ -3302,7 +3314,7 @@ if (study_3) {
 
 }
 
-var mixed_within = true
+var mixed_within = false
 if (mixed_within == true) {
   coged_order_temp = [
   [['short baseline', 'short prediction'],
@@ -3325,10 +3337,55 @@ else{
 }
 
 
+var training_phase_order = [coged_order_temp[0][0], coged_order_temp[0][0], coged_order_temp[0][0], coged_order_temp[0][0], coged_order_temp[0][0]];
+var training_phase_order_ai = [coged_order_temp[0][1], coged_order_temp[0][1], coged_order_temp[0][1], 
+                              coged_order_temp[0][1], coged_order_temp[0][1]];
 
 
-var payment = 5;
-var time = 25;
+var interleaved_design = true;
+if (interleaved_design == true) {
+  var interleaved_order = ['long prediction', 'short prediction']
+  // FOR COLLABORATION PHASE
+  var interleaved_order_collaboration = []
+  for (let i = 0; i < input['collaboration'][0].length; i++) {
+    interleaved_order_collaboration.push(interleaved_order[0])
+  }
+  for (let i = 0; i < input['collaboration'][1].length; i++) {
+    interleaved_order_collaboration.push(interleaved_order[1])
+  }
+  temp = input['collaboration'].flat()
+  temp_2 = dimensions['collaboration'].flat()
+  temp = shuffle_three(interleaved_order_collaboration, temp, temp_2)
+  interleaved_order_collaboration = temp[0]
+  input['collaboration'] = [temp[1]]
+  dimensions['collaboration'] = [temp[2]]
+  var interleaved_order_collaboration_count = 0
+
+  // FOR TRAINING AI
+  var interleaved_order_training_AI = []
+  for (let i = 0; i < input['training-AI'][0].length; i++) {
+    interleaved_order_training_AI.push(interleaved_order[0])
+  }
+  for (let i = 0; i < input['training-AI'][1].length; i++) {
+    interleaved_order_training_AI.push(interleaved_order[1])
+  }
+  temp = input['training-AI'].flat()
+  temp_2 = dimensions['training-AI'].flat()
+  temp = shuffle_three(interleaved_order_training_AI, temp, temp_2)
+  interleaved_order_training_AI = temp[0]
+  input['training-AI'] =[temp[1]]
+  dimensions['training-AI'] = [temp[2]]
+  var interleaved_order_training_AI_count = 0
+
+  training_phase_order_ai = interleaved_order_training_AI
+
+}
+
+
+
+
+var payment = 9;
+var time = 45;
 // within subjects
 // var href = "https://drive.google.com/file/d/1ospZxTbEvnh_5LNzlIY8Puqvj8WRoQ2t/view?usp=sharing";
 
@@ -3359,9 +3416,6 @@ var training_phase_ai = false;
 var training_phase_count = -1;
 var training_phase_count_ai;
 // var training_phase_order = ['short baseline' , 'short baseline' ,'short baseline' ,'long baseline','long baseline','long baseline'];
-var training_phase_order = [coged_order_temp[0][0], coged_order_temp[0][0], coged_order_temp[0][0], coged_order_temp[0][0], coged_order_temp[0][0]];
-var training_phase_order_ai = [coged_order_temp[0][1], coged_order_temp[0][1], coged_order_temp[0][1], 
-                              coged_order_temp[0][1], coged_order_temp[0][1]];
 
 var collaboration_phase = false;
 
