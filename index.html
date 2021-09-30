@@ -3213,7 +3213,7 @@ var dimensions = {
   return [json_input, dimensions]
 }
 var coged_order_temp = shuffle([
-  ['short baseline', 'short prediction']
+  ['short baseline', 'short xai']
   // ['short baseline', 'short xai']
                   // ['long baseline', 'long prediction'],
                   // ['long baseline', 'long xai']
@@ -3344,7 +3344,7 @@ var training_phase_order_ai = [coged_order_temp[0][1], coged_order_temp[0][1], c
 
 var interleaved_design = true;
 if (interleaved_design == true) {
-  var interleaved_order = ['long prediction', 'short prediction']
+  var interleaved_order = ['long xai', 'short xai']
   // FOR COLLABORATION PHASE
   var interleaved_order_collaboration = []
   for (let i = 0; i < input['collaboration'][0].length; i++) {
