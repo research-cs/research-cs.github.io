@@ -1298,7 +1298,7 @@ jQuery.fn.disableFind = function(){
 
 		<div class="card">
 			<div class="card-body">
-				<p> You are invited to participate in a research study on human-AI collaboration, in which we aim to study how well people are able to make decisions with an Artificial Intelligence (AI) agent. You will be asked to answer questions to a set of Wikipedia passages in which an AI may offer you suggestions. On each page, you will see one text passage and a corresponding question. Sometimes, you will also receive help from an AI agent. Please answer the questions to the best of your abilities. </p>
+				<p> You are invited to participate in a research study on human-AI collaboration, in which we aim to study how well people are able to make decisions with an Artificial Intelligence (AI) agent. You will be asked to solve mazes in which an AI may offer you suggestions. On each page, you will see a maze with several exits, and you will have to determine which exit of the maze is correct. Sometimes, you will also receive help from an AI agent. Please answer the questions to the best of your abilities. </p>
 				<p> You are invited to participate in a survey. </p>
 				<p> <strong>Time: </strong> Your participation will take approximately <span id="time"></span> minutes. </p>
 				<p> <strong>Payment: </strong> You will receive $<span id="payment"></span> as payment for your participation. 
@@ -1492,7 +1492,7 @@ jQuery.fn.disableFind = function(){
 			<div class="card-body">
 <!-- 				<p>In this phase, you will complete 6 practice questions. You will complete the 6 Question & Answer pairs by yourself to experience the difficulty of doing it yourself with both short and long passages.</p>
  -->				
- 					<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs by yourself to experience the difficulty of doing the task yourself.</strong> <span id='training-credits'></span> <span id ="training-credits-overreliance" style= "display:none"><strong>You will only get rewarded for the questions BOTH you and the AI (which you will use soon) get correct.</strong></span> 
+ 					<p>In this phase, you will complete practice mazes. <strong>You will complete this task by yourself to experience the difficulty of doing it yourself.</strong> <span id='training-credits'></span> <span id ="training-credits-overreliance" style= "display:none"><strong>You will only get rewarded for the questions BOTH you and the AI (which you will use soon) get correct.</strong></span> 
 <!--  						<span id ='training-credits-hover'>You can also find out how much money credits are worth by hovering over the icon in the top right.</span>
  --> 					</p>
  				<button type="button" class="btn btn-primary" id='training-start-button'>Begin</button>
@@ -1509,7 +1509,7 @@ jQuery.fn.disableFind = function(){
 			<div class="card-body">			 					
 <!--  					<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI, which is <span id='training-ai-acc'></span> accurate. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</strong> <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
  --> 				
-  			<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> <span id = 'training-same-AI-text' style="display:none">This is the same AI you used previously. </span><span id = 'training-different-AI-text' style="display:none">This is a different AI from the one you used previously. </span><span id = 'xai-compare-training' style="display:none">The AI will now show you <span class='main-highlight'>explanations</span>.</strong> <!-- These passages are <span id = 'length-repeat-training'></span>. -->
+  			<p>In this phase, you will complete practice mazes. <strong>You will complete this task with <span id='training-ai-name'></span> to experience using the AI. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> <span id = 'training-same-AI-text' style="display:none">This is the same AI you used previously. </span><span id = 'training-different-AI-text' style="display:none">This is a different AI from the one you used previously. </span><span id = 'xai-compare-training' style="display:none">The AI will now show you <span class='main-highlight'>explanations</span>.</strong> <!-- These passages are <span id = 'length-repeat-training'></span>. -->
 
 <!--   				<br><br>
  -->
@@ -3118,99 +3118,59 @@ var randomize = true;
 
 
 function make_input(json_data) {
-  var temp_data = shuffle_multiple(json_data['Model Correct'], json_data_2['Model Correct'])
-  var model_correct = temp_data[0]
-  var width = temp_data[1]
-  var temp_data = shuffle_multiple(json_data['Model Incorrect'], json_data_2['Model Incorrect'])
-  var model_incorrect = temp_data[0]
-  var height = temp_data[1]
+  var model_correct_short = shuffle(json_data['Model Correct'])
+  var model_correct_long = shuffle(json_data_2['Model Correct'])
+  var model_incorrect_short = shuffle(json_data['Model Incorrect'])
+  var model_incorrect_long = shuffle(json_data_2['Model Incorrect'])
   // var model_correct = json_data['Model Correct']
   // var model_incorrect = json_data['Model Incorrect']
-  if (mixed_within == true) {
-    var coged_order_temp_make_input = coged_order_temp
-  }
-  else {
-    var coged_order_temp_make_input = [coged_order_temp[0]]
-  }
+  model_incorrect_0 = shuffle([model_incorrect_short[0], model_incorrect_long[0]])[0]
+  model_incorrect_1 = shuffle([model_incorrect_short[1], model_incorrect_long[1]])[0]
   var json_input = {
   'tutorial': [json_data['Tutorial'], json_data_2['Tutorial']],
   'training': 
-  [[model_correct[0], model_correct[1], model_incorrect[2],  model_correct[34], model_correct[35]]],
+  [[model_correct_short[0], model_correct_long[0],
+    model_correct_short[1], model_correct_long[1],
+    model_incorrect_0]],
   'training-AI': 
-  [
-  [model_correct[4],model_correct[5], model_correct[6], model_correct[7], model_incorrect[0]]
-  // [model_correct[8], model_correct[9], model_correct[10], model_correct[11], model_incorrect[1]]
-  ],
+  [[model_correct_short[2], model_correct_long[2],
+    model_correct_short[3], model_correct_long[3],
+    model_incorrect_1]],
   'training-AI-compare': 
-  [[model_correct[0], model_correct[1], model_incorrect[2], model_correct[32], model_correct[33]]],
-  'coged': [
-              [model_correct[8], model_correct[9], model_correct[10], model_correct[11], model_incorrect[1]]
-              // [model_correct[12], model_correct[13], model_correct[14], model_correct[15], model_incorrect[2]],
-              // [width[12], width[13], width[14], width[15], height[2]],
+  //FILLER
+  [[model_correct_short[0], model_correct_short[1], model_correct_short[2], model_correct_short[32], model_correct_short[33]]],
+  'coged': 
+  //FILLER
+            [
+              [model_correct_short[8], model_correct_short[9], model_correct_short[10], model_correct_short[11], model_correct_short[1]]
             ],
-  'coged-order': coged_order_temp_make_input,
-  //[['short baseline', 'short prediction'], ['short baseline', 'short xai'],
-                  //['long baseline', 'long prediction'], ['long baseline', 'long xai']],
+  'coged-order': 
+  [['short baseline', 'short prediction'],
+                  ['long baseline', 'long prediction']],
   'collaboration': [
-               [model_correct[16], model_correct[17], model_correct[18], model_correct[19], model_correct[20], model_correct[21], model_correct[22], model_correct[23],
-               model_incorrect[3], model_incorrect[4]], 
-               [model_correct[24], model_correct[25], model_correct[26], model_correct[27], model_correct[28], model_correct[29], model_correct[30], model_correct[31],
-               model_incorrect[5], model_incorrect[6]
+               [model_correct_short[4], model_correct_long[4], model_correct_short[5], model_correct_long[5], 
+               model_correct_short[6], model_correct_long[6], model_correct_short[7], model_correct_long[7], 
+               model_incorrect_short[2], model_incorrect_long[2]
+               ], 
+
+               [model_correct_short[8], model_correct_long[8], model_correct_short[9], model_correct_long[9], 
+               model_correct_short[10], model_correct_long[10], model_correct_short[11], model_correct_long[11], 
+               model_incorrect_short[3], model_incorrect_long[3]
                ]
               ]
 }
-var dimensions = {
-  'tutorial': [json_data_2['Tutorial']],
-  'training': 
-  [[width[0], width[1], height[2], width[34], width[35],]],
-  'training-AI': 
-    [
-    [width[4],width[5], width[6], width[7], height[0]]
-    // [width[8], width[9], width[10], width[11], height[1]]
-    ],
-  'training-AI-compare': 
-     [[width[0],width[1], height[2], width[32], width[33]]],
-  'coged': [
-              // [model_correct[12], model_correct[13], model_correct[14], model_correct[15], model_incorrect[2]],
-              [width[8], width[9], width[10], width[11], height[1]]
-              // [width[12], width[13], width[14], width[15], height[2]],
-            ],
-  'coged-order': coged_order_temp_make_input,
-  //[['short baseline', 'short prediction'], ['short baseline', 'short xai'],
-                  //['long baseline', 'long prediction'], ['long baseline', 'long xai']],
-  'collaboration': [
-               [
-               width[16], width[17], width[18], width[19], width[20], width[21], width[22], width[23], 
-               height[3], height[4]],
-               [width[24], width[25], width[26], width[27], width[28], width[29], width[30], width[31], 
-               height[5], height[6]
-               ]
-              ]
-}
-  temp_data = shuffle_multiple(json_input['training'][0], dimensions['training'][0])
-  json_input['training'][0] = temp_data[0]
-  dimensions['training'][0] = temp_data[1]
+  json_input['training'] = [shuffle(json_input['training'][0])]
 
-  temp_data = shuffle_multiple(json_input['training-AI'][0], dimensions['training-AI'][0])
-  json_input['training-AI'][0] = temp_data[0]
-  dimensions['training-AI'][0] = temp_data[1]
+  json_input['training-AI'] = [shuffle(json_input['training-AI'][0])]
 
-  temp_data = shuffle_multiple(json_input['training-AI-compare'][0], dimensions['training-AI-compare'][0])
-  json_input['training-AI-compare'][0] = temp_data[0]
-  dimensions['training-AI-compare'][0] = temp_data[1]
+  json_input['training-AI-compare'] = [shuffle(json_input['training-AI-compare'][0])]
 
-  temp_data = shuffle_multiple(json_input['coged'][0], dimensions['coged'][0])
-  json_input['coged'][0] = temp_data[0]
-  dimensions['coged'][0] = temp_data[1]
+  json_input['coged'] = [shuffle(json_input['coged'][0])]
 
-  temp_data = shuffle_multiple(json_input['collaboration'][0], dimensions['collaboration'][0])
-  json_input['collaboration'][0] = temp_data[0]
-  dimensions['collaboration'][0] = temp_data[1]
+  json_input['collaboration'] = [shuffle(json_input['collaboration'][0])]
+
   // json_input['coged-order'] = shuffle_multiple(json_input['coged-order']);
-  // if (compare_conditions) {
-  //   json_input['training-AI-compare'] = json_input['coged'][1]
-  // }
-  return [json_input, dimensions]
+  return json_input
 }
 var coged_order_temp = shuffle([
   ['short baseline', 'short xai']
@@ -3218,123 +3178,11 @@ var coged_order_temp = shuffle([
                   // ['long baseline', 'long prediction'],
                   // ['long baseline', 'long xai']
                   ])
-// var coged_order_temp = shuffle([['short baseline', 'short xai']]);
-var randomness = false;
-var tutorial_task = "xai";
-var tutorial_setting = "long";
-var have_coged_phase = false;
-
-// MAKING NEW ACCURACIES
-var multi_acc_score = false;
-if (multi_acc_score == true) {
-  var curr_acc_score = shuffle(['95%', '65%', '80%'])[0]
-}
-else {
-  var curr_acc_score = '80%'
-}
-var available_acc_score = false;
-if (available_acc_score == false) {
-  var curr_acc_score = 'N/A'
-}
-
-// MAKING NEW REWARD SYSTEM
-// Types: Normal, Double, Overreliance
-var variable_reward_system = false;
-if (variable_reward_system) {
-  var curr_reward_system = shuffle(["double", "overreliance"])[0]
-}
-else {
-  var curr_reward_system = "uniform"
-}
-
-if (curr_reward_system == "double" || curr_reward_system == "overreliance") {
-  var coged_order_temp = shuffle([['short baseline', 'short xai']])
-}
-
-var curr_penalty_system = false;
-
-// if (curr_reward_system == "double") {
-//   curr_penalty_system = true;
-// }
-
-// MAKING COMPARATIVE CHOICE!
-var comparative_coged = false;
-var num_comparative = 0;
-var curr_choose_coged;
-if (comparative_coged) {
-  curr_choose_coged = shuffle(["human-AI", "human-forced-AI"])
-  have_coged_phase = true
-}
-else {
-  curr_choose_coged = [""]
-}
 
 
-// MAKING COMPARISON BETWEEN PREDICTION AND EXPLANATION
-var compare_conditions = false
-var compare_conditions_type = '';
-if (compare_conditions) {
-  var coged_order_temp = shuffle([['long baseline', 'long xai', 'long prediction']])
-  var training_phase_order_ai_pred = [coged_order_temp[0][2], coged_order_temp[0][2], coged_order_temp[0][2], 
-                                coged_order_temp[0][2], coged_order_temp[0][2]]
-  var compare_conditions_training_phase_num = 0
-  var compare_conditions_type = 'Pred-XAI'
-  have_coged_phase = true
-}
 
+var input = make_input(json_data);
 
-var study_3 = false
-if (study_3) {
-  // var study_3_type = shuffle(['human-forced-AI', 'Pred-XAI'])[0]
-  var study_3_type = shuffle(['human-AI'])[0]
-  // comment this out, just for debug
-  // study_3_type = 'human-forced-AI'
-  if (study_3_type == 'Pred-XAI') {
-    var coged_order_temp = shuffle([['long baseline', 'long xai', 'long prediction']])
-    var training_phase_order_ai_pred = [coged_order_temp[0][2], coged_order_temp[0][2], coged_order_temp[0][2], 
-                                  coged_order_temp[0][2], coged_order_temp[0][2]]
-    var compare_conditions_training_phase_num = 0
-    var compare_conditions_type = 'Pred-XAI'
-    have_coged_phase = true
-    compare_conditions = true
-    // alert('Pred-XAI')
-    curr_choose_coged = [""]
-  }
-  else if (study_3_type == 'human-forced-AI') {
-    var coged_order_temp = shuffle([['long baseline', 'long xai']]);
-    have_coged_phase = true
-    compare_conditions_type = "human-forced-AI"
-    curr_choose_coged = ["human-forced-AI"]
-  }
-  else {
-    have_coged_phase = true
-    compare_conditions_type = "human-AI"
-    curr_choose_coged = ["human-AI"]
-  }
-
-}
-
-var mixed_within = false
-if (mixed_within == true) {
-  coged_order_temp = [
-  [['short baseline', 'short prediction'],
-  ['long baseline', 'long prediction']],
-  [['short baseline', 'short xai'],
-   ['long baseline', 'long xai']]]
-  coged_order_temp = shuffle(coged_order_temp)
-  var coged_order_temp = shuffle_matrix(coged_order_temp)[0]
-
-}
-
-
-if (randomness == true) {
-  var input = make_input_random(json_data);
-}
-else{
-  var input = make_input(json_data);
-  var dimensions = input[1]
-  var input = input[0]
-}
 
 
 var training_phase_order = [coged_order_temp[0][0], coged_order_temp[0][0], coged_order_temp[0][0], coged_order_temp[0][0], coged_order_temp[0][0]];
@@ -3344,68 +3192,8 @@ var training_phase_order_ai = [coged_order_temp[0][1], coged_order_temp[0][1], c
 
 var interleaved_design = true;
 if (interleaved_design == true) {
-  var interleaved_order = ['long xai', 'short xai']
-  // FOR COLLABORATION PHASE
-  var interleaved_order_collaboration = []
-  for (let i = 0; i < input['collaboration'][0].length; i++) {
-    interleaved_order_collaboration.push(interleaved_order[0])
-  }
-  for (let i = 0; i < input['collaboration'][1].length; i++) {
-    interleaved_order_collaboration.push(interleaved_order[1])
-  }
-  temp = input['collaboration'].flat()
-  temp_2 = dimensions['collaboration'].flat()
-  temp = shuffle_three(interleaved_order_collaboration, temp, temp_2)
-  interleaved_order_collaboration = temp[0]
-  input['collaboration'] = [temp[1]]
-  dimensions['collaboration'] = [temp[2]]
-  var interleaved_order_collaboration_count = 0
-
-  var interleaved_order_human = ['long baseline', 'short baseline']
-  // FOR TRAINING HUMAN
-  var interleaved_order_training = []
-  for (let i = 0; i < 2; i++) {
-    interleaved_order_training.push(interleaved_order_human[0])
-  }
-  for (let i = 0; i < 2; i++) {
-    interleaved_order_training.push(interleaved_order_human[1])
-  }
-  var random_temp = shuffle(interleaved_order_human)[0]
-  interleaved_order_training.push(random_temp)
-
-  temp = input['training'].flat()
-  temp_2 = dimensions['training'].flat()
-  temp = shuffle_three(interleaved_order_training, temp, temp_2)
-  interleaved_order_training = temp[0]
-  input['training'] =[temp[1]]
-  dimensions['training'] = [temp[2]]
-  var interleaved_order_training_count = 0
-
-  training_phase_order = interleaved_order_training
-
-
-
-
-  // FOR TRAINING AI
-  var interleaved_order_training_AI = []
-  for (let i = 0; i < 2; i++) {
-    interleaved_order_training_AI.push(interleaved_order[0])
-  }
-  for (let i = 0; i < 2; i++) {
-    interleaved_order_training_AI.push(interleaved_order[1])
-  }
-  var random_temp = shuffle(interleaved_order)[0]
-  interleaved_order_training_AI.push(random_temp)
-
-  temp = input['training-AI'].flat()
-  temp_2 = dimensions['training-AI'].flat()
-  temp = shuffle_three(interleaved_order_training_AI, temp, temp_2)
-  interleaved_order_training_AI = temp[0]
-  input['training-AI'] =[temp[1]]
-  dimensions['training-AI'] = [temp[2]]
-  var interleaved_order_training_AI_count = 0
-
-  training_phase_order_ai = interleaved_order_training_AI
+  
+  input['collaboration'] = [input['collaboration'].flat()]
 
 }
 
@@ -3479,19 +3267,19 @@ var ai_box_border = ['3px solid rgb(222.0, 143.0, 5.0)', '3px solid rgb(204.0, 1
 
 // var progress_bar_total_clicks = 110
 // var progress_bar_total_clicks = 27
-if (comparative_coged) {
-  var progress_bar_total_clicks = 61
-}
-else if (compare_conditions) {
-  var progress_bar_total_clicks = 57
-}
-else if (have_coged_phase) {
-  var progress_bar_total_clicks = 50
-}
-else {
+// if (comparative_coged) {
+//   var progress_bar_total_clicks = 61
+// }
+// else if (compare_conditions) {
+//   var progress_bar_total_clicks = 57
+// }
+// else if (have_coged_phase) {
+//   var progress_bar_total_clicks = 50
+// }
+// else {
   // var progress_bar_total_clicks = 39
   var progress_bar_total_clicks = 50
-}
+// }
 var progress_bar_increments = (1 / progress_bar_total_clicks) * 100;
 var progress_bar_current = progress_bar_increments;
 var progress_num = 0;
@@ -3514,6 +3302,7 @@ if (anthropomorphic == false) {
 var ai_condition = input['coged-order'][task_repeat][1].split(" ");
 var baseline_condition = input['coged-order'][task_repeat][0].split(" ");
 
+have_coged_phase = false;
 if (have_coged_phase) {
   var coged_available = 'yes'
 }
