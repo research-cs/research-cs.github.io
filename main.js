@@ -20,7 +20,31 @@ function main() {
 
     progress_num += 1;
     idx += 1
+    input_imgs = {
+
+    }
+    input_imgs['training'] = [[]]
+    for (let i = 0; i < input['training'][0].length; i++) {
+      input_imgs['training'][0].push(preloadImage(input['training'][0][i]['maze']))
+    }
+    input_imgs['training-AI'] = [[]]
+    for (let i = 0; i < input['training-AI'][0].length; i++) {
+      input_imgs['training-AI'][0].push(preloadImage(input['training-AI'][0][i]['maze']))
+    }
+    input_imgs['collaboration'] = [[]]
+    for (let i = 0; i < input['collaboration'].length; i++) {
+      for (let j = 0; j < input['collaboration'][i].length; j++){
+        input_imgs['collaboration'][i].push(preloadImage(input['collaboration'][i][j]['maze']))
+      }
+    }
   }
+}
+
+function preloadImage(url)
+{
+    var img=new Image();
+    img.src=url;
+    return img
 }
 
 function transition(current,next) {
@@ -100,17 +124,24 @@ function demographicsCallback() {
       
     }
   }
-  
-  let age = ['#under18','#18-24yo', '#25-34yo', '#35-44yo', '#45-54yo', '#55-64yo', '#65-74yo', '#over74'];
+
   let checked_age = false;
-  let chosen_age;
-  for (let i = 0; i < age.length; i++) {
-    if($(age[i]).is(":checked")) {
-      chosen_age = age[i].slice(1)
-      checked_age = true;
-      break;
-    }
+  let written_age;
+  if ($.trim($("#age").val())) {
+        written_age = $("#age").val();
+        checked_age = true;
   }
+  
+  // let age = ['#under18','#18-24yo', '#25-34yo', '#35-44yo', '#45-54yo', '#55-64yo', '#65-74yo', '#over74'];
+  // let checked_age = false;
+  // let chosen_age;
+  // for (let i = 0; i < age.length; i++) {
+  //   if($(age[i]).is(":checked")) {
+  //     chosen_age = age[i].slice(1)
+  //     checked_age = true;
+  //     break;
+  //   }
+  // }
   if (checked_confirm == false) {
     alert('Please answer the question about whether or not you have completed this study before.');
   }
@@ -128,7 +159,7 @@ function demographicsCallback() {
     output['demographics'] = {
       'prolific':written_prolificID,
       'gender': chosen_gender,
-      'age': chosen_age
+      'age': written_age
     }
     if (chosen_confirm == 'no') {
       transition("demographics","exit");
@@ -143,8 +174,11 @@ function demographicsCallback() {
      // runTask();
      // training_phase = false;
     // uncomment the following for between subjects with training
-     transition('demographics', 'training-start');
-     runTraining();
+     transition('demographics', 'tutorial-maze');
+     $('#easy-maze-photo').html('<img src=\"' + input['tutorial'][0]['maze'] +"\">")
+     $('#hard-maze-photo').html('<img src=\"' + input['tutorial'][1]['maze'] +"\">")
+     $('#easy-maze-solution').html(input['tutorial'][0]['c_r'])
+     $('#hard-maze-solution').html(input['tutorial'][1]['c_r'])
 
   
     if (ai_condition[0] == 'long') {
@@ -157,6 +191,11 @@ function demographicsCallback() {
     progress_num += 1;
   }
 }
+
+$('#tutorial-maze-button').click(function() {
+    transition('tutorial-maze', 'training-start');
+    runTraining()
+});
 
 function disableSelfDescribe() {
   $('#self-description').attr('disabled', true);
@@ -479,17 +518,17 @@ function runTraining() {
     if (response) {
       output['training'].push(response)
 
-      if (training_phase_count == training_phase_order.length - 1) {
+      if (training_phase_count == input['training'][0].length - 1) {
         $('.alert-link').unbind('click').click(function() {
-          transition('task', 'training-intermediate')
-          runTrainingAI();
+          transition('task', 'questionnaire-human')
+          // runTrainingAI();
         }
         )
       }
       else {
         training_phase_count += 1;
         $('.alert-link').unbind('click').click(function() {
-          renderTask(training_phase_order[training_phase_count], input['training'][0][training_phase_count]);
+          renderTask(training_phase_order[0], input['training'][0][training_phase_count]);
           progress();
         })
       }
@@ -528,7 +567,7 @@ function runTraining() {
     if (response) {
       output['training'].push(response)
 
-      if (training_phase_count_ai == training_phase_order_ai.length - 1) {
+      if (training_phase_count_ai == input['training-AI'][0].length - 1) {
 
           $('.alert-link').unbind('click').click(function() {
             //transition('task', 'training-end')
@@ -550,7 +589,7 @@ function runTraining() {
         training_phase_count_ai += 1;
         $('.alert-link').unbind('click').click(function() {
 
-            renderTask(training_phase_order_ai[training_phase_count_ai], input['training-AI'][task_repeat][training_phase_count_ai]);
+            renderTask(training_phase_order_ai[0], input['training-AI'][task_repeat][training_phase_count_ai]);
           progress();
         })
       }
@@ -965,6 +1004,7 @@ function readTaskResponse() {
   let checked_question_label = null;
   var correct_label =  current_question['c_r'];
   var model_response = current_question['m_r'];
+  var current_setting = current_question['maze'].split("/")[8]
   for (let i = 0; i < questions.length; i++) {
     var input = $(questions[i])
     var label = $(labels[i])
@@ -1040,7 +1080,7 @@ function readTaskResponse() {
         }
       }
       else if (mode == 'training'){
-        if (training_phase_order[training_phase_count].split(" ")[0] == 'long'){
+        if (training_phase_order[0].split(" ")[0] == 'long'){
           // if (correct_label != model_response && curr_reward_system == "overreliance") {
             // num_gold_credits = num_gold_credits;
           // }
@@ -1060,7 +1100,7 @@ function readTaskResponse() {
         }
       }
       else if (mode == 'training-AI'){
-        if (training_phase_order_ai[training_phase_count_ai].split(" ")[0] == 'long'){
+        if (training_phase_order_ai[0].split(" ")[0] == 'long'){
           // if (correct_label != model_response && curr_reward_system=="double") {
           //   num_gold_credits += 50 * 5;
           // }
@@ -1215,7 +1255,7 @@ function renderTask(condition, data, callback=null) {
 
   let labels = ['#q1-label', '#q2-label', '#q3-label', '#q4-label']
 
-  shuffle(labels)
+  // shuffle(labels)
   for (let i = 0; i < labels.length; i++) {
     $(labels[i]).html(data['possible_answers'][i])
     // disable($(labels[i]))
