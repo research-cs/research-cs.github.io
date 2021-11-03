@@ -1306,9 +1306,9 @@ jQuery.fn.disableFind = function(){
 
 		<div class="card">
 			<div class="card-body">
-				<!-- <p> You are invited to participate in a research study on human-AI collaboration, in which we aim to study how well people are able to make decisions with an Artificial Intelligence (AI) agent. You will be asked to solve mazes in which an AI may offer you suggestions. On each page, you will see a maze with several exits, and you will have to determine which exit of the maze is correct. Sometimes, you will also receive help from an AI agent. Please answer the questions to the best of your abilities. </p> -->
-				<p> You are invited to participate in a research study on solving mazes. On each page, you will see a maze with several exits, and you will have to determine which exit of the maze is correct. Please answer the questions to the best of your abilities. </p>
-				<p> You are invited to participate in a survey. </p>
+				<p> You are invited to participate in a research study on human-AI collaboration, in which we aim to study how well people are able to make decisions with an Artificial Intelligence (AI) agent. You will be asked to solve mazes in which an AI may offer you suggestions. On each page, you will see a maze with several exits, and you will have to determine which exit of the maze is correct. Sometimes, you will also receive help from an AI agent. Please answer the questions to the best of your abilities. </p>
+<!-- 				<p> You are invited to participate in a research study on solving mazes. On each page, you will see a maze with several exits, and you will have to determine which exit of the maze is correct. Please answer the questions to the best of your abilities. </p>
+ -->				<p> You are invited to participate in a survey. </p>
 				<p> <strong>Time: </strong> Your participation will take approximately <span id="time"></span> minutes. </p>
 				<p> <strong>Payment: </strong> You will receive $<span id="payment"></span> as payment for your participation. 
 <!-- 				You will also have the opportunity to receive bonuses in this study.
@@ -1498,15 +1498,15 @@ jQuery.fn.disableFind = function(){
 </div>
     <div class='row' id='training-start' style = "display:none;">
 	<div class='col-12'>
-		<h3>Main Study</h3>
+		<h3>Training</h3>
 
 		<div class="card">
 			<div class="card-body">
 <!-- 				<p>In this phase, you will complete 6 practice questions. You will complete the 6 Question & Answer pairs by yourself to experience the difficulty of doing it yourself with both short and long passages.</p>
  -->				
- 					<p>In this phase, you will complete mazes. 
-<!--  						<strong>You will complete this task by yourself to experience the difficulty of doing it yourself.</strong> 
- --> 						<span id='training-credits'></span> <span id ="training-credits-overreliance" style= "display:none"><strong>You will only get rewarded for the questions BOTH you and the AI (which you will use soon) get correct.</strong></span> 
+ 					<p><!-- In this phase, you will complete mazes.  -->
+ 						<strong>You will complete this task by yourself to experience the difficulty of doing it yourself.</strong> 
+ 						<span id='training-credits'></span> <span id ="training-credits-overreliance" style= "display:none"><strong>You will only get rewarded for the questions BOTH you and the AI (which you will use soon) get correct.</strong></span> 
 <!--  						<span id ='training-credits-hover'>You can also find out how much money credits are worth by hovering over the icon in the top right.</span>
  --> 					</p>
  				<button type="button" class="btn btn-primary" id='training-start-button'>Begin</button>
@@ -3162,21 +3162,34 @@ function make_input(json_data) {
   model_incorrect_0 = shuffle([model_incorrect_short[0], model_incorrect_long[0]])[0]
   model_incorrect_1 = shuffle([model_incorrect_short[1], model_incorrect_long[1]])[0]
 
-  var all_ = []
-  all_.push.apply(all_, model_correct_short.filter((value, index) => 12 !== index));
-  all_.push.apply(all_, model_correct_long.filter((value, index) => 12 !== index));
-  all_.push.apply(all_, model_incorrect_short);
-  all_.push.apply(all_, model_incorrect_long);
+  // var all_ = []
+  // all_.push.apply(all_, model_correct_short.filter((value, index) => 12 !== index));
+  // all_.push.apply(all_, model_correct_long.filter((value, index) => 12 !== index));
+  // all_.push.apply(all_, model_incorrect_short);
+  // all_.push.apply(all_, model_incorrect_long);
 
   var json_input = {
-  'tutorial': [model_correct_short[12], model_correct_long[12]],
+  'tutorial': [
+model_incorrect_short[4], model_incorrect_long[4]
+  ],
   'training': 
-  [all_],
-  // [[model_correct_short[0], model_correct_long[0],
-  //   model_correct_short[1], model_correct_long[1]]],
+  [[
+  model_correct_short[0], model_correct_long[0],
+    model_correct_short[1], model_correct_long[1],
+    model_correct_short[2], model_correct_long[2],
+    model_correct_short[3], model_correct_long[3],
+    model_incorrect_short[0],  model_incorrect_long[0]
+    ]],
   'training-AI': 
-  [[model_correct_short[2], model_correct_long[2],
-    model_correct_short[3], model_correct_long[3]]],
+  [
+  [
+    model_correct_short[4], model_correct_long[4],
+    model_correct_short[5], model_correct_long[5],
+    model_correct_short[6], model_correct_long[6],
+    model_correct_short[7], model_correct_long[7],
+    model_incorrect_short[1],  model_incorrect_long[1]
+    ]
+    ],
   'training-AI-compare': 
   //FILLER
   [[model_correct_short[0], model_correct_short[1], model_correct_short[2], model_correct_short[32], model_correct_short[33]]],
@@ -3189,15 +3202,26 @@ function make_input(json_data) {
   [['short baseline', 'short prediction'],
                   ['long baseline', 'long prediction']],
   'collaboration': [
-               [model_correct_short[4], model_correct_long[4], model_correct_short[5], model_correct_long[5], 
-               model_correct_short[6], model_correct_long[6], model_correct_short[7], model_correct_long[7], 
-               model_incorrect_short[2], model_incorrect_long[2]
-               ], 
-
-               [model_correct_short[8], model_correct_long[8], model_correct_short[9], model_correct_long[9], 
-               model_correct_short[10], model_correct_long[10], model_correct_short[11], model_correct_long[11], 
-               model_incorrect_short[3], model_incorrect_long[3]
+               [
+    model_correct_short[8], model_correct_long[8],
+    model_correct_short[9], model_correct_long[9],
+    model_correct_short[10], model_correct_long[10],
+    model_correct_short[11], model_correct_long[11],
+    model_incorrect_short[2],  model_incorrect_long[2],
+    model_correct_short[12], model_correct_long[12],
+    model_correct_short[13], model_correct_long[13],
+    model_correct_short[14], model_correct_long[14],
+    model_correct_short[15], model_correct_long[15],
+    model_incorrect_short[3],  model_incorrect_long[3]
                ]
+    //            ,
+    //        [
+    // model_correct_short[17], model_correct_long[17],
+    // model_correct_short[18], model_correct_long[18],
+    // model_correct_short[19], model_correct_long[19],
+    // model_correct_short[20], model_correct_long[20],
+    // model_incorrect_short[4],  model_incorrect_long[4]
+    //            ]
               ]
 }
   json_input['training'] = [shuffle(json_input['training'][0])]

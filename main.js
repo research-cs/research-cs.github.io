@@ -520,8 +520,8 @@ function runTraining() {
 
       if (training_phase_count == input['training'][0].length - 1) {
         $('.alert-link').unbind('click').click(function() {
-          transition('task', 'questionnaire-human')
-          // runTrainingAI();
+          transition('task', 'training-intermediate')
+          runTrainingAI();
         }
         )
       }
@@ -1041,19 +1041,19 @@ function readTaskResponse() {
     for (let i = 0; i < labels.length; i++) {
       var label = $(labels[i])
       if (label.data('possible_answers') == correct_label && (training_phase || training_phase_ai)){
-        // label.css('font-weight', 'bold')
-        // label.append(' <span class="badge badge-success">Correct</span>')
+        label.css('font-weight', 'bold')
+        label.append(' <span class="badge badge-success">Correct</span>')
       }
     }
     
     if (checked_question_label == correct_label) {
       // alert("Correct!")
-      // if (training_phase || training_phase_ai) {
-      //   $('.alert-success').show()
-      // }
-      // else {
+      if (training_phase || training_phase_ai) {
+        $('.alert-success').show()
+      }
+      else {
         $('.alert-secondary').show()
-      // }
+      }
 
       if (mode == 'coged') {
         if (ai_condition[0] == 'long'){
@@ -1126,12 +1126,12 @@ function readTaskResponse() {
         }
       }
     } else {
-      // if (training_phase || training_phase_ai) {
-      //   $('.alert-danger').show()
-      // }
-      // else {
+      if (training_phase || training_phase_ai) {
+        $('.alert-danger').show()
+      }
+      else {
         $('.alert-secondary').show()
-      // }
+      }
       // if (curr_penalty_system && checked_question_label == model_response) {
       //   if (mode == 'coged') {
       //     if (ai_condition[0] == 'long'){
@@ -1182,7 +1182,6 @@ function renderTask(condition, data, callback=null) {
   current_question = data;
   current_condition = curr[1];
   current_setting = curr[0];
-  console.log(data)
 
   // reset state and load elements
   window.scrollTo(0,0); 
