@@ -37,6 +37,41 @@ function main() {
         input_imgs['collaboration'][i].push(preloadImage(input['collaboration'][i][j]['maze']))
       }
     }
+    input_imgs_xai = {
+
+    }
+    input_imgs_xai['training'] = [[]]
+    for (let i = 0; i < input['training'][0].length; i++) {
+      input_imgs_xai['training'][0].push(preloadImage(input['training'][0][i]['explanation']))
+    }
+    input_imgs_xai['training-AI'] = [[]]
+    for (let i = 0; i < input['training-AI'][0].length; i++) {
+      input_imgs_xai['training-AI'][0].push(preloadImage(input['training-AI'][0][i]['explanation']))
+    }
+    input_imgs_xai['collaboration'] = [[]]
+    for (let i = 0; i < input['collaboration'].length; i++) {
+      for (let j = 0; j < input['collaboration'][i].length; j++){
+        input_imgs_xai['collaboration'][i].push(preloadImage(input['collaboration'][i][j]['explanation']))
+      }
+    }
+
+    input_imgs_circle_xai = {
+
+    }
+    input_imgs_circle_xai['training'] = [[]]
+    for (let i = 0; i < input['training'][0].length; i++) {
+      input_imgs_circle_xai['training'][0].push(preloadImage(input['training'][0][i]['circle explanation']))
+    }
+    input_imgs_xai['training-AI'] = [[]]
+    for (let i = 0; i < input['training-AI'][0].length; i++) {
+      input_imgs_circle_xai['training-AI'][0].push(preloadImage(input['training-AI'][0][i]['circle explanation']))
+    }
+    input_imgs_circle_xai['collaboration'] = [[]]
+    for (let i = 0; i < input['collaboration'].length; i++) {
+      for (let j = 0; j < input['collaboration'][i].length; j++){
+        input_imgs_circle_xai['collaboration'][i].push(preloadImage(input['collaboration'][i][j]['circle explanation']))
+      }
+    }
   }
 }
 
@@ -1128,6 +1163,14 @@ function readTaskResponse() {
     } else {
       if (training_phase || training_phase_ai) {
         $('.alert-danger').show()
+        if (current_condition == 'xai') {
+          // circle_xai = current_question['explanation'].split('/')
+          // num_ = parseInt(current_question['explanation'].split('/')[10].split('-')[1]) + 3
+          // circle_xai[10] = 'download-'+num_ +'.png'
+          // circle_xai = circle_xai.join('/')
+          // console.log(circle_xai)
+          $("#context-text").html("<img src=\"" + current_question['circle explanation'] + "\"/>")
+        }
       }
       else {
         $('.alert-secondary').show()
@@ -1238,7 +1281,12 @@ function renderTask(condition, data, callback=null) {
   // for (var i = 0; i < idx_list.length; i++) {
     // innerContextHTML +="<img src=\"" + data['maze'] + "\""
   // }
-  contextText.html("<img src=\"" + data['maze'] + "\"/>")
+  if (current_condition == 'prediction' || training_phase) {
+    contextText.html("<img src=\"" + data['maze'] + "\"/>")
+  }
+  else {
+    contextText.html("<img src=\"" + data['explanation'] + "\"/>")
+  }
   // contextText.disableFind()
   // contextText.bind('copy paste cut',function(e) {
   //     e.preventDefault(); return false; 
