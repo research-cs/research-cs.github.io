@@ -3175,10 +3175,7 @@ model_incorrect_short[4], model_incorrect_long[4]
   'training': 
   [[
   model_correct_short[0], model_correct_long[0],
-    model_correct_short[1], model_correct_long[1],
-    model_correct_short[2], model_correct_long[2],
-    model_correct_short[3], model_correct_long[3],
-    model_incorrect_short[0],  model_incorrect_long[0]
+    model_correct_short[1], model_correct_long[1]
     ]],
   'training-AI': 
   [
@@ -3199,8 +3196,8 @@ model_incorrect_short[4], model_incorrect_long[4]
               [model_correct_short[8], model_correct_short[9], model_correct_short[10], model_correct_short[11], model_correct_short[1]]
             ],
   'coged-order': 
-  [['short baseline', 'short xai'],
-                  ['long baseline', 'long xai']],
+  [['short baseline', 'short prediction'],
+                  ['long baseline', 'long prediction']],
   'collaboration': [
                [
     model_correct_short[8], model_correct_long[8],
@@ -3212,16 +3209,18 @@ model_incorrect_short[4], model_incorrect_long[4]
     model_correct_short[13], model_correct_long[13],
     model_correct_short[14], model_correct_long[14],
     model_correct_short[15], model_correct_long[15],
-    model_incorrect_short[3],  model_incorrect_long[3]
+    model_incorrect_short[3],  model_incorrect_long[3],
+           //     ]
+           //     ,
+           // [
+    // model_incorrect_short[4],  model_incorrect_long[4],
+
+    model_correct_short[2], model_correct_long[2],
+    model_correct_short[3], model_correct_long[3],
+    model_correct_short[16], model_correct_long[16],
+    model_correct_short[17], model_correct_long[17],
+    model_incorrect_short[0],  model_incorrect_long[0]
                ]
-    //            ,
-    //        [
-    // model_correct_short[17], model_correct_long[17],
-    // model_correct_short[18], model_correct_long[18],
-    // model_correct_short[19], model_correct_long[19],
-    // model_correct_short[20], model_correct_long[20],
-    // model_incorrect_short[4],  model_incorrect_long[4]
-    //            ]
               ]
 }
   json_input['training'] = [shuffle(json_input['training'][0])]
@@ -3238,7 +3237,7 @@ model_incorrect_short[4], model_incorrect_long[4]
   return json_input
 }
 var coged_order_temp = shuffle([
-  ['short baseline', 'short xai']
+  ['short baseline', 'short prediction']
   // ['short baseline', 'short xai']
                   // ['long baseline', 'long prediction'],
                   // ['long baseline', 'long xai']
