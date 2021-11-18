@@ -1910,6 +1910,7 @@ In this phase, if you choose the AI's assistance, you will be able to collaborat
 						<p><strong><span id = 'task-ai-name'></span> Suggestion</strong>:
 						<span style='display:inline' id='model-prediction'>Silas B. Cobb</span></p>
 						<div style='display:none' id='model-arrow-explanation'></div>
+						<div style='display:none' id='model-written-explanation'></div>
 						<em style='display: none'> (<span id='confidence'>80</span>% accurate)</em>
 					</div>
 
@@ -3197,8 +3198,8 @@ model_incorrect_short[4], model_correct_long[18]
               [model_correct_short[8], model_correct_short[9], model_correct_short[10], model_correct_short[11], model_correct_short[1]]
             ],
   'coged-order': 
-  [['short baseline', 'short xai-arrow'],
-                  ['long baseline', 'long xai-arrow']],
+  [['short baseline', 'short xai-written'],
+                  ['long baseline', 'long xai-written']],
   'collaboration': [
                [
     model_correct_short[8], model_correct_long[8],
@@ -3239,7 +3240,7 @@ model_incorrect_short[4], model_correct_long[18]
 }
 var coged_order_temp = shuffle([
   // ['short baseline', 'short xai']
-  ['short baseline', 'short xai-arrow']
+  ['short baseline', 'short xai-written']
   // ['short baseline', 'short xai']
                   // ['long baseline', 'long prediction'],
                   // ['long baseline', 'long xai']

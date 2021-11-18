@@ -571,7 +571,7 @@ function runTraining() {
   training_phase_ai = true;
   training_phase_count_ai = 0;
 
-  if (ai_condition[1] == 'xai' || ai_condition[1] == 'xai-arrow') {
+  if (ai_condition[1] == 'xai' || ai_condition[1] == 'xai-arrow'|| ai_condition[1] == 'xai-written') {
     $('#xai-begin-training').css('display','inline-block')
     $('.main-highlight').removeClass('no-highlight')
   }
@@ -1274,7 +1274,7 @@ function renderTask(condition, data, callback=null) {
   if (current_condition == 'prediction' || training_phase) {
     contextText.html("<img src=\"" + data['maze'] + "\"/>")
   }
-  else if (current_condition == 'xai-arrow'){
+  else if (current_condition == 'xai-arrow' || ai_condition[1] == 'xai-written'){
     contextText.html("<img src=\"" + data['maze'] + "\"/>")
   }
   else if (current_condition == 'xai'){
@@ -1291,6 +1291,7 @@ function renderTask(condition, data, callback=null) {
   // $('#model-prediction').html(data['interface_model_response'])
   $('#model-prediction').html(data['m_r'])
   $('#model-arrow-explanation').html('<strong>AI\'s Explanation</strong> (From the Start): ' + data['arrow_explanation'])
+  $('#model-written-explanation').html('<strong>AI\'s Explanation</strong> (From the Start): ' + data['written_explanation'])
   // disable($('#model-prediction'))
   // $('#confidence').html(data['confidence'])
 
@@ -1307,30 +1308,42 @@ function renderTask(condition, data, callback=null) {
   highlights = $('.answer-highlight, .question-highlight, .main-highlight')
   predBox = $('#model-prediction-box')
   arrowBox = $('#model-arrow-explanation')
+  writtenBox = $('#model-written-explanation')
 
   if (current_condition == 'baseline') {
     qBox.toggleClass('baseline-box');
     highlights.addClass('no-highlight')
     predBox.hide()
     arrowBox.hide()
+    writtenBox.hide()
   } 
   else if (current_condition == 'prediction') {
     qBox.toggleClass('ai-box');
     highlights.addClass('no-highlight')
     predBox.show()
     arrowBox.hide()
+    writtenBox.hide()
   }
   else if (current_condition == 'xai' ) {
     qBox.toggleClass('ai-box');
     highlights.removeClass('no-highlight')
     predBox.show()
     arrowBox.hide()
+    writtenBox.hide()
   }
   else if (current_condition == 'xai-arrow') {
     qBox.toggleClass('ai-box');
     highlights.removeClass('no-highlight')
     predBox.show()
     arrowBox.show()
+    writtenBox.hide()
+  }
+  else if (current_condition == 'xai-written') {
+    qBox.toggleClass('ai-box');
+    highlights.removeClass('no-highlight')
+    predBox.show()
+    arrowBox.hide()
+    writtenBox.show()
   }
 
   if (training_phase || training_phase_ai) {
@@ -1579,7 +1592,7 @@ function repeatTaskAndTrain() {
   $('#training-ai-name').css('color',ai_colors[task_repeat]);
   $('#training-ai-name').html('the AI');
   $('#training-different-AI-text').show()
-  if (ai_condition[1] == 'xai' || ai_condition[1] == 'xai-arrow') {
+  if (ai_condition[1] == 'xai' || ai_condition[1] == 'xai-arrow' || ai_condition[1] == 'xai-written') {
     $('#training-different-AI-text').show()
     $('.main-highlight').removeClass('no-highlight')
   }
@@ -1662,7 +1675,7 @@ function repeatTask(condition, id ='switch-tasks') {
      }
 
       
-     if (current_xai_setting == 'xai' || ai_condition[1] == 'xai-arrow') {
+     if (current_xai_setting == 'xai' || ai_condition[1] == 'xai-arrow'|| ai_condition[1] == 'xai-written') {
         $(explanation_id).css('display','inline-block')
         $('.main-highlight').removeClass('no-highlight')
      }
