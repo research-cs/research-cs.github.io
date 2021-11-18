@@ -58,19 +58,9 @@ function main() {
     input_imgs_circle_xai = {
 
     }
-    input_imgs_circle_xai['training'] = [[]]
-    for (let i = 0; i < input['training'][0].length; i++) {
-      input_imgs_circle_xai['training'][0].push(preloadImage(input['training'][0][i]['circle explanation']))
-    }
-    input_imgs_xai['training-AI'] = [[]]
+    input_imgs_circle_xai['training-AI'] = [[]]
     for (let i = 0; i < input['training-AI'][0].length; i++) {
       input_imgs_circle_xai['training-AI'][0].push(preloadImage(input['training-AI'][0][i]['circle explanation']))
-    }
-    input_imgs_circle_xai['collaboration'] = [[]]
-    for (let i = 0; i < input['collaboration'].length; i++) {
-      for (let j = 0; j < input['collaboration'][i].length; j++){
-        input_imgs_circle_xai['collaboration'][i].push(preloadImage(input['collaboration'][i][j]['circle explanation']))
-      }
     }
   }
 }
@@ -581,7 +571,7 @@ function runTraining() {
   training_phase_ai = true;
   training_phase_count_ai = 0;
 
-  if (ai_condition[1] == 'xai') {
+  if (ai_condition[1] == 'xai' || ai_condition[1] == 'xai-arrow') {
     $('#xai-begin-training').css('display','inline-block')
     $('.main-highlight').removeClass('no-highlight')
   }
@@ -1284,7 +1274,10 @@ function renderTask(condition, data, callback=null) {
   if (current_condition == 'prediction' || training_phase) {
     contextText.html("<img src=\"" + data['maze'] + "\"/>")
   }
-  else {
+  else if (current_condition == 'xai-arrow'){
+    contextText.html("<img src=\"" + data['maze'] + "\"/>")
+  }
+  else if (current_condition == 'xai'){
     contextText.html("<img src=\"" + data['explanation'] + "\"/>")
   }
   // contextText.disableFind()
@@ -1297,6 +1290,7 @@ function renderTask(condition, data, callback=null) {
 
   // $('#model-prediction').html(data['interface_model_response'])
   $('#model-prediction').html(data['m_r'])
+  $('#model-arrow-explanation').html('<strong>AI\'s Explanation</strong> (From the Start): ' + data['arrow_explanation'])
   // disable($('#model-prediction'))
   // $('#confidence').html(data['confidence'])
 
@@ -1312,21 +1306,31 @@ function renderTask(condition, data, callback=null) {
   // style box correctly
   highlights = $('.answer-highlight, .question-highlight, .main-highlight')
   predBox = $('#model-prediction-box')
+  arrowBox = $('#model-arrow-explanation')
 
   if (current_condition == 'baseline') {
     qBox.toggleClass('baseline-box');
     highlights.addClass('no-highlight')
     predBox.hide()
+    arrowBox.hide()
   } 
   else if (current_condition == 'prediction') {
     qBox.toggleClass('ai-box');
     highlights.addClass('no-highlight')
     predBox.show()
+    arrowBox.hide()
   }
-  else if (current_condition == 'xai') {
+  else if (current_condition == 'xai' ) {
     qBox.toggleClass('ai-box');
     highlights.removeClass('no-highlight')
     predBox.show()
+    arrowBox.hide()
+  }
+  else if (current_condition == 'xai-arrow') {
+    qBox.toggleClass('ai-box');
+    highlights.removeClass('no-highlight')
+    predBox.show()
+    arrowBox.show()
   }
 
   if (training_phase || training_phase_ai) {
@@ -1575,7 +1579,7 @@ function repeatTaskAndTrain() {
   $('#training-ai-name').css('color',ai_colors[task_repeat]);
   $('#training-ai-name').html('the AI');
   $('#training-different-AI-text').show()
-  if (ai_condition[1] == 'xai') {
+  if (ai_condition[1] == 'xai' || ai_condition[1] == 'xai-arrow') {
     $('#training-different-AI-text').show()
     $('.main-highlight').removeClass('no-highlight')
   }
@@ -1658,7 +1662,7 @@ function repeatTask(condition, id ='switch-tasks') {
      }
 
       
-     if (current_xai_setting == 'xai') {
+     if (current_xai_setting == 'xai' || ai_condition[1] == 'xai-arrow') {
         $(explanation_id).css('display','inline-block')
         $('.main-highlight').removeClass('no-highlight')
      }
