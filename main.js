@@ -1058,6 +1058,8 @@ function readTaskResponse() {
       // 'scroll': current_label,
       'coged-available': coged_available
     }
+    console.log(current_setting)
+    console.log(current_condition)
 
     $("#question-box").addClass('muted')
     $('#answer-question').attr('disabled', true)

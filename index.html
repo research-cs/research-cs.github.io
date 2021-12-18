@@ -3155,6 +3155,7 @@ var randomize = true;
 
 
 function make_input(json_data) {
+
   var model_correct_short = shuffle(json_data['Model Correct'])
   var model_correct_long = shuffle(json_data_2['Model Correct'])
   var model_incorrect_short = shuffle(json_data['Model Incorrect'])
@@ -3169,7 +3170,12 @@ function make_input(json_data) {
   // all_.push.apply(all_, model_correct_long.filter((value, index) => 12 !== index));
   // all_.push.apply(all_, model_incorrect_short);
   // all_.push.apply(all_, model_incorrect_long);
-
+  var coged_temp = shuffle([[
+  ['short baseline', 'short xai'],
+  ['long baseline', 'long xai']],
+  [['short baseline', 'short prediction'],
+  ['long baseline', 'long prediction']]])[0]
+  console.log(coged_temp)
   var json_input = {
   'tutorial': [
 model_incorrect_short[4], model_correct_long[18]
@@ -3198,8 +3204,9 @@ model_incorrect_short[4], model_correct_long[18]
               [model_correct_short[8], model_correct_short[9], model_correct_short[10], model_correct_short[11], model_correct_short[1]]
             ],
   'coged-order': 
-  [['short baseline', 'short xai-written'],
-                  ['long baseline', 'long xai-written']],
+  coged_temp,
+  // [['short baseline', 'short xai'],
+  //                 ['long baseline', 'long xai']],
   'collaboration': [
                [
     model_correct_short[8], model_correct_long[8],
@@ -3236,20 +3243,21 @@ model_incorrect_short[4], model_correct_long[18]
   json_input['collaboration'] = [shuffle(json_input['collaboration'][0])]
 
   // json_input['coged-order'] = shuffle_multiple(json_input['coged-order']);
-  return json_input
+  return [json_input, coged_temp]
 }
-var coged_order_temp = shuffle([
-  // ['short baseline', 'short xai']
-  ['short baseline', 'short xai-written']
-  // ['short baseline', 'short xai']
-                  // ['long baseline', 'long prediction'],
-                  // ['long baseline', 'long xai']
-                  ])
+// var coged_order_temp = shuffle([
+//   ['short baseline', 'short xai']
+//   // ['short baseline', 'short prediction']
+//   // ['short baseline', 'short xai']
+//                   // ['long baseline', 'long prediction'],
+//                   // ['long baseline', 'long xai']
+//                   ])
 
 
 
 var input = make_input(json_data);
-
+coged_order_temp = input[1]
+input = input[0]
 
 
 var training_phase_order = [coged_order_temp[0][0], coged_order_temp[0][0], coged_order_temp[0][0], coged_order_temp[0][0]];
@@ -3409,9 +3417,8 @@ var choose_gold_img_2 = choose_[11]
       Second is by my Stanford website, 
       Third is locally  -->
  <script type="text/javascript" src="https://research-cs.github.io/main.js"></script>
- 
-<!--  <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/js/main.js"></script>
- -->
+ --><!--  <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/js/main.js"></script>
+
 <!--  <script type="text/javascript" src="EasyTurk/templates/js/main.js"></script>
  --></div>
 </body>
