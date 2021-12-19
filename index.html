@@ -3172,9 +3172,10 @@ function make_input(json_data) {
   // all_.push.apply(all_, model_incorrect_long);
   var coged_temp = shuffle([[
   ['short baseline', 'short xai'],
-  ['long baseline', 'long xai']],
-  [['short baseline', 'short prediction'],
-  ['long baseline', 'long prediction']]])[0]
+  ['long baseline', 'long xai']]
+  // [['short baseline', 'short prediction'],
+  // ['long baseline', 'long prediction']]
+  ])[0]
   var json_input = {
   'tutorial': [
 model_incorrect_short[4], model_correct_long[18]
