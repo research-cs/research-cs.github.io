@@ -23,15 +23,19 @@ function main() {
     input_imgs = {
 
     }
-    input_imgs['training'] = [[]]
-    for (let i = 0; i < input['training'][0].length; i++) {
-      input_imgs['training'][0].push(preloadImage(input['training'][0][i]['maze']))
+    input_imgs['training'] = [[], []]
+    for (let i = 0; i < input['training'].length; i++) {
+      for (let j = 0; j < input['training'][i].length; j++){
+        input_imgs['training'][i].push(preloadImage(input['training'][i][j]['maze']))
+      }
     }
-    input_imgs['training-AI'] = [[]]
-    for (let i = 0; i < input['training-AI'][0].length; i++) {
-      input_imgs['training-AI'][0].push(preloadImage(input['training-AI'][0][i]['maze']))
+    input_imgs['training-AI'] = [[], []]
+    for (let i = 0; i < input['training-AI'].length; i++) {
+      for (let j = 0; j < input['training-AI'][i].length; j++){
+        input_imgs['training-AI'][i].push(preloadImage(input['training-AI'][i][j]['maze']))
+      }
     }
-    input_imgs['collaboration'] = [[]]
+    input_imgs['collaboration'] = [[], []]
     for (let i = 0; i < input['collaboration'].length; i++) {
       for (let j = 0; j < input['collaboration'][i].length; j++){
         input_imgs['collaboration'][i].push(preloadImage(input['collaboration'][i][j]['maze']))
@@ -40,15 +44,19 @@ function main() {
     input_imgs_xai = {
 
     }
-    input_imgs_xai['training'] = [[]]
-    for (let i = 0; i < input['training'][0].length; i++) {
-      input_imgs_xai['training'][0].push(preloadImage(input['training'][0][i]['explanation']))
+    input_imgs_xai['training'] = [[], []]
+    for (let i = 0; i < input['training'].length; i++) {
+      for (let j = 0; j < input['training'][i].length; j++){
+        input_imgs_xai['training'][i].push(preloadImage(input['training'][i][j]['explanation']))
+      }
     }
-    input_imgs_xai['training-AI'] = [[]]
-    for (let i = 0; i < input['training-AI'][0].length; i++) {
-      input_imgs_xai['training-AI'][0].push(preloadImage(input['training-AI'][0][i]['explanation']))
+    input_imgs_xai['training-AI'] = [[], []]
+    for (let i = 0; i < input['training-AI'].length; i++) {
+      for (let j = 0; j < input['training-AI'][i].length; j++){
+        input_imgs_xai['training-AI'][i].push(preloadImage(input['training-AI'][i][j]['explanation']))
+      }
     }
-    input_imgs_xai['collaboration'] = [[]]
+    input_imgs_xai['collaboration'] = [[], []]
     for (let i = 0; i < input['collaboration'].length; i++) {
       for (let j = 0; j < input['collaboration'][i].length; j++){
         input_imgs_xai['collaboration'][i].push(preloadImage(input['collaboration'][i][j]['explanation']))
@@ -58,9 +66,11 @@ function main() {
     input_imgs_circle_xai = {
 
     }
-    input_imgs_circle_xai['training-AI'] = [[]]
-    for (let i = 0; i < input['training-AI'][0].length; i++) {
-      input_imgs_circle_xai['training-AI'][0].push(preloadImage(input['training-AI'][0][i]['circle explanation']))
+    input_imgs_circle_xai['training-AI'] = [[], []]
+    for (let i = 0; i < input['training-AI'].length; i++) {
+      for (let j = 0; j < input['training-AI'][i].length; j++){
+        input_imgs_circle_xai['training-AI'][i].push(preloadImage(input['training-AI'][i][j]['circle explanation']))
+      }
     }
   }
 }
@@ -199,11 +209,17 @@ function demographicsCallback() {
      // runTask();
      // training_phase = false;
     // uncomment the following for between subjects with training
-     transition('demographics', 'tutorial-maze');
-     $('#easy-maze-photo').html('<img src=\"' + input['tutorial'][0]['maze'] +"\">")
-     $('#hard-maze-photo').html('<img src=\"' + input['tutorial'][1]['maze'] +"\">")
-     $('#easy-maze-solution').html(input['tutorial'][0]['c_r'])
-     $('#hard-maze-solution').html(input['tutorial'][1]['c_r'])
+     if (ai_condition[0] == 'short') {
+      transition('demographics', 'tutorial-maze-short');
+      $('#easy-maze-photo').html('<img src=\"' + input['tutorial'][0]['maze'] +"\">")
+      $('#easy-maze-solution').html(input['tutorial'][0]['c_r'])
+     }
+     else {
+      transition('demographics', 'tutorial-maze-long');
+      $('#hard-maze-photo').html('<img src=\"' + input['tutorial'][1]['maze'] +"\">")
+      $('#hard-maze-solution').html(input['tutorial'][1]['c_r'])
+     }
+    
 
   
     if (ai_condition[0] == 'long') {
@@ -217,10 +233,20 @@ function demographicsCallback() {
   }
 }
 
-$('#tutorial-maze-button').click(function() {
-    transition('tutorial-maze', 'training-start');
+$('#tutorial-maze-button-short').click(function() {
+    transition('tutorial-maze-short', 'training-start');
+    $('#training-start-ai-name').css('color',ai_colors[task_repeat]);
+    $('#training-start-ai-name').html('the AI\'s');
     runTraining()
 });
+
+$('#tutorial-maze-button-long').click(function() {
+    transition('tutorial-maze-long', 'training-start');
+    $('#training-start-ai-name').css('color',ai_colors[task_repeat]);
+    $('#training-start-ai-name').html('the AI\'s');
+    runTraining()
+});
+
 
 function disableSelfDescribe() {
   $('#self-description').attr('disabled', true);
@@ -543,7 +569,7 @@ function runTraining() {
     if (response) {
       output['training'].push(response)
 
-      if (training_phase_count == input['training'][0].length - 1) {
+      if (training_phase_count == input['training'][task_repeat].length - 1) {
         $('.alert-link').unbind('click').click(function() {
           transition('task', 'training-intermediate')
           runTrainingAI();
@@ -553,7 +579,7 @@ function runTraining() {
       else {
         training_phase_count += 1;
         $('.alert-link').unbind('click').click(function() {
-          renderTask(training_phase_order[0], input['training'][0][training_phase_count]);
+          renderTask(training_phase_order[task_repeat], input['training'][task_repeat][training_phase_count]);
           progress();
         })
       }
@@ -562,7 +588,7 @@ function runTraining() {
 
   $('#training-start-button').click(function() {
     transition('training-start', 'task');
-    renderTask(training_phase_order[0], input['training'][0][0], trainingCallback)
+    renderTask(training_phase_order[task_repeat], input['training'][task_repeat][0], trainingCallback)
 
   })
 }
@@ -592,7 +618,7 @@ function runTraining() {
     if (response) {
       output['training'].push(response)
 
-      if (training_phase_count_ai == input['training-AI'][0].length - 1) {
+      if (training_phase_count_ai == input['training-AI'][task_repeat].length - 1) {
 
           $('.alert-link').unbind('click').click(function() {
             //transition('task', 'training-end')
@@ -614,7 +640,7 @@ function runTraining() {
         training_phase_count_ai += 1;
         $('.alert-link').unbind('click').click(function() {
 
-            renderTask(training_phase_order_ai[0], input['training-AI'][task_repeat][training_phase_count_ai]);
+            renderTask(training_phase_order_ai[task_repeat], input['training-AI'][task_repeat][training_phase_count_ai]);
           progress();
         })
       }
@@ -624,7 +650,7 @@ function runTraining() {
     training_phase = false;
     transition('training-intermediate', 'task');
 
-      renderTask(training_phase_order_ai[0], input['training-AI'][task_repeat][0], trainingCallback)
+      renderTask(training_phase_order_ai[task_repeat], input['training-AI'][task_repeat][0], trainingCallback)
   })
 }
 
@@ -693,7 +719,7 @@ function runTask() {
     ai_condition = input['coged-order'][task_repeat][1].split(" ");
     baseline_condition = input['coged-order'][task_repeat][0].split(" ");
 
-      $(choose_text_AI).html("Get suggestion from AI")
+      $(choose_text_AI).html("Get suggestion and explanation from AI")
     if (ai_condition[0] == 'long') {
       $(choose_cost_AI).html(gold_cost_of_ai + " gold credits")
       $(choose_cost_human).html(cost_of_human + " gold credits")
@@ -717,10 +743,15 @@ function runTask() {
       $(choose_gold_img_2).css('display','inline-block')
       $(choose_silver_img_2).css('display','none')
     }
+      $(choose_human_type).css('color', ai_colors[task_repeat])
+      $(choose_human_type).css('backgroundColor', ai_background_colors[task_repeat])
+      $(choose_human_type).css('border', ai_border[task_repeat])
+      // $(choose_AI_name).html(ai_names[task_repeat])
+
       $(choose_AI_type).css('color', ai_colors[task_repeat])
       $(choose_AI_type).css('backgroundColor', ai_background_colors[task_repeat])
       $(choose_AI_type).css('border', ai_border[task_repeat])
-      $(choose_AI_name).html(ai_names[task_repeat])
+      // $(choose_AI_name).html(ai_names[task_repeat])
   }
   var collaboration_count = 0;
   function collaborationCallBack() {
@@ -735,16 +766,18 @@ function runTask() {
           $('#coged-ai-name').css('color',ai_colors[task_repeat]);
           $('#coged-ai-name').html('the AI\'s');
 
-            $('#coged-DIY-AI').show()
-            $('#coged-AI-xai').hide()
+            $('#coged-DIY-AI').hide()
+            $('#coged-AI-xai').show()
             $("#summary-coged-change-AI-compare").hide()
-            $("#coged-DIY-AI-attention").show()
-            $("#coged-AI-xai-attention").hide()
+            $("#coged-DIY-AI-attention").hide()
+            $("#coged-AI-xai-attention").show()
           if (current_length == 'long') {
             $("#coged-text-long").show()
+            $("#coged-text-short").hide()
             }
             else {
               $("#coged-text-short").show()
+              $("#coged-text-long").hide()
           }
           }
           else {
@@ -757,7 +790,7 @@ function runTask() {
     else {
       $('.alert-link').unbind('click').click(function() {
         collaboration_count +=1;
-        renderTask(input['coged-order'][task_repeat][1], input['collaboration'][0][collaboration_count], 
+        renderTask(input['coged-order'][task_repeat][1], input['collaboration'][task_repeat][collaboration_count], 
           collaborationCallBack);
         progress();
          });
@@ -765,7 +798,7 @@ function runTask() {
   }
 }
 
-$('#coged-task-button').click(function() {
+$('#coged-task-button').unbind('click').click(function() {
     populateChoice()
     transition('coged-task', choose_type)
     
@@ -875,14 +908,15 @@ $('#coged-task-button').click(function() {
   }
 
 
-
-  $(choose_human_type).click(function(){
+  // THIS HAS BEEN CHANGED SO WE ARE COMPARING PREDICTION AND EXPLANATION
+  $(choose_human_type).unbind('click').click(function(){
     wager = 100;
 
     if (ai_condition[0] == 'long') {
       choice = {
       'length': 'long',
-      'task': baseline_condition[1],
+      // 'task': baseline_condition[1],
+      'task': 'prediction',
       'wager': wager,
       'lower': gold_lower_bound,
       'upper': gold_upper_bound,
@@ -893,7 +927,8 @@ $('#coged-task-button').click(function() {
    else {
      choice = {
       'length': 'short',
-      'task': baseline_condition[1],
+      // 'task': baseline_condition[1],
+      'task': 'prediction',
       'wager': wager,
       'lower': silver_lower_bound,
       'upper': silver_upper_bound,
@@ -910,12 +945,12 @@ $('#coged-task-button').click(function() {
     gold_cost_of_ai = Math.round(average(gold_lower_bound, gold_upper_bound));
     silver_cost_of_ai = Math.round(average(silver_lower_bound, silver_upper_bound));
     transition(choose_type,"task");
-    renderTask(input['coged-order'][task_repeat][0], input['coged'][0][coged_phase_count], 
+    renderTask(input['coged-order'][task_repeat][0].split(' ')[0] + ' prediction', input['coged'][task_repeat][coged_phase_count], 
       taskCallBack);
     coged_phase_count += 1;
   });
 
-  $(choose_AI_type).click(function(){
+  $(choose_AI_type).unbind('click').click(function(){
     var task = ai_condition[1]
     if (ai_condition[0] == 'long') {
       wager = gold_cost_of_ai;
@@ -950,7 +985,7 @@ $('#coged-task-button').click(function() {
     gold_cost_of_ai = Math.round(average(gold_lower_bound, gold_upper_bound));
     silver_cost_of_ai = Math.round(average(silver_lower_bound, silver_upper_bound));
     transition(choose_type, "task");
-    renderTask(input['coged-order'][task_repeat][1], input['coged'][num_comparative][coged_phase_count], 
+    renderTask(input['coged-order'][task_repeat][1], input['coged'][task_repeat][coged_phase_count], 
       taskCallBack);
     coged_phase_count += 1;
   });
@@ -961,7 +996,7 @@ $('#coged-task-button').click(function() {
     // output['collaboration'].push([])
 
     transition('begin-task', 'task');
-    renderTask(input['coged-order'][task_repeat][1], input['collaboration'][0][collaboration_count], 
+    renderTask(input['coged-order'][task_repeat][1], input['collaboration'][task_repeat][collaboration_count], 
       collaborationCallBack)
     collaboration_phase = true;
     coged_phase = false;
@@ -971,7 +1006,6 @@ $('#coged-task-button').click(function() {
     // output['coged'].push([])
     // output['choices'].push([])
     // output['collaboration'].push([])
-
     populateChoice()
 
     collaboration_count = 0
@@ -985,7 +1019,7 @@ $('#coged-task-button').click(function() {
     gold_cost_of_ai = Math.round(average(gold_lower_bound, gold_upper_bound));
     silver_cost_of_ai = Math.round(average(silver_lower_bound, silver_upper_bound));
     transition('repeat-task', 'task');
-    renderTask(input['coged-order'][task_repeat][1], input['collaboration'][0][collaboration_count], 
+    renderTask(input['coged-order'][task_repeat][1], input['collaboration'][task_repeat][collaboration_count], 
     collaborationCallBack)
   })
 
@@ -1058,8 +1092,6 @@ function readTaskResponse() {
       // 'scroll': current_label,
       'coged-available': coged_available
     }
-    console.log(current_setting)
-    console.log(current_condition)
 
     $("#question-box").addClass('muted')
     $('#answer-question').attr('disabled', true)
@@ -1571,6 +1603,48 @@ function questionnaireCallback() {
     else if (!$.trim($("#AI-usage").val()) || !$.trim($("#choice-selection").val())) {
       alert("Please input your response in the text box.")
     }
+    else if (task_repeat < input['collaboration'].length) {
+      training_phase_order = [coged_order_temp[task_repeat][0], coged_order_temp[task_repeat][0]];
+      training_phase_order_ai = [coged_order_temp[task_repeat][1], coged_order_temp[task_repeat][1], coged_order_temp[task_repeat][1], 
+                              coged_order_temp[task_repeat][1], coged_order_temp[task_repeat][1]];
+      training_phase_count_ai = 0;
+      $('#training-ai-name').css('color',ai_colors[task_repeat]);
+      $('#training-ai-name').html('the AI');
+      $('#training-different-AI-text').show()
+      ai_condition = coged_order_temp[task_repeat][1].split(' ')
+      baseline_condition = coged_order_temp[task_repeat][0].split(' ')
+
+      if (ai_condition[1] == 'xai' || ai_condition[1] == 'xai-arrow' || ai_condition[1] == 'xai-written') {
+        $('#training-different-AI-text').show()
+        $('.main-highlight').removeClass('no-highlight')
+      }
+      if (ai_condition[0] == 'long') {
+        $('#length-repeat-training').html('long')
+      }
+      else {
+        $('#length-repeat-training').html('short')
+      }
+
+      if (ai_condition[0] == 'short') {
+      transition('questionnaire', 'tutorial-maze-short');
+      $('#easy-maze-photo').html('<img src=\"' + input['tutorial'][0]['maze'] +"\">")
+      $('#easy-maze-solution').html(input['tutorial'][0]['c_r'])
+     }
+     else {
+      transition('questionnaire', 'tutorial-maze-long');
+      $('#hard-maze-photo').html('<img src=\"' + input['tutorial'][1]['maze'] +"\">")
+      $('#hard-maze-solution').html(input['tutorial'][1]['c_r'])
+      }
+      // transition('questionnaire', 'training-start');
+      // runTraining()
+      coged_phase_count = 0
+      gold_lower_bound = 0
+      gold_upper_bound = 100
+      silver_lower_bound = 0
+      silver_upper_bound = 100
+      gold_cost_of_ai = Math.round(average(gold_lower_bound, gold_upper_bound));
+      silver_cost_of_ai = Math.round(average(silver_lower_bound, silver_upper_bound));
+    }
     else {
       transition("questionnaire","questionnaire-human");
       output['final_balance'] = { 
@@ -1584,28 +1658,29 @@ function questionnaireCallback() {
  }
 }
 
-function repeatTaskAndTrain() {
-  ai_condition = input['coged-order'][task_repeat][1].split(" ");
-  baseline_condition = input['coged-order'][task_repeat][0].split(" ");
-  training_phase_order_ai = [coged_order_temp[task_repeat][1], coged_order_temp[task_repeat][1], coged_order_temp[task_repeat][1], 
-                              coged_order_temp[task_repeat][1], coged_order_temp[task_repeat][1]];
-  transition("questionnaire", "training-intermediate")
-  training_phase_count_ai = 0;
-  $('#training-ai-name').css('color',ai_colors[task_repeat]);
-  $('#training-ai-name').html('the AI');
-  $('#training-different-AI-text').show()
-  if (ai_condition[1] == 'xai' || ai_condition[1] == 'xai-arrow' || ai_condition[1] == 'xai-written') {
-    $('#training-different-AI-text').show()
-    $('.main-highlight').removeClass('no-highlight')
-  }
-  if (ai_condition[0] == 'long') {
-    $('#length-repeat-training').html('long')
-  }
-  else {
-    $('#length-repeat-training').html('short')
-  }
-  runTrainingAI();
-}
+// function repeatTaskAndTrain() {
+//   ai_condition = input['coged-order'][task_repeat][1].split(" ");
+//   baseline_condition = input['coged-order'][task_repeat][0].split(" ");
+//   training_phase_order_ai = [coged_order_temp[task_repeat][1], coged_order_temp[task_repeat][1], coged_order_temp[task_repeat][1], 
+//                               coged_order_temp[task_repeat][1], coged_order_temp[task_repeat][1]];
+//   transition("questionnaire", "training-intermediate")
+//   training_phase_count_ai = 0;
+//   $('#training-ai-name').css('color',ai_colors[task_repeat]);
+//   $('#training-ai-name').html('the AI');
+//   $('#training-different-AI-text').show()
+//   if (ai_condition[1] == 'xai' || ai_condition[1] == 'xai-arrow' || ai_condition[1] == 'xai-written') {
+//     $('#training-different-AI-text').show()
+//     $('.main-highlight').removeClass('no-highlight')
+//   }
+//   if (ai_condition[0] == 'long') {
+//     $('#length-repeat-training').html('long')
+//   }
+//   else {
+//     $('#length-repeat-training').html('short')
+//   }
+
+//   runTrainingAI();
+// }
 
 
 function questionnaireHumanCallback() {

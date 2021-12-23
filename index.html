@@ -131,6 +131,27 @@ nav {
   margin-bottom: 10px;
   margin-left: 5px;
 }
+/*******************
+      TUTORIAL
+********************/
+
+#tutorial-maze-short p > img{
+  width: 1.4em;
+  padding-left: 2px;
+  vertical-align: text-bottom;
+}
+
+#tutorial-maze-long p > img{
+  width: 1.4em;
+  padding-left: 2px;
+  vertical-align: text-bottom;
+}
+
+#tutorial-maze-long, #tutorial-maze-short h3 {
+  margin-top: 40px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+}
 
 /*******************
      FUNNY MONEY
@@ -1505,8 +1526,11 @@ jQuery.fn.disableFind = function(){
 <!-- 				<p>In this phase, you will complete 6 practice questions. You will complete the 6 Question & Answer pairs by yourself to experience the difficulty of doing it yourself with both short and long passages.</p>
  -->				
  					<p><!-- In this phase, you will complete mazes.  -->
- 						<strong>You will complete this task by yourself to experience the difficulty of doing it yourself.</strong> 
- 						<span id='training-credits'></span> <span id ="training-credits-overreliance" style= "display:none"><strong>You will only get rewarded for the questions BOTH you and the AI (which you will use soon) get correct.</strong></span> 
+<!--  						<strong>You will complete this task by yourself to experience the difficulty of doing it yourself.</strong> 
+ --> 						
+ 	<strong>You will complete this task with <span id='training-start-ai-name'></span> suggestions to experience the difficulty.</strong> 
+
+ <span id='training-credits'></span> <span id ="training-credits-overreliance" style= "display:none"><strong>You will only get rewarded for the questions BOTH you and the AI (which you will use soon) get correct.</strong></span> 
 <!--  						<span id ='training-credits-hover'>You can also find out how much money credits are worth by hovering over the icon in the top right.</span>
  --> 					</p>
  				<button type="button" class="btn btn-primary" id='training-start-button'>Begin</button>
@@ -1523,7 +1547,10 @@ jQuery.fn.disableFind = function(){
 			<div class="card-body">			 					
 <!--  					<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI, which is <span id='training-ai-acc'></span> accurate. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</strong> <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
  --> 				
-  			<p>In this phase, you will complete practice mazes. <strong>You will complete this task with <span id='training-ai-name'></span> to experience using the AI. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> <span id = 'training-same-AI-text' style="display:none">This is the same AI you used previously. </span><span id = 'training-different-AI-text' style="display:none">This is a different AI from the one you used previously. </span><span id = 'xai-compare-training' style="display:none">The AI will now show you <span class='main-highlight'>explanations</span>.</strong> <!-- These passages are <span id = 'length-repeat-training'></span>. -->
+  			<p>In this phase, you will complete practice mazes. 
+  				<strong>
+<!--   					You will complete this task with <span id='training-ai-name'></span> to experience using the AI. 
+ -->  				<span id = 'xai-begin-training' style="display:none">Now, <span id='training-ai-name'></span> will now give its suggestions and <span class='main-highlight'>explanations</span>.</span> <span id = 'training-same-AI-text' style="display:none">This is the same AI you used previously. </span><span id = 'training-different-AI-text' style="display:none">This is a different AI from the one you used previously. </span><span id = 'xai-compare-training' style="display:none">The AI will now show you <span class='main-highlight'>explanations</span>.</strong> <!-- These passages are <span id = 'length-repeat-training'></span>. -->
 
 <!--   				<br><br>
  -->
@@ -1570,22 +1597,56 @@ jQuery.fn.disableFind = function(){
     </div>
   </div>
 </div>
-    <div class='row' id='tutorial-maze' style='display:none'>
+    <!-- <div class='row' id='tutorial-maze' style='display:none'>
 	<div class='col-12'>
 		<h3>Tutorial</h3>
 
 		<div class="card">
 			<div class="card-body">
 				<p>We will begin with a brief tutorial, which will explain the task.</p>
-				<p>You will be completing a maze task, in which you will find the exit to a maze given a starting place. There is only one correct solution. The following is an example of an easy maze to complete:</p>
+				<p>You will be completing a maze task, in which you will find the exit to a maze given a starting place. There is only one correct solution. For each question you get correct with the AI in the easy maze, you will receive 100 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to a $0.05. The following is an example of an easy maze to complete:</p>
 				<span id='easy-maze-photo'></span>
 				<br>
 				<p>The answer to the easy maze: <span id='easy-maze-solution'></span>.</p>
-				<p>The following is an example of a hard maze to complete:</p>
+				<p>For each question you get correct with the AI in the hard maze, you will receive 100 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to a $0.10. The following is an example of a hard maze to complete:</p>
 				<span id='hard-maze-photo'></span>
 				<br>
 				<p>The answer to the hard maze: <span id='hard-maze-solution'></span>.</p>
 				<button type="button" class="btn btn-primary" id='tutorial-maze-button'>Begin</button>
+			</div>
+		</div>
+	</div>
+</div> -->
+
+<div class='row' id='tutorial-maze-short' style='display:none'>
+	<div class='col-12'>
+		<h3>Tutorial</h3>
+
+		<div class="card">
+			<div class="card-body">
+				<p>We will begin with a brief tutorial, which will explain the task.</p>
+				<p>You will be completing a maze task, in which you will find the exit to a maze given a starting place. There is only one correct solution. For each question you get correct with the AI in the easy maze, you will receive 100 silver credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">, which is equal to a $0.05. The following is an example of an easy maze to complete:</p>
+				<span id='easy-maze-photo'></span>
+				<br>
+				<p>The answer to the easy maze: <span id='easy-maze-solution'></span>.</p>
+				<button type="button" class="btn btn-primary" id='tutorial-maze-button-short'>Begin</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class='row' id='tutorial-maze-long' style='display:none'>
+	<div class='col-12'>
+		<h3>Tutorial</h3>
+
+		<div class="card">
+			<div class="card-body">
+				<p>We will begin with a brief tutorial, which will explain the task.</p>
+				<p>You will be completing a maze task, in which you will find the exit to a maze given a starting place. There is only one correct solution. For each question you get correct with the AI in the hard maze, you will receive 100 gold credits<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">, which is equal to a $0.10. The following is an example of a hard maze to complete:</p>
+				<span id='hard-maze-photo'></span>
+				<br>
+				<p>The answer to the hard maze: <span id='hard-maze-solution'></span>.</p>
+				<button type="button" class="btn btn-primary" id='tutorial-maze-button-long'>Begin</button>
 			</div>
 		</div>
 	</div>
@@ -1673,7 +1734,7 @@ jQuery.fn.disableFind = function(){
 		<div class='col-5 text-center'>
 			<div class='choice-box d-flex align-items-center justify-content-center' id='choose-AI'>
 				<div>
-					<h2 id='text-of-ai'>Get suggestion from AI <span id= 'choose-ai-name'></span></h2>
+					<h2 id='text-of-ai'>Get suggestion and explanation from AI<span id= 'choose-ai-name'></span></h2>
 					<span id='cost-of-AI'></span>
 			        <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"id = 'silver-coin-image-2' style='display:none'>
 			        <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png" id = 'gold-coin-image-2'style='display:none'>
@@ -1686,7 +1747,7 @@ jQuery.fn.disableFind = function(){
 		<div class='col-5 text-center'>
 			<div class='choice-box d-flex align-items-center justify-content-center' id='choose-human'>
 				<div>
-					<h2 id='text-of-baseline'>Complete by yourself</h2>
+					<h2 id='text-of-baseline'>Get suggestion from AI</h2>
 					<span id='cost-of-human'>100</span>
 					<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"id = 'silver-coin-image' style='display:none'>
 			        <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png" id = 'gold-coin-image'style='display:none'>
@@ -1707,7 +1768,7 @@ jQuery.fn.disableFind = function(){
 		<div class='col-5 text-center'>
 			<div class='choice-box d-flex align-items-center justify-content-center' id='choose-human-flipped'>
 				<div>
-					<h2 id='text-of-baseline-flipped'>Complete by yourself</h2>
+					<h2 id='text-of-baseline-flipped'>Get suggestion from AI</h2>
 					<span id='cost-of-human-flipped'>100</span>
 					<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"id = 'silver-coin-image-flipped' style='display:none'>
 			        <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png" id = 'gold-coin-image-flipped'style='display:none'>
@@ -1720,7 +1781,7 @@ jQuery.fn.disableFind = function(){
 		<div class='col-5 text-center'>
 			<div class='choice-box d-flex align-items-center justify-content-center' id='choose-AI-flipped'>
 				<div>
-					<h2 id='text-of-ai-flipped'>Get suggestion from AI <span id= 'choose-ai-name-flipped'></span></h2>
+					<h2 id='text-of-ai-flipped'>Get suggestion and explanation from AI <span id= 'choose-ai-name-flipped'></span></h2>
 					<span id='cost-of-AI-flipped'></span>
 			        <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"id = 'silver-coin-image-2-flipped' style='display:none'>
 			        <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png" id = 'gold-coin-image-2-flipped'style='display:none'>
@@ -1779,8 +1840,9 @@ jQuery.fn.disableFind = function(){
 			<div class="card-body">
 				<p id = 'coged-DIY-AI' style="display:none">You will be asked to choose between completing a task by yourself and using <span id='coged-ai-name'></span> assistance for each question. 
 				</p>
-				<p id = 'coged-AI-xai' style="display:none">You will be asked to choose between completing a task with the AI's suggestion <strong>or</strong> completing a task with the AI's suggestion and <span class='main-highlight'>explanations</span>. You will be offered gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for choosing, which have no real monetary value. 
-				</p>
+				<p id = 'coged-AI-xai' style="display:none">You will be asked to choose between completing a task with the AI's suggestion <strong>or</strong> completing a task with the AI's suggestion and <span class='main-highlight'>explanations</span>. 
+<!-- 					You will be offered gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for choosing, which have no real monetary value. 
+ -->				</p>
 				<p>
 				<span id= "coged-forced-AI" style="display:none"> You will be asked to choose between completing a task by yourself and using the AI's suggestion for each question. <strong>In this phase, if you choose the AI's assistance, you will have to respond with its answer. 
 <!-- 					<span class="important-text">You will NOT be able to change its answer. </span>
@@ -1814,7 +1876,7 @@ In this phase, if you choose the AI's assistance, you will be able to collaborat
 
 				<!-- Making short equal to gold -->
 				<span id='coged-text-short' style="display:none">
-					Remember that 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> is equal to a $0.05 bonus. 
+					Remember that 100 silver credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"> is equal to a $0.05 bonus. 
 				</span>
 
 				<span id='coged-text-overreliance-short' style="display:none">
@@ -3170,89 +3232,155 @@ function make_input(json_data) {
   // all_.push.apply(all_, model_correct_long.filter((value, index) => 12 !== index));
   // all_.push.apply(all_, model_incorrect_short);
   // all_.push.apply(all_, model_incorrect_long);
-  var coged_temp = shuffle([
-  // [['short baseline', 'short xai'],
-  // ['long baseline', 'long xai']]
-  [['short baseline', 'short xai-written'],
-  ['long baseline', 'long xai-written']]
-  ])[0]
+  var coged_temp = shuffle(shuffle([
+  [['short prediction', 'short xai'],
+  ['long prediction', 'long xai']],
+  [['long prediction', 'long xai'],
+  ['long prediction', 'long xai-written']]]
+  )[0])
+  alert(coged_temp)
+
+  if ((coged_temp[0][0].split(' ')[0] == 'short' && coged_temp[1][0].split(' ')[0] == 'long') ||
+    (coged_temp[0][0].split(' ')[0] == 'long' && coged_temp[1][0].split(' ')[0] == 'short')) {
+    var tutorial_0 = [model_incorrect_short[3], model_incorrect_long[6]]
+  }
+  else {
+    var tutorial_0 = [model_incorrect_long[6], model_incorrect_long[6]]
+  }
+  if (coged_temp[0][0].split(' ')[0] == 'short') {
+    var training_0 = [model_correct_short[0], model_correct_short[1]]
+    var training_AI_0 =   shuffle([
+    model_correct_short[4],
+    model_correct_short[5],
+    model_correct_short[6],
+    model_correct_short[7],
+    model_incorrect_short[1]
+    ])
+    var collaboration_0 = shuffle([model_correct_short[8],
+    model_correct_short[9],
+    model_correct_short[10],
+    model_correct_short[11],
+    model_incorrect_short[2]])
+
+    var coged_0 = shuffle([model_correct_short[2],
+              model_correct_short[3],
+              model_correct_short[16],
+              model_correct_short[17],
+              model_incorrect_short[0]])
+  }
+  else {
+    var training_0 = [model_correct_long[0], model_correct_long[1]]
+    var training_AI_0 =   shuffle([
+    model_correct_long[4],
+    model_correct_long[5],
+    model_correct_long[6],
+    model_correct_long[7],
+    model_incorrect_long[1]
+    ])
+    var collaboration_0 = shuffle([model_correct_long[8],
+    model_correct_long[9],
+    model_correct_long[10],
+    model_correct_long[11],
+    model_incorrect_long[2]])
+
+    var coged_0 = shuffle([model_correct_long[2],
+              model_correct_long[3],
+              model_correct_long[16],
+              model_correct_long[17],
+              model_incorrect_long[0]])
+  }
+  if (coged_temp[1][0].split(' ')[0] == 'short') {
+    var training_1 = [model_correct_short[0], model_correct_short[1]]
+    // this data is all repeated from before since there will not be a within with both easy
+    var training_AI_1 =   shuffle([
+    model_correct_short[4],
+    model_correct_short[5],
+    model_correct_short[6],
+    model_correct_short[7],
+    model_incorrect_short[1]
+    ])
+    // this data is all repeated from before since there will not be a within with both easy
+    var collaboration_1 = shuffle([model_correct_short[8],
+    model_correct_short[9],
+    model_correct_short[10],
+    model_correct_short[11],
+    model_incorrect_short[2]])
+    // this data is all repeated from before since there will not be a within with both easy
+    var coged_1 = shuffle([model_correct_short[2],
+              model_correct_short[3],
+              model_correct_short[16],
+              model_correct_short[17],
+              model_incorrect_short[0]])
+  }
+  else {
+    //TODO FIX THIS DATA, 2 MORE
+    var training_1 = [model_correct_long[0], model_correct_long[1]]
+
+    var training_AI_1 =   shuffle([
+    model_correct_long[12],
+    model_correct_long[13],
+    model_correct_long[14],
+    model_correct_long[15],
+    model_incorrect_long[3]
+    ])
+    // TO DO MORE DATA, 3 MORE
+    var collaboration_1 = shuffle([model_correct_long[18],
+    model_correct_long[18],
+    model_correct_long[18],
+    model_correct_long[18],
+    model_incorrect_long[4]])
+
+    // TO DO MORE DATA, 4 MORE
+    var coged_1 = shuffle([
+    model_correct_long[12],
+    model_correct_long[13],
+    model_correct_long[14],
+    model_correct_long[15],
+    model_incorrect_long[5]
+    ])
+
+  }
+
   var json_input = {
-  'tutorial': [
-model_incorrect_short[4], model_correct_long[18]
-  ],
+  'tutorial': 
+  tutorial_0
+  ,
   'training': 
-  [[
-  model_correct_short[0], model_correct_long[0],
-    model_correct_short[1], model_correct_long[1]
-    ]],
+  [
+  training_0, training_1
+    ],
   'training-AI': 
-  [
-  [
-    model_correct_short[4], model_correct_long[4],
-    model_correct_short[5], model_correct_long[5],
-    model_correct_short[6], model_correct_long[6],
-    model_correct_short[7], model_correct_long[7],
-    model_incorrect_short[1],  model_incorrect_long[1]
-    ]
+  [training_AI_0, training_AI_1
     ],
   'training-AI-compare': 
   //FILLER
   [[model_correct_short[0], model_correct_short[1], model_correct_short[2], model_correct_short[32], model_correct_short[33]]],
   'coged': 
   //FILLER
-            [
-              [model_correct_short[8], model_correct_short[9], model_correct_short[10], model_correct_short[11], model_correct_short[1]]
+            [coged_0, coged_1
             ],
   'coged-order': 
   coged_temp,
   // [['short baseline', 'short xai'],
   //                 ['long baseline', 'long xai']],
   'collaboration': [
-               [
-    model_correct_short[8], model_correct_long[8],
-    model_correct_short[9], model_correct_long[9],
-    model_correct_short[10], model_correct_long[10],
-    model_correct_short[11], model_correct_long[11],
-    model_incorrect_short[2],  model_incorrect_long[2],
-    model_correct_short[12], model_correct_long[12],
-    model_correct_short[13], model_correct_long[13],
-    model_correct_short[14], model_correct_long[14],
-    model_correct_short[15], model_correct_long[15],
-    model_incorrect_short[3],  model_incorrect_long[3],
-           //     ]
-           //     ,
-           // [
-    // model_incorrect_short[4],  model_incorrect_long[4],
-
-    model_correct_short[2], model_correct_long[2],
-    model_correct_short[3], model_correct_long[3],
-    model_correct_short[16], model_correct_long[16],
-    model_correct_short[17], model_correct_long[17],
-    model_incorrect_short[0],  model_incorrect_long[0]
-               ]
+  collaboration_0, collaboration_1
+              
               ]
 }
-  json_input['training'] = [shuffle(json_input['training'][0])]
+  // json_input['training'] = [shuffle(json_input['training'][0])]
 
-  json_input['training-AI'] = [shuffle(json_input['training-AI'][0])]
+  // json_input['training-AI'] = [shuffle(json_input['training-AI'][0])]
 
-  json_input['training-AI-compare'] = [shuffle(json_input['training-AI-compare'][0])]
+  // json_input['training-AI-compare'] = [shuffle(json_input['training-AI-compare'][0])]
 
-  json_input['coged'] = [shuffle(json_input['coged'][0])]
+  // json_input['coged'] = [shuffle(json_input['coged'][0])]
 
-  json_input['collaboration'] = [shuffle(json_input['collaboration'][0])]
+  // json_input['collaboration'] = [shuffle(json_input['collaboration'][0])]
 
   // json_input['coged-order'] = shuffle_multiple(json_input['coged-order']);
   return [json_input, coged_temp]
 }
-// var coged_order_temp = shuffle([
-//   ['short baseline', 'short xai']
-//   // ['short baseline', 'short prediction']
-//   // ['short baseline', 'short xai']
-//                   // ['long baseline', 'long prediction'],
-//                   // ['long baseline', 'long xai']
-//                   ])
-
 
 
 var input = make_input(json_data);
@@ -3265,15 +3393,19 @@ var training_phase_order_ai = [coged_order_temp[0][1], coged_order_temp[0][1], c
                               coged_order_temp[0][1]];
 
 
-var interleaved_design = true;
+var interleaved_design = false;
 if (interleaved_design == true) {
   
   input['collaboration'] = [input['collaboration'].flat()]
 
 }
 
-
-
+var study_3 = true 
+if (study_3 == true){
+  var cogeds = [['long xai-written'], ['long xai']]
+  var compare = ['xai', 'prediction']
+  
+}
 
 var payment = 4;
 var time = 20;
@@ -3316,7 +3448,7 @@ var max_coged = 5;
 var task_repeat = 0;
 // var max_repeat = 4;
 var max_repeat = 2;
-
+var num_comparative = 0
 var average = (a, b) => (a + b) / 2;
 var cost_of_human = 100;
 var num_gold_credits = 0;
@@ -3339,7 +3471,7 @@ var ai_border = ['5px solid rgb(222.0, 143.0, 5.0)', '5px solid rgb(204.0, 120.0
 var ai_box_background_colors = ['rgba(222.0, 143.0, 5.0, 0.05)', 'rgba(204.0, 120.0, 188.0, 0.05)', 'rgb(148.0, 148.0, 148.0, 0.05)', 'rgb(2.0, 158.0, 115.0, 0.05)']
 var model_prediction_background_colors = ['rgba(222.0, 143.0, 5.0, 0.6)', 'rgba(204.0, 120.0, 188.0, 0.6)', 'rgb(148.0, 148.0, 148.0, 0.6)', 'rgb(2.0, 158.0, 115.0, 0.6)']
 var ai_box_border = ['3px solid rgb(222.0, 143.0, 5.0)', '3px solid rgb(204.0, 120.0, 188.0)', '3px solid rgb(148.0, 148.0, 148.0)', '3px solid rgb(2.0, 158.0, 115.0)']
-
+var comparative_coged = false
 // var progress_bar_total_clicks = 110
 // var progress_bar_total_clicks = 27
 // if (comparative_coged) {
@@ -3377,7 +3509,7 @@ if (anthropomorphic == false) {
 var ai_condition = input['coged-order'][task_repeat][1].split(" ");
 var baseline_condition = input['coged-order'][task_repeat][0].split(" ");
 
-have_coged_phase = false;
+have_coged_phase = true;
 if (have_coged_phase) {
   var coged_available = 'yes'
 }
