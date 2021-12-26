@@ -126,7 +126,7 @@ nav {
   width: 200px;
 }
 
-#demographics h3 {
+#demographics, #introduction, #transition h3 {
   margin-top: 40px;
   margin-bottom: 10px;
   margin-left: 5px;
@@ -1649,6 +1649,35 @@ jQuery.fn.disableFind = function(){
 				<button type="button" class="btn btn-primary" id='tutorial-maze-button-long'>Begin</button>
 			</div>
 		</div>
+	</div>
+</div>
+    <div class='row' id='introduction' style = "display:none;">
+	<div class='col-12'>
+		<h3>Introduction</h3>
+
+		<div class="card">
+			<div class="card-body">
+				<p>This is a two-part study, where you will interact and complete mazes with two AI agents. Press the button below to begin.</p>
+				<button type="button" class="btn btn-primary" id='introduction-button'>Begin</button>
+				</form>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div class='row' id='transition' style = "display:none;">
+	<div class='col-12'>
+		<h3>Second Half</h3>
+
+		<div class="card">
+			<div class="card-body">
+				<p>This is the second half of the study. You will be receiving a different AI agent. Press the button below to begin.</p>
+				<button type="button" class="btn btn-primary" id='transition-button'>Begin</button>
+				</form>
+			</div>
+		</div>
+
 	</div>
 </div>
     <div class='row' id='begin-task' style = "display:none;">
@@ -3238,14 +3267,15 @@ function make_input(json_data) {
   [['long prediction', 'long xai'],
   ['long prediction', 'long xai-written']]]
   )[0])
-  alert(coged_temp)
-
+  // alert(coged_temp)
   if ((coged_temp[0][0].split(' ')[0] == 'short' && coged_temp[1][0].split(' ')[0] == 'long') ||
     (coged_temp[0][0].split(' ')[0] == 'long' && coged_temp[1][0].split(' ')[0] == 'short')) {
     var tutorial_0 = [model_incorrect_short[3], model_incorrect_long[6]]
+    same_condition = false 
   }
   else {
     var tutorial_0 = [model_incorrect_long[6], model_incorrect_long[6]]
+    same_condition = true 
   }
   if (coged_temp[0][0].split(' ')[0] == 'short') {
     var training_0 = [model_correct_short[0], model_correct_short[1]]
@@ -3313,8 +3343,7 @@ function make_input(json_data) {
               model_incorrect_short[0]])
   }
   else {
-    //TODO FIX THIS DATA, 2 MORE
-    var training_1 = [model_correct_long[0], model_correct_long[1]]
+    var training_1 = [model_correct_long[26], model_correct_long[27]]
 
     var training_AI_1 =   shuffle([
     model_correct_long[12],
@@ -3323,19 +3352,17 @@ function make_input(json_data) {
     model_correct_long[15],
     model_incorrect_long[3]
     ])
-    // TO DO MORE DATA, 3 MORE
     var collaboration_1 = shuffle([model_correct_long[18],
-    model_correct_long[18],
-    model_correct_long[18],
-    model_correct_long[18],
+    model_correct_long[19],
+    model_correct_long[20],
+    model_correct_long[21],
     model_incorrect_long[4]])
 
-    // TO DO MORE DATA, 4 MORE
     var coged_1 = shuffle([
-    model_correct_long[12],
-    model_correct_long[13],
-    model_correct_long[14],
-    model_correct_long[15],
+    model_correct_long[22],
+    model_correct_long[23],
+    model_correct_long[24],
+    model_correct_long[25],
     model_incorrect_long[5]
     ])
 
@@ -3407,8 +3434,8 @@ if (study_3 == true){
   
 }
 
-var payment = 4;
-var time = 20;
+var payment = 6;
+var time = 30;
 // within subjects
 // var href = "https://drive.google.com/file/d/1ospZxTbEvnh_5LNzlIY8Puqvj8WRoQ2t/view?usp=sharing";
 
@@ -3441,7 +3468,7 @@ var training_phase_count_ai;
 // var training_phase_order = ['short baseline' , 'short baseline' ,'short baseline' ,'long baseline','long baseline','long baseline'];
 
 var collaboration_phase = false;
-
+var same_condition;
 var coged_phase = false;
 var coged_phase_count = -1;
 var max_coged = 5;

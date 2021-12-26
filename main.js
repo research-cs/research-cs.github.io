@@ -41,6 +41,14 @@ function main() {
         input_imgs['collaboration'][i].push(preloadImage(input['collaboration'][i][j]['maze']))
       }
     }
+
+    input_imgs['coged'] = [[], []]
+    for (let i = 0; i < input['coged'].length; i++) {
+      for (let j = 0; j < input['coged'][i].length; j++){
+        input_imgs['coged'][i].push(preloadImage(input['coged'][i][j]['maze']))
+      }
+    }
+    
     input_imgs_xai = {
 
     }
@@ -60,6 +68,12 @@ function main() {
     for (let i = 0; i < input['collaboration'].length; i++) {
       for (let j = 0; j < input['collaboration'][i].length; j++){
         input_imgs_xai['collaboration'][i].push(preloadImage(input['collaboration'][i][j]['explanation']))
+      }
+    }
+    input_imgs_xai['coged'] = [[], []]
+    for (let i = 0; i < input['coged'].length; i++) {
+      for (let j = 0; j < input['coged'][i].length; j++){
+        input_imgs_xai['coged'][i].push(preloadImage(input['coged'][i][j]['explanation']))
       }
     }
 
@@ -209,29 +223,31 @@ function demographicsCallback() {
      // runTask();
      // training_phase = false;
     // uncomment the following for between subjects with training
-     if (ai_condition[0] == 'short') {
-      transition('demographics', 'tutorial-maze-short');
-      $('#easy-maze-photo').html('<img src=\"' + input['tutorial'][0]['maze'] +"\">")
-      $('#easy-maze-solution').html(input['tutorial'][0]['c_r'])
-     }
-     else {
-      transition('demographics', 'tutorial-maze-long');
-      $('#hard-maze-photo').html('<img src=\"' + input['tutorial'][1]['maze'] +"\">")
-      $('#hard-maze-solution').html(input['tutorial'][1]['c_r'])
-     }
-    
-
-  
-    if (ai_condition[0] == 'long') {
-      $('#length-repeat-training').html('long')
-    }
-    else {
-      $('#length-repeat-training').html('short')
-    }
+    transition('demographics', 'introduction')  
     save_progress_text = progress_num
     progress_num += 1;
   }
 }
+
+$('#introduction-button').click(function(){
+  if (ai_condition[0] == 'short') {
+   transition('introduction', 'tutorial-maze-short');
+   $('#easy-maze-photo').html('<img src=\"' + input['tutorial'][0]['maze'] +"\">")
+   $('#easy-maze-solution').html(input['tutorial'][0]['c_r'])
+  }
+  else {
+   transition('introduction', 'tutorial-maze-long');
+   $('#hard-maze-photo').html('<img src=\"' + input['tutorial'][1]['maze'] +"\">")
+   $('#hard-maze-solution').html(input['tutorial'][1]['c_r'])
+  }
+
+  if (ai_condition[0] == 'long') {
+    $('#length-repeat-training').html('long')
+  }
+  else {
+    $('#length-repeat-training').html('short')
+  }
+})
 
 $('#tutorial-maze-button-short').click(function() {
     transition('tutorial-maze-short', 'training-start');
@@ -729,19 +745,19 @@ function runTask() {
       $(choose_silver_img_2).css('display','none')
     }
     else {
-      // $(choose_cost_AI).html(silver_cost_of_ai + " silver credits")
-      // $(choose_cost_human).html(cost_of_human + " silver credits")
-      // $(choose_silver_img).css('display','inline-block')
-      // $(choose_gold_img).css('display','none')
-      // $(choose_gold_img_2).css('display','none')
-      // $(choose_silver_img_2).css('display','inline-block')
+      $(choose_cost_AI).html(silver_cost_of_ai + " silver credits")
+      $(choose_cost_human).html(cost_of_human + " silver credits")
+      $(choose_silver_img).css('display','inline-block')
+      $(choose_gold_img).css('display','none')
+      $(choose_gold_img_2).css('display','none')
+      $(choose_silver_img_2).css('display','inline-block')
       // MAKING SHORT GOLD 
-      $(choose_cost_AI).html(silver_cost_of_ai + " gold credits")
-      $(choose_cost_human).html(cost_of_human + " gold credits")
-      $(choose_silver_img).css('display','none')
-      $(choose_gold_img).css('display','inline-block')
-      $(choose_gold_img_2).css('display','inline-block')
-      $(choose_silver_img_2).css('display','none')
+      // $(choose_cost_AI).html(silver_cost_of_ai + " gold credits")
+      // $(choose_cost_human).html(cost_of_human + " gold credits")
+      // $(choose_silver_img).css('display','none')
+      // $(choose_gold_img).css('display','inline-block')
+      // $(choose_gold_img_2).css('display','inline-block')
+      // $(choose_silver_img_2).css('display','none')
     }
       $(choose_human_type).css('color', ai_colors[task_repeat])
       $(choose_human_type).css('backgroundColor', ai_background_colors[task_repeat])
@@ -1624,26 +1640,7 @@ function questionnaireCallback() {
       else {
         $('#length-repeat-training').html('short')
       }
-
-      if (ai_condition[0] == 'short') {
-      transition('questionnaire', 'tutorial-maze-short');
-      $('#easy-maze-photo').html('<img src=\"' + input['tutorial'][0]['maze'] +"\">")
-      $('#easy-maze-solution').html(input['tutorial'][0]['c_r'])
-     }
-     else {
-      transition('questionnaire', 'tutorial-maze-long');
-      $('#hard-maze-photo').html('<img src=\"' + input['tutorial'][1]['maze'] +"\">")
-      $('#hard-maze-solution').html(input['tutorial'][1]['c_r'])
-      }
-      // transition('questionnaire', 'training-start');
-      // runTraining()
-      coged_phase_count = 0
-      gold_lower_bound = 0
-      gold_upper_bound = 100
-      silver_lower_bound = 0
-      silver_upper_bound = 100
-      gold_cost_of_ai = Math.round(average(gold_lower_bound, gold_upper_bound));
-      silver_cost_of_ai = Math.round(average(silver_lower_bound, silver_upper_bound));
+      transition('questionnaire', 'transition')
     }
     else {
       transition("questionnaire","questionnaire-human");
@@ -1657,6 +1654,34 @@ function questionnaireCallback() {
     }
  }
 }
+
+$('#transition-button').click(function() {
+if (!same_condition && ai_condition[0] == 'short') {
+  transition('transition', 'tutorial-maze-short');
+  $('#easy-maze-photo').html('<img src=\"' + input['tutorial'][0]['maze'] +"\">")
+  $('#easy-maze-solution').html(input['tutorial'][0]['c_r'])
+}
+else if (!same_condition) {
+  transition('transition', 'tutorial-maze-long');
+  $('#hard-maze-photo').html('<img src=\"' + input['tutorial'][1]['maze'] +"\">")
+  $('#hard-maze-solution').html(input['tutorial'][1]['c_r'])
+}
+else {
+  transition('transition', 'training-start');
+  $('#training-start-ai-name').css('color',ai_colors[task_repeat]);
+  $('#training-start-ai-name').html('the AI\'s');
+  runTraining()
+}
+// transition('questionnaire', 'training-start');
+// runTraining()
+coged_phase_count = 0
+gold_lower_bound = 0
+gold_upper_bound = 100
+silver_lower_bound = 0
+silver_upper_bound = 100
+gold_cost_of_ai = Math.round(average(gold_lower_bound, gold_upper_bound));
+silver_cost_of_ai = Math.round(average(silver_lower_bound, silver_upper_bound));
+})
 
 // function repeatTaskAndTrain() {
 //   ai_condition = input['coged-order'][task_repeat][1].split(" ");
