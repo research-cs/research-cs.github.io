@@ -3263,9 +3263,10 @@ function make_input(json_data) {
   // all_.push.apply(all_, model_incorrect_long);
   var coged_temp = shuffle(shuffle([
   [['short prediction', 'short xai'],
-  ['long prediction', 'long xai']],
-  [['long prediction', 'long xai'],
-  ['long prediction', 'long xai-written']]]
+  ['long prediction', 'long xai']]
+  // [['long prediction', 'long xai'],
+  // ['long prediction', 'long xai-written']]
+  ]
   )[0])
   // alert(coged_temp)
   if ((coged_temp[0][0].split(' ')[0] == 'short' && coged_temp[1][0].split(' ')[0] == 'long') ||
