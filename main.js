@@ -200,9 +200,9 @@ function demographicsCallback() {
      // training_phase = false;
     // uncomment the following for between subjects with training
      transition('demographics', 'tutorial-maze');
-     $('#easy-maze-photo').html('<img src=\"' + input['tutorial'][0]['maze'] +"\">")
+     // $('#easy-maze-photo').html('<img src=\"' + input['tutorial'][0]['maze'] +"\">")
      $('#hard-maze-photo').html('<img src=\"' + input['tutorial'][1]['maze'] +"\">")
-     $('#easy-maze-solution').html(input['tutorial'][0]['c_r'])
+     // $('#easy-maze-solution').html(input['tutorial'][0]['c_r'])
      $('#hard-maze-solution').html(input['tutorial'][1]['c_r'])
 
   

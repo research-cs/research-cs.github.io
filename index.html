@@ -1577,11 +1577,13 @@ jQuery.fn.disableFind = function(){
 		<div class="card">
 			<div class="card-body">
 				<p>We will begin with a brief tutorial, which will explain the task.</p>
-				<p>You will be completing a maze task, in which you will find the exit to a maze given a starting place. There is only one correct solution. The following is an example of an easy maze to complete:</p>
-				<span id='easy-maze-photo'></span>
-				<br>
-				<p>The answer to the easy maze: <span id='easy-maze-solution'></span>.</p>
-				<p>The following is an example of a hard maze to complete:</p>
+				<p>You will be completing a maze task, in which you will find the exit to a maze given a starting place. There is only one correct solution. 
+<!--         The following is an example of an easy maze to complete:
+ -->      </p>
+<!-- 				<span id='easy-maze-photo'></span>
+ -->				<!-- <br> -->
+<!-- 				<p>The answer to the easy maze: <span id='easy-maze-solution'></span>.</p>
+ -->				<p>The following is an example of a hard maze to complete:</p>
 				<span id='hard-maze-photo'></span>
 				<br>
 				<p>The answer to the hard maze: <span id='hard-maze-solution'></span>.</p>
@@ -3178,21 +3180,21 @@ function make_input(json_data) {
   ])[0]
   var json_input = {
   'tutorial': [
-model_incorrect_short[4], model_correct_long[18]
+model_correct_long[18]
   ],
   'training': 
   [[
-  model_correct_short[0], model_correct_long[0],
-    model_correct_short[1], model_correct_long[1]
+  model_correct_long[0],
+  model_correct_long[1]
     ]],
   'training-AI': 
   [
   [
-    model_correct_short[4], model_correct_long[4],
-    model_correct_short[5], model_correct_long[5],
-    model_correct_short[6], model_correct_long[6],
-    model_correct_short[7], model_correct_long[7],
-    model_incorrect_short[1],  model_incorrect_long[1]
+    model_correct_long[4],
+    model_correct_long[5],
+    model_correct_long[6],
+    model_correct_long[7],
+    model_incorrect_long[1]
     ]
     ],
   'training-AI-compare': 
@@ -3209,26 +3211,26 @@ model_incorrect_short[4], model_correct_long[18]
   //                 ['long baseline', 'long xai']],
   'collaboration': [
                [
-    model_correct_short[8], model_correct_long[8],
-    model_correct_short[9], model_correct_long[9],
-    model_correct_short[10], model_correct_long[10],
-    model_correct_short[11], model_correct_long[11],
-    model_incorrect_short[2],  model_incorrect_long[2],
-    model_correct_short[12], model_correct_long[12],
-    model_correct_short[13], model_correct_long[13],
-    model_correct_short[14], model_correct_long[14],
-    model_correct_short[15], model_correct_long[15],
-    model_incorrect_short[3],  model_incorrect_long[3],
+     model_correct_long[8],
+     model_correct_long[9],
+    model_correct_long[10],
+   model_correct_long[11],
+      model_incorrect_long[2],
+    model_correct_long[12],
+    model_correct_long[13],
+    model_correct_long[14],
+   model_correct_long[15],
+   model_incorrect_long[3],
            //     ]
            //     ,
            // [
     // model_incorrect_short[4],  model_incorrect_long[4],
 
-    model_correct_short[2], model_correct_long[2],
-    model_correct_short[3], model_correct_long[3],
-    model_correct_short[16], model_correct_long[16],
-    model_correct_short[17], model_correct_long[17],
-    model_incorrect_short[0],  model_incorrect_long[0]
+    model_correct_long[2],
+    model_correct_long[3],
+    model_correct_long[16],
+    model_correct_long[17],
+    model_incorrect_long[0]
                ]
               ]
 }
