@@ -3174,9 +3174,9 @@ function make_input(json_data) {
   // all_.push.apply(all_, model_incorrect_long);
   var coged_temp = shuffle([[
   ['short baseline', 'short xai'],
-  ['long baseline', 'long xai']]
-  // [['short baseline', 'short prediction'],
-  // ['long baseline', 'long prediction']]
+  ['long baseline', 'long xai']],
+  [['short baseline', 'short prediction'],
+  ['long baseline', 'long prediction']]
   ])[0]
   var json_input = {
   'tutorial': [
@@ -3269,9 +3269,8 @@ var training_phase_order_ai = [coged_order_temp[0][1], coged_order_temp[0][1], c
 
 var interleaved_design = true;
 if (interleaved_design == true) {
-  
-  input['collaboration'] = [input['collaboration'].flat()]
 
+  input['collaboration'] = [input['collaboration'].flat()]
 }
 
 
