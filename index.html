@@ -3086,6 +3086,14 @@ In this phase, if you choose the AI's assistance, you will be able to collaborat
  <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/data_2.json"></script> -->
 <!-- <script type="text/javascript" src="EasyTurk/templates/data_2.json"></script>
  -->
+  <!-- Multiple ways of accessing data_3.json
+      First is by the github pages, 
+      Second is by my Stanford website, 
+      Third is locally -->
+ <script type="text/javascript" src="https://research-cs.github.io/data_3.json"></script>
+  <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/data_3.json"></script> -->
+<!-- <script type="text/javascript" src="EasyTurk/templates/data_3.json"></script>
+ -->
 
 <script type="text/javascript">
 // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
@@ -3160,8 +3168,11 @@ function make_input(json_data) {
 
   var model_correct_short = shuffle(json_data['Model Correct'])
   var model_correct_long = shuffle(json_data_2['Model Correct'])
+  var model_correct_very_long = shuffle(json_data_3['Model Correct'])
+
   var model_incorrect_short = shuffle(json_data['Model Incorrect'])
   var model_incorrect_long = shuffle(json_data_2['Model Incorrect'])
+  var model_incorrect_very_long = shuffle(json_data_3['Model Incorrect'])
   // var model_correct = json_data['Model Correct']
   // var model_incorrect = json_data['Model Incorrect']
   model_incorrect_0 = shuffle([model_incorrect_short[0], model_incorrect_long[0]])[0]
@@ -3173,28 +3184,28 @@ function make_input(json_data) {
   // all_.push.apply(all_, model_incorrect_short);
   // all_.push.apply(all_, model_incorrect_long);
   var coged_temp = shuffle([[
-  ['short baseline', 'short xai'],
-  ['long baseline', 'long xai']],
+  // ['short baseline', 'short xai'],
+  // ['long baseline', 'long xai']],
   [['short baseline', 'short prediction'],
   ['long baseline', 'long prediction']]
   ])[0]
   var json_input = {
   'tutorial': [
-model_correct_long[18]
+model_incorrect_very_long[4]
   ],
   'training': 
   [[
-  model_correct_long[0],
-  model_correct_long[1]
+  model_incorrect_very_long[5],
+  model_incorrect_very_long[6]
     ]],
   'training-AI': 
   [
   [
-    model_correct_long[4],
-    model_correct_long[5],
-    model_correct_long[6],
-    model_correct_long[7],
-    model_incorrect_long[1]
+  model_correct_very_long[3],
+  model_correct_very_long[4],
+  model_correct_very_long[5],
+  model_correct_very_long[6],
+  model_incorrect_very_long[0]
     ]
     ],
   'training-AI-compare': 
@@ -3211,26 +3222,21 @@ model_correct_long[18]
   //                 ['long baseline', 'long xai']],
   'collaboration': [
                [
-     model_correct_long[8],
-     model_correct_long[9],
-    model_correct_long[10],
-   model_correct_long[11],
-      model_incorrect_long[2],
-    model_correct_long[12],
-    model_correct_long[13],
-    model_correct_long[14],
-   model_correct_long[15],
-   model_incorrect_long[3],
-           //     ]
-           //     ,
-           // [
-    // model_incorrect_short[4],  model_incorrect_long[4],
-
-    model_correct_long[2],
-    model_correct_long[3],
-    model_correct_long[16],
-    model_correct_long[17],
-    model_incorrect_long[0]
+  model_correct_very_long[7],
+  model_correct_very_long[8],
+  model_correct_very_long[9],
+  model_correct_very_long[10],
+  model_incorrect_very_long[1],
+  model_correct_very_long[11],
+  model_correct_very_long[12],
+  model_correct_very_long[13],
+  model_correct_very_long[14],
+  model_incorrect_very_long[2]
+  model_correct_very_long[15],
+  model_correct_very_long[0],
+  model_correct_very_long[1],
+  model_correct_very_long[2],
+  model_incorrect_very_long[3]
                ]
               ]
 }
