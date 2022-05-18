@@ -71,7 +71,7 @@ function main() {
         input_imgs_salient_xai['collaboration'][i].push(preloadImage(input['collaboration'][i][j]['white salient explanation']))
       }
     }
-
+    alert("help")
     input_imgs_blue_salient_xai = {
 
     }
