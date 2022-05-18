@@ -1280,7 +1280,7 @@ function renderTask(condition, data, callback=null) {
     contextText.html("<img src=\"" + data['maze'] + "\"/>")
   }
   else if (current_condition == 'xai'){
-    contextText.html("<img src=\"" + data['explanation'] + "\"/>")
+    contextText.html("<img src=\"" + data['white salient explanation'] + "\"/>")
   }
   // contextText.disableFind()
   // contextText.bind('copy paste cut',function(e) {
