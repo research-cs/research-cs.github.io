@@ -54,7 +54,41 @@ function main() {
         input_imgs_xai['collaboration'][i].push(preloadImage(input['collaboration'][i][j]['explanation']))
       }
     }
+    input_imgs_white_salient_xai = {
 
+    }
+    input_imgs_salient_xai['training'] = [[]]
+    for (let i = 0; i < input['training'][0].length; i++) {
+      input_imgs_salient_xai['training'][0].push(preloadImage(input['training'][0][i]['white salient explanation']))
+    }
+    input_imgs_xai['training-AI'] = [[]]
+    for (let i = 0; i < input['training-AI'][0].length; i++) {
+      input_imgs_salient_xai['training-AI'][0].push(preloadImage(input['training-AI'][0][i]['white salient explanation']))
+    }
+    input_imgs_xai['collaboration'] = [[]]
+    for (let i = 0; i < input['collaboration'].length; i++) {
+      for (let j = 0; j < input['collaboration'][i].length; j++){
+        input_imgs_salient_xai['collaboration'][i].push(preloadImage(input['collaboration'][i][j]['white salient explanation']))
+      }
+    }
+
+    input_imgs_blue_salient_xai = {
+
+    }
+    input_imgs_salient_xai['training'] = [[]]
+    for (let i = 0; i < input['training'][0].length; i++) {
+      input_imgs_blue_salient_xai['training'][0].push(preloadImage(input['training'][0][i]['blue salient explanation']))
+    }
+    input_imgs_xai['training-AI'] = [[]]
+    for (let i = 0; i < input['training-AI'][0].length; i++) {
+      input_imgs_blue_salient_xai['training-AI'][0].push(preloadImage(input['training-AI'][0][i]['blue salient explanation']))
+    }
+    input_imgs_xai['collaboration'] = [[]]
+    for (let i = 0; i < input['collaboration'].length; i++) {
+      for (let j = 0; j < input['collaboration'][i].length; j++){
+        input_imgs_blue_salient_xai['collaboration'][i].push(preloadImage(input['collaboration'][i][j]['blue salient explanation']))
+      }
+    }
     input_imgs_circle_xai = {
 
     }
