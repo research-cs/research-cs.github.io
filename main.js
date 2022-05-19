@@ -93,7 +93,7 @@ function main() {
     }
     input_imgs_circle_xai['training-AI'] = [[]]
     for (let i = 0; i < input['training-AI'][0].length; i++) {
-      input_imgs_circle_xai['training-AI'][0].push(preloadImage(input['training-AI'][0][i]['circle explanation']))
+      input_imgs_circle_xai['training-AI'][0].push(preloadImage(input['training-AI'][0][i]['circle white salient explanation']))
     }
   }
 }
@@ -1198,7 +1198,7 @@ function readTaskResponse() {
           $("#context-text").html("<img src=\"" + current_question['circle explanation'] + "\"/>")
         }
         if (current_condition == 'xai-white-salient') {
-          $("#context-text").html("<img src=\"" + current_question['circle explanation'] + "\"/>")
+          $("#context-text").html("<img src=\"" + current_question['circle white salient explanation'] + "\"/>")
         }
         if (current_condition == 'xai-blue-salient') {
           $("#context-text").html("<img src=\"" + current_question['circle explanation'] + "\"/>")
