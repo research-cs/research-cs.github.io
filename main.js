@@ -995,10 +995,10 @@ $('#coged-task-button').click(function() {
     // output['collaboration'].push([])
 
     transition('begin-task', 'task');
-    renderTask(input['coged-order'][task_repeat][1], input['collaboration'][0][collaboration_count], 
-      collaborationCallBack)
     collaboration_phase = true;
     coged_phase = false;
+    renderTask(input['coged-order'][task_repeat][1], input['collaboration'][0][collaboration_count], 
+      collaborationCallBack)
   })
 
   $('#repeat-task-button').click(function() {
