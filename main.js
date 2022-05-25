@@ -1323,7 +1323,7 @@ function renderTask(condition, data, callback=null) {
     // innerContextHTML +="<img src=\"" + data['maze'] + "\""
   // }
   if (interleaved_benefit_study && collaboration_phase) {
-    $('#bonus-modal-text').html('You will receive $' + interleaved_benefit_bonus[questions_num - 1] + ' in bonus for this question.')
+    $('#bonus-modal-text').html('You will receive ' + interleaved_benefit_bonus[questions_num - 1] + ' cent(s) in bonus for this question.')
     $('#bonus-interleaved-modal').modal('toggle')
 
   }
