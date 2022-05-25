@@ -1314,7 +1314,9 @@ function renderTask(condition, data, callback=null) {
     // innerContextHTML +="<img src=\"" + data['maze'] + "\""
   // }
   if (interleaved_benefit_study) {
+    $('#bonus-modal-text').html('You will receive ' + interleaved_benefit_bonus[0] + ' in bonus for this question.')
     $('#bonus-interleaved-modal').modal('toggle')
+
   }
   if (current_condition == 'prediction' || training_phase) {
     contextText.html("<img src=\"" + data['maze'] + "\"/>")
