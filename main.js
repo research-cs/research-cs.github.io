@@ -1313,6 +1313,9 @@ function renderTask(condition, data, callback=null) {
   // for (var i = 0; i < idx_list.length; i++) {
     // innerContextHTML +="<img src=\"" + data['maze'] + "\""
   // }
+  if (interleaved_benefit_study) {
+    $('#bonus-interleaved-modal').modal('toggle')
+  }
   if (current_condition == 'prediction' || training_phase) {
     contextText.html("<img src=\"" + data['maze'] + "\"/>")
   }
