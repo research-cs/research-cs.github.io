@@ -1074,6 +1074,12 @@ function readTaskResponse() {
     }
     }
   
+  if (interleaved_benefit_study && collaboration_phase) {
+    var bonus = interleaved_benefit_bonus[questions_num - 1]
+
+  } else {
+    var bonus = 0
+  }
 
   if (!checked_question) {
     alert("Please select an answer.")
@@ -1090,7 +1096,8 @@ function readTaskResponse() {
       'model_response': model_response,
       'time': (question_stop_time - question_start_time) / 1000,
       // 'scroll': current_label,
-      'coged-available': coged_available
+      'coged-available': coged_available,
+      'current_bonus': bonus
     }
     console.log(current_setting)
     console.log(current_condition)
@@ -1251,7 +1258,9 @@ var current_question_2;
 var current_condition;
 var current_setting;
 function renderTask(condition, data, callback=null) {
-  questions_num += 1;
+  if (collaboration_phase){
+    questions_num += 1;
+  }
   // $("#progress-text").html(questions_num + " / 28")
   curr = condition.split(" ");
   current_question = data;
@@ -1313,8 +1322,8 @@ function renderTask(condition, data, callback=null) {
   // for (var i = 0; i < idx_list.length; i++) {
     // innerContextHTML +="<img src=\"" + data['maze'] + "\""
   // }
-  if (interleaved_benefit_study) {
-    $('#bonus-modal-text').html('You will receive ' + interleaved_benefit_bonus[0] + ' in bonus for this question.')
+  if (interleaved_benefit_study && collaboration_phase) {
+    $('#bonus-modal-text').html('You will receive $' + interleaved_benefit_bonus[questions_num - 1] + ' in bonus for this question.')
     $('#bonus-interleaved-modal').modal('toggle')
 
   }
