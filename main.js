@@ -1323,7 +1323,12 @@ function renderTask(condition, data, callback=null) {
     // innerContextHTML +="<img src=\"" + data['maze'] + "\""
   // }
   if (interleaved_benefit_study && collaboration_phase) {
-    $('#bonus-modal-text').html('You will receive ' + interleaved_benefit_bonus[questions_num - 1] + ' cent(s) in bonus for this question.')
+    var bonus_text = 'You will receive '  + interleaved_benefit_bonus[questions_num - 1] + ' cent(s) '
+    for (int i = 0; i < interleaved_benefit_bonus[questions_num - 1]; i++) {
+      bonus_text += '<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">'
+    }
+    bonus_text += ' in bonus for this question.'
+    $('#bonus-modal-text').html(bonus_text)
     $('#bonus-interleaved-modal').modal('toggle')
 
   }
