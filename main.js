@@ -1330,6 +1330,7 @@ function renderTask(condition, data, callback=null) {
     bonus_text += ' in bonus for this question for choosing the correct maze exit.'
     // $('#bonus-modal-text').html(bonus_text)
     $('#text-top-task').html(bonus_text)
+    $('#text-top-task').show()
     // $('#bonus-interleaved-modal').modal('toggle')
 
   }
