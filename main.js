@@ -1328,8 +1328,9 @@ function renderTask(condition, data, callback=null) {
       bonus_text += '<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">'
     }
     bonus_text += ' in bonus for this question for choosing the correct maze exit.'
-    $('#bonus-modal-text').html(bonus_text)
-    $('#bonus-interleaved-modal').modal('toggle')
+    // $('#bonus-modal-text').html(bonus_text)
+    $('#context-text').html(bonus_text)
+    // $('#bonus-interleaved-modal').modal('toggle')
 
   }
   if (current_condition == 'prediction' || training_phase) {
