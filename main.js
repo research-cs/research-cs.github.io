@@ -1327,7 +1327,7 @@ function renderTask(condition, data, callback=null) {
     for (let i = 0; i < interleaved_benefit_bonus[questions_num - 1]; i++) {
       bonus_text += '<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">'
     }
-    bonus_text += ' in bonus for this question.'
+    bonus_text += ' in bonus for this question for choosing the correct maze exit.'
     $('#bonus-modal-text').html(bonus_text)
     $('#bonus-interleaved-modal').modal('toggle')
 
