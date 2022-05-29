@@ -1074,9 +1074,9 @@ function readTaskResponse() {
     }
     }
   
-  if (interleaved_benefit_study && collaboration_phase) {
+  if (interleaved_benefit_study && collaboration_phase && checked_question_label == correct_label) {
     var bonus = interleaved_benefit_bonus[questions_num - 1]
-
+    total_bonus_benefit_study += bonus
   } else {
     var bonus = 0
   }
@@ -1781,6 +1781,7 @@ function feedbackCallback() {
 
 function saveOutput() {
   output['total_time'] = (Date.now() - startTime) / 1000;
+  output['total_bonus'] = total_bonus_benefit_study
   //https://stackoverflow.com/questions/28464449/how-to-save-json-data-locally-on-the-machine
   // function saveText(text, filename){
   //   var a = document.createElement('a');
