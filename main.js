@@ -1323,11 +1323,15 @@ function renderTask(condition, data, callback=null) {
     // innerContextHTML +="<img src=\"" + data['maze'] + "\""
   // }
   if (interleaved_benefit_study && collaboration_phase) {
-    var bonus_text = 'You will receive '  + interleaved_benefit_bonus[questions_num - 1] + ' cent(s) '
-    for (let i = 0; i < interleaved_benefit_bonus[questions_num - 1]; i++) {
-      bonus_text += '<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">'
+    if (interleaved_benefit_bonus[questions_num - 1] == 0) {
+      var bonus_text = 'You will recieve NO bonus for this question for chosing the correct maze exit.'
+    } else {
+      var bonus_text = 'You will receive '  + interleaved_benefit_bonus[questions_num - 1] + ' cent(s) '
+      for (let i = 0; i < interleaved_benefit_bonus[questions_num - 1]; i++) {
+        bonus_text += '<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">'
+      }
+      bonus_text += ' in bonus for this question for choosing the correct maze exit.'
     }
-    bonus_text += ' in bonus for this question for choosing the correct maze exit.'
     // $('#bonus-modal-text').html(bonus_text)
     $('#text-top-task').html(bonus_text)
     $('#text-top-task-col').show()
