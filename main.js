@@ -1324,7 +1324,7 @@ function renderTask(condition, data, callback=null) {
   // }
   if (interleaved_benefit_study && collaboration_phase) {
     if (interleaved_benefit_bonus[questions_num - 1] == 0) {
-      var bonus_text = 'You will recieve NO bonus for this question for chosing the correct maze exit.'
+      var bonus_text = 'You will recieve NO bonus for this question if you choose the correct maze exit.'
     } else {
       var bonus_text = 'You will receive '  + interleaved_benefit_bonus[questions_num - 1] + ' cent(s) '
       for (let i = 0; i < interleaved_benefit_bonus[questions_num - 1]; i++) {
