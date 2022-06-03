@@ -3280,7 +3280,8 @@ model_incorrect_very_long[4]
   model_correct_very_long[0],
   model_correct_very_long[1],
   model_correct_very_long[2],
-  model_incorrect_very_long[3]
+  model_incorrect_very_long[3],
+  model_incorrect_very_long[4]
                ]
               ]
 }
@@ -3326,10 +3327,15 @@ if (interleaved_design == true) {
 
 var interleaved_benefit_study = true
 if (interleaved_benefit_study) {
-  var interleaved_benefit_bonus = shuffle([
-    50, 50, 50, 50, 50, 50, 50, 
-    1, 1, 1, 1, 1, 1, 1, 1
+  var interleaved_benefit_bonus_correct = shuffle([
+    50, 50, 50, 50, 50, 50,
+    1, 1, 1, 1, 1, 1, 
     ])
+  var interleaved_benefit_bonus_incorrect = shuffle([
+    50, 50, 1, 1
+    ])
+  var curr_incorrect = 0
+  var curr_correct = 0
 }
 
 

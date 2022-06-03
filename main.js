@@ -1078,8 +1078,14 @@ function readTaskResponse() {
     }
   
   if (interleaved_benefit_study && collaboration_phase && checked_question_label == correct_label) {
-    var bonus = interleaved_benefit_bonus[questions_num - 1]
-    total_bonus_benefit_study += bonus
+    if (model_response == correct_label) 
+      var curr_bonus_collaboration = interleaved_benefit_bonus_correct[curr_correct]
+      curr_correct += 1
+    } else {
+      var curr_bonus_collaboration = interleaved_benefit_bonus_incorrect[curr_incorrect]
+      curr_incorrect += 1
+    }
+    total_bonus_benefit_study += curr_bonus_collaboration
   } else {
     var bonus = 0
   }
@@ -1326,14 +1332,20 @@ function renderTask(condition, data, callback=null) {
     // innerContextHTML +="<img src=\"" + data['maze'] + "\""
   // }
   if (interleaved_benefit_study && collaboration_phase) {
-    if (interleaved_benefit_bonus[questions_num - 1] == 0) {
+    if (data['m_r'] == data['c_r']) {
+      var curr_bonus_collaboration = interleaved_benefit_bonus_correct[curr_correct]
+    } else {
+      var curr_bonus_collaboration = interleaved_benefit_bonus_incorrect[curr_incorrect]
+    }
+
+    if (curr_bonus_collaboration == 0) {
       var bonus_text = 'You will recieve NO bonus for this question if you choose the correct maze exit.'
     } else {
-      var bonus_text = 'You will receive '  + interleaved_benefit_bonus[questions_num - 1] + ' cent(s) '
-      for (let i = 0; i < interleaved_benefit_bonus[questions_num - 1]; i++) {
-        bonus_text += '<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">'
-      }
-      bonus_text += ' in bonus for this question if you choose the correct maze exit.'
+        var bonus_text = 'You will receive '  + curr_bonus_collaboration + ' cent(s) '
+        for (let i = 0; i < curr_bonus_collaboration; i++) {
+          bonus_text += '<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">'
+        }
+        bonus_text += ' in bonus for this question if you choose the correct maze exit.'
     }
     // $('#bonus-modal-text').html(bonus_text)
     $('#text-top-task').html(bonus_text)
