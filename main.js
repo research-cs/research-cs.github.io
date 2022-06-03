@@ -234,9 +234,12 @@ function demographicsCallback() {
     // uncomment the following for between subjects with training
      transition('demographics', 'tutorial-maze');
      // $('#easy-maze-photo').html('<img src=\"' + input['tutorial'][0]['maze'] +"\">")
-     $('#hard-maze-photo').html('<img src=\"' + input['tutorial'][0]['maze'] +"\">")
+     tutorial_maze = "https://raw.githubusercontent.com/research-cs/research-cs.github.io/main/Maze-Task/maze-dataset/50x50/Tutorial-Answer-D/download.png"
+     $('#hard-maze-photo').html('<img src=\"' + tutorial_maze +"\">")
+     // $('#hard-maze-photo').html('<img src=\"' + input['tutorial'][0]['maze'] +"\">")
      // $('#easy-maze-solution').html(input['tutorial'][0]['c_r'])
-     $('#hard-maze-solution').html(input['tutorial'][0]['c_r'])
+     // $('#hard-maze-solution').html(input['tutorial'][0]['c_r'])
+     $('#hard-maze-solution').html("D")
 
   
     if (ai_condition[0] == 'long') {
