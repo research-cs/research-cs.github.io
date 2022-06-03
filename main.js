@@ -1078,7 +1078,7 @@ function readTaskResponse() {
     }
   
   if (interleaved_benefit_study && collaboration_phase && checked_question_label == correct_label) {
-    if (model_response == correct_label) 
+    if (model_response == correct_label) {
       var curr_bonus_collaboration = interleaved_benefit_bonus_correct[curr_correct]
       curr_correct += 1
     } else {
