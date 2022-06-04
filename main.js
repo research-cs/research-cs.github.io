@@ -1077,7 +1077,7 @@ function readTaskResponse() {
     }
     }
   
-  if (interleaved_benefit_study && collaboration_phase && checked_question_label == correct_label) {
+  if (interleaved_benefit_study && collaboration_phase) {
     if (model_response == correct_label) {
       var bonus = interleaved_benefit_bonus_correct[curr_correct]
       curr_correct += 1
@@ -1085,7 +1085,9 @@ function readTaskResponse() {
       var bonus = interleaved_benefit_bonus_incorrect[curr_incorrect]
       curr_incorrect += 1
     }
-    total_bonus_benefit_study += bonus
+    if (checked_question_label == correct_label) {
+      total_bonus_benefit_study += bonus
+    }
   } else {
     var bonus = 0
   }
