@@ -1089,7 +1089,6 @@ function readTaskResponse() {
   } else {
     var bonus = 0
   }
-  alert(bonus)
 
   if (!checked_question) {
     alert("Please select an answer.")
