@@ -1086,10 +1086,10 @@ function readTaskResponse() {
       curr_incorrect += 1
     }
     total_bonus_benefit_study += bonus
-    alert(bonus)
   } else {
     var bonus = 0
   }
+  alert(bonus)
 
   if (!checked_question) {
     alert("Please select an answer.")
