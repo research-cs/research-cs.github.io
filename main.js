@@ -1079,13 +1079,14 @@ function readTaskResponse() {
   
   if (interleaved_benefit_study && collaboration_phase && checked_question_label == correct_label) {
     if (model_response == correct_label) {
-      var curr_bonus_collaboration = interleaved_benefit_bonus_correct[curr_correct]
+      var bonus = interleaved_benefit_bonus_correct[curr_correct]
       curr_correct += 1
     } else {
-      var curr_bonus_collaboration = interleaved_benefit_bonus_incorrect[curr_incorrect]
+      var bonus = interleaved_benefit_bonus_incorrect[curr_incorrect]
       curr_incorrect += 1
     }
-    total_bonus_benefit_study += curr_bonus_collaboration
+    total_bonus_benefit_study += bonus
+    alert(bonus)
   } else {
     var bonus = 0
   }
