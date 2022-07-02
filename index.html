@@ -3342,13 +3342,13 @@ if (interleaved_benefit_study) {
 
   for (let i = 0; i < 16; i ++) {
     if (i < 6) {
-      interleaved_benefit_bonus_correct.append(inteleaved_blocked_benefit[0])
+      interleaved_benefit_bonus_correct.push(inteleaved_blocked_benefit[0])
     } else if (i <8) {
-      interleaved_benefit_bonus_incorrect.append(inteleaved_blocked_benefit[0])
+      interleaved_benefit_bonus_incorrect.push(inteleaved_blocked_benefit[0])
     } else if (i < 14) {
-      interleaved_benefit_bonus_correct.append(inteleaved_blocked_benefit[1])
+      interleaved_benefit_bonus_correct.push(inteleaved_blocked_benefit[1])
     } else {
-      interleaved_benefit_bonus_incorrect.append(inteleaved_blocked_benefit[1])
+      interleaved_benefit_bonus_incorrect.push(inteleaved_blocked_benefit[1])
     }
   }
   var curr_incorrect = 0
