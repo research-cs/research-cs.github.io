@@ -3336,9 +3336,10 @@ if (interleaved_benefit_study) {
   // var interleaved_benefit_bonus_incorrect = shuffle([
   //   50, 50, 1, 1
   //   ])
-  var interleaved_benefit_bonus_correct;
-  var interleaved_benefit_bonus_incorrect;
+  var interleaved_benefit_bonus_correct = [];
+  var interleaved_benefit_bonus_incorrect = [];
   var inteleaved_blocked_benefit = shuffle([1, 50])
+
   for (let i = 0; i < 16; i ++) {
     if (i < 6) {
       interleaved_benefit_bonus_correct.append(inteleaved_blocked_benefit[0])
