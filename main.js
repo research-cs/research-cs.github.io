@@ -1769,7 +1769,7 @@ function repeatTask(condition, id ='switch-tasks') {
         // $(length_id).html('short')
           // $('#coin-explanation').html('Note that 100 silver credits equals $0.05.')
      }
-     var collaboration_modal_text_for_bonus = "For the first half of this study, you will receive " + curr_bonus_collaboration + " cent(s) in bonus. For the second half of this study, you will receive " +inteleaved_blocked_benefit[1] + " cent(s) in bonus."
+     var collaboration_modal_text_for_bonus = "For the first half of this study, you will receive " + inteleaved_blocked_benefit[0] + " cent(s) in bonus. For the second half of this study, you will receive " +inteleaved_blocked_benefit[1] + " cent(s) in bonus."
       $(coin_id).html(collaboration_modal_text_for_bonus)
       
      if (current_xai_setting == 'xai' || ai_condition[1] == 'xai-arrow'|| ai_condition[1] == 'xai-written' ||
