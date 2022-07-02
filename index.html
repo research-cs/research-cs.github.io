@@ -3272,10 +3272,11 @@ model_incorrect_very_long[4]
   model_correct_very_long[10],
   model_incorrect_very_long[1],
   model_correct_very_long[11],
-  model_correct_very_long[12],
+  model_correct_very_long[12], 
+  model_incorrect_very_long[2]],
+  [
   model_correct_very_long[13],
   model_correct_very_long[14],
-  model_incorrect_very_long[2],
   model_correct_very_long[15],
   model_correct_very_long[0],
   model_correct_very_long[1],
@@ -3293,7 +3294,8 @@ model_incorrect_very_long[4]
 
   json_input['coged'] = [shuffle(json_input['coged'][0])]
 
-  json_input['collaboration'] = [shuffle(json_input['collaboration'][0])]
+  json_input['collaboration'] = shuffle(json_input['collaboration'])
+  json_input['collaboration'] = [shuffle(json_input['collaboration'][0]), shuffle(json_input['collaboration'][1])]
 
   // json_input['coged-order'] = shuffle_multiple(json_input['coged-order']);
   return [json_input, coged_temp]
@@ -3327,13 +3329,26 @@ if (interleaved_design == true) {
 
 var interleaved_benefit_study = true
 if (interleaved_benefit_study) {
-  var interleaved_benefit_bonus_correct = shuffle([
-    50, 50, 50, 50, 50, 50,
-    1, 1, 1, 1, 1, 1, 
-    ])
-  var interleaved_benefit_bonus_incorrect = shuffle([
-    50, 50, 1, 1
-    ])
+  // var interleaved_benefit_bonus_correct = shuffle([
+  //   50, 50, 50, 50, 50, 50,
+  //   1, 1, 1, 1, 1, 1, 
+  //   ])
+  // var interleaved_benefit_bonus_incorrect = shuffle([
+  //   50, 50, 1, 1
+  //   ])
+
+  var inteleaved_blocked_benefit = shuffle([1, 50])
+  for (let i = 0; i < 16; i ++) {
+    if (i < 6) {
+      interleaved_benefit_bonus_correct.append(inteleaved_blocked_benefit[0])
+    } else if (i <8) {
+      interleaved_benefit_bonus_incorrect.append(inteleaved_blocked_benefit[0])
+    } else if (i < 14) {
+      interleaved_benefit_bonus_correct.append(inteleaved_blocked_benefit[1])
+    } else {
+      interleaved_benefit_bonus_incorrect.append(inteleaved_blocked_benefit[1])
+    }
+  }
   var curr_incorrect = 0
   var curr_correct = 0
 }
