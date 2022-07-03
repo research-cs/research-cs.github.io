@@ -1352,11 +1352,11 @@ function renderTask(condition, data, callback=null) {
     $('#text-top-task').html(bonus_text)
     $('#text-top-task-col').show()
 
-    // if ((curr_correct + curr_incorrect) == 0) {
-    //   var collaboration_modal_text_for_bonus = "For the first half of this study, you will receive " + curr_bonus_collaboration + " cent(s) in bonus. For the second half of this study, you will receive " +inteleaved_blocked_benefit[1] + " cent(s) in bonus."
-    //   $('#bonus-modal-text').html(collaboration_modal_text_for_bonus)
-    //   $('#bonus-interleaved-modal').modal('toggle')
-    // }
+    if ((curr_correct + curr_incorrect) == 0) {
+      var collaboration_modal_text_for_bonus = "For the first half of this study, you will receive " + curr_bonus_collaboration + " cent(s) in bonus. For the second half of this study, you will receive " +inteleaved_blocked_benefit[1] + " cent(s) in bonus."
+      $('#bonus-modal-text').html(collaboration_modal_text_for_bonus)
+      $('#bonus-interleaved-modal').modal('toggle')
+    }
 
   }
   if (current_condition == 'prediction' || training_phase) {
