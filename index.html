@@ -3229,8 +3229,8 @@ function make_input(json_data) {
   var coged_temp = shuffle([//[
   // ['short baseline', 'short prediction'],
   // ['long baseline', 'long prediction']],
-  [['short baseline', 'short xai'],
-  ['long baseline', 'long xai']]
+  [['short baseline', 'short xai-white-salient'],
+  ['long baseline', 'long xai-white-salient']]
   ])[0]
   var json_input = {
   'tutorial': [
@@ -3327,7 +3327,7 @@ if (interleaved_design == true) {
 }
 
 
-var interleaved_benefit_study = true
+var interleaved_benefit_study = false
 if (interleaved_benefit_study) {
   // var interleaved_benefit_bonus_correct = shuffle([
   //   50, 50, 50, 50, 50, 50,
