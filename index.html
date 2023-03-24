@@ -1,4 +1,4 @@
-<html>
+html>
 <head>
   <title>Study</title>
   <!-- easyturk depends on these libraries -->
@@ -7,8 +7,11 @@
   <!-- bootstrap tourist style -->
 <!--   <link href="bootstrap-tourist.css" rel="stylesheet">
  -->  <!-- JQuery JS -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-  <!-- Other EasyTurk Scripts-->
+<!--   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+ -->  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+ <!-- Other EasyTurk Scripts-->
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
@@ -17,20 +20,10 @@
   <!-- intro.js-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/3.3.1/intro.min.js" integrity="sha512-NC1GtvckWJQLUHrSQp5+4ydIv6gW8kfP4Ewrwv8Y1xU1h9GTTaXDTnWl+kjHcZNCaX8ySFNSpPmtt/B4SUaDsQ==" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/3.3.1/introjs.min.css" integrity="sha512-631ugrjzlQYCOP9P8BOLEMFspr5ooQwY3rgt8SMUa+QqtVMbY/tniEUOcABHDGjK50VExB4CNc61g5oopGqCEw==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
   <script src="https://proliferate.alps.science/static/js/proliferate.js" type="text/javascript"></script>
-  <!-- Hotjar Tracking Code for https://research-cs.github.io/ -->
-  <script>
-      (function(h,o,t,j,a,r){
-          h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-          h._hjSettings={hjid:2531314,hjsv:6};
-          a=o.getElementsByTagName('head')[0];
-          r=o.createElement('script');r.async=1;
-          r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-          a.appendChild(r);
-      })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-  </script>
-
   <style type="text/css">
 
 body {
@@ -43,71 +36,17 @@ body {
 ********************/
 
 nav {
-  background-color: #777;
+  background-color: #272822;
   height: 50px;
 }
 
-img {
-  width: 600px;
-}
-
-#tutorial-box a{
-  color: white;
-  font-size: 1.3em;
-  font-weight: 500;
-}
-
-#credits-box {
-  color: white;
-  font-size: 1.3em;
-  font-weight: 500;
-}
-
-#credits {
-  color: gold;
-  padding-left: 20px;
-}
-
-#credits-box img{
-  width: 1.3em;
-  padding-left: 5px;
-  vertical-align: text-bottom;
-  margin-right: 5px;
-}
-
-#progress-box {
-  margin-top: 20px;
-  margin-bottom: 50px;  
-/*  margin-bottom: 20px;
-*/}
-
-.progress {
-  height: 25px;
-}
-
-#gold-credits {
-  color: gold;
-}
-
-#silver-credits {
-  color: #f5f5f5;
-}
-#credits-box button {
-   border:none;
-   background-color:transparent;
-   outline:none;
-   padding: 0;
-}
 
 /*******************
       ONBOARDING
 ********************/
 
-.card-body > p:last-child {
-  margin-bottom: 0;
-}
 
-#onboarding, #exit h3 {
+#onboarding, #exit, #pass, #thank-you, #final-questionnaire h3 {
   margin-top: 40px;
   margin-bottom: 10px;
   margin-left: 5px;
@@ -123,318 +62,134 @@ img {
 }
 
 /*******************
-      DEMOGRAPHICS
-********************/
-
-#self-description {
-  width: 200px;
-}
-
-#demographics h3 {
-  margin-top: 40px;
-  margin-bottom: 10px;
-  margin-left: 5px;
-}
-
-/*******************
-     FUNNY MONEY
-********************/
-
-#funnymoney p > img{
-  width: 1.4em;
-  padding-left: 2px;
-  vertical-align: text-bottom;
-}
-
-#funnymoney-choose {
-  margin-top: 40px;
-}
-
-#tutorial-maze h3 {
-  margin-top: 40px;
-  margin-bottom: 10px;
-  margin-left: 5px;
-}
-/*******************
-       TRAINING
-********************/
-
-#training-modal-text img {
-  width: 1.4em;
-  padding-left: 2px;
-  vertical-align: text-bottom;
-}
-
-#training-start span > img{
-  width: 1.4em;
-  padding-left: 2px;
-  vertical-align: text-bottom;
-}
-
-#training-intermediate span > img{
-  width: 1.4em;
-  padding-left: 2px;
-  vertical-align: text-bottom;
-}
-
-#training-reward-table img {
-  width: 50%;
-}
-
-#training-start, #training-intermediate, #training-end h3 {
-  margin-top: 40px;
-  margin-bottom: 10px;
-  margin-left: 5px;
-}
-
-/*******************
-    COMPREHENSION
-********************/
-
-#q1-correct, #q1-incorrect, #q2-correct, #q2-incorrect, 
-#q3-correct, #q3-incorrect, #q4-correct, #q4-incorrect,
-#q5-correct, #q5-incorrect {
-  width: 115px;
-}
-
-/*******************
-       CHOICE
-********************/
-
-#choose, #choose-flipped, #coged-task h3{
-    margin-top: 40px;
-  margin-bottom: 10px;
-  margin-left: 5px;
-}
-
-.important-text {
-}
-
-#coged-task span > img{
-  width: 1.4em;
-  padding-left: 2px;
-  vertical-align: text-bottom;
-}
-
-#coged-task p > img{
-  width: 1.4em;
-  padding-left: 2px;
-  vertical-align: text-bottom;
-}
-
-#choose, #choose-flipped p {
-  margin-bottom: 4rem; 
-  font-size: 1.3rem;
-}
-
-#choose-AI, #choose-AI-flipped, #choose-AI-tutorial, #choose-AI-funnymoney, 
-#choose-AI-tutorial-1, #choose-AI-tutorial-2, #choose-AI-tutorial-3,
-#choose-AI-tutorial-4, #coged-example-AI-choose-AI, #coged-example-forced-AI-choose-AI{
-  color: rgb(235, 87, 87);
-  background-color: rgba(235, 87, 87, 0.05);
-  border-radius: 15px;
-  border: 5px solid rgb(235, 87, 87);
-}
-
-#choose-human, #choose-human-flipped, #choose-human-tutorial, #choose-human-funnymoney,
-#choose-human-tutorial-1, #choose-human-tutorial-2, #choose-human-tutorial-3,
-#choose-human-tutorial-4, #coged-example-AI-choose-human,#coged-example-forced-AI-choose-human {
-  color: rgb(47, 128, 237);
-  background-color: rgba(47, 128, 237, 0.05);
-  border-radius: 15px;
-  border: 5px solid rgb(47, 128, 237);
-}
-
-
-
-#choose-AI-tutorial-1, #choose-AI-tutorial-2, #choose-AI-tutorial-3,
-#choose-AI-tutorial-4, #choose-human-tutorial-1, #choose-human-tutorial-2, #choose-human-tutorial-3,
-#choose-human-tutorial-4, #choose-human-funnymoney, #choose-AI-funnymoney {
-  cursor: not-allowed !important;
-}
-
-.choice-box {
-  height: 250px;
-}
-
-#choose .choice-box {
-  cursor: pointer;
-}
-#choose-flipped .choice-box {
-  cursor: pointer;
-}
-
-.choice-box span {
-  font-size: 2rem;
-  font-weight: 500;
-}
-
-.choice-box img {
-  width: 2rem;
-  padding-left: 5px;
-  vertical-align: text-bottom;
-}
-
-#question-response-form {
-  margin-bottom: 0;
-}
-#cost-of-AI, #cost-of-human, #cost-of-AI-flipped, #cost-of-human-flipped,
-#funnymoney-cost-of-AI, #funnymoney-cost-of-human {
-  color: black;
-}
-
-#coged-modal-text img {
-  width: 1.4em;
-  padding-left: 2px;
-  vertical-align: text-bottom;
-}
-
-#reward-table-coged, #reward-table-coged-overreliance-long,
-#reward-table-coged-overreliance-short, #reward-table-coged-double-long,
-#reward-table-coged-double-short img {
-  width:50%;
-}
-
-/*******************
        TASK
 ********************/
 
-#task, #begin-task h3 {
-  margin-top: 40px;
-  margin-bottom: 10px;
-  margin-left: 5px;
-}
 
-#main-task {
-    margin-top: 0px;
-  margin-bottom: 10px;
-  margin-left: 5px;
-}
-
-
-#reward-table-begin-task img {
-  width:50%;
-}
-
-.qa-task .card {
-  border-radius: 20px;
-  padding: 10px;
-  margin-bottom: 50px;
-}
-
-.context-body, #question-box  {
-  user-select: none;
-}
-#context-text {
-  margin: 0 auto;
-}
-
-.context-body p {
-  text-indent: 1em;
+.card-body > p:last-child {
   margin-bottom: 0;
-  font-size: 1.1em;
-  font-family: 'Times New Roman';
 }
 
-#sticky-box {
-  position: sticky;
-  top: 80px;
-}
-
-#question-text {
-  font-weight: 500;
-  font-size: 1.1rem;
-  margin-bottom: 15px;
-}
-
-#question-box .form-check {
-  margin-bottom: 5px;
-}
-
-#question-box button {
-  margin-top: 10px;
-}
-
-#question-box label, input, button, span, div {
-  cursor: inherit;
-}
-
-.muted {
-  cursor: not-allowed !important;
-}
-
-.alert {
-  margin-top: 20px;
-}
-
-.badge {
+#task, #begin-task, #task-beginning, #task-intermediate h3 {
+  margin-top: 40px;
+  margin-bottom: 0px;
   margin-left: 5px;
 }
 
-.baseline-box {
-  padding: 25px;
-  background-color: rgba(47, 128, 237, 0.05);
-  border-radius: 10px;
-  border: 3px solid rgb(47, 128, 237);
-  height: auto;
+#code-text, #lineCounter, #code-text-highlight {
+    font-family: lucida console, courier new, courier, monospace;
+    margin: 0;
+    padding: 10px;
+    height: 62vh;
+    border-radius: 0;
+    resize: none;
+    font-size: 16px;
+    outline: none;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    line-height: 1.25;
+    margin-bottom: 10px;
 }
 
-.ai-box {
-  padding: 25px;
-  background-color: rgba(235, 87, 87, 0.05);
-  border-radius: 10px;
-  border: 3px solid rgb(235, 87, 87);
-  height: auto;
+#lineCounter:focus-visible,
+#code-text:focus-visible, #code-text-highlight:focus-visible {
+    outline:none;
 }
 
-#model-prediction-box {
-  padding: 10px;
-  background-color: rgba(235, 87, 87, 0.6);
-  border-radius: 10px;
-  margin: 10px -10px;
+#lineCounter {
+      display: flex;
+      border-color: transparent;
+      overflow-y: hidden;
+      text-align: right;
+      box-shadow: none;
+      color: #707070;
+      position: absolute;
+      width: 3.5rem;
+      background-color:#272822;
+/*      border-color:#3E3D32;
+*/      color:#FFFFFF;
+      padding-left: 10px;
+      z-index:2;
 }
 
-#model-prediction-box p {
-  margin: 0;
+#code-text, #code-text-highlight {
+      padding-left: calc(4rem);
+/*      padding-right: calc(5px);
+*/      overflow-y: auto;
+      border-color:#272822;
+      tab-size: 20px;
+      color: #FFFFFF;
+      position: absolute;
+      max-width:  76ch;
+}
+#code-text {
+  z-index:1;
+  background: rgba(255, 255, 255, 0)
 }
 
-.main-highlight {
-  background-color: rgba(10, 230, 100, 0.7);
+#code-text-highlight {
+  z-index:0;
+  background-color:#272822;
+  color:  rgba(255, 255, 255, 0)
+
 }
 
-.answer-highlight {
-  background-color: rgba(113, 249, 118, 0.3);
+.ai-suggestion-0, .ai-color-0 {
+  background-color:rgba(255, 107, 211, 0.7);
+}
+.ai-suggestion-1, .ai-color-1 {
+  background-color:rgba(0, 122, 138, 0.7);
+}
+.ai-suggestion-2, .ai-color-2 {
+  background-color:rgba(189, 114, 247, 0.7);
+}
+.ai-suggestion-data-annotation, .ai-color-data-annotation {
+  background-color:rgba(0, 0, 0, 1);
+}
+.ai-agent-0 {
+color:rgba(255, 107, 211, 0.7);
+}
+.ai-agent-1 {
+color:rgba(0, 122, 138, 0.7);
+}
+.ai-agent-2 {
+color:rgba(189, 114, 247, 0.7);
 }
 
-.question-highlight {
-  background-color: rgba(30, 200, 200, 0.3);
+.ai-agent-data-annotation {
+  color: rgba(0, 0, 0, 1);
 }
 
-.no-highlight {
-  background-color: transparent !important;
+.human-input {
+    background-color:#272822;
 }
 
-.main-highlight, .answer-highlight, .question-highlight, .no-highlight {
-  margin: 0 !important;
-  padding: 0 !important;
-  text-indent: 0 !important;
-  display:inline-block !important;
+#refresh-button {
+ position: absolute;
+top: 50px;
+left: -40px;
+
 }
 
-/*******************
-   COLLABORATION TASK
-********************/
+#remove-button {
+ position: absolute;
+top: 0px;
+left: -37px;
 
-#begin-task span > img{
-  width: 1.4em;
-  padding-left: 2px;
-  vertical-align: text-bottom;
 }
-#repeat-task span > img{
-  width: 1.4em;
-  padding-left: 2px;
-  vertical-align: text-bottom;
+
+#edit-button {
+ position: absolute;
+top: 0px; /*90px*/
+left: -43px;
 }
+
+.active_button{
+/*  background-color:rgba(255, 0, 0, 0.7);
+*/}
+
+::selection { background: transparent }
 
 
 /*******************
@@ -462,849 +217,540 @@ img {
   font-size: 0.9em;
 }
 
-#questionnaire-trust .form-group {
-  text-align: center;
-  width: 19%;
-  padding: 10px;
-}
-
-#questionnaire-trust h5 {
-  font-size: 1.1em;
-  margin-bottom: 20px
-}
-
-#questionnaire-trust .form-group > input{
-  height: 1em;
-  width: 100%;
-}
-
-#questionnaire-trust .form-group > label{
-  padding-top: 10px;
-  font-size: 0.9em;
-}
-
 #customRange1 {
   width:75%;
 }
 
-#questionnaire, #questionnaire-trust h3 {
+#questionnaire h3 {
   margin-top: 40px;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   margin-left: 5px;
 }
 
-/*******************
-   QUESTIONNAIRE HUMAN
-********************/
+.AI-compare-code {
+  color: rgb(0,0,0);
+}
+/*
+input[type="range"]::-moz-range-track {
+  padding: 0 10px;
+  background: repeating-linear-gradient(to right, 
+    #ccc, 
+    #000, 
+    #ccc);
+}*/
+.sliderticks {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+}
 
-#questionnaire-human .form-group {
+.otherTLX{
+  position: relative;
+  display: flex;
+  justify-content: center;
   text-align: center;
-  width: 19%;
-  padding: 10px;
+  width: 2px;
+  background: #000000;
+  height: 20px;
+  margin: 0 0 0 0;
+  bottom: -20;
 }
 
-#questionnaire-human h5 {
-  font-size: 1.1em;
-  margin-bottom: 20px
+.middleTLX {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 4px;
+  background: #000000;
+  height: 40px;
+  margin: 0 0 0 0;
 }
 
-#questionnaire-human .form-group > input{
-  height: 1em;
-  width: 100%;
+.custom-range::-webkit-slider-thumb {
+  background: gray;
 }
 
-#questionnaire-human .form-group > label{
-  padding-top: 10px;
-  font-size: 0.9em;
+.custom-range::-moz-range-thumb {
+  background: gray;
 }
 
-#questionnaire-human h3 {
-  margin-top: 40px;
-  margin-bottom: 10px;
-  margin-left: 5px;
+.custom-range::-ms-thumb {
+  background: gray;
 }
+.right{
+    float:right;
+}
+
+.left{
+    float:left;
+}
+
 
 /*******************
-   SUBMISSION
+   STARS
 ********************/
+div.stars {
 
-#submission span > img{
-  width: 1.4em;
-  padding-left: 2px;
-  vertical-align: text-bottom;
+  width: 270px;
+
+  display: inline-block;
+
 }
 
-#submission, #feedback h3 {
-  margin-top: 40px;
-  margin-bottom: 10px;
-  margin-left: 5px;
+ .mt-200{
+     margin-top:200px;  
+ }
+
+input.star { display: none; }
+
+
+
+label.star {
+
+  float: right;
+
+  padding: 10px;
+
+  font-size: 36px;
+
+  color: #4A148C;
+
+  transition: all .2s;
+
 }
+
+ 
+
+input.star:checked ~ label.star:before {
+
+  content: '\f005';
+
+  color: #FD4;
+
+  transition: all .25s;
+
+}
+
+ 
+input.star-5:checked ~ label.star:before {
+
+  color: #FE7;
+
+  text-shadow: 0 0 20px #952;
+
+}
+
+ 
+
+input.star-1:checked ~ label.star:before { color: #F62; }
+
+    
+
+label.star:hover { transform: rotate(-15deg) scale(1.3); }
+
+ 
+
+label.star:before {
+
+  content: '\f006';
+
+  font-family: FontAwesome;
+
+}
+
+
+
+
+
 </style>
-  <script type="text/javascript">
-/*
- * Disable CTRL+F jQuery plugin
- * A jQuery plugin to disable certain elements on a page from being searched.
- * 
- * https://github.com/seangransee/Disable-CTRL-F-jQuery-plugin
- *
- * Copyright (c) 2012 Sean Gransee (http://www.seangransee.com)
- * 
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
-
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
-
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
- * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- *
- * Example usage:
- * 
- * $('p').disableFind();               // make all paragraphs unsearchable
- * $('.unsearchable').disableFind();   // make all elements with "unsearchable" class unsearchable
- * $(body).disableFind();              // make all text on page unsearchable
- * 
- */
-
-
-// disableFind() takes an element and injects a random character after each letter
-jQuery.fn.disableFind = function(){
-    return this.each(function (){
-		newHTML = "";                                 // create a new blank string
-		stop = false;                                 // boolean to toggle whether we're in a tag or not
-		currentElement = $(this);                     // variable to hold the current element
-		html = currentElement.html();                 // get html from current element
-		html = html.replaceAll('&amp;', '&')
-		for (var i = 0; i < html.length; i++)         // iterate through each character of the html
-		{
-			newHTML += html[i];                       // insert current character into newHTML
-			if (html[i] == '<') { 
-            stop = true                               // stop when entering a tag
-            };      
-			if (html[i] == '>') { 
-            stop = false                              // continue when exiting a tag
-            };     
-			if (stop == false) {                      // inject dot into newHTML
-				newHTML += '<span style="position:absolute; left:-9999px;">'+ '.' +'</span>';
-			}
-			if (html[i] == ' ') {
-            newHTML += ' ';
-            }   // insert a space if the current character is a space
-		}
-		currentElement.html(newHTML);                 // replace current element with newHTML
-	});
-};
-</script>
-<!--   <script type="text/javascript">
-
-/**
- * Emits events based on scrolling behavior in a given context. Shouldn't
- * be called until after DOMReady.
- *
- * @example
- * var scrollTracker = ScrollTracker({
- *   context: '#content'
- * });
- *
- * scrollTracker.on({
- *   percentage: {
- *    every: [25]
- *   }
- * }, function(evt) {
- *
- *   // Will trigger when the user reaches 25, 50, 75, & 100% depth
- *   notifySomeService(evt.data.scrollDepth);
- *
- * });
- *
- * Copyright(c) 2017 LunaMetrics, LLC.
- * Written by @notdanwilkerson
- * Licensed under the MIT License
- * For full license text, visit https://opensource.org/licenses/MIT
- */
-(function(window) {
-
-  'use strict';
-  // Won't work on IE8, so we install a mock.
-  if (window.navigator.userAgent.match(/MSIE [678]/gi)) return installMock();
-
-  var document = window.document;
-
-  /**
-   * @constructor
-   *
-   * @param {object} [opts] options for the constructor
-   * @param {HTMLElement} [opts.context] defaults to <body>
-   * @param {number} [opts.minHeight] minimum height of context required to track
-   *
-   * @returns {ScrollTracker}
-   */
-  function ScrollTracker(opts) {
-
-    if (!(this instanceof ScrollTracker)) return new ScrollTracker(opts);
-
-    opts = opts || {};
-
-    var context = opts.context || 'body';
-
-    if (typeof context === 'string') context = document.querySelector(context);
-
-    if (!context) throw new Error('Unable to find context ' + context);
-
-    this._context = context;
-    this.minHeight = opts.minHeight || 0;
-    this._marks = {};
-    this._tracked = {};
-    this._config = {
-      percentages: {
-        each: {},
-        every: {}
-      },
-      pixels: {
-        each: {},
-        every: {}
-      },
-      elements: {
-        each: {},
-        every: {}
-      }
-    };
-
-    var boundAndThrottledDepthCheck = throttle(this._checkDepth.bind(this), 500);
-    var boundUpdate = this._update.bind(this);
-    var throttledUpdate = throttle(boundUpdate, 500);
-
-    window.addEventListener('scroll', boundAndThrottledDepthCheck, true);
-    window.addEventListener('resize', throttledUpdate);
-
-    this._artifacts = {
-      timer: onDocHeightChange(boundUpdate),
-      resize: throttledUpdate,
-      scroll: boundAndThrottledDepthCheck
-    };
-
-  }
-
-  /**
-   * Cleans up timer and event bindings
-   */
-  ScrollTracker.prototype.destroy = function() {
-
-    clearInterval(this._artifacts._timer);
-    window.removeEventListener('resize', this._artifacts.resize);
-    window.removeEventListener('scroll', this._artifacts.scroll, true);
-
-  };
-
-  /**
-   * Registers a handler for a given configuration
-   *
-   * @param {object} config
-   * @param {object} [config.percentages]
-   * @param {number[]} [config.percentages.each] tracks every 100 / n percentage
-   * @param {number[]} [config.percentages.every] tracks each percentage once
-   * @param {object} [config.pixels]
-   * @param {number[]} [config.pixels.each] tracks every context.height() / n pixel depth
-   * @param {number[]} [config.pixels.every] tracks each pixel depth once
-   * @param {object} [config.elements]
-   * @param {string[]} [config.elements.each] tracks every element that matches each selector
-   * @param {string[]} [config.elements.every] tracks the first element that matches each selector
-   * @param {function} handler
-   */
-  ScrollTracker.prototype.on = function(config, handler) {
-
-    var _config = this._config;
-
-    ['percentages', 'pixels', 'elements'].forEach(function(type) {
-
-      if (!config[type]) return;
-
-      ['each', 'every'].forEach(function(freq) {
-
-        if (!config[type][freq]) return;
-
-        config[type][freq].forEach(function(key) {
-
-          _config[type][freq][key] = _config[type][freq][key] || [];
-          _config[type][freq][key].push(handler);
-
-        });
-
-      });
-
-    });
-
-    this._update();
-
-  };
-
-  /**
-   * Checks marks and depth
-   */
-  ScrollTracker.prototype._update = function() {
-
-    this._calculateMarks();
-    this._checkDepth();
-
-  };
-
-  /**
-   * Calculates the pixels for all configs
-   */
-  ScrollTracker.prototype._calculateMarks = function() {
-
-    delete this._marks;
-    this._fromTop = getNodeDistanceFromTop(this._context);
-    this._marks = {};
-
-    var _config = this._config;
-    var contextHeight = this._contextHeight();
-    var addMark = this._addMark.bind(this);
-    var self = this;
-    var elements,
-      element,
-      depth,
-      key;
-
-    if (contextHeight < this.minHeight) return;
-
-    for (key in _config.percentages.every) {
-
-      forEachIn({
-        n: Number(key),
-        numerator: 100,
-        callback: percentagesEveryCallback(_config.percentages.every[key])
-      });
-
-    }
-
-    for (key in _config.pixels.every) {
-
-      forEachIn({
-        n: Number(key),
-        numerator: contextHeight,
-        callback: pixelsEveryCallback(_config.pixels.every[key])
-      });
-
-    }
-
-    for (key in _config.percentages.each) {
-
-      depth = Math.floor(contextHeight * Number(key) / 100);
-
-      addMark({
-        label: key + '%',
-        depth: depth,
-        handlers: _config.percentages.each[key]
-      });
-
-    }
-
-    for (key in _config.pixels.each) {
-
-      depth = Number(key);
-
-      addMark({
-        label: key + 'px',
-        depth: depth,
-        handlers: _config.pixels.each[key]
-      });
-
-    }
-
-    for (key in _config.elements.every) {
-
-      elements = [].slice.call(this._context.querySelectorAll(key));
-
-      if (elements.length) {
-
-        elements.forEach(elementsEveryCallback(key, _config.elements.every[key]));
-
-      }
-
-    }
-
-    for (key in _config.elements.each) {
-
-      element = this._context.querySelector(key);
-
-      if (element) {
-
-        depth = element.getBoundingClientRect().top -
-          self._context.getBoundingClientRect().top;
-
-        addMark({
-          label: key,
-          depth: depth,
-          handlers: _config.elements.each[key]
-        });
-
-      }
-
-    }
-
-    /**
-     * Callback for our everyElements iterations
-     *
-     * @param {string} key
-     * @param {function[]} handlers
-     *
-     * @returns {everyElement~Callback}
-     */
-    function elementsEveryCallback(key, handlers) {
-
-      /**
-       * @callback everyElement~Callback
-       *
-       * @param {HTMLElement} element
-       * @param {number} ind
-       */
-      return function(element, ind) {
-
-        var depth = element.getBoundingClientRect().top -
-           self._context.getBoundingClientRect().top;
-
-        addMark({
-          label: key + '[' + ind + ']',
-          depth: depth,
-          handlers: _config.elements.every[key]
-        });
-
-      };
-
-    }
-
-
-    /**
-     * Builds a callback for our everyPercentages iterations
-     *
-     * @param {function[]} handlers
-     *
-     * @returns {everyPercentage~Callback}
-     */
-     function percentagesEveryCallback(handlers) {
-
-       /**
-        * @callback everyPercentage~Callback
-        *
-        * @param {number} n
-        */
-       return function(n) {
-
-        var depth = Math.floor(n * contextHeight / 100);
-
-        addMark({
-          label: String(n) + '%',
-          depth: depth,
-          handlers: _config.percentages.every[key]
-        });
-
-      };
-
-    }
-
-    /**
-     * Builds a callback for our everyPixels iterations
-     *
-     * @param {function[]} handlers
-     *
-     * @param {number} n
-     */
-
-    function pixelsEveryCallback(handlers) {
-
-      /**
-       * @callback everyPixel~Callback
-       *
-       * @param {function[]} handlers
-       */
-      return function(n) {
-
-        var depth = n;
-
-        addMark({
-          label: String(depth) + 'px',
-          depth: depth,
-          handlers: handlers
-        });
-
-      };
-
-    }
-
-  };
-
-  /**
-   * Checks all marks and triggers appropriate handlers
-   */
-  ScrollTracker.prototype._checkDepth = function() {
-
-    var marks = this._marks;
-    var currentDepth = this._currentDepth();
-    var key;
-
-    for (key in marks) {
-
-      if (currentDepth >= key && !this._tracked[key]) {
-
-        marks[key].forEach(function(boundHandler) {
-          boundHandler();
-        });
-
-        this._tracked[key] = true;
-
-      }
-
-    }
-
-  };
-
-  /**
-   * Resets the internal cache of tracked marks
-   */
-  ScrollTracker.prototype.reset = function() {
-
-    this._tracked = {};
-    this._marks = {};
-
-		this._update();
-
-  };
-
-  /**
-   * Returns the height of the scrolling context
-   *
-   * @returns {number}
-   */
-  ScrollTracker.prototype._contextHeight = function() {
-
-    if (this._context !== document.body) return this._context.scrollHeight - 5;
-
-    return this._context.clientHeight - 5;
-
-  };
-
-  /**
-   * Returns the current depth we've scrolled into the context
-   *
-   * @returns {number}
-   */
-  ScrollTracker.prototype._currentDepth = function() {
-
-    var isVisible = visibleInViewport(this._context);
-    var depth;
-
-    if (!this._context.scrollTop) {
-
-      this._context.scrollTop = 1;
-
-      if (!this._context.scrollTop) {
-
-        depth = (window.pageYOffset ||
-          document.documentElement.scrollTop ||
-          document.body.scrollTop || 0) - this._fromTop;
-
-      } else {
-
-        this._context.scrollTop = 0;
-        depth = this._context.scrollTop + isVisible;
-
-      }
-
-    } else {
-
-      depth = this._context.scrollTop + isVisible;
-
-    }
-
-    if (!isVisible) {
-
-      return depth >= this._fromTop ? depth : -1;
-
-    }
-
-    return depth + isVisible;
-
-  };
-
-  /**
-   * Adds a mark to be tracked
-   *
-   * @param {object} config
-   * @param {number} config.depth
-   * @param {string} config.label
-   * @param {function[]} config.handlers
-   */
-  ScrollTracker.prototype._addMark = function(config) {
-
-    var depth = config.depth;
-
-    this._marks[depth] = (this._marks[depth] || []).concat(Mark(config));
-
-  };
-
-  /**
-   * @constructor
-   * @private
-   *
-   * @param {object} config
-   * @param {string} config.label
-   * @param {number} config.depth
-   * @param {function[]} config.handlers
-   *
-   * @returns {Mark}
-   */
-  function Mark(config) {
-
-    /**
-     * A Mark is an array of callbacks bound with their data payloads
-     *
-     * @name Mark
-     *
-     * @type {function[]}
-     */
-    return config.handlers.map(function(handler) {
-
-      return handler.bind(this, {
-        data: {
-          depth: config.depth,
-          label: config.label
-        }
-      });
-
-    });
-
-  }
-
-  /**
-   * Calls a callback function each time config.n goes into config.numerator
-   *
-   * @param {object} config
-   * @param {number} config.n
-   * @param {number} config.numerator
-   * @param {function} config.callback
-   */
-  function forEachIn(config) {
-
-    var len = Math.floor(config.numerator / config.n);
-    var i;
-
-    for (i = 1; i <= len; i++) {
-
-      config.callback(i * config.n);
-
-    }
-
-  }
-
-  /**
-   * Helper that watches for changes in the height of the document
-   */
-  function onDocHeightChange(handler) {
-
-    var documentHeight = docHeight();
-
-    return setInterval(function() {
-
-      if (docHeight() !== documentHeight) {
-
-        handler();
-        documentHeight = docHeight();
-
-      }
-
-    }, 500);
-
-  }
-
-  /**
-   * Returns the height of the document
-   *
-   * @returns {number}
-   */
-  function docHeight() {
-
-    var body = document.body;
-    var html = document.documentElement;
-
-    return Math.max(body.scrollHeight, body.offsetHeight,
-      html.clientHeight, html.scrollHeight, html.offsetHeight);
-
-  }
-
-  /**
-   * Returns the number of pixels of the element visible in the viewport
-   * @param {HTMLElement} element
-   *
-   * @returns {number}
-   * adapted from:
-   * @link https://stackoverflow.com/questions/24768795/get-the-visible-height-of-a-div-with-jquery#answer-26831113
-   */
-  function visibleInViewport(element) {
-
-    var height = element.offsetHeight;
-    var windowHeight = viewportHeight();
-    var rect = element.getBoundingClientRect();
-
-    return Math.max(
-      0,
-      rect.top > 0 ? Math.min(height, windowHeight - rect.top) :
-      (rect.bottom < windowHeight ? rect.bottom : windowHeight)
-    );
-
-  }
-
-  /**
-   * Returns the height of the viewport
-   *
-   * @returns {number}
-   */
-  function viewportHeight() {
-
-    var elem = (document.compatMode === "CSS1Compat") ?
-      document.documentElement :
-      document.body;
-
-    return elem.clientHeight;
-
-  }
-
-  /**
-   * Retrieves the distance of a node from the top of the document
-   *
-   * @param {HTMLElement} node
-   *
-   * @returns {number}
-   */
-  function getNodeDistanceFromTop(node) {
-
-    var nodeTop = node.getBoundingClientRect().top - (node.scrollHeight - node.clientHeight) / 2;
-    // @link https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollX
-    var docTop = (window.pageYOffset !== undefined) ?
-      window.pageYOffset :
-      (document.documentElement || document.body.parentNode || document.body).scrollTop;
-
-    return nodeTop + docTop;
-
-  }
-
-  /**
-   * Does nothing
-   */
-  function noop() {}
-
-  /**
-   * Throttle function borrowed from:
-   * Underscore.js 1.5.2
-   * http://underscorejs.org
-   * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-   * Underscore may be freely distributed under the MIT license.
-   */
-  function throttle(func, wait) {
-    var context, args, result;
-    var timeout = null;
-    var previous = 0;
-    var later = function() {
-      previous = new Date;
-      timeout = null;
-      result = func.apply(context, args);
-    };
-    return function() {
-      var now = new Date;
-      if (!previous) previous = now;
-      var remaining = wait - (now - previous);
-      context = this;
-      args = arguments;
-      if (remaining <= 0) {
-        clearTimeout(timeout);
-        timeout = null;
-        previous = now;
-        result = func.apply(context, args);
-      } else if (!timeout) {
-        timeout = setTimeout(later, remaining);
-      }
-      return result;
-    };
-  }
-
-  /**
-   * Installs a noop'd version of ScrollTracker on the window
-   */
-  function installMock() {
-
-    var fake = {};
-    var key;
-
-    for (key in ScrollTracker) {
-
-      fake[key] = noop;
-
-    }
-
-    window.ScrollTracker = fake;
-
-  }
-
-  window.ScrollTracker = ScrollTracker;
-
-})(this);
-/*
- * v2.0.4
- * Created by the Google Analytics consultants at http://www.lunametrics.com/
- * Written by @notdanwilkerson
- * Documentation: https://github.com/lunametrics/gascroll/
- * Licensed under the MIT License
- */
-
-</script>
- --></head>
+  </head>
 
 <body>
   <nav class='navbar sticky-top'>
     <div class='container'>
-<!--       <div class='mr-auto' id='tutorial-box'>
-        <a href = "https://www.youtube.com/">View Tutorial Video</a>
-      </div> -->
-       <div class='ml-auto' id='credits-box' style='display:none'>
-        <span id='total-credits'>Total Credits:</span>
-<!--         <button type="button" data-toggle="tooltip" data-placement="bottom" title="100 credits are worth $0.10&#013;50 credits are worth $0.05" id = 'gold-credits-box' style='display:none'>
- -->          
-              <button type="button" data-toggle="tooltip" data-placement="bottom" title="50 credits are worth $0.05" id = 'gold-credits-box' style='display:none'>
-              <span id='gold-credits'>0</span>
-          <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png">
-        </button>
-<!--         <button type="button" data-toggle="tooltip" data-placement="bottom" title="100 credits are worth $0.05&#013;50 credits are worth $0.025" id = 'silver-credits-box' style='display:none'>
- -->          
-            <button type="button" data-toggle="tooltip" data-placement="bottom" title="50 credits are worth $0.025" id = 'silver-credits-box' style='display:none'>
-            <span id='silver-credits'>0</span>
-          <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png">
-        </button>
-      </div>
     </div>
   </nav>
+  <br>
+  <div class='container main'>
+  <div class="progress">
+  <div class="progress-bar" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" id="progress-bar" style="width: 0%;">0%</div>
+  </div>
+</div>
 
   <div class='container main'>
-   <!--  <div id='progress-box'>
-      <h5>Total Progress:
-        <span id='progress-text'style='float:right' class='text-muted'></span></h5>
-        style='float:right'class='text-muted'
-      <div class="progress">
-        <div class="progress-bar" id= "progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
-      </div>
-    </div> -->
+    <div class='row' id='welcome' style = "display:none;">
+	<div class='col-12'>
+		<br>
+		<h3>Welcome!</h3>
+		<div class="card">
+			<div class="card-body">
+		<p>Welcome to our study! In this study, you will be asked to interact with an AI agent and rate its responses to an input according to <strong>your preferences.</strong> There will be some reading. This task will take approximately 10 minutes and you will be paid $2 for your time.</p>
+		<button type="button" class="btn btn-primary" id='welcome-button'>Continue</button>
+	</div></div>
+	</div>
+</div>
 
-    <div class='row' id='onboarding' style="display:none">
+<div class='row' id='thank-you' style = "display:none;">
+	<div class='col-12'>
+		<h3>Thank you!</h3>
+		<div class="card">
+			<div class="card-body">
+				<p>Please <strong>click submit.</strong> It may take a moment to redirect you.</p>
+				<form id='results-form' method='post' action='dummy' class='text-center'>
+  				<input type='hidden' value='' name='assignmentId' id='assignmentId'/>
+  				<input type='hidden' value='' name='output' id='output'/>
+				<!-- To use with Prolific -->
+				<button type="button" class="btn btn-primary" id='submit-btn'>Submit</button>
+			</div>
+		</div>
+	</div>
+</div>
+    <div id='questionnaire' style = "display:none;">
+      <div class='col-12'>
+        <h3>Questionnaire</h3>
+
+        <div class="card">
+            <div class="card-body">
+                <p><strong>Please answer in a way that is truthful to your experience.</strong></p>
+                <form id = 'questionnaire-form-0'></form>
+                <form id = 'questionnaire-form-1'>
+                <p>How mentally demanding was the task?</p>
+                <div class="sliderticks">
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="middleTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                </div>
+                 <input class="custom-range" type="range" min="0" max="100" step="5" id="TLX-1" onchange="setSlider1(true)" value="50" style="width:100%;">
+                <span class="left">Very Low</span><span class="right">Very High</span>
+                </form>
+
+                <br><br><br>
+
+                <form id = 'questionnaire-form-2'>
+                <p>How hurried or rushed was the pace of the task?</p>
+                <div class="sliderticks">
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="middleTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                </div>
+                 <input class="custom-range" type="range" min="0" max="100" step="5" id="TLX-2" onchange="setSlider2(true)" value="50" style="width:100%;">
+                <span class="left">Very Low</span><span class="right">Very High</span>
+
+                </form>
+
+                <br><br><br>
+                <form id = 'questionnaire-form-3'>
+                <p>How successful were you in accomplishing what you were asked to do?</p>
+                <div class="sliderticks">
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="middleTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                </div>
+                 <input class="custom-range" type="range" min="0" max="100" step="5" id="TLX-3" onchange="setSlider3(true)" value="50" style="width:100%;">
+                <span class="left">Perfect</span><span class="right">Failure</span>
+
+                </form>
+                <br><br><br>
+                <form id = 'questionnaire-form-4'>
+                <p>How hard did you have to work to accomplish your level of performance?</p>
+                <div class="sliderticks">
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="middleTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                </div>
+                 <input class="custom-range" type="range" min="0" max="100" step="5" id="TLX-4" onchange="setSlider4(true)" value="50" style="width:100%;">
+                <span class="left">Very Low</span><span class="right">Very High</span>
+
+                </form>
+                <br><br><br>
+
+                <form id = 'questionnaire-form-5'>
+                <p>How insecure, discouraged, irritated, stressed, and annoyed were you?</p>
+                <div class="sliderticks">
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="middleTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                <p class="otherTLX"></p>
+                </div>
+                 <input class="custom-range" type="range" min="0" max="100" step="5" id="TLX-5"onchange="setSlider5(true)" value="50" style="width:100%;">
+                <span class="left">Very Low</span><span class="right">Very High</span>
+
+                </form>
+            <br><br><br>
+
+            <form id = 'questionnaire-form-6'>
+            <label for="ratings-feelings">In your own words below, please describe how you felt about selecting the ratings. </label>
+            <textarea class="form-control" id="ratings-feelings" rows="3" placeholder="Start typing here..."></textarea>
+            </form>
+            
+            <br>
+
+            <form id = 'questionnaire-form-7' style="display: none">
+            <label for="explanations-feelings">In your own words below, please describe how you felt about writing the explanations for your ratings. </label>
+            <textarea class="form-control" id="explanations-feelings" rows="3" placeholder="Start typing here..."></textarea>
+            </form>
+
+            <button type="button" class="btn btn-primary" id='questionnaire-button'>Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id='final-questionnaire' style = "display:none;">
+      <div class='col-12'>
+        <h3>Final Questionnaire</h3>
+
+        <div class="card">
+            <div class="card-body">
+            
+            <form id = 'final-questionnaire-form-1'>
+            <label for="prefer-explanation-or-not">Did you prefer completing this task by providing ratings alone or by providing ratings with an explanation? Please explain your preference. </label>
+            <textarea class="form-control" id="prefer-explanation-or-not" rows="3" placeholder="Start typing here..."></textarea>
+            </form>
+
+            <form id = 'final-questionnaire-form-2'>
+            <label for="other-ways-feedback">In what other ways (other than ratings and explanations), if any, would you want to provide feedback? </label>
+            <textarea class="form-control" id="other-ways-feedback" rows="3" placeholder="Start typing here..."></textarea>
+            </form>
+
+            <button type="button" class="btn btn-primary" id='final-questionnaire-button'>Continue</button>
+            </div>
+        </div>
+      </div>
+</div>
+    <div class='row' id='exit' style = "display:none;">
+	<div class='col-12'>
+		<h3>Thank you for your time.</h3>
+
+		<div class="card">
+			<div class="card-body">
+				<p>You either did not consent to the terms of our study or have already done the study before. Please return the study. We thank you for your time.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class='row' id='thank-you' style = "display:none;">
+	<div class='col-12'>
+		<h3>Thank you for participating!</h3>
+	</div>
+</div>
+    <div class='code-task' id='task' style='display:none'>
+		<div class='row'>
+			<div class='col-12'>
+				<p>Please rate the AI's responses according to <strong>your preferences</strong>.
+			</div>
+			<div class='col-8' style="position: relative;">
+				<div class="form-group">
+			    <label for="prompt">Input:</label>
+			    <p class="form-control" id="prompt" rows="3"readonly style="cursor: not-allowed;">Do you think Helena is awesome?
+			    </p>
+			  	</div>
+  		</div>
+
+  	<div class='col-8' style="position: relative;">
+  	<div class="form-group">
+    <label for="output-1">AI's Response 1:</label>
+    <p class="form-control" id="output-1" readonly style="cursor: not-allowed;">Yes, I think Helena is awesome because I think all humans are awesome!</p>
+  	</div>
+ 		</div>
+
+ 		<div class='col-4'>
+				Please rate this response. You must give a rating for all responses.
+				<br><div class="container">
+  			<div class="stars">
+
+			  <form action="" id='star-form-1'>
+
+			    <input class="star star-5" id="star-5-1" type="radio" name="star"/>
+
+			    <label class="star star-5" for="star-5-1"></label>
+
+			    <input class="star star-4" id="star-4-1" type="radio" name="star"/>
+
+			    <label class="star star-4" for="star-4-1"></label>
+
+			    <input class="star star-3" id="star-3-1" type="radio" name="star"/>
+
+			    <label class="star star-3" for="star-3-1"></label>
+
+			    <input class="star star-2" id="star-2-1" type="radio" name="star"/>
+
+			    <label class="star star-2" for="star-2-1"></label>
+
+			    <input class="star star-1" id="star-1-1" type="radio" name="star"/>
+
+			    <label class="star star-1" for="star-1-1"></label>
+
+			  </form>
+
+			</div>
+			</div>
+		</div>
+
+
+
+ 		<div class='col-8' style="position: relative;">
+  	<div class="form-group" >
+    <label for="output-2">AI's Response 2:</label>
+    <p class="form-control" id="output-2"readonly style="cursor: not-allowed;">Yes.</p>
+  	</div>
+  	</div>
+  	<div class='col-4'>
+				Please rate this response. You must give a rating for all responses.
+				<br>
+
+				<div class="container">
+  			<div class="stars">
+
+			  <form action="" id='star-form-2'>
+
+			    <input class="star star-5" id="star-5-2" type="radio" name="star"/>
+
+			    <label class="star star-5" for="star-5-2"></label>
+
+			    <input class="star star-4" id="star-4-2" type="radio" name="star"/>
+
+			    <label class="star star-4" for="star-4-2"></label>
+
+			    <input class="star star-3" id="star-3-2" type="radio" name="star"/>
+
+			    <label class="star star-3" for="star-3-2"></label>
+
+			    <input class="star star-2" id="star-2-2" type="radio" name="star"/>
+
+			    <label class="star star-2" for="star-2-2"></label>
+
+			    <input class="star star-1" id="star-1-2" type="radio" name="star"/>
+
+			    <label class="star star-1" for="star-1-2"></label>
+
+			  </form>
+
+			</div>
+			</div>
+		</div>
+		<div class='col-8' style="position: relative;">
+		<br>
+
+		<div class="form-group" id='explanation-text-area-div'>
+    <label for="explanation-text-area">Please explain your ratings. You must explain all ratings.</label>
+    <textarea class="form-control" id="explanation-text-area" rows="3" placeholder="Start typing feedback here..."></textarea>
+  	</div>
+
+  	<button type="button" class="btn btn-dark" id='continue-task-button'>Press here to continue.</button>
+
+		</div>
+
+	</div>
+</div>
+
+</div>
+
+<!-- <div class="btn-group-toggle" data-toggle="buttons">
+						<label class="btn btn-outline-success btn-lg active">
+	    				<input type="radio" name="options" id="option1" autocomplete="off">
+	    				<i class="fa fa-thumbs-up"></i>
+	  				</label>
+
+	  				<label class="btn btn-outline-danger btn-lg">
+	  					<input type="radio" name="options"id="option2" autocomplete="off">
+	  					<i class="fa fa-thumbs-down"></i>
+	  				</label>
+
+				</div> -->
+    
+<div class='row' id='onboarding' style="display:none">
 	<div class='col-12'>
 		<h3>Welcome!</h3>
 
@@ -1363,1662 +809,10 @@ jQuery.fn.disableFind = function(){
 
 	</div>
 </div>
-    <div class='row' id='demographics' style="display:none">
-	<div class='col-12'>
-		<h3>Demographic Information</h3>
-
-		<div class="card">
-			<div class="card-body">
-				<p>Before we begin, please answer some preliminary information.</p>
-
-				<p><strong>I confirm that I have not done this study before.</strong></p>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="completed-task" id="yes">
-				  <label class="form-check-label" for="yes">
-				    Yes, I confirm
-				  </label>
-				</div>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="completed-task" id="no">
-				  <label class="form-check-label" for="no">
-				    No, I do not confirm
-				  </label>
-				</div>
-				<br>
-
-				<p><strong>What is your Worker ID?</strong></p>
-				  <div class="form-group">
-				    <input type="prolificID" class="form-control" id="prolificID" aria-describedby="prolificID" placeholder="Enter Worker ID">
-				  </div>
-
-				<p><strong>What is your gender?</strong></p>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="gender" id="male" onclick="disableSelfDescribe();">
-				  <label class="form-check-label" for="male">
-				    Man
-				  </label>
-				</div>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="gender" id="female" onclick="disableSelfDescribe();">
-				  <label class="form-check-label" for="female">
-				    Woman
-				  </label>
-				</div>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="gender" id="nonbinary" onclick="disableSelfDescribe();">
-				  <label class="form-check-label" for="nonbinary">
-				    Non-binary
-				  </label>
-				</div>
-				<div class="form-check" onclick="disableSelfDescribe();">
-				  <input class="form-check-input" type="radio" name="gender" id="prefernot">
-				  <label class="form-check-label" for="prefernot">
-				    Prefer not to disclose
-				  </label>
-				</div>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="gender" id="other" onclick="enableSelfDescribe();">
-				  <label class="form-check-label" for="other">
-				    Prefer to self describe:
-				  </label>
-				  <textarea name="gender" class="form-control" id="self-description" rows="1" disabled></textarea>
-				</div>
-				<br>
-				<p><strong>What is your age?</strong></p>
-				<div class="form-group">
-				    <input type="age" class="form-control" id="age" aria-describedby="age" placeholder="Enter Your Age">
-				  </div>
-				<!-- <div class="form-check">
-				  <input class="form-check-input" type="radio" name="age" id="under18">
-				  <label class="form-check-label" for="under18">
-				    Under 18 years old
-				  </label>
-				</div>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="age" id="18-24yo">
-				  <label class="form-check-label" for="18-24yo">
-				    18-24 years old
-				  </label>
-				</div>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="age" id="25-34yo">
-				  <label class="form-check-label" for="25-34yo">
-				    25-34 years old
-				  </label>
-				</div>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="age" id="35-44yo">
-				  <label class="form-check-label" for="35-44yo">
-				    35-44 years old
-				  </label>
-				</div>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="age" id="45-54yo">
-				  <label class="form-check-label" for="45-54yo">
-				    45-54 years old
-				  </label>
-				</div>
-				<div class="form-check">
-				  <input class="form-check-input" type="radio" name="age" id="55-64yo">
-				  <label class="form-check-label" for="55-64yo">
-				    55-64 years old
-				  </label>
-				</div><div class="form-check">
-				  <input class="form-check-input" type="radio" name="age" id="65-74yo">
-				  <label class="form-check-label" for="65-74yo">
-				    65-74 years old
-				  </label>
-				</div><div class="form-check">
-				  <input class="form-check-input" type="radio" name="age" id="over74">
-				  <label class="form-check-label" for="over74">
-				    75 years or older
-				  </label>
-				</div> -->
-				<br>
-				<button type="button" class="btn btn-primary" id='demographic-button'>Continue</button>
-			</div>
-		</div>
-
-	</div>
+    
 </div>
-
-<div class="modal fade" id="post-demographics-long-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Attention!</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      	You have been placed in a longer version of the study, so the study will take you an extra 10 minutes. We will give you an additional $1 bonus to compensate for this extra time. 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-    <div class='row' id='training-start' style = "display:none;">
-	<div class='col-12'>
-		<h3>Training</h3>
-
-		<div class="card">
-			<div class="card-body">
-<!-- 				<p>In this phase, you will complete 6 practice questions. You will complete the 6 Question & Answer pairs by yourself to experience the difficulty of doing it yourself with both short and long passages.</p>
- -->				
- 					<p><!-- In this phase, you will complete mazes.  -->
- 						<strong>You will complete this task by yourself to experience the difficulty of doing it yourself.</strong> 
- 						<span id='training-credits'></span> <span id ="training-credits-overreliance" style= "display:none"><strong>You will only get rewarded for the questions BOTH you and the AI (which you will use soon) get correct.</strong></span> 
-<!--  						<span id ='training-credits-hover'>You can also find out how much money credits are worth by hovering over the icon in the top right.</span>
- --> 					</p>
- 				<button type="button" class="btn btn-primary" id='training-start-button'>Begin</button>
-			</div>
-		</div>
-
-	</div>
-</div>
-<div class='row' id='training-intermediate' style = "display:none;">
-	<div class='col-12'>
-		<h3>Training</h3>
-
-		<div class="card">
-			<div class="card-body">			 					
-<!--  					<p>In this phase, you will complete practice questions. <strong>You will complete the Question & Answer pairs with <span id='training-ai-name'></span> to experience using the AI, which is <span id='training-ai-acc'></span> accurate. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</strong> <span id='training-credits-ai'></span> You can also find out how much money credits are worth by hovering over the icon in the top right.</p>
- --> 				
-  			<p>In this phase, you will complete practice mazes. <strong>You will complete this task with <span id='training-ai-name'></span> to experience using the AI. <span id = 'xai-begin-training' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> <span id = 'training-same-AI-text' style="display:none">This is the same AI you used previously. </span><span id = 'training-different-AI-text' style="display:none">This is a different AI from the one you used previously. </span><span id = 'xai-compare-training' style="display:none">The AI will now show you <span class='main-highlight'>explanations</span>.</strong> <!-- These passages are <span id = 'length-repeat-training'></span>. -->
-
-<!--   				<br><br>
- -->
-  			<span id="training-credits-double" style="display:none"><strong>The amount of credits you receive depends on whether the AI is correct or not.</strong></span> <span id='training-credits-ai'></span> 
-<!--   		You can also find out how much money credits are worth by hovering over the icon in the top right.
- -->  	</p>
-
-  			<p id="training-reward-table"></p>
-
- 			<button type="button" class="btn btn-primary" id='training-intermediate-button'>Begin</button>
-			</div>
-		</div>
-
-	</div>
-</div>
-
-<div class='row' id='training-end' style = "display:none;">
-	<div class='col-12'>
-		<h3>End of Training</h3>
-
-		<div class="card">
-			<div class="card-body">
-				<p>This was the the end of the training phase. Click the button below to continue with the study.</p>
-				<button type="button" class="btn btn-primary" id='training-end-button'>Continue</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="modal fade" id="training-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Training phase</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" id="modal-text">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-    <div class='row' id='tutorial-maze' style='display:none'>
-	<div class='col-12'>
-		<h3>Tutorial</h3>
-
-		<div class="card">
-			<div class="card-body">
-				<p>We will begin with a brief tutorial, which will explain the task.</p>
-				<p>You will be completing a maze task, in which you will find the exit to a maze given a starting place. There is only one correct solution. 
-<!--         The following is an example of an easy maze to complete:
- -->      </p>
-<!-- 				<span id='easy-maze-photo'></span>
- -->				<!-- <br> -->
-<!-- 				<p>The answer to the easy maze: <span id='easy-maze-solution'></span>.</p>
- -->				<p>The following is an example of a maze to complete:</p>
-				<span id='hard-maze-photo'></span>
-				<br>
-				<p>The answer to the maze: <span id='hard-maze-solution'></span>.</p>
-				<button type="button" class="btn btn-primary" id='tutorial-maze-button'>Begin</button>
-			</div>
-		</div>
-	</div>
-</div>
-    <div class='row' id='begin-task' style = "display:none;">
-	<div class='col-12'>
-		<h3>Main Study</h3>
-
-		<div class="card">
-			<div class="card-body">
-<!-- 				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>. This is the same AI you used during the training phase. This AI is <span id='acc-score'></span> accurate. <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span></strong></p>
-				<p>For each question you get correct, you will initially receive <span id = 'bonus-begin-task'></span> in bonus. <span id= 'coin-explanation'></span> You can also find out how much money credits are worth by hovering over the icon in the top right. <strong>You will not be able to see how many credits you have gained in this phase, but we will tell you how many credits you earned at the end of the study.</strong> Click the button below to begin.</p> -->
-				<p><strong>You will now be asked to collaborate with <span id = 'collaboration-task-first-text'></span>. This is the same AI you used during the training phase. <span id = 'xai-begin-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span></strong> <!-- These passages are <span id ='length-begin-task'></span>. --></p>
-				<p>Unlike during the training phase, this phase will no longer tell you whether your answer is correct or not.</p>
-				<p><span id = 'bonus-begin-task'></span> <span id="double-bonus-begin-task"></span> <span id= 'coin-explanation'></span> 
-<!-- 					You can also find out how much money credits are worth by hovering over the icon in the top right.
- --><!-- 				</p>
-				<p id="reward-table-begin-task">
-					
-				</p>
-				<p> -->
-<!-- 					<strong>You will not be able to see how many credits you have gained in this phase, but we will tell you how many credits you earned at the end of the study.</strong> 
- --><!-- 				<strong>You will not be able to see whether you got an answer correct or not in this phase.</strong>
- -->				
-					Click the button below to begin.</p>
-				<button type="button" class="btn btn-primary" id='begin-task-button'>Continue</button>
-			</div>
-		</div>
-
-	</div>
-</div>
-
-<div class='row' id='repeat-task' style = "display:none;">
-	<div class='col-12'>
-		<h3>Main Study</h3>
-
-		<div class="card">
-			<div class="card-body">
-				<p><strong>You will now be asked to collaborate with <span id= 'switch-tasks'></span>.</strong> This is the same AI you used during the training phase. <span id = 'xai-repeat-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> 
-<!-- 					For each question you get correct, you will initially receive <span id = 'bonus-repeat-task'></span> in bonus. 
- -->					<!-- These passage are <span id ='length-repeat-task'></span>.  -->
-<!-- We will also ask you to choose between doing the task yourself versus getting a suggestion from the AI for different bonus amounts. 
- --></p>
-				<!-- <p><strong>You will now be asked to collaborate with <span id= 'switch-tasks'></span>, which is <span id='repeat-acc-score'></span> accurate.</strong> <span id = 'xai-repeat-task' style="display:none">This AI has the ability to give <span class='main-highlight'>explanations</span>.</span> For each question you get correct, you will initially receive <span id = 'bonus-repeat-task'></span> in bonus. This passage is <span id ='length-repeat-task'></span>. We will also ask you to choose between doing the task yourself versus getting a suggestion from the AI for different bonus amounts. Click the button below to begin.</p> -->
-				<button type="button" class="btn btn-primary" id='repeat-task-button'>Continue</button>
-			</div>
-		</div>
-
-	</div>
-</div>
-
-<div class='row' id='collaboration-task' style = "display:none;">
-	<div class='col-12'>
-		<h3>Collaboration Task</h3>
-
-		<div class="card">
-			<div class="card-body">
-				<p>You will now collaborate with AI <span id='AI-name'></span> to complete a set of questions with corresponding passages. Please complete these questions to the best of your ability. <strong>For each of the questions you get correct, you will receive a bonus of <span id = 'collaboration-task-text'></span></strong></p>
-				<button type="button" class="btn btn-primary" id='collaboration-task-button'>Continue</button>
-			</div>
-		</div>
-
-	</div>
-</div>
-
-<div class='row' id='end-task' style = "display:none;">
-	<div class='col-12'>
-		<h3>Study Complete</h3>
-		<div class="card">
-			<div class="card-body">
-				<button type="button" class="btn btn-primary" id='end-task-button'>Continue</button>
-			</div>
-		</div>
-
-	</div>
-</div>
-    <div id='choose' style='display:none'>
-	<div class='row'>
-		<div class='col-12 text-center'>
-			<h1>Choose a task for the next question:</h1>
-			<p>Take your time and choose carefully</p>
-		</div>
-	</div>
-	<div class='row'>
-		<div class='col-5 text-center'>
-			<div class='choice-box d-flex align-items-center justify-content-center' id='choose-AI'>
-				<div>
-					<h2 id='text-of-ai'>Get suggestion from AI <span id= 'choose-ai-name'></span></h2>
-					<span id='cost-of-AI'></span>
-			        <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"id = 'silver-coin-image-2' style='display:none'>
-			        <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png" id = 'gold-coin-image-2'style='display:none'>
-		    	</div>
-			</div>
-		</div>
-		<div class='col-2 text-center align-middle my-auto'>
-			<h5>or</h5>
-		</div>
-		<div class='col-5 text-center'>
-			<div class='choice-box d-flex align-items-center justify-content-center' id='choose-human'>
-				<div>
-					<h2 id='text-of-baseline'>Complete by yourself</h2>
-					<span id='cost-of-human'>100</span>
-					<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"id = 'silver-coin-image' style='display:none'>
-			        <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png" id = 'gold-coin-image'style='display:none'>
-			    </div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div id='choose-flipped' style='display:none'>
-	<div class='row'>
-		<div class='col-12 text-center'>
-			<h1>Choose a task for the next question:</h1>
-			<p>Take your time and choose carefully</p>
-		</div>
-	</div>
-	<div class='row'>
-		<div class='col-5 text-center'>
-			<div class='choice-box d-flex align-items-center justify-content-center' id='choose-human-flipped'>
-				<div>
-					<h2 id='text-of-baseline-flipped'>Complete by yourself</h2>
-					<span id='cost-of-human-flipped'>100</span>
-					<img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"id = 'silver-coin-image-flipped' style='display:none'>
-			        <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png" id = 'gold-coin-image-flipped'style='display:none'>
-			    </div>
-			</div>
-		</div>
-		<div class='col-2 text-center align-middle my-auto'>
-			<h5>or</h5>
-		</div>
-		<div class='col-5 text-center'>
-			<div class='choice-box d-flex align-items-center justify-content-center' id='choose-AI-flipped'>
-				<div>
-					<h2 id='text-of-ai-flipped'>Get suggestion from AI <span id= 'choose-ai-name-flipped'></span></h2>
-					<span id='cost-of-AI-flipped'></span>
-			        <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini-silver.png"id = 'silver-coin-image-2-flipped' style='display:none'>
-			        <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png" id = 'gold-coin-image-2-flipped'style='display:none'>
-		    	</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="modal fade" id="coged-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Choice task</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-		<strong><span id = 'coged-modal-DIY-AI' style="display:none">Each time you are asked to choose, the amount of money offered for getting the AI's suggestions will change, so please pay attention to those values. </span></strong>
-
-		<strong><span id = 'coged-modal-AI-xai' style="display:none">Each time you are asked to choose, the amount of money offered for getting the AI's suggestions and explanations will change, so please pay attention to those values.</span></strong>
-
-		
-		<span id= "coged-modal-forced-AI" style="display:none">In this phase, if you choose the AI's assistance, you will have to respond with its answer. <span class="important-text">You will NOT be able to change its answer.</span></span> 
-
-		<span id= "coged-modal-AI" style="display:none"> In this phase, if you choose the AI's assistance, you will be able to collaborate with it and decide whether or not you would like to use its answer. <span class="important-text">You WILL be able to change its answer.</span></span>
-
-		
-
-		<span id="coged-modal-overreliance"  style="display:none">
-			<br><br>You will only get rewarded for the question if BOTH you and the AI are correct. 
-		</span>
-
-		<span id="coged-modal-double"  style="display:none">
-			<br><br>When using the AI, if you answer a question correctly that the AI answered incorrectly, you will gain 5x credits offered. 
-		</span>
-
-		<span id="coged-modal-penalty"  style="display:none">
-			For each question you get incorrect with the AI, you will lose the amount of credits offered. 
-		</span>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class='row' id='coged-task' style = "display:none;">
-	<div class='col-12'>
-		<h3>Choice Task</h3>
-
-		<div class="card">
-			<div class="card-body">
-				<p id = 'coged-DIY-AI' style="display:none">You will be asked to choose between completing a task by yourself and using <span id='coged-ai-name'></span> assistance for each question. 
-				</p>
-				<p id = 'coged-AI-xai' style="display:none">You will be asked to choose between completing a task with the AI's suggestion <strong>or</strong> completing a task with the AI's suggestion and <span class='main-highlight'>explanations</span>. You will be offered gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> for choosing, which have no real monetary value. 
-				</p>
-				<p>
-				<span id= "coged-forced-AI" style="display:none"> You will be asked to choose between completing a task by yourself and using the AI's suggestion for each question. <strong>In this phase, if you choose the AI's assistance, you will have to respond with its answer. 
-<!-- 					<span class="important-text">You will NOT be able to change its answer. </span>
- -->				</strong><br><br></span>
-
-				<span id= "coged-AI" style="display:none">
-<!-- 					<strong>
-In this phase, if you choose the AI's assistance, you will be able to collaborate with it and decide whether or not you would like to use its answer. 
-<span class="important-text">You WILL be able to change its answer. </span>
-				</strong><br><br> -->
-				</span>
-
-				
-				<span id = 'coged-DIY-AI-attention'><strong>Each time you are asked to choose, the amount of money offered for getting the AI's suggestions will change, so please pay attention to those values. </strong></span>
-
-				<span id = 'coged-AI-xai-attention'><strong>Each time you are asked to choose, the amount of credits offered for getting the AI's suggestions and explanations will change, so please pay attention to those values. </strong></span>
-
-				<span id='coged-text-long' style="display:none">
-					Remember that 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> is equal to a $0.10 bonus. 
-				</span>
-
-				<span id='coged-text-overreliance-long' style="display:none">
-				You will only get rewarded for the question if BOTH you and the AI are correct.
-                <strong>
-                If you answer a question correctly that the AI answered incorrectly, you will receive 0 gold credits.</strong>
-				</span>
-
-				<span id='coged-text-double-long' style="display:none">
-				When using the AI, if you answer a question correctly that the AI answered incorrectly, you will gain 5x credits offered.
-				</span>
-
-				<!-- Making short equal to gold -->
-				<span id='coged-text-short' style="display:none">
-					Remember that 100 gold credits <img src="https://cs.stanford.edu/people/joerke/xai/coin-mini.png"> is equal to a $0.05 bonus. 
-				</span>
-
-				<span id='coged-text-overreliance-short' style="display:none">
-				You will only get rewarded for the question if BOTH you and the AI are correct.
-                <strong>
-                If you answer a question correctly that the AI answered incorrectly, you will receive 0 silver credits.</strong>
-				</span>
-
-				<span id='coged-text-double-short' style="display:none">
-				When using the AI, if you answer a question correctly that the AI answered incorrectly, you will gain 5x credits offered.
-				</span>
-
-				<span id='coged-text-penalty' style="display:none">
-					For each question you get incorrect with the AI, you will lose the amount of credits offered. 
-				</span>
-				</p>
-
-				<p id= "reward-table-coged-overreliance-long" style="display:none">
-				You can also view the reward format in the table below. <br><br> 
-				<img src="https://cs.stanford.edu/people/joerke/xai/overreliance.svg">
-				</p>
-				<p id= "reward-table-coged-double-long" style="display:none">
-				You can also view the reward format in the table below. <br><br> 
-				<img src="https://cs.stanford.edu/people/joerke/xai/verification.svg">
-				</p>
-				<p id= "reward-table-coged-overreliance-short" style="display:none">
-				You can also view the reward format in the table below. <br><br> 
-				<img src="https://cs.stanford.edu/people/joerke/xai/overreliance-short.svg">
-				</p>
-				<p id= "reward-table-coged-double-short" style="display:none">
-				You can also view the reward format in the table below. <br><br> 
-				<img src="https://cs.stanford.edu/people/joerke/xai/verification-short.svg">
-				</p>
-
-				<div id='summary-coged-change-AI' style="display:none">
-					<strong>Here is a summary of what has changed from the previous sections:</strong>
-					<ul>
-					  <li>You will be asked to choose between doing it yourself or with the AI</li>
-					  <li>If you choose to do it with the AI, you WILL be able to change its answer</li>
-					  <li>Each time you are asked to choose, the amount of money offered for using the AI will change</li>
-					</ul>
-				</div>
-				<div id='summary-coged-change-AI-second' style="display:none">
-					<strong>Here is a summary of what has changed from the previous sections:</strong>
-					<ul>
-					  <li>If you choose to do it with the AI, you WILL be able to change its answer</li>
-					</ul>
-				</div>
-				<div id='summary-coged-change-forced-AI' style="display:none">
-					<strong>Here is a summary of what has changed from the previous sections:</strong>
-					<ul>
-					  <li>You will be asked to choose between doing it yourself or with the AI</li>
-					  <li>If you choose to do it with the AI, you will NOT be able to change its answer</li>
-					  <li>Each time you are asked to choose, the amount of money offered for using the AI will change</li>
-					</ul>
-				</div>
-				<div id='summary-coged-change-forced-AI-second' style="display:none">
-					<strong>Here is a summary of what has changed from the previous sections:</strong>
-					<ul>
-					  <li>If you choose to do it with the AI, you will NOT be able to change its answer</li>
-					</ul>
-				</div>
-
-				<div id='summary-coged-change-AI-compare' style="display:none">
-					<strong>Here is a summary of what has changed from the previous sections:</strong>
-					<ul>
-					  <li>You will be asked to choose between between completing a task with the AI's suggestion or with the AI's suggestion and explanation</li>
-					  <li>Each time you are asked to choose, the amount of money offered for using the AI will change</li>
-					</ul>
-				</div>
-				<button type="button" class="btn btn-primary" id='coged-task-button'>Continue</button>
-			</div>
-		</div>
-
-	</div>
-</div>
-
-
-    <div class='qa-task' id='task' style='display:none'>
-	<div class='row'>
-		<div class='col-8'>
-			<div class="card" id = "main-task">
-				<div class="card-body context-body" id='context-text'>
-				</div>
-			</div>
-		</div>
-		<div class='col-4'>
-			<div id='sticky-box'>
-				<div id='question-box'>
-					<div style='display: inline-block' id='question-text'>Who helped pay for the university's first building structure?</div>
-
-					<div id='model-prediction-box'>
-						<p><strong><span id = 'task-ai-name'></span> Suggestion</strong>:
-						<span style='display:inline' id='model-prediction'>Silas B. Cobb</span></p>
-						<div style='display:none' id='model-arrow-explanation'></div>
-						<div style='display:none' id='model-written-explanation'></div>
-						<em style='display: none'> (<span id='confidence'>80</span>% accurate)</em>
-					</div>
-
-					<hr>
-					<form id='question-response-form'>
-						<div class="form-check">
-						  <input class="form-check-input" type="radio" data-toggle='tooltip' data-placement='left' name="question-response" id="q1">
-						  <label class="form-check-label" for="q1" id="q1-label">John D. Rockefeller</label>
-						</div>
-
-						<div class="form-check">
-						  <input class="form-check-input" type="radio" data-toggle='tooltip' data-placement='left' name="question-response" id="q2">
-						  <label class="form-check-label" for="q2" id="q2-label">Marshall Field</label>
-						</div>	
-
-						<div class="form-check">
-						  <input class="form-check-input" type="radio" data-toggle='tooltip' data-placement='left' name="question-response" id="q3">	
-						  <label class="form-check-label" for="q3" id="q3-label">Charles L. Hutchinson</label>
-						</div>
-
-						<div class="form-check">
-						  <input class="form-check-input" type="radio" data-toggle='tooltip' data-placement='left' name="question-response" id="q4">
-						  <label class="form-check-label" for="q4" id="q4-label">Silas B. Cobb</label>
-						</div>
-
-						<button type="button" class="btn btn-secondary" id='answer-question'>Submit</button>
-					</form>
-				</div>
-				<div class="alert alert-success" style='display: none' role="alert">
-				 	Correct! <a href="#" class="alert-link float-right">Continue</a>
-				</div>
-				<div class="alert alert-danger" style='display: none' role="alert">
-				 	Incorrect! <a href="#" class="alert-link float-right">Continue</a>
-				</div>
-				<div class="alert alert-secondary" style='display: none;' role="alert"> Click to continue<a href="#" class="alert-link float-right">Continue</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-
-<div class="modal fade" id="task-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">ATTENTION</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      	The AI is wrong here!
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-      <div id='questionnaire'style = "display:none;">
-      <div class='col-12'>
-        <h3>Questionnaire</h3>
-
-        <div class="card">
-            <div class="card-body">
-                <p>Please complete the following questionnaire. <strong>We want honest responses, since this will help with our study. For example, it is okay if you ignored the AI or only used the AI, so long as your responses here reflect that truthfully. If we find that your responses are clearly dishonest or random, we may reject your work.</strong></p>
-                <hr>
-
-                <p><strong>The following questions are about the task.</strong> For each of the statements below, please indicate the extent to which you agree with it.</p>
-
-                <br>
-<!--                 <h5>I trust <span id = 'questionnaire-ai-1'></span> suggestions.</h5>
- -->                
-                    <h5>I found this task interesting.</h5>
-                    <form class='d-flex' id = 'questionnaire-form-1'>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-1" id="Q-1-1">
-                        </div>
-                        <label class="d-block" for="Q-1-1">
-                            Strongly<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-1" id="Q-1-2">
-                        </div>
-                        <label class="d-block" for="Q-1-2">
-                            Disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-1" id="Q-1-3">
-                        </div>
-                        <label class="d-block" for="Q-1-3">
-                            Somewhat<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-1" id="Q-1-4">
-                        </div>
-                        <label class="d-block" for="Q-1-4">
-                            Neutral<br>
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-1" id="Q-1-5">
-                        </div>
-                        <label class="d-block" for="Q-1-5">
-                            Somewhat<br>agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-1" id="Q-1-6">
-                        </div>
-                        <label class="d-block" for="Q-1-6">
-                            Agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-1" id="Q-1-7">
-                        </div>
-                        <label class="d-block" for="Q-1-7">
-                            Strongly<br>agree
-                        </label>
-                    </div>
-                </form>
-
-                <h5>I found this task difficult without <span id = 'questionnaire-ai-2'></span>.</h5>
-
-                <form class='d-flex' id = 'questionnaire-form-2'>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-2" id="Q-2-1">
-                        </div>
-                        <label class="d-block" for="Q-2-1">
-                            Strongly<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-2" id="Q-2-2">
-                        </div>
-                        <label class="d-block" for="Q-2-2">
-                            Disagree<br>
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-2" id="Q-2-3">
-                        </div>
-                        <label class="d-block" for="Q-2-3">
-                            Somewhat<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-2" id="Q-2-4">
-                        </div>
-                        <label class="d-block" for="Q-2-4">
-                            Neutral<br>
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-2" id="Q-2-5">
-                        </div>
-                        <label class="d-block" for="Q-2-5">
-                            Somewhat<br>agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-2" id="Q-2-6">
-                        </div>
-                        <label class="d-block" for="Q-2-6">
-                            Agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-2" id="Q-2-7">
-                        </div>
-                        <label class="d-block" for="Q-2-7">
-                            Strongly<br>agree
-                        </label>
-                    </div>
-                </form>
-
-                <h5>I found this task difficult even with <span id = 'questionnaire-ai-3'></span>.</h5>
-
-                <form class='d-flex' id = 'questionnaire-form-3'>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-3" id="Q-3-1">
-                        </div>
-                        <label class="d-block" for="Q-3-1">
-                            Strongly<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-3" id="Q-3-2">
-                        </div>
-                        <label class="d-block" for="Q-3-2">
-                            Disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-3" id="Q-3-3">
-                        </div>
-                        <label class="d-block" for="Q-3-3">
-                            Somewhat<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-3" id="Q-3-4">
-                        </div>
-                        <label class="d-block" for="Q-3-4">
-                            Neutral<br>
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-3" id="Q-3-5">
-                        </div>
-                        <label class="d-block" for="Q-3-5">
-                            Somewhat<br>agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-3" id="Q-3-6">
-                        </div>
-                        <label class="d-block" for="Q-3-6">
-                            Agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-3" id="Q-3-7">
-                        </div>
-                        <label class="d-block" for="Q-3-7">
-                            Strongly<br>agree
-                        </label>
-                    </div>
-                </form>
-
-                <h5>I would prefer to complete this task with <span id = 'questionnaire-ai-4'></span> suggestions than to complete it by myself.</h5>
-
-                <form class='d-flex' id = 'questionnaire-form-4'>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-4" id="Q-4-1">
-                        </div>
-                        <label class="d-block" for="Q-4-1">
-                            Strongly<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-4" id="Q-4-2">
-                        </div>
-                        <label class="d-block" for="Q-4-2">
-                            Disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-4" id="Q-4-3">
-                        </div>
-                        <label class="d-block" for="Q-4-3">
-                            Somewhat<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-4" id="Q-4-4">
-                        </div>
-                        <label class="d-block" for="Q-4-4">
-                            Neutral<br>
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-4" id="Q-4-5">
-                        </div>
-                        <label class="d-block" for="Q-4-5">
-                            Somewhat<br>agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-4" id="Q-4-6">
-                        </div>
-                        <label class="d-block" for="Q-4-6">
-                            Agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-4" id="Q-4-7">
-                        </div>
-                        <label class="d-block" for="Q-4-7">
-                            Strongly<br>agree
-                        </label>
-                    </div>
-                </form>
-
-
-                <!-- Comment this out if not using!-->
-                <h5>Please select the option below which best represents how you used <span id = 'questionnaire-ai-5'></span>.</h5>
-
-                <form class='d-flex justify-content-between' id = 'questionnaire-form-5'>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-5" id="Q-5-1">
-                        </div>
-                        <label class="d-block" for="Q-5-1">
-                            I did not use the AI and completed the task by myself.
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-5" id="Q-5-2">
-                        </div>
-                        <label class="d-block" for="Q-5-2">
-                            I first completed the task myself and then verified my response with the AI's.
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-5" id="Q-5-3">
-                        </div>
-                        <label class="d-block" for="Q-5-3">
-                            I first looked at the AI's suggestion and then verified it was correct.
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-5" id="Q-5-4">
-                        </div>
-                        <label class="d-block" for="Q-5-4">
-                            I always chose the AI's suggestion. 
-                        </label>
-                    </div>
-                </form>
-
-
-                <form id = 'questionnaire-form-6'>
-                <h5>Approximately, how accurate do you think <span id = 'questionnaire-ai-6'></span> is? Please indicate using the slider below.</h5>
-                <label for="customRange1"><span id = 'questionnaire-ai-6a'></span> accuracy:</label>
-                <output for="customRange1" id="value-of-range">50%</output>
-                <br>
-                <input type="range" class="custom-range" id="customRange1" oninput="outputUpdate(value)" onchange="setSlider(true)" value="50">
-                </form>
-                <br>
-
-
-                <form id = 'questionnaire-form-7'>
-                <label for="AI-usage"><h5>In your own words below, please describe how you used <span id = 'questionnaire-ai-7'></span> when its suggestions were given to you.</h5></label>
-                <textarea class="form-control" id="AI-usage" rows="3" placeholder="Start typing feedback here..."></textarea>
-                </form>
-                <br>
-                <form id = 'questionnaire-form-8'>
-                <label for="choice-selection"><h5 id = 'questionnaire-form-8-text'>In your own words below, please describe how you chose between using <span id = 'questionnaire-ai-8'></span> and doing the task yourself.</h5></label>
-                <textarea class="form-control" id="choice-selection" rows="3" placeholder="Start typing feedback here..."></textarea>
-                </form>
-            <button type="button" class="btn btn-primary" id='questionnaire-button'>Continue</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div id='questionnaire-trust'style = "display:none;">
-      <div class='col-12'>
-        <h3>Questionnaire</h3>
-
-        <div class="card">
-            <div class="card-body">
-                <p>Please complete the following questionnaire. <strong>We want honest responses, since this will help with our study. For example, it is okay if you ignored the AI or only used the AI, so long as your responses here reflect that truthfully. If we find that your responses are clearly dishonest or random, we may reject your work.</strong></p>
-                <hr>
-
-                <p><strong>The following questions are about the task.</strong> For each of the statements below, please indicate the extent to which you agree with it.</p>
-
-                <br>
-                <h5>I believe <span id = 'questionnaire-ai-1-trust'></span> is a competent performer.</h5>
-                <form class='d-flex' id = 'questionnaire-form-1-trust'>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-1-trust" id="Q-1-trust-1">
-                        </div>
-                        <label class="d-block" for="Q-1-trust-1">
-                            Strongly<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-1-trust" id="Q-1-trust-2">
-                        </div>
-                        <label class="d-block" for="Q-1-trust-2">
-                            Disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-1-trust" id="Q-1-trust-3">
-                        </div>
-                        <label class="d-block" for="Q-1-trust-3">
-                            Somewhat<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-1-trust" id="Q-1-trust-4">
-                        </div>
-                        <label class="d-block" for="Q-1-trust-4">
-                            Neutral<br>
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-1-trust" id="Q-1-trust-5">
-                        </div>
-                        <label class="d-block" for="Q-1-trust-5">
-                            Somewhat<br>agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-1-trust" id="Q-1-trust-6">
-                        </div>
-                        <label class="d-block" for="Q-1-trust-6">
-                            Agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-1-trust" id="Q-1-trust-7">
-                        </div>
-                        <label class="d-block" for="Q-1-trust-7">
-                            Strongly<br>agree
-                        </label>
-                    </div>
-                </form>
-
-                <h5>I trust <span id = 'questionnaire-ai-2-trust'></span>.</h5>
-
-                <form class='d-flex' id = 'questionnaire-form-2-trust'>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-2-trust" id="Q-2-trust-1">
-                        </div>
-                        <label class="d-block" for="Q-2-trust-1">
-                            Strongly<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-2-trust" id="Q-2-trust-2">
-                        </div>
-                        <label class="d-block" for="Q-2-trust-2">
-                            Disagree<br>
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-2-trust" id="Q-2-trust-3">
-                        </div>
-                        <label class="d-block" for="Q-2-trust-3">
-                            Somewhat<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-2-trust" id="Q-2-trust-4">
-                        </div>
-                        <label class="d-block" for="Q-2-trust-4">
-                            Neutral<br>
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-2-trust" id="Q-2-trust-5">
-                        </div>
-                        <label class="d-block" for="Q-2-trust-5">
-                            Somewhat<br>agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-2-trust" id="Q-2-trust-6">
-                        </div>
-                        <label class="d-block" for="Q-2-trust-6">
-                            Agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-2-trust" id="Q-2-trust-7">
-                        </div>
-                        <label class="d-block" for="Q-2-trust-7">
-                            Strongly<br>agree
-                        </label>
-                    </div>
-                </form>
-
-                <h5>I have confidence in the advice given by <span id = 'questionnaire-ai-3-trust'></span>.</h5>
-
-                <form class='d-flex' id = 'questionnaire-form-3-trust'>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-3-trust" id="Q-3-trust-1">
-                        </div>
-                        <label class="d-block" for="Q-3-trust-1">
-                            Strongly<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-3-trust" id="Q-3-trust-2">
-                        </div>
-                        <label class="d-block" for="Q-3-trust-2">
-                            Disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-3-trust" id="Q-3-trust-3">
-                        </div>
-                        <label class="d-block" for="Q-3-trust-3">
-                            Somewhat<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-3-trust" id="Q-3-trust-4">
-                        </div>
-                        <label class="d-block" for="Q-3-trust-4">
-                            Neutral<br>
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-3-trust" id="Q-3-trust-5">
-                        </div>
-                        <label class="d-block" for="Q-3-trust-5">
-                            Somewhat<br>agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-3-trust" id="Q-3-trust-6">
-                        </div>
-                        <label class="d-block" for="Q-3-trust-6">
-                            Agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-3-trust" id="Q-3-trust-7">
-                        </div>
-                        <label class="d-block" for="Q-3-trust-7">
-                            Strongly<br>agree
-                        </label>
-                    </div>
-                </form>
-
-                <h5>I can depend on <span id = 'questionnaire-ai-4-trust'></span>.</h5>
-
-                <form class='d-flex' id = 'questionnaire-form-4-trust'>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-4-trust" id="Q-4-trust-1">
-                        </div>
-                        <label class="d-block" for="Q-4-trust-1">
-                            Strongly<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-4-trust" id="Q-4-trust-2">
-                        </div>
-                        <label class="d-block" for="Q-4-trust-2">
-                            Disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-4-trust" id="Q-4-trust-3">
-                        </div>
-                        <label class="d-block" for="Q-4-trust-3">
-                            Somewhat<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-4-trust" id="Q-4-trust-4">
-                        </div>
-                        <label class="d-block" for="Q-4-trust-4">
-                            Neutral<br>
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-4-trust" id="Q-4-trust-5">
-                        </div>
-                        <label class="d-block" for="Q-4-trust-5">
-                            Somewhat<br>agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-4-trust" id="Q-4-trust-6">
-                        </div>
-                        <label class="d-block" for="Q-4-trust-6">
-                            Agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-4-trust" id="Q-4-trust-7">
-                        </div>
-                        <label class="d-block" for="Q-4-trust-7">
-                            Strongly<br>agree
-                        </label>
-                    </div>
-                </form>
-
-                <h5>I can rely on <span id = 'questionnaire-ai-5-trust'></span> to behave in consistent ways.</h5>
-
-                <form class='d-flex' id = 'questionnaire-form-5-trust'>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-5-trust" id="Q-5-trust-1">
-                        </div>
-                        <label class="d-block" for="Q-5-trust-1">
-                            Strongly<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-5-trust" id="Q-5-trust-2">
-                        </div>
-                        <label class="d-block" for="Q-5-trust-2">
-                            Disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-5-trust" id="Q-5-trust-3">
-                        </div>
-                        <label class="d-block" for="Q-5-trust-3">
-                            Somewhat<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-5-trust" id="Q-5-trust-4">
-                        </div>
-                        <label class="d-block" for="Q-5-trust-4">
-                            Neutral<br>
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-5-trust" id="Q-5-trust-5">
-                        </div>
-                        <label class="d-block" for="Q-5-trust-5">
-                            Somewhat<br>agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-5-trust" id="Q-5-trust-6">
-                        </div>
-                        <label class="d-block" for="Q-5-trust-6">
-                            Agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-5-trust" id="Q-5-trust-7">
-                        </div>
-                        <label class="d-block" for="Q-5-trust-7">
-                            Strongly<br>agree
-                        </label>
-                    </div>
-                </form>
-                <h5>I can rely on <span id = 'questionnaire-ai-6-trust'></span> to do its best every time I take its advice.</h5>
-
-                <form class='d-flex' id = 'questionnaire-form-6-trust'>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-6-trust" id="Q-6-trust-1">
-                        </div>
-                        <label class="d-block" for="Q-6-trust-1">
-                            Strongly<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-6-trust" id="Q-6-trust-2">
-                        </div>
-                        <label class="d-block" for="Q-6-trust-2">
-                            Disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-6-trust" id="Q-6-trust-3">
-                        </div>
-                        <label class="d-block" for="Q-6-trust-3">
-                            Somewhat<br>disagree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-6-trust" id="Q-6-trust-4">
-                        </div>
-                        <label class="d-block" for="Q-6-trust-4">
-                            Neutral<br>
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-6-trust" id="Q-6-trust-5">
-                        </div>
-                        <label class="d-block" for="Q-6-trust-5">
-                            Somewhat<br>agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-6-trust" id="Q-6-trust-6">
-                        </div>
-                        <label class="d-block" for="Q-6-trust-6">
-                            Agree
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="Q-6-trust" id="Q-6-trust-7">
-                        </div>
-                        <label class="d-block" for="Q-6-trust-7">
-                            Strongly<br>agree
-                        </label>
-                    </div>
-                </form>
-            <button type="button" class="btn btn-primary" id='questionnaire-trust-button'>Continue</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div id='questionnaire-human' style = "display:none;">
-    <div class='col-12'>
-        <h3>Questionnaire</h3>
-
-        <div class="card">
-            <div class="card-body">
-                <p>Thank you for completing our study! Please complete the following questionnaire. <strong>We want honest responses, since this will help with our study.</strong></p>
-                <hr>
-
-                <p><strong>The following questions are about you, not about the task.</strong> For each of the statements below, please indicate whether or not the statement is characteristic of you or of what you believe.</p>
-
-                <br>
-                <h5>I would prefer complex to simple problems.</h5>
-
-                <form class='d-flex'>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-1" id="NFC-1-1">
-                        </div>
-                        <label class="d-block" for="NFC-1-1">
-                            Extremely<br>uncharacteristic
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-1" id="NFC-1-2">
-                        </div>
-                        <label class="d-block" for="NFC-1-2">
-                            Somewhat<br>uncharacteristic
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-1" id="NFC-1-3">
-                        </div>
-                        <label class="d-block" for="NFC-1-3">
-                            Uncertain<br>
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-1" id="NFC-1-4">
-                        </div>
-                        <label class="d-block" for="NFC-1-4">
-                            Somewhat<br>characteristic
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-1" id="NFC-1-5">
-                        </div>
-                        <label class="d-block" for="NFC-1-5">
-                            Extremely<br>characteristic
-                        </label>
-                    </div>
-                </form>
-
-                <h5>I like to have the responsibility of handling a situation that requires a lot of thinking.</h5>
-
-                <form class='d-flex'>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-2" id="NFC-2-1">
-                        </div>
-                        <label class="d-block" for="NFC-2-1">
-                            Extremely<br>uncharacteristic
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-2" id="NFC-2-2">
-                        </div>
-                        <label class="d-block" for="NFC-2-2">
-                            Somewhat<br>uncharacteristic
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-2" id="NFC-2-3">
-                        </div>
-                        <label class="d-block" for="NFC-2-3">
-                            Uncertain<br>
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-2" id="NFC-2-4">
-                        </div>
-                        <label class="d-block" for="NFC-2-4">
-                            Somewhat<br>characteristic
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-2" id="NFC-2-5">
-                        </div>
-                        <label class="d-block" for="NFC-2-5">
-                            Extremely<br>characteristic
-                        </label>
-                    </div>
-                </form>
-
-                <h5>Thinking is not my idea of fun.</h5>
-
-                <form class='d-flex'>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-3" id="NFC-3-1">
-                        </div>
-                        <label class="d-block" for="NFC-3-1">
-                            Extremely<br>uncharacteristic
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-3" id="NFC-3-2">
-                        </div>
-                        <label class="d-block" for="NFC-3-2">
-                            Somewhat<br>uncharacteristic
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-3" id="NFC-3-3">
-                        </div>
-                        <label class="d-block" for="NFC-3-3">
-                            Uncertain<br>
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-3" id="NFC-3-4">
-                        </div>
-                        <label class="d-block" for="NFC-3-4">
-                            Somewhat<br>characteristic
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-3" id="NFC-3-5">
-                        </div>
-                        <label class="d-block" for="NFC-3-5">
-                            Extremely<br>characteristic
-                        </label>
-                    </div>
-                </form>
-
-                <h5>I would rather do something that requires little thought than something that is sure to challenge my thinking abilities.</h5>
-
-                <form class='d-flex'>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-4" id="NFC-4-1">
-                        </div>
-                        <label class="d-block" for="NFC-4-1">
-                            Extremely<br>uncharacteristic
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-4" id="NFC-4-2">
-                        </div>
-                        <label class="d-block" for="NFC-4-2">
-                            Somewhat<br>uncharacteristic
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-4" id="NFC-4-3">
-                        </div>
-                        <label class="d-block" for="NFC-4-3">
-                            Uncertain<br>
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-4" id="NFC-4-4">
-                        </div>
-                        <label class="d-block" for="NFC-4-4">
-                            Somewhat<br>characteristic
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-4" id="NFC-4-5">
-                        </div>
-                        <label class="d-block" for="NFC-4-5">
-                            Extremely<br>characteristic
-                        </label>
-                    </div>
-                </form>
-
-                <h5>I really enjoy a task that involves coming up with new solutions to problems.</h5></p>
-
-                <form class='d-flex'>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-5" id="NFC-5-1">
-                        </div>
-                        <label class="d-block" for="NFC-5-1">
-                            Extremely<br>uncharacteristic
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-5" id="NFC-5-2">
-                        </div>
-                        <label class="d-block" for="NFC-5-2">
-                            Somewhat<br>uncharacteristic
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-5" id="NFC-5-3">
-                        </div>
-                        <label class="d-block" for="NFC-5-3">
-                            Uncertain<br>
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-5" id="NFC-5-4">
-                        </div>
-                        <label class="d-block" for="NFC-5-4">
-                            Somewhat<br>characteristic
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-5" id="NFC-5-5">
-                        </div>
-                        <label class="d-block" for="NFC-5-5">
-                            Extremely<br>characteristic
-                        </label>
-                    </div>
-                </form>
-
-                <h5>I would prefer a task that is intellectual, difficult, and important to one that is somewhat important but does not require much thought.</h5></p>
-                <form class='d-flex'>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-6" id="NFC-6-1">
-                        </div>
-                        <label class="d-block" for="NFC-6-1">
-                            Extremely<br>uncharacteristic
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-6" id="NFC-6-2">
-                        </div>
-                        <label class="d-block" for="NFC-6-2">
-                            Somewhat<br>uncharacteristic
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-6" id="NFC-6-3">
-                        </div>
-                        <label class="d-block" for="NFC-6-3">
-                            Uncertain<br>
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-6" id="NFC-6-4">
-                        </div>
-                        <label class="d-block" for="NFC-6-4">
-                            Somewhat<br>characteristic
-                        </label>
-                    </div>
-                    <div class="form-group d-inline-block">
-                        <div class="d-block">
-                            <input type="radio" name="NFC-6" id="NFC-6-5">
-                        </div>
-                        <label class="d-block" for="NFC-6-5">
-                            Extremely<br>characteristic
-                        </label>
-                    </div>
-                </form>
-
-                <button type="button" class="btn btn-primary" id='questionnaire-human-button'>Continue</button>
-            </div>
-        </div>
-    </div>
-</div>
-    <div class='row' id='feedback' style = "display:none;">
-	<div class='col-12'>
-		<h3>Feedback From</h3>
-		<div class="card">
-			<div class="card-body">
-				<p>Thank you for completing our entire study!</p>
-				<form>
-				  <div class="form-group">
-				  	<label for="feedbackform"><strong>Please insert any feedback if you have any. We collected mouse movements and clicks as part of this study. If you would like this data omitted from the study, please indicate that below.</strong> (Optional)</label>
-    				<textarea class="form-control" id="feedbackform" rows="3" placeholder="Start typing feedback here..."></textarea>
-				  </div>
-				</form>
-				<button type="button" class="btn btn-primary" id='feedback-button'>Continue</button>
-			</div>
-		</div>
-	</div>
-</div>
-    <div class='row' id='submission' style = "display:none;">
-	<div class='col-12'>
-		<h3>Submission Page</h3>
-
-		<div class="card">
-			<div class="card-body">
-				<p>Thank you for completing our entire study! 
-<!-- 				You received <span id='total-bonus-text'></span> 
- -->				
-				<span id = "long-extra-bonus" style = "display:none;">Since you were placed in a longer version of the study, we will be bonusing you $1, in addition to the other bonuses you received. </span> 
-				Please <strong>click submit.</strong> It may take a moment to redirect you.</p>
-				<form id='results-form' method='post' action='dummy' class='text-center'>
-  				<input type='hidden' value='' name='assignmentId' id='assignmentId'/>
-  				<input type='hidden' value='' name='output' id='output'/>
-  				<!-- To use with EasyTurk -->
-<!-- 				 <input type='submit' class='btn btn-primary' id='submit-btn' value='Submit'/>	
- -->				<!-- To use with Prolific -->
-				<button type="button" class="btn btn-primary" id='submit-btn'>Submit</button>
-				</form>
-			</div>
-		</div>
-
-	</div>
-</div>
-    <div class='row' id='exit' style = "display:none;">
-	<div class='col-12'>
-		<h3>Thank you for your time.</h3>
-
-		<div class="card">
-			<div class="card-body">
-				<p>You either did not consent to the terms of our study or have already done the study before. Please return the study. We thank you for your time.</p>
-			</div>
-		</div>
-	</div>
-</div>
-  </div>
-
-<!--IMPORTANT: This import contains all the functions you need to read in your input data and send back worker outputs.-->  
+    
+    <!--IMPORTANT: This import contains all the functions you need to read in your input data and send back worker outputs.-->  
 <script type='text/json' id='input'>
   
 </script>
@@ -3073,365 +867,85 @@ In this phase, if you choose the AI's assistance, you will be able to collaborat
   })();
 </script>
 
-<!-- Multiple ways of accessing data.json
-      First is by the github pages, 
-      Second is by my Stanford website, 
-      Third is locally -->
-  <script type="text/javascript" src="https://research-cs.github.io/data.json"></script>
- <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/data.json"></script> -->
-<!-- <script type="text/javascript" src="EasyTurk/templates/data.json"></script>
- -->
 
- <!-- Multiple ways of accessing data_2.json
-      First is by the github pages, 
-      Second is by my Stanford website, 
-      Third is locally -->
-  <script type="text/javascript" src="https://research-cs.github.io/data_2.json"></script>
- <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/data_2.json"></script> -->
-<!-- <script type="text/javascript" src="EasyTurk/templates/data_2.json"></script>
+<!--  <script type="text/javascript" src="templates/data.json"></script>
  -->
-  <!-- Multiple ways of accessing data_3.json
-      First is by the github pages, 
-      Second is by my Stanford website, 
-      Third is locally -->
- <script type="text/javascript" src="https://research-cs.github.io/data_3.json"></script>
-  <!-- <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/data_3.json"></script> -->
-<!-- <script type="text/javascript" src="EasyTurk/templates/data_3.json"></script>
- -->
-
 <script type="text/javascript">
-// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-// Randomize array in-place using Durstenfeld shuffle algorithm 
-function shuffle(array) {
+function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
         var temp = array[i];
         array[i] = array[j];
         array[j] = temp;
     }
-    return array
 }
 
-function shuffle_multiple(array, array_2) {
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-        var temp_2 = array_2[i];
-        array_2[i] = array_2[j];
-        array_2[j] = temp_2;
-    }
-    return [array, array_2]
+// Mock input data
+var input = [{
+    'prompt': 'Explain how Quantum Computing works.',
+    'response_1': 'Quantum computing is a type of computing that uses quantum mechanical phenomena, such as superposition and entanglement, to perform operations on data.\n\nIn classical computing, a bit is the basic unit of information, which can have a value of either 0 or 1. However, in quantum computing, a qubit can have a value of both 0 and 1 at the same time. This is called superposition.\n\nEntanglement is another key aspect of quantum computing. It is a phenomenon where two or more qubits become correlated in a way that their states are dependent on each other, even if they are separated by large distances. This can be used to perform calculations much faster than classical computers.\n\nQuantum computing is still in its early stages, and scientists are working on developing practical applications for it. Some potential applications include faster optimization algorithms, more secure encryption, and simulation of complex systems. However, quantum computers are also very difficult to build and operate, and many technical challenges must be overcome before they can become widely used.',
+    'response_2': 'Quantum computing is like having a superpower computer that can do things regular computers can\'t do.\n\nYou know how regular computers use tiny switches called transistors to make calculations and solve problems? Well, quantum computers use tiny things called qubits instead of transistors. Qubits are special because they can be both 1 and 0 at the same time, kind of like Schrödinger\'s cat. This means that quantum computers can do many calculations at once, which makes them super fast and efficient.\n\nThink of it like a race. A regular computer is like a person running on a track, and it can only run one lap at a time. But a quantum computer is like a magical unicorn that can run many laps at once because it has many legs.\n\nScientists are still figuring out how to use quantum computers for real-world problems, but they could be really helpful for things like making new medicines, discovering new materials, and even cracking codes.',
+    'question_id': 0
+},
+{
+    'prompt': 'Explain how GPT models work.',
+    'response_1': 'GPT (Generative Pre-trained Transformer) models are a type of language model that uses deep learning techniques to generate natural language text. They are based on the transformer architecture, which is a type of neural network designed to process sequential data, such as text.\n\nThe main idea behind GPT models is to pre-train a large neural network on a massive amount of text data, and then fine-tune it on a specific language generation task. This pre-training step involves training the model to predict the next word in a sequence of words, given the previous words. This is done using a technique called unsupervised learning, where the model learns from the input data without being explicitly told what to predict.\n\nDuring pre-training, the model is trained on a large corpus of text, such as Wikipedia, to learn the underlying patterns and structure of language. The pre-training process is typically done using a variant of the transformer architecture called the Transformer-XL, which is designed to handle longer sequences of text.\n\nOnce the pre-training is complete, the model can be fine-tuned on a specific language generation task, such as text completion, question-answering, or machine translation. Fine-tuning involves training the model on a smaller dataset that is specific to the task at hand. During fine-tuning, the model learns to adjust its internal parameters to better fit the task-specific data.\n\nThe key advantage of GPT models is their ability to generate high-quality natural language text that is almost indistinguishable from text written by humans. This makes them a powerful tool for a wide range of applications, including chatbots, language translation, and text generation.',
+    'response_2': 'GPT models are like a very smart robot that can talk and write like people. First, the robot learns a lot about how people talk and write by reading many books and websites. Then, it uses this knowledge to guess what words should come next in a sentence. For example, if the robot sees the sentence "I like to eat __", it might guess "pizza" because that\'s a food that people often like to eat. The more the robot practices, the better it gets at guessing the right words. Finally, the robot can be trained to do specific tasks, like helping people write emails or answering questions, by practicing with different kinds of tasks.',
+    'question_id': 1
+},
+{
+    'prompt': 'Explain behaviorist psychology.',
+    'response_1': 'Behaviorist psychology is a theory of psychology that focuses on the study of observable behavior and how it is shaped by the environment.\n\nAccording to behaviorist psychology, behavior is the result of the interactions between an individual and their environment. Behaviorists believe that behavior can be studied objectively without reference to mental states or internal processes.\n\nBehaviorism also emphasizes the role of reinforcement in shaping behavior. Reinforcement refers to the use of rewards or punishments to increase or decrease the likelihood of a behavior occurring again in the future. For example, if a child receives praise for doing well on a test, they are more likely to study and do well on future tests.\n\nBehaviorists also believe that all behavior is learned through conditioning. There are two types of conditioning: classical conditioning and operant conditioning. In classical conditioning, a neutral stimulus is paired with an unconditioned stimulus to produce a conditioned response. For example, a dog may learn to associate the sound of a bell with the arrival of food. In operant conditioning, behavior is strengthened or weakened based on the consequences that follow it. For example, a rat may learn to press a lever to receive a food reward.\n\nBehaviorism has been influential in many areas of psychology, such as education, animal training, and therapy. However, it has also been criticized for its narrow focus on observable behavior and its neglect of mental processes and internal states.',
+    'response_2': 'Behaviorist psychology is like a game of "cause and effect" where we try to understand why people do what they do. Imagine you have a dog that always barks when it hears a doorbell. The behaviorist would say that the dog learned to bark because it associates the sound of the doorbell with something that happens next, like someone coming to the door. So every time the dog hears the doorbell, it barks to try to get your attention or protect you. Behaviorists believe that people and animals learn behaviors by repeating actions that have a positive outcome (reward) and avoiding actions that have a negative outcome (punishment). This is why you might get a treat for doing well on a test, or get in trouble for breaking a rule. Behaviorists also believe that we can change behaviors by teaching new ones and rewarding them when they happen, or punishing old behaviors when they happen.',
+    'question_id': 2
+},
+{
+    'prompt': 'Explain Nietzsche\'s philosophy.',
+    'response_1': 'Nietzsche\'s philosophy is quite complex, but at its core, it is a critique of traditional Western values and an attempt to create a new way of understanding the world. Nietzsche believed that traditional morality, religion, and philosophy were based on a false understanding of reality that restricted human potential and prevented individuals from achieving their true potential.\n\nOne of Nietzsche\'s central ideas is the concept of the "will to power." He believed that all living things have an inherent drive to exert their will over the world and to achieve their own goals. For Nietzsche, this drive is the key to human motivation and creativity, and it is what separates humans from other animals.\n\nNietzsche also rejected the idea of an objective, universal morality or truth, arguing that all knowledge is subjective and based on individual perspective. He believed that the only way to overcome the limitations of traditional morality and achieve true freedom and creativity was to embrace one\'s own individuality and reject conformity to societal norms.\n\nAnother important aspect of Nietzsche\'s philosophy is his emphasis on the importance of art, particularly music, as a means of expressing and achieving a higher state of being. He believed that art had the power to transcend the limitations of language and logic and to connect individuals with a higher, more spiritual realm of experience.\n\nOverall, Nietzsche\'s philosophy is a radical and challenging critique of traditional Western values and a call to embrace individuality, creativity, and the will to power in order to achieve a higher state of being.',
+    'response_2': 'Nietzsche was a philosopher who lived a long time ago, and he had some very interesting ideas about how people should live their lives. One of the most important things he believed was that everyone has a special power inside of them called the "will to power." This means that if you try really hard and use your strengths, you can achieve great things. He thought that people should focus on developing their own unique abilities instead of just trying to fit in with what everyone else is doing.\n\nNietzsche also believed that people should make their own rules instead of just following what other people say is right or wrong. He thought that traditional morality, religion, and philosophy were all based on false ideas that didn\'t really make sense. Instead, he believed that people should create their own values based on what they think is important. This means that you can decide for yourself what is right and wrong, and you don\'t have to listen to what other people say if you don\'t agree with them.\n\nAnother important thing that Nietzsche believed was that music and art are really important. He thought that they could help people feel things that words can\'t explain. For example, if you hear a really beautiful piece of music, you might feel happy or sad, even though there aren\'t any words that can describe exactly what you\'re feeling. Nietzsche believed that art could help people connect with something bigger than themselves, and that it could help them achieve a higher state of being.\n\nOverall, Nietzsche\'s philosophy is all about being true to yourself and not just following what everyone else is doing. He believed that everyone has a special power inside of them, and that people should focus on developing their own unique abilities. He also thought that people should make their own rules and create their own values, instead of just following what other people say is right or wrong. Finally, Nietzsche believed that art and music are really important, and that they can help people connect with a higher, more spiritual realm of experience.',
+    'question_id': 3
+},
+{
+    'prompt': 'Explain the significance of the Medici family.',
+    'response_1': 'The Medici family was one of the most important and influential families in Renaissance-era Italy. They were wealthy bankers and merchants who rose to power in Florence during the 14th and 15th centuries.\n\nThe Medici family played a significant role in the cultural, political, and economic development of Italy during the Renaissance. They were great patrons of the arts and sciences, and they supported some of the greatest artists and thinkers of the time, including Leonardo da Vinci, Michelangelo, and Galileo Galilei.\n\nThe Medici family also had a significant impact on the politics of Italy during the Renaissance. They were powerful allies of the Pope, and they used their wealth and influence to gain control of various city-states throughout Italy. They were known for their diplomatic skills and for their ability to broker peace agreements between warring factions.\n\nOverall, the Medici family\'s legacy lies in their role as patrons of the arts and sciences, as well as their contributions to the political and economic development of Renaissance-era Italy.',
+    'response_2': 'The Medici family was a really important family a long time ago in Italy. They were very rich and they helped many famous artists like Leonardo da Vinci and Michelangelo create beautiful art. They also helped make Italy a better place by making peace and helping important people. They were like really important superheroes who helped make the world a better place.',
+    'question_id': 4
+},
+{
+    'prompt': 'Explain what a loss landscape in machine learning is.',
+    'response_1': 'In machine learning, a loss landscape refers to the mathematical representation of how a model\'s performance (or "loss") changes as the values of its parameters are adjusted.\n\nThink of a loss landscape as a hilly landscape where the hills represent high loss values and the valleys represent low loss values. The goal of training a machine learning model is to find the lowest point in the loss landscape, which corresponds to the best set of parameters for the model.\n\nA loss landscape can be highly complex, with many peaks and valleys. The shape of the landscape can have a significant impact on the difficulty of training a model. For example, a landscape with many sharp peaks and deep valleys may be more challenging to navigate than a smooth, gently sloping landscape.\n\nUnderstanding the shape of the loss landscape can help machine learning practitioners optimize their models more efficiently. By visualizing the landscape and identifying its features, researchers can better understand the behavior of the model and the factors that contribute to its performance.',
+    'response_2': 'Imagine you are playing a game where you have to climb a mountain. The top of the mountain is where you win the game, but you have to climb up a steep hill to get there.\n\nA loss landscape in machine learning is like that mountain. The goal is to get to the top, which represents the best performance for a model. But just like climbing a mountain, it can be difficult to find the best path to get there.\n\nThe shape of the mountain, or loss landscape, can be different for each model. Some mountains may be steep and rocky, while others may be smooth and easy to climb. Understanding the shape of the mountain can help you figure out the best way to climb it and get to the top.\n\nMachine learning practitioners use tools to visualize the loss landscape and understand its features. This helps them find the best set of parameters for the model, which represents the path to the top of the mountain.',
+    'question_id': 5
 }
+]
 
-function shuffle_three(array, array_2, array_3) {
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-        var temp_2 = array_2[i];
-        array_2[i] = array_2[j];
-        array_2[j] = temp_2;
-        var temp_3 = array_3[i];
-        array_3[i] = array_3[j];
-        array_3[j] = temp_3;
-    }
-    return [array, array_2, array_3]
-}
-
-function shuffle_matrix(array) {
-  for (var i = 0; i < array.length; i ++) {
-    array[i] = shuffle(array[i])
-  }
-  return array
-}
-
-function shuffle_matrix_subset(array, split) {
-  for (var i = 0; i < array.length; i ++) {
-    array[i] = shuffleSubset(array[i], split)
-  }
-  return array
-}
-
-// shuffles array starting at split
-function shuffleSubset(array, split) {
-  var noShuffle = array.slice(0, split)
-  var toShuffle = array.slice(split)
-  toShuffle = shuffle(toShuffle)
-  noShuffle.concat(toShuffle)
-  console.log("Happening")
-  return noShuffle.concat(toShuffle)
-}
-
-var randomize = true;
-
-
-function make_input(json_data) {
-
-  var model_correct_short = shuffle(json_data['Model Correct'])
-  var model_correct_long = shuffle(json_data_2['Model Correct'])
-  var model_correct_very_long = shuffle(json_data_3['Model Correct'])
-
-  var model_incorrect_short = shuffle(json_data['Model Incorrect'])
-  var model_incorrect_long = shuffle(json_data_2['Model Incorrect'])
-  var model_incorrect_very_long = shuffle(json_data_3['Model Incorrect'])
-  // var model_correct = json_data['Model Correct']
-  // var model_incorrect = json_data['Model Incorrect']
-  model_incorrect_0 = shuffle([model_incorrect_short[0], model_incorrect_long[0]])[0]
-  model_incorrect_1 = shuffle([model_incorrect_short[1], model_incorrect_long[1]])[0]
-
-  // var all_ = []
-  // all_.push.apply(all_, model_correct_short.filter((value, index) => 12 !== index));
-  // all_.push.apply(all_, model_correct_long.filter((value, index) => 12 !== index));
-  // all_.push.apply(all_, model_incorrect_short);
-  // all_.push.apply(all_, model_incorrect_long);
-  var coged_temp = shuffle([//[
-  // ['short baseline', 'short prediction'],
-  // ['long baseline', 'long prediction']],
-  [['short baseline', 'short xai-blue-salient'],
-  ['long baseline', 'long xai-blue-salient']]
-  ])[0]
-  var json_input = {
-  'tutorial': [
-model_incorrect_very_long[4]
-  ],
-  'training': 
-  [[
-  model_incorrect_very_long[5],
-  model_incorrect_very_long[6]
-    ]],
-  'training-AI': 
-  [
-  [
-  model_correct_very_long[3],
-  model_correct_very_long[4],
-  model_correct_very_long[5],
-  model_correct_very_long[6],
-  model_incorrect_very_long[0]
-    ]
-    ],
-  'training-AI-compare': 
-  //FILLER
-  [[model_correct_short[0], model_correct_short[1], model_correct_short[2], model_correct_short[32], model_correct_short[33]]],
-  'coged': 
-  //FILLER
-            [
-              [model_correct_short[8], model_correct_short[9], model_correct_short[10], model_correct_short[11], model_correct_short[1]]
-            ],
-  'coged-order': 
-  coged_temp,
-  // [['short baseline', 'short xai'],
-  //                 ['long baseline', 'long xai']],
-  'collaboration': [
-               [
-  model_correct_very_long[7],
-  model_correct_very_long[8],
-  model_correct_very_long[9],
-  model_correct_very_long[10],
-  model_incorrect_very_long[1],
-  model_correct_very_long[11],
-  model_correct_very_long[12],
-  model_correct_very_long[13],
-  model_correct_very_long[14],
-  model_incorrect_very_long[2],
-  model_correct_very_long[15],
-  model_correct_very_long[0],
-  model_correct_very_long[1],
-  model_correct_very_long[2],
-  model_incorrect_very_long[3]
-               ]
-              ]
-}
-  json_input['training'] = [shuffle(json_input['training'][0])]
-
-  json_input['training-AI'] = [shuffle(json_input['training-AI'][0])]
-
-  json_input['training-AI-compare'] = [shuffle(json_input['training-AI-compare'][0])]
-
-  json_input['coged'] = [shuffle(json_input['coged'][0])]
-
-  json_input['collaboration'] = [shuffle(json_input['collaboration'][0])]
-
-  // json_input['coged-order'] = shuffle_multiple(json_input['coged-order']);
-  return [json_input, coged_temp]
-}
-// var coged_order_temp = shuffle([
-//   ['short baseline', 'short xai']
-//   // ['short baseline', 'short prediction']
-//   // ['short baseline', 'short xai']
-//                   // ['long baseline', 'long prediction'],
-//                   // ['long baseline', 'long xai']
-//                   ])
-
-
-
-var input = make_input(json_data);
-coged_order_temp = input[1]
-input = input[0]
-
-
-var training_phase_order = [coged_order_temp[0][0], coged_order_temp[0][0], coged_order_temp[0][0], coged_order_temp[0][0]];
-var training_phase_order_ai = [coged_order_temp[0][1], coged_order_temp[0][1], coged_order_temp[0][1], 
-                              coged_order_temp[0][1]];
-
-
-var interleaved_design = true;
-if (interleaved_design == true) {
-
-  input['collaboration'] = [input['collaboration'].flat()]
-}
-
-
-
-
-var payment = 4;
-var time = 20;
-// within subjects
-// var href = "https://drive.google.com/file/d/1ospZxTbEvnh_5LNzlIY8Puqvj8WRoQ2t/view?usp=sharing";
-
-// between subjects
-var href = "https://drive.google.com/file/d/1MRjG2h4kPkNH6oy5K3uxN-fPmnxBa8qK/view?usp=sharing";
-
-// This is where we will be collecting the responses for each question;
 var output = {
-  // 'tutorial': [],
-  'training': [],
-  'comprehension check': [],
-  'collaboration': [],
-  'coged-order':[],
-  'coged': [],
-  'choices': [],
-  'costs': [],
-  'questionnaire':[],
-  'questionnaire-trust':[]
+  'task': [],
+  'questionnaire': []
 };
+var num = 0
+var num_overall = 0
+var num_per_condition = 3;
+var within_condition_num = 0
+var userID;
+var progress_value = 0;
+var total_progress_ticks = 10;
+var slider_changed1 = false;
+var slider_changed2 = false;
+var slider_changed3 = false;
+var slider_changed4 = false;
+var slider_changed5 = false;
+var time_started_task = 0;
+var temp_responses = [];
 
-// Some variables to track state of the HIT.
-var idx = 0;
+shuffleArray(input)
 
-var tutorial_phase = false;
-
-var training_phase = false;
-var training_phase_ai = false;
-var training_phase_count = -1;
-var training_phase_count_ai;
-// var training_phase_order = ['short baseline' , 'short baseline' ,'short baseline' ,'long baseline','long baseline','long baseline'];
-
-var collaboration_phase = false;
-
-var coged_phase = false;
-var coged_phase_count = -1;
-var max_coged = 5;
-var task_repeat = 0;
-// var max_repeat = 4;
-var max_repeat = 2;
-
-var average = (a, b) => (a + b) / 2;
-var cost_of_human = 100;
-var num_gold_credits = 0;
-var gold_lower_bound = 0;
-var gold_upper_bound = 100;
-var gold_cost_of_ai = average(gold_lower_bound, gold_upper_bound);
-var num_silver_credits = 0;
-var silver_lower_bound = 0;
-var silver_upper_bound = 100;
-var silver_cost_of_ai = average(silver_lower_bound, silver_upper_bound);
-var collaboration_wager = 50;
-
-var ai_names = ['Olympia', 'Everglades', 'Yosemite', 'Seqouia']
-// var ai_names = ['Triangle', 'Oval', 'Pentagon', 'Square']
-
-var ai_colors = ['rgb(222.0, 143.0, 5.0)', 'rgb(204.0, 120.0, 188.0)', 'rgb(130.0, 130.0, 130.0)', 'rgb(2.0, 158.0, 115.0)']
-var ai_background_colors = ['rgba(222.0, 143.0, 5.0, 0.05)', 'rgba(204.0, 120.0, 188.0, 0.05)', 'rgb(148.0, 148.0, 148.0, 0.05)', 'rgb(2.0, 158.0, 115.0, 0.05)']
-var ai_border = ['5px solid rgb(222.0, 143.0, 5.0)', '5px solid rgb(204.0, 120.0, 188.0)', '5px solid rgb(148.0, 148.0, 148.0)' , '5px solid rgb(2.0, 158.0, 115.0)']
-
-var ai_box_background_colors = ['rgba(222.0, 143.0, 5.0, 0.05)', 'rgba(204.0, 120.0, 188.0, 0.05)', 'rgb(148.0, 148.0, 148.0, 0.05)', 'rgb(2.0, 158.0, 115.0, 0.05)']
-var model_prediction_background_colors = ['rgba(222.0, 143.0, 5.0, 0.6)', 'rgba(204.0, 120.0, 188.0, 0.6)', 'rgb(148.0, 148.0, 148.0, 0.6)', 'rgb(2.0, 158.0, 115.0, 0.6)']
-var ai_box_border = ['3px solid rgb(222.0, 143.0, 5.0)', '3px solid rgb(204.0, 120.0, 188.0)', '3px solid rgb(148.0, 148.0, 148.0)', '3px solid rgb(2.0, 158.0, 115.0)']
-
-// var progress_bar_total_clicks = 110
-// var progress_bar_total_clicks = 27
-// if (comparative_coged) {
-//   var progress_bar_total_clicks = 61
-// }
-// else if (compare_conditions) {
-//   var progress_bar_total_clicks = 57
-// }
-// else if (have_coged_phase) {
-//   var progress_bar_total_clicks = 50
-// }
-// else {
-  // var progress_bar_total_clicks = 39
-  var progress_bar_total_clicks = 50
-// }
-var progress_bar_increments = (1 / progress_bar_total_clicks) * 100;
-var progress_bar_current = progress_bar_increments;
-var progress_num = 0;
-var questions_num = 0;
-var save_progress_text;
-var save_progress_val;
-var letter;
-// var progress_bar_text = ['Onboarding', 'Demographics', 'Tutorial', 'Earning Credits',
-// 'Comprehension Check','Training','Main Study', 'Questionnaire', 'Feedback', 'Submission'];
-
-var progress_bar_text = ['Onboarding', 'Demographics', 'Training', 'Main Study', 'Questionnaire', 'Feedback', 'Submission'];
-
-
-var anthropomorphic = false;
-if (anthropomorphic == false) {
-  var ai_names = ['']
-}
-
-
-var ai_condition = input['coged-order'][task_repeat][1].split(" ");
-var baseline_condition = input['coged-order'][task_repeat][0].split(" ");
-
-have_coged_phase = false;
-if (have_coged_phase) {
-  var coged_available = 'yes'
-}
-else {
-  var coged_available = 'no'
-}
-
-
-var current_label;
-
-var slider_changed = false;
-
-var choose_ = [['choose','#choose-human', '#text-of-baseline', '#cost-of-human', '#silver-coin-image', '#gold-coin-image',
-'#choose-AI', '#text-of-ai','#choose-ai-name','#cost-of-AI','#silver-coin-image-2', '#gold-coin-image-2'],
-['choose-flipped','#choose-human-flipped', '#text-of-baseline-flipped', '#cost-of-human-flipped', '#silver-coin-image-flipped', '#gold-coin-image-flipped',
-'#choose-AI-flipped', '#text-of-ai-flipped','#choose-ai-name-flipped','#cost-of-AI-flipped','#silver-coin-image-2-flipped', '#gold-coin-image-2-flipped']]
-
-var choose_ = shuffle(choose_)[0]
-
-var choose_type = choose_[0]
-var choose_human_type = choose_[1]
-var choose_text_baseline = choose_[2]
-var choose_cost_human = choose_[3]
-var choose_silver_img = choose_[4]
-var choose_gold_img = choose_[5]
-var choose_AI_type = choose_[6]
-var choose_text_AI = choose_[7]
-var choose_AI_name = choose_[8]
-var choose_cost_AI = choose_[9]
-var choose_silver_img_2 = choose_[10]
-var choose_gold_img_2 = choose_[11]
+var ai_condition = ["ratings","explanations-ratings"]
+shuffleArray(ai_condition)
 
 </script>
 
-<!--  Multiple ways of accessing main.js
-      First is by the github pages, 
-      Second is by my Stanford website, 
-      Third is locally  -->
- <script type="text/javascript" src="https://research-cs.github.io/main.js"></script>
-
- <!--  <script type="text/javascript" src="https://web.stanford.edu/~helenav/xai/EasyTurk/templates/js/main.js"></script>
- -->
-<!--  <script type="text/javascript" src="EasyTurk/templates/js/main.js"></script>
- --></div>
+ <script type="text/javascript" src="templates/js/main.js"></script>
+</div>
 </body>
 </html>
