@@ -44,7 +44,7 @@ function populate_LFQ(screen_info, screen_name) {
   let labeled = false;
 
   if (screen_type == "feed-selection") {
-    text = `A feed ranking algorithm is defined as follows:`;
+    text = `A scoring function is defined as follows:`;
     labeled = true;
     let correct_feed_idx = Math.floor(Math.random() * feeds.length);
     questions['Q1']['option-key'] = Array.from({ length: feeds.length }, (value, index) => index === correct_feed_idx ? 1 : 0);
@@ -71,7 +71,7 @@ function populate_LFQ(screen_info, screen_name) {
     
     questions['Q1']['feed'] = question_feed;
   } else if (screen_type == "feed-comparison") {
-    text = `Feed A was generated using the following ranking algorithm:`;
+    text = `Feed A was generated according to the following scoring function:`;
     labeled = true;
 
     let original_weights = shallowCopy(weights);
