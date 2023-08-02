@@ -60,6 +60,11 @@ label {
 input {
    cursor: pointer;
 }
+
+img {
+   width: 600px;
+   height: auto;
+}
  
 #next-btn {
    height: 40px;
@@ -198,16 +203,30 @@ ol li {
 		<h3>Introduction Page</h3>
 		<div class="card pb-4">
 			<div class="card-body">
-				<p>For the following questions, you will be given a description of a feed algorithm and 
-					asked to answer questions based on the description. A feed algorithm guides how 
-					posts are ranked by assigning each post a score, and then sorting them with the 
-					higher scoring posts placed earlier in the feed. If the feed algorithm were $$\begin{align*} \text{Score} &= \begin{aligned}[t]& - \text{Hours Since Posted} \\\end{aligned} \end{align*} $$ posts would be sorted based on how recently they were 
-					posted, with the most recent first. </p>
+				<div class="row">
+					<div class="col-6">
+						<p>For the following questions, you will be given a scoring function for a feed ranking algorithm and 
+							asked to answer questions based on the scoring function. A feed algorithm guides how 
+							posts are ordered by assigning each post a score, and then sorting them with the 
+							higher scoring posts placed towards the top of the feed. If the scoring function were <span>$$\text{Score} = - 1 \times \text{Hours Since Posted}$$</span> 
+							posts would be sorted based on how recently they were 
+							posted, with the most recent first. </p>
+						<p> Scoring functions may take into account any of 5 different features (indicated in the diagram) and 
+						assign them varying weights. For example, the scoring function $$\begin{align*} \text{Score} &= \begin{aligned}[t]&
+						- 1 \times \text{Hours Since Posted} \\ &+ 0.5 \times \text{Comment Count} \\\end{aligned} \end{align*} $$ would 
+						assign the post in the diagram with a score of $$\text{Score} = - 1 \times (39) + 0.5 \times (42) = -18. $$ This would 
+						then lead the feed algorithm to place it further down the feed than posts with higher (more positive) scores. </p>
+					</div>
+					<div class="col-6" style="border: 1px solid #ccc; padding: 10px;">
+						<img src="./templates/reference_post.png">
+						<p><i>This is a sample post with its features highlighted.</i></p>
+					</div>
+				</div>
 				</p>
 					Each scenario will offer several pairs of questions and self-assessments. For each 
 					question, you can receive $0.10 for a correct answer. After each question, you will 
-					be asked to self-assess the accuracy of your prediction. <strong> Correct self-assessment 
-					will be bonused </strong> up to $0.06 in the form of a self-bet (full confidence = full bet on 
+					be asked to self-assess the accuracy of your prediction. Correct self-assessment 
+					will be bonused up to $0.06 in the form of a self-bet (full confidence = full bet on 
 					oneself, no confidence = full bet against oneself; rewards are provided according to 
 					the odds of getting the question right).</p>
 			</div>
