@@ -140,13 +140,7 @@ function insert_mcq(question, container, screen_name, question_name) {
     radio_div.appendChild(radio_input);
     radio_div.appendChild(radio_label);
 
-    const randomIndex = Math.floor(Math.random() * (question_div.children.length)) + 1;
-
-    if (randomIndex === question_div.children.length) {
-      question_div.appendChild(radio_div);
-    } else {
-      question_div.insertBefore(radio_div, question_div.children[randomIndex]);
-    }
+    question_div.appendChild(radio_div);
 
     radio_label.addEventListener("click", () => {
       radio_input.checked = true;
