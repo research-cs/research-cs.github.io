@@ -1,0 +1,19 @@
+json_screens = {
+    "study": {
+      "template": "left-feed-questions",
+      "type": {
+        "1": "feed-selection",
+        "2": "post-placement",
+        "3": "feed-comparison",
+      },
+    },
+
+    "introduction": {
+      "template": "introduction",
+    },
+
+    "submission": {
+      "template": "submission",
+    }
+  }
+  
