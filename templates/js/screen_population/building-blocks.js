@@ -158,7 +158,7 @@ function insert_radio_buttons(question, container, screen_name, question_name) {
   insert_text(question.text, question_div);
 
   const radioButtonsRow = document.createElement("div");
-  radioButtonsRow.className = "radio-buttons-row";
+  radioButtonsRow.className = "radio-buttons-row mt-2";
 
   radioButtonsRow.style.display = "flex";
   radioButtonsRow.style.justifyContent = "between";
