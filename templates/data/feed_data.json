@@ -1447,6 +1447,262 @@ json_posts = {
                       "like_count": 2100,
                       "view_count": 3100,
                       "comment_count": 95
-                    }
+                    },
+                      {
+                        "text": "🎆 Fireworks display at the city festival! Marveling at the colorful explosions lighting up the night sky. #fireworks #cityfestival",
+                        "author_name": "EmmaSmith",
+                        "days_since_posted": 0,
+                        "like_count": 2600,
+                        "view_count": 3700,
+                        "comment_count": 110
+                      },
+                      {
+                        "text": "🏞️ Picnic by the lakeside! Enjoying a relaxing day outdoors with delicious snacks and beautiful scenery. #picnic #lakeside",
+                        "author_name": "AidenJohnson",
+                        "days_since_posted": 1,
+                        "like_count": 2400,
+                        "view_count": 3500,
+                        "comment_count": 105
+                      },
+                      {
+                        "text": "🎮 Gaming marathon with friends! Immersing ourselves in virtual worlds and competing in epic battles. #gamingmarathon #friendsgaming",
+                        "author_name": "ZoeDavis",
+                        "days_since_posted": 2,
+                        "like_count": 2800,
+                        "view_count": 3900,
+                        "comment_count": 120
+                      },
+                      {
+                        "text": "🚴‍♀️ Cycling adventure through the countryside! Pedaling along scenic routes and exploring charming villages. #cyclingadventure #countryside",
+                        "author_name": "CarterWilliams",
+                        "days_since_posted": 3,
+                        "like_count": 2700,
+                        "view_count": 3800,
+                        "comment_count": 110
+                      },
+                      {
+                        "text": "🏠 Home renovation project! Transforming spaces and bringing creative design ideas to life. #homereno #interiordesign",
+                        "author_name": "MadisonBrown",
+                        "days_since_posted": 4,
+                        "like_count": 2500,
+                        "view_count": 3600,
+                        "comment_count": 100
+                      },
+                      {
+                        "text": "🌄 Sunrise hike to the mountain peak! Witnessing the breathtaking dawn and feeling on top of the world. #sunrisehike #mountainpeak",
+                        "author_name": "LiamGarcia",
+                        "days_since_posted": 0,
+                        "like_count": 2900,
+                        "view_count": 4000,
+                        "comment_count": 115
+                      },
+                      {
+                        "text": "🎁 Surprise birthday party! Gathering friends and family for a joyful celebration and heartfelt moments. #birthdayparty #surprisecelebration",
+                        "author_name": "AriaSmith",
+                        "days_since_posted": 1,
+                        "like_count": 2700,
+                        "view_count": 3800,
+                        "comment_count": 110
+                      },
+                      {
+                        "text": "🌮 Taco Tuesday fiesta! Savoring flavorful tacos and celebrating this delicious tradition. #tacotuesday #tacofiesta",
+                        "author_name": "HarperGonzalez",
+                        "days_since_posted": 2,
+                        "like_count": 2900,
+                        "view_count": 4000,
+                        "comment_count": 115
+                      },
+                      {
+                        "text": "🏄‍♀️ Catching waves at the beach! Surfing the ocean swells and feeling the thrill of the sea. #surfingadventure #oceanwaves",
+                        "author_name": "NatalieAdams",
+                        "days_since_posted": 3,
+                        "like_count": 2600,
+                        "view_count": 3700,
+                        "comment_count": 105
+                      },
+                      {
+                        "text": "🍔 Gourmet burger feast! Indulging in mouthwatering burgers topped with a variety of delicious ingredients. #burgerfeast #gourmetfood",
+                        "author_name": "JacobHarris",
+                        "days_since_posted": 4,
+                        "like_count": 2400,
+                        "view_count": 3500,
+                        "comment_count": 110
+                      },
+                      {
+                        "text": "🚁 Helicopter sightseeing tour! Soaring above breathtaking landscapes and capturing unique aerial views. #helicoptertour #birdseyeview",
+                        "author_name": "JacksonTurner",
+                        "days_since_posted": 1,
+                        "like_count": 2000,
+                        "view_count": 3000,
+                        "comment_count": 95
+                      },
+                      {
+                        "text": "🎾 Tennis match with friends! Swinging rackets and enjoying a friendly sports rivalry. #tennismatch #sportswithfriends",
+                        "author_name": "SamanthaRoberts",
+                        "days_since_posted": 2,
+                        "like_count": 2200,
+                        "view_count": 3300,
+                        "comment_count": 100
+                      },
+                      {
+                        "text": "🎉 Celebrating a milestone birthday! Embracing another year of life and creating lasting memories. #milestonebirthday #celebrationtime",
+                        "author_name": "IsabellaNelson",
+                        "days_since_posted": 2,
+                        "like_count": 2200,
+                        "view_count": 3300,
+                        "comment_count": 105
+                      },
+                      {
+                        "text": "🏊‍♂️ Pool party under the sun! Cooling off and enjoying poolside fun with friends. #poolparty #summervibes",
+                        "author_name": "LiamYoung",
+                        "days_since_posted": 3,
+                        "like_count": 2300,
+                        "view_count": 3400,
+                        "comment_count": 120
+                      },
+                      {
+                        "text": "🎹 Piano recital night! Showcasing musical talent and enchanting the audience with melodies. #pianorecital #musicperformance",
+                        "author_name": "SophieRivera",
+                        "days_since_posted": 4,
+                        "like_count": 2100,
+                        "view_count": 3100,
+                        "comment_count": 90
+                      },
+                      {
+                        "text": "🍛 International food festival! Savoring a diverse array of global flavors in one place. #foodfestival #worldcuisine",
+                        "author_name": "AlexanderBrown",
+                        "days_since_posted": 0,
+                        "like_count": 2400,
+                        "view_count": 3500,
+                        "comment_count": 105
+                      },
+                      {
+                        "text": "🚲 Cycling along scenic trails! Pedaling through picturesque landscapes and feeling the breeze. #cyclingadventures #scenictrails",
+                        "author_name": "EllaMorris",
+                        "days_since_posted": 1,
+                        "like_count": 2100,
+                        "view_count": 3100,
+                        "comment_count": 95
+                      }, 
+                      {
+                        "text": "🎈 Hot air balloon adventure! Drifting above stunning landscapes and enjoying the magic of flight. #hotairballoon #adventuretime",
+                        "author_name": "BalloonExplorer",
+                        "days_since_posted": 1,
+                        "like_count": 1800,
+                        "view_count": 2700,
+                        "comment_count": 85
+                      },
+                      {
+                        "text": "🎳 Cosmic bowling night! Rolling balls under cosmic lights and dancing to groovy beats. #cosmicbowling #nightout",
+                        "author_name": "BowlingStar",
+                        "days_since_posted": 2,
+                        "like_count": 2100,
+                        "view_count": 3100,
+                        "comment_count": 90
+                      },
+                      {
+                        "text": "🏰 Enchanted castle exploration! Discovering secret chambers and immersing in medieval wonders. #castleadventure #history",
+                        "author_name": "CastleSeeker",
+                        "days_since_posted": 3,
+                        "like_count": 2400,
+                        "view_count": 3500,
+                        "comment_count": 110
+                      },
+                      {
+                        "text": "🚀 Rocket launch spectacle! Witnessing the power of space travel and reaching for the stars. #rocketlaunch #spacetravel",
+                        "author_name": "SpaceEnthusiast",
+                        "days_since_posted": 4,
+                        "like_count": 2200,
+                        "view_count": 3300,
+                        "comment_count": 100
+                      },
+                      {
+                        "text": "🎯 Archery challenge in the woods! Aiming for bullseyes and embracing the serenity of nature. #archeryfun #targetpractice",
+                        "author_name": "ArrowMaster",
+                        "days_since_posted": 0,
+                        "like_count": 2000,
+                        "view_count": 3000,
+                        "comment_count": 95
+                      },
+                      {
+                        "text": "🚣‍♀️ Kayaking down a river! Paddling through gentle waters and exploring hidden corners of nature. #kayakadventure #riverexploration",
+                        "author_name": "RiverExplorer",
+                        "days_since_posted": 1,
+                        "like_count": 2100,
+                        "view_count": 3100,
+                        "comment_count": 105
+                      },
+                      {
+                        "text": "🎮 Virtual reality gaming marathon! Immersing in digital worlds and competing in epic battles. #VRgaming #gamerlife",
+                        "author_name": "PixelWarrior",
+                        "days_since_posted": 2,
+                        "like_count": 2300,
+                        "view_count": 3400,
+                        "comment_count": 115
+                      },
+                      {
+                        "text": "🧘‍♀️ Mindfulness retreat in the mountains! Meditating amidst majestic peaks and finding inner peace. #mindfulnessretreat #mountainzen",
+                        "author_name": "MountainSoul",
+                        "days_since_posted": 3,
+                        "like_count": 2400,
+                        "view_count": 3500,
+                        "comment_count": 120
+                      },
+                      {
+                        "text": "🎭 Shakespearean theater night! Watching timeless classics and celebrating the beauty of live performances. #theaternight #Shakespeare",
+                        "author_name": "TheaterEnthusiast",
+                        "days_since_posted": 4,
+                        "like_count": 2200,
+                        "view_count": 3300,
+                        "comment_count": 105
+                      },
+                      {
+                        "text": "🎪 Circus extravaganza under the big top! Marveling at acrobats, clowns, and circus wonders. #circusexperience #bigtopshow",
+                        "author_name": "CircusAdventurer",
+                        "days_since_posted": 0,
+                        "like_count": 2300,
+                        "view_count": 3400,
+                        "comment_count": 110
+                      },
+                      {
+                        "text": "🚁 Aerial drone photography spree! Capturing stunning landscapes from high above and embracing creativity. #aerialphotography #droneadventures",
+                        "author_name": "DroneExplorer",
+                        "days_since_posted": 1,
+                        "like_count": 2400,
+                        "view_count": 3500,
+                        "comment_count": 115
+                      },
+                      {
+                        "text": "🎶 Jazz music night in the city! Grooving to soulful tunes and enjoying the rhythm of the urban beat. #jazznight #musicalvibes",
+                        "author_name": "JazzAficionado",
+                        "days_since_posted": 2,
+                        "like_count": 2100,
+                        "view_count": 3100,
+                        "comment_count": 95
+                      },
+                      {
+                        "text": "🌄 Sunrise photography expedition! Chasing the golden hour and capturing the beauty of dawn. #sunrisephotography #naturecaptured",
+                        "author_name": "SunriseChaser",
+                        "days_since_posted": 3,
+                        "like_count": 2200,
+                        "view_count": 3300,
+                        "comment_count": 100
+                      },
+                      {
+                        "text": "🛴 Urban scooter adventure! Zipping through city streets and embracing the thrill of metropolitan exploration. #scooteradventure #cityride",
+                        "author_name": "ScooterNomad",
+                        "days_since_posted": 4,
+                        "like_count": 2300,
+                        "view_count": 3400,
+                        "comment_count": 105
+                      },
+                      {
+                        "text": "🍧 Ice cream tasting frenzy! Indulging in a variety of flavors and savoring frozen delights. #icecreamtasting #sweettooth",
+                        "author_name": "IceCreamConnoisseur",
+                        "days_since_posted": 0,
+                        "like_count": 2100,
+                        "view_count": 3100,
+                        "comment_count": 100
+                      },                 
   ]
 };
