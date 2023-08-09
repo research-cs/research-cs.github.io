@@ -1,18 +1,23 @@
 json_questions = {
     "feed-selection": [{
-        "text": "Which feed was generated according to the scoring function above?",
+        "text": "Feed A and feed B are composed of the same set of posts. Which feed was generated according to the scoring function above?",
         "type": "multiple-choice",
-        "options": ["Feed A", "Feed B", "Feed C", "Feed D"],
+        "options": ["Feed A", "Feed B"],
     }],
     "feed-comparison": [{
         "text": "One feature's weight in Feed A's scoring function was changed to generate Feed B's scoring function. Which feature's weight was changed?",
         "type": "multiple-choice",
-        "options": ["Feed A", "Feed B", "Feed C", "Feed D"],
+        "options": ["Feature A", "Feature B", "Feature C", "Feature D"],
     },
     {
         "text": "Was the weight increased (made more positive) or decreased (made more negative)?",
         "type": "multiple-choice",
         "options": ["Increased", "Decreased"],
+    }],
+    "feed-comparison-B": [{
+        "text": "Feed B is composed of a new set of posts. Is the scoring function behind feed B different from that in Feed A?",
+        "type": "multiple-choice",
+        "options": ["Yes", "No"],
     }],
     "post-placement": [{
         "text": "Place the post below in its correct position in the feed.",
@@ -21,12 +26,19 @@ json_questions = {
     "confidence": [{
         "text": "How confident are you about your answer to the above?",
         "type": "radio-buttons",
-        "options": ["Not at all confident", "Slightly confident", "Somwhat confident", "Fairly confident", "Completely confident"],
+        "options": ["Not at all confident", "Slightly confident", "Somewhat confident", "Fairly confident", "Completely confident"],
         "option-key": [-2, -1, 0, 1, 2],
+    }],
+    "post-question": [{
+        "text": "",
+        "type": "radio-buttons",
+        "options": ["Downvote", "Ignore", "Upvote"],
+        "option-key": [-1, 0, 1],
     }],
     "confidence-texts": {
         "feed-selection": "How confident are you that your selection is correct?",
         "feed-comparison": "How confident are you that your selections are correct?",
         "post-placement": "How confident are you that your placement is correct?",
+        "feed-comparison-B": "How confident are you that your answer is correct?",
     },
 }
