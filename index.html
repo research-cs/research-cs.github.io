@@ -35,6 +35,14 @@ body {
    background-color: white;
  }
 
+.screen {
+   height: 100vh;
+}
+
+#bottom-bar {
+   height: 0px;
+}
+
 .feed-container {
    border:rgba(0, 0, 0, .5);
 }
@@ -62,15 +70,15 @@ input {
 }
 
 img {
-   width: 600px;
-   height: auto;
+   max-height: 45vh;
+   width: auto;
 }
  
 #next-btn {
    height: 40px;
    width: 60px;
-   margin-top: -60px;
-   margin-right: 10px;
+   margin-top: -9vh;
+   margin-right: 2vh;
    z-index: 50;
  }
 
@@ -198,7 +206,7 @@ ol li {
 <body>
 
   <div class='container-fluid px-1'>
-    <div class='row p-2' id='introduction' style="display:none;">
+    <div class='row p-2' id='introduction' class="screen" style="display:none;">
 	<div class='col-12'>
 		<h3>Introduction Page</h3>
 		<div class="card pb-4">
@@ -246,7 +254,7 @@ ol li {
 		</div>
 	</div>
 </div>
-    <div class="container-fluid p-0" id="left-feed-questions" style="display:none;">
+    <div class="container-fluid p-0" id="left-feed-questions" class="screen" style="display:none;">
 	<div class="row justify-content-center">
 	  <div class="feed-container" id="LFQ-feed-container">
 		<div class="col-md-12" id="LFQ-feeds">
@@ -256,7 +264,16 @@ ol li {
 	  </div>
 	</div>
   </div>
-  
+    <div class="container-fluid p-0 justify-content-center align-items-center" id="single-post-question" class="screen" style="display:none;">
+    <div class="col-md-6">
+        <div class="row feed-container" id="SPQ-feed-container">
+            <div class="col-md-12" id="SPQ-feeds">
+            </div>
+        </div>
+        <div class="row question-container px-md-1 py-md-3" id="SPQ-questions-container">
+        </div>
+    </div>
+</div>
     <div class="container-fluid mt-0" id="bottom-bar" style="display:block;">
   <div class="d-flex justify-content-end">
 	<button type="button" class="btn btn-primary" id="next-btn" onclick="next_screen()">Next</button>
@@ -318,20 +335,19 @@ ol li {
   })();
 </script>
 
-  <script type="text/javascript" src="templates/js/variable.js"></script>
-  <script type="text/javascript" src="templates/js/util.js"></script>
-
+  <script type="text/javascript" src="templates/util/util.js"></script>
+  
   <script type="text/javascript" src="templates/data/feed_data.json"></script>
-  <script type="text/javascript" src="templates/data/screen_data.json"></script>
   <script type="text/javascript" src="templates/data/question_data.json"></script>
+  
+  <script type="text/javascript" src="templates/screen_population/building-blocks.js"></script>
+  <script type="text/javascript" src="templates/screen_population/left-feed-questions.js"></script>
+  <script type="text/javascript" src="templates/screen_population/transitions.js"></script>
 
-  <script type="text/javascript" src="templates/js/screen_population/building-blocks.js"></script>
-  <script type="text/javascript" src="templates/js/screen_population/left-feed-questions.js"></script>
-  <script type="text/javascript" src="templates/js/screen_population/transitions.js"></script>
-
-  <script type="text/javascript" src="templates/js/rankfeed.js"></script>
-
-  <script type="text/javascript" src="templates/js/main.js"></script>
+  <script type="text/javascript" src="templates/main-study-js/feed-sanitation.js"></script>
+  <script type="text/javascript" src="templates/main-study-js/rankfeed.js"></script>
+  <script type="text/javascript" src="templates/main-study-js/variable.js"></script>
+  <script type="text/javascript" src="templates/main-study-js/main.js"></script>
 
   </div>
 </body>
