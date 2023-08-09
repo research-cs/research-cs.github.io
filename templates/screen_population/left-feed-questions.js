@@ -97,13 +97,17 @@ function populate_LFQ(screen_info, screen_name) {
 
     linear_combination_sort(feeds[0], weights);
 
+    linear_combination_sort(feeds[1], weights);
+    let same_sort_B = JSON.stringify(feeds[1]);
+
     let permuted = Math.random() > 0.5;
-    let permuted_weights;
+    let permuted_weights = shallowCopy(weights);
 
     if (permuted) {
-      permuted_weights = shallowCopy(weights);
-      permute_weights_valence(permuted_weights);
-      linear_combination_sort(feeds[1], permuted_weights);
+      do {
+        permute_weights_valence(permuted_weights);
+        linear_combination_sort(feeds[1], permuted_weights);
+      } while (JSON.stringify(feeds[1]) == same_sort_B);
     } else {
       linear_combination_sort(feeds[1], weights);
     }
