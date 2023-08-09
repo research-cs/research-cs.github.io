@@ -1703,6 +1703,334 @@ json_posts = {
                         "like_count": 2100,
                         "view_count": 3100,
                         "comment_count": 100
-                      },                 
+                      },
+                      {
+                        "text": "Exploring ancient ruins and unraveling history's secrets! Archaeological adventures are the best. #archaeology #historybuff",
+                        "author_name": "AlexandraJones",
+                        "days_since_posted": 5,
+                        "like_count": 250,
+                        "view_count": 380,
+                        "comment_count": 32
+                      },
+                      {
+                        "text": "🎭 Attending a live theater performance! Immersed in the magic of storytelling and captivating performances. #theaterlover #performingarts",
+                        "author_name": "WilliamSmith",
+                        "days_since_posted": 2,
+                        "like_count": 320,
+                        "view_count": 450,
+                        "comment_count": 42
+                      },
+                      {
+                        "text": "🌊 Surf's up! Catching waves and enjoying the thrill of the ocean. Surfing is my ultimate adventure. #surfinglife #oceanvibes",
+                        "author_name": "EmilyJohnson",
+                        "days_since_posted": 3,
+                        "like_count": 290,
+                        "view_count": 420,
+                        "comment_count": 38
+                      },
+                      {
+                        "text": "🏞️ Hiking to breathtaking viewpoints! Witnessing nature's grandeur and capturing stunning landscapes. #hikingadventures #naturephotography",
+                        "author_name": "DanielWalker",
+                        "days_since_posted": 4,
+                        "like_count": 310,
+                        "view_count": 430,
+                        "comment_count": 40
+                      },
+                      {
+                        "text": "🛍️ Exploring local markets and discovering unique crafts! Supporting artisans and finding hidden gems. #localmarketfinds #handmade",
+                        "author_name": "SophieMiller",
+                        "days_since_posted": 6,
+                        "like_count": 280,
+                        "view_count": 400,
+                        "comment_count": 35
+                      },
+                      {
+                        "text": "🎮 Gaming marathon with friends! Conquering virtual worlds and bonding over shared victories. #gamingcommunity #gamernight",
+                        "author_name": "MichaelWilliams",
+                        "days_since_posted": 1,
+                        "like_count": 350,
+                        "view_count": 480,
+                        "comment_count": 45
+                      },
+                      {
+                        "text": "🍷 Wine tasting extravaganza! Savoring the finest flavors and raising a toast to the art of winemaking. #winelovers #tastingjourney",
+                        "author_name": "OliverDavis",
+                        "days_since_posted": 5,
+                        "like_count": 270,
+                        "view_count": 390,
+                        "comment_count": 30
+                      },
+                      {
+                        "text": "⛰️ Scaling new heights with rock climbing! Conquering challenges and enjoying stunning panoramas from the summit. #rockclimbingadventures #climbhigher",
+                        "author_name": "AvaTurner",
+                        "days_since_posted": 3,
+                        "like_count": 330,
+                        "view_count": 460,
+                        "comment_count": 38
+                      },
+                      {
+                        "text": "🏄‍♀️ Catching the perfect wave while kiteboarding! Riding the wind and feeling the rush of adrenaline. #kiteboardingfun #extremesports",
+                        "author_name": "EthanJohnson",
+                        "days_since_posted": 2,
+                        "like_count": 310,
+                        "view_count": 440,
+                        "comment_count": 34
+                      },
+                      {
+                        "text": "🌅 Morning meditation by the tranquil lake! Starting the day with mindfulness and serenity. #meditationtime #peacefulmorning",
+                        "author_name": "ChloeWilliams",
+                        "days_since_posted": 4,
+                        "like_count": 290,
+                        "view_count": 410,
+                        "comment_count": 32
+                      },
+                      {
+                        "text": "🚁 Helicopter tour over the cityscape! Embracing the sky's perspective and capturing stunning aerial views. #helicoptertour #cityfromabove",
+                        "author_name": "DanielHarris",
+                        "days_since_posted": 1,
+                        "like_count": 370,
+                        "view_count": 500,
+                        "comment_count": 48
+                      },
+                      {
+                        "text": "🌇 Urban exploration and street photography! Documenting the city's hidden corners and vibrant culture. #urbanphotography #cityexplorer",
+                        "author_name": "SophiaMartinez",
+                        "days_since_posted": 6,
+                        "like_count": 260,
+                        "view_count": 380,
+                        "comment_count": 36
+                      },
+                      {
+                        "text": "🎲 Board game night with family! Laughter, strategy, and bonding over classic games. #boardgames #familybonding",
+                        "author_name": "MatthewBrown",
+                        "days_since_posted": 3,
+                        "like_count": 340,
+                        "view_count": 470,
+                        "comment_count": 42
+                      },
+                      {
+                        "text": "🛶 Canoeing adventure on a serene river! Paddling through nature's beauty and connecting with the water. #canoeing #riverexploration",
+                        "author_name": "EmilyDavis",
+                        "days_since_posted": 2,
+                        "like_count": 320,
+                        "view_count": 440,
+                        "comment_count": 39
+                      },
+                      {
+                        "text": "🌄 Setting out on a backpacking adventure! Exploring remote trails and embracing the beauty of the wilderness. #backpacking #outdooradventures",
+                        "author_name": "LiamAnderson",
+                        "days_since_posted": 5,
+                        "like_count": 270,
+                        "view_count": 390,
+                        "comment_count": 35
+                      },
+                      {
+                        "text": "🌺 Visiting a botanical garden and marveling at nature's diverse and vibrant creations. #botanicalgarden #naturebeauty",
+                        "author_name": "EmmaTurner",
+                        "days_since_posted": 3,
+                        "like_count": 320,
+                        "view_count": 430,
+                        "comment_count": 40
+                      },
+                      {
+                        "text": "🏞️ Camping under the starry night sky! Sharing stories around the campfire and experiencing the magic of nature. #campingadventures #starrynights",
+                        "author_name": "NoahWilson",
+                        "days_since_posted": 4,
+                        "like_count": 290,
+                        "view_count": 410,
+                        "comment_count": 36
+                      },
+                      {
+                        "text": "🎨 Channeling creativity through pottery! Getting hands dirty and crafting unique clay masterpieces. #potteryart #creativeprocess",
+                        "author_name": "OliviaBrown",
+                        "days_since_posted": 6,
+                        "like_count": 260,
+                        "view_count": 380,
+                        "comment_count": 33
+                      },
+                      {
+                        "text": "🎳 Bowling night with friends! Rolling strikes and spares while enjoying good company and friendly competition. #bowlingfun #friendsnight",
+                        "author_name": "EthanGarcia",
+                        "days_since_posted": 1,
+                        "like_count": 350,
+                        "view_count": 470,
+                        "comment_count": 45
+                      },
+                      {
+                        "text": "🏊‍♂️ Swimming in crystal-clear waters! Diving into refreshing pools and enjoying the cool embrace of nature's aquatic beauty. #swimmingadventures #watertherapy",
+                        "author_name": "IsabellaTurner",
+                        "days_since_posted": 5,
+                        "like_count": 280,
+                        "view_count": 400,
+                        "comment_count": 34
+                      },
+                      {
+                        "text": "🎥 Filmmaking project with friends! Collaborating on creative stories and capturing memorable moments on camera. #filmmaking #creativecollab",
+                        "author_name": "MatthewRoberts",
+                        "days_since_posted": 3,
+                        "like_count": 330,
+                        "view_count": 450,
+                        "comment_count": 41
+                      },
+                      {
+                        "text": "🛤️ Train journey through picturesque landscapes! Watching the world go by from the comfort of a moving train. #traintravel #scenicroutes",
+                        "author_name": "SophiaHarris",
+                        "days_since_posted": 2,
+                        "like_count": 310,
+                        "view_count": 430,
+                        "comment_count": 38
+                      },
+                      {
+                        "text": "🍦 Ice cream adventure in the city! Sampling unique flavors and satisfying sweet cravings with a frozen treat. #icecreamlover #sweetindulgence",
+                        "author_name": "WilliamTurner",
+                        "days_since_posted": 4,
+                        "like_count": 290,
+                        "view_count": 410,
+                        "comment_count": 37
+                      },
+                      {
+                        "text": "🎠 Amusement park thrill ride extravaganza! Screaming and laughing on roller coasters and other exciting attractions. #amusementpark #thrillseeker",
+                        "author_name": "EllaWilliams",
+                        "days_since_posted": 6,
+                        "like_count": 270,
+                        "view_count": 390,
+                        "comment_count": 33
+                      },
+                      {
+                        "text": "🚁 Hot air balloon adventure! Soaring above the landscapes and enjoying breathtaking views from high above. #hotairballoon #skyhigh",
+                        "author_name": "DanielTaylor",
+                        "days_since_posted": 1,
+                        "like_count": 350,
+                        "view_count": 470,
+                        "comment_count": 44
+                      },
+                      {
+                        "text": "🎤 Karaoke night with colleagues! Unleashing inner divas and rock stars, belting out favorite tunes. #karaokeparty #colleagues",
+                        "author_name": "SophiaMiller",
+                        "days_since_posted": 5,
+                        "like_count": 280,
+                        "view_count": 400,
+                        "comment_count": 36
+                      },
+                      {
+                        "text": "🍂 Embracing autumn's charm with a cozy bonfire gathering! Roasting marshmallows and enjoying the crisp air with friends. #autumnevening #bonfire",
+                        "author_name": "OliverTurner",
+                        "days_since_posted": 3,
+                        "like_count": 330,
+                        "view_count": 450,
+                        "comment_count": 39
+                      },
+                      {
+                        "text": "📰 Breaking News: Scientists Discover New Exoplanet with Potential for Life! The latest breakthrough in space exploration is here. Read more on our website. #spaceexploration #exoplanet",
+                        "author_name": "Galactic Discoveries",
+                        "days_since_posted": 1,
+                        "like_count": 1200,
+                        "view_count": 1800,
+                        "comment_count": 150
+                      },
+                      {
+                        "text": "🌍 Climate Change Update: Record Heatwave Sweeping Across Regions. Our planet faces a critical challenge. Learn about the latest climate trends and their impacts. #climatechange #environment",
+                        "author_name": "EcoWatch",
+                        "days_since_posted": 2,
+                        "like_count": 1500,
+                        "view_count": 2200,
+                        "comment_count": 180
+                      },
+                      {
+                        "text": "💼 Economic Report: Global Markets React to Trade Agreements. Dive into the financial implications of recent trade deals and their effects on economies worldwide. #economics #globaltrade",
+                        "author_name": "Financial Insight",
+                        "days_since_posted": 3,
+                        "like_count": 1300,
+                        "view_count": 2000,
+                        "comment_count": 160
+                      },
+                      {
+                        "text": "🔬 Medical Breakthrough: New Treatment Shows Promise in Cancer Research. Stay informed about the latest advancements in medical science and their potential impact on patients. #medicalresearch #cancertreatment",
+                        "author_name": "Health Chronicles",
+                        "days_since_posted": 4,
+                        "like_count": 1400,
+                        "view_count": 2100,
+                        "comment_count": 170
+                      },
+                      {
+                        "text": "🎭 Entertainment Buzz: Exclusive Interview with Acclaimed Film Director. Get insights into the creative process and behind-the-scenes stories of the latest blockbuster. #entertainmentnews #filmmaking",
+                        "author_name": "CineTalk",
+                        "days_since_posted": 5,
+                        "like_count": 1100,
+                        "view_count": 1700,
+                        "comment_count": 140
+                      },
+                      {
+                        "text": "🌐 Tech Update: Unveiling the Future of Augmented Reality. Discover the cutting-edge technologies that are reshaping how we interact with the digital world. #technologynews #AR",
+                        "author_name": "Tech Nexus",
+                        "days_since_posted": 1,
+                        "like_count": 1600,
+                        "view_count": 2400,
+                        "comment_count": 200
+                      },
+                      {
+                        "text": "🏆 Sports Recap: Thrilling Moments from the Championship Match. Relive the excitement of the game-changing plays and epic showdown between rivals. #sportsnews #championship",
+                        "author_name": "Sports Pulse",
+                        "days_since_posted": 2,
+                        "like_count": 1400,
+                        "view_count": 2100,
+                        "comment_count": 170
+                      },
+                      {
+                        "text": "📚 Education Spotlight: Empowering Students through Online Learning. Explore innovative education models and their potential to shape the future of learning. #educationnews #onlinelearning",
+                        "author_name": "EduConnect",
+                        "days_since_posted": 3,
+                        "like_count": 1200,
+                        "view_count": 1800,
+                        "comment_count": 150
+                      },
+                      {
+                        "text": "🌿 Lifestyle Feature: Embracing Mindfulness in Everyday Life. Discover practical tips for achieving balance and wellness in the modern world. #lifestylenews #mindfulness",
+                        "author_name": "Lifestyle Junction",
+                        "days_since_posted": 4,
+                        "like_count": 1300,
+                        "view_count": 2000,
+                        "comment_count": 160
+                      },
+                      {
+                        "text": "🍔 Culinary Delights: Uncovering the Secrets of Gourmet Burgers. Join us on a culinary journey as we explore the art of crafting mouthwatering burger masterpieces. #foodnews #gourmetburgers",
+                        "author_name": "Food Fusion",
+                        "days_since_posted": 5,
+                        "like_count": 1100,
+                        "view_count": 1700,
+                        "comment_count": 140
+                      },
+                      {
+                        "text": "📈 Market Insights: Navigating Volatility in the Financial Landscape. Stay informed about market trends, investment strategies, and expert analysis. #marketnews #finance",
+                        "author_name": "Investor's Hub",
+                        "days_since_posted": 1,
+                        "like_count": 1600,
+                        "view_count": 2400,
+                        "comment_count": 200
+                      },
+                      {
+                        "text": "🌎 Travel Inspiration: Discover Hidden Gems in Remote Destinations. Get wanderlust-inducing travel tips and insights for your next adventure. #travelnews #exploration",
+                        "author_name": "Wanderlust Gazette",
+                        "days_since_posted": 2,
+                        "like_count": 1400,
+                        "view_count": 2100,
+                        "comment_count": 170
+                      },
+                      {
+                        "text": "🌆 Urban Lifestyle: Exploring City Culture and Trends. Dive into the vibrant energy of urban environments and uncover the latest urban lifestyle trends. #citynews #urbanliving",
+                        "author_name": "CityBeat",
+                        "days_since_posted": 3,
+                        "like_count": 1200,
+                        "view_count": 1800,
+                        "comment_count": 150
+                      },
+                      {
+                        "text": "🌍 Global Affairs: Diplomatic Talks on Climate Policies and International Cooperation. Stay informed about the critical discussions shaping the world's future. #globalnews #diplomacy",
+                        "author_name": "World Insight",
+                        "days_since_posted": 4,
+                        "like_count": 1300,
+                        "view_count": 2000,
+                        "comment_count": 160
+                      },              
   ]
 };
