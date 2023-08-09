@@ -109,11 +109,18 @@ function process_post_placement_question(questionDiv, screenOutput, unansweredQu
  * @param {string} screenName - The screen name.
  * @returns {Array} - Array of unanswered question div elements.
  */
-function log_checked_answers_with_sum(screenName) {
+function log_checked_answers_with_sum(screen_info, screenName) {
   const studyQuestions = document.getElementsByClassName("study-question");
   const postPlacementQuestions = document.getElementsByClassName("post-placement-question");
   const feedElements = document.querySelectorAll('.feed');
-  const screenOutput = { 'screen_name': screenName };
+  const screenOutput = 
+  {
+    "study_type": screen_info.study_type,
+    "feature_count": screen_info.feature_count,
+    "nstance_number": screen_info.instance_number,
+    "screen_name": screenName,
+    };
+
   const unansweredQuestions = [];
 
   for (let i = 0; i < studyQuestions.length; i++) {
@@ -132,8 +139,6 @@ function log_checked_answers_with_sum(screenName) {
     }
 
     output["questions"].push(screenOutput);
-
-    console.log(screenOutput);
   }
 
   return unansweredQuestions;
@@ -146,7 +151,7 @@ function next_screen() {
   let next_screen_info = screen_order[screen_index + 1];
   let next_screen_name = generate_screen_name(next_screen_info);
 
-  let missing_questions = log_checked_answers_with_sum(curr_screen_name);
+  let missing_questions = log_checked_answers_with_sum(curr_screen_info, curr_screen_name);
   if (missing_questions.length > 0) {
     highlight_unanswered_questions(missing_questions);
   } else {
@@ -178,18 +183,13 @@ function activate_screen(screen_info, screen_name) {
   } else if (template == "single-post-question") {
     populate_SPQ(screen_info, screen_name);
   } else if (template == "submission") {
-    console.log(output);
     document.getElementById("next-btn").style.display = "none";
   }
 
   document.getElementById(template).style.display = 'block';
   window.scrollTo(0,0);
 
-  console.log("hello");
-
   MathJax.typesetPromise().then(() => { });
-
-  console.log("hello");
 }
 
 function submit() {
