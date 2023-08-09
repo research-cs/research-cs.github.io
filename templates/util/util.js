@@ -1,5 +1,4 @@
 function parseTextFile() {
-    console.log("Fetching text file:");
     const data = reddit_data;
 
     const lines = data.trim().split('\n');
@@ -22,7 +21,6 @@ function parseTextFile() {
       result.push(dictionary);
     }
 
-    console.log(result);
     return result;
 }
 
@@ -90,7 +88,6 @@ function generate_ranking_text(weights, show_zeroes = false) {
 
   text += "\\end{aligned} \\end{align*} $$";
 
-  console.log(text);
   return text;
 }
 
