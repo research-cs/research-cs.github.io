@@ -61,11 +61,11 @@ function process_check_question(questionDiv, screenOutput, unansweredQuestions) 
   }
 
   if (questionId.slice(-2) === "CF") {
-    screenOutput["chosen_confidence"] = checkedOptions;
+    screenOutput["chosen_confidence"] = checkedOptions[0];
     screenOutput["confidence"] = sumOfValues;
   } else {
     const questionNum = questionId.slice(-2);
-    screenOutput["chosen_options_" + questionNum] = checkedOptions;
+    screenOutput["chosen_options_" + questionNum] = checkedOptions[0];
     screenOutput["score_" + questionNum] = sumOfValues;
   }
 }
@@ -102,6 +102,7 @@ function process_post_placement_question(questionDiv, screenOutput, unansweredQu
   screenOutput["chosen_index"] = chosenIndex;
   screenOutput["correct_index"] = correctIndex;
   screenOutput["distance"] = distance;
+  screenOutput["score_Q1"] = distance === 0 ? 1 : 0;
 }
 
 /**
