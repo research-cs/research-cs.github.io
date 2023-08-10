@@ -58,15 +58,16 @@ function permute_weights(weights) {
 // returns a the name of the weight that was changed
 function permute_weights_valence(weights) {
     let keys = Object.keys(weights);
-    let nonzero_keys = [];
-    for (let key of keys) {
-        if (weights[key] != 0) {
-            nonzero_keys.push(key);
-        }
+
+    let random_key = keys[Math.floor(Math.random() * keys.length)];
+
+    if (weights[random_key] == 0) {
+        do {
+            weights[random_key] = truncate(Math.random() * 2 - 1);
+        } while (Math.abs(weights[random_key]) <= 0.1);
+    } else {
+        weights[random_key] = -weights[random_key];
     }
-
-    let random_key = nonzero_keys[Math.floor(Math.random() * nonzero_keys.length)];
-
-    weights[random_key] = - weights[random_key];
+    
     return random_key;
 }
