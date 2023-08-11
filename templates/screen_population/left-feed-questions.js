@@ -112,7 +112,7 @@ function populate_LFQ(screen_info, screen_name) {
       linear_combination_sort(feeds[1], weights);
     }
 
-    questions['Q1']['options'] = ["Yes", "No"];
+    questions['Q1']['options'] = questions['Q1']['options'];
     questions['Q1']['option-key'] = permuted ? [1, 0] : [0, 1];
   }
 
