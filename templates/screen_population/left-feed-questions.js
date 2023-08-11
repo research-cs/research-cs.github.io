@@ -3,7 +3,7 @@ function populate_LFQ(screen_info, screen_name) {
   $('#LFQ-questions-container').empty();
   
   let feed = json_posts["posts"].slice(post_index, post_index + 10);
-  post_index += 10;
+  shuffle_array(json_posts["posts"]);
 
   const screen_type = screen_info["study_type"];
   const questions = get_questions(screen_type);
@@ -14,7 +14,7 @@ function populate_LFQ(screen_info, screen_name) {
 
   if (screen_type == "feed-comparison-B") {
     feed = json_posts["posts"].slice(post_index, post_index + 10);
-    post_index += 10;
+    shuffle_array(json_posts["posts"]);
   }
 
   for (let i = 1; i < num_feeds; i++) {
