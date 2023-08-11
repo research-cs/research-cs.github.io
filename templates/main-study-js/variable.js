@@ -2,7 +2,7 @@ var questions_column_width;
 
 var startTime;
 
-let screen_order = generate_study_array(["feed-selection", "post-placement", "feed-comparison-B"], [1, 2, 5], 2, "left-feed-questions");
+let screen_order = generate_study_array(["feed-comparison-B"], [1, 2, 5], 5, "left-feed-questions");
 
 var post_index = 0;
 var screen_index = 0;
