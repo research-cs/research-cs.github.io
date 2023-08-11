@@ -15,9 +15,9 @@ json_questions = {
         "options": ["Increased", "Decreased"],
     }],
     "feed-comparison-B": [{
-        "text": "Feed B is composed of a new set of posts. Is the scoring function behind feed B different from that in Feed A?",
+        "text": "Feed B is composed of a new set of posts. Is feed B's scoring function the same or different than Feed A's?",
         "type": "multiple-choice",
-        "options": ["Yes", "No"],
+        "options": ["The same", "Different"],
     }],
     "post-placement": [{
         "text": "Place the post below in its correct position in the feed.",
