@@ -24,6 +24,17 @@ function parseTextFile() {
     return result;
 }
 
+function merge_objects(obj1, obj2) {
+  const result = {};
+  for (const key in obj1) {
+    result[key] = obj1[key];
+  }
+  for (const key in obj2) {
+    result[key] = obj2[key];
+  }
+  return result;
+}
+
 function shuffle_array(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -33,7 +44,7 @@ function shuffle_array(array) {
 
 // truncates a number to two decimal points
 function truncate(number) {
-  return Math.round(number * 100) / 100;
+  return Math.round(number * 10) / 10;
 }
 
 function shallowCopy(obj) {
@@ -123,6 +134,37 @@ function generate_study_array(studies, feature_counts, num_repeats, template) {
         screen_array.push(studyObj);
       }
     }
+  }
+
+  screen_array.push(submission_screen);
+
+  return screen_array;
+}
+
+function generate_post_survey_array(post_array, num_screens) {
+  const screen_array = [];
+
+  let introduction_screen = {
+    'type': "introduction",
+    'template': "introduction",
+  };
+
+  let submission_screen = {
+    'type': "submission",
+    'template': "submission",
+  };
+
+  screen_array.push(introduction_screen);
+
+  for (let i = 0; i < num_screens; i++) {
+    const surveyObj = {
+      'type': "study",
+      'study_type': 'post-question',
+      'template': "single-post-question",
+      'instance_number': i + 1,
+    };
+
+    screen_array.push(merge_objects(surveyObj, post_array[i]));
   }
 
   screen_array.push(submission_screen);
