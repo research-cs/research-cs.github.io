@@ -2031,6 +2031,254 @@ json_posts = {
                         "like_count": 1300,
                         "view_count": 2000,
                         "comment_count": 160
-                      },              
+                      },
+                        {
+                          "text": "🎬 Entertainment Buzz: Exclusive Behind-the-Scenes Look at the Upcoming Blockbuster Movie. Get a sneak peek into the making of the film that's set to captivate audiences worldwide. #entertainmentnews #moviebehindthescenes",
+                          "author_name": "CineMaven",
+                          "days_since_posted": 2,
+                          "like_count": 1500,
+                          "view_count": 2200,
+                          "comment_count": 180
+                        },
+                        {
+                          "text": "🔬 Science Spotlight: Breakthrough Discovery in Quantum Computing. Delve into the realm of quantum computing and learn about the latest advancements reshaping technology. #sciencenews #quantumcomputing",
+                          "author_name": "Science Nexus",
+                          "days_since_posted": 3,
+                          "like_count": 1400,
+                          "view_count": 2100,
+                          "comment_count": 170
+                        },
+                        {
+                          "text": "🎨 Artistic Journey: Exploring Contemporary Art Movements and Expressions. Immerse yourself in the world of art as we uncover the stories behind innovative artistic creations. #artnews #contemporaryart",
+                          "author_name": "Artistry Chronicles",
+                          "days_since_posted": 4,
+                          "like_count": 1300,
+                          "view_count": 2000,
+                          "comment_count": 160
+                        },
+                        {
+                          "text": "🚀 Space Exploration Update: New Frontiers and Spacecraft Innovations. Stay updated on the latest developments in space exploration, from planetary missions to cutting-edge technology. #spacenews #exploration",
+                          "author_name": "Cosmic Quest",
+                          "days_since_posted": 5,
+                          "like_count": 1200,
+                          "view_count": 1900,
+                          "comment_count": 150
+                        },
+                        {
+                          "text": "🎓 Career Insights: Navigating the Evolving Job Market. Discover strategies for career growth, job market trends, and insights from industry experts. #careersuccess #jobmarket",
+                          "author_name": "CareerTrail",
+                          "days_since_posted": 1,
+                          "like_count": 1600,
+                          "view_count": 2400,
+                          "comment_count": 200
+                        },
+                        {
+                          "text": "🏛️ History Uncovered: Rediscovering Ancient Civilizations and Their Legacies. Journey back in time to uncover the mysteries of civilizations that shaped our world. #historynews #ancientcivilizations",
+                          "author_name": "Historical Echoes",
+                          "days_since_posted": 2,
+                          "like_count": 1400,
+                          "view_count": 2100,
+                          "comment_count": 170
+                        },
+                        {
+                          "text": "🌿 Eco-Watch: Sustainable Living and Environmental Initiatives. Stay informed about eco-friendly practices and initiatives making a positive impact on our planet. #sustainabilitynews #environment",
+                          "author_name": "Green Horizon",
+                          "days_since_posted": 3,
+                          "like_count": 1300,
+                          "view_count": 2000,
+                          "comment_count": 160
+                        },
+                        {
+                          "text": "🎵 Music Spotlight: Exploring Diverse Musical Genres and Rising Artists. Immerse yourself in the world of music as we celebrate the talents shaping the industry. #musicnews #risingartists",
+                          "author_name": "Melody Muse",
+                          "days_since_posted": 4,
+                          "like_count": 1200,
+                          "view_count": 1800,
+                          "comment_count": 150
+                        },
+                        {
+                          "text": "🏙️ Architectural Wonders: Iconic Skyscrapers and Innovative Building Designs. Discover the architectural marvels that define modern cityscapes around the globe. #architecturenews #skyscrapers",
+                          "author_name": "Architectural Marvels",
+                          "days_since_posted": 5,
+                          "like_count": 1100,
+                          "view_count": 1700,
+                          "comment_count": 140
+                        },
+                        {
+                          "text": "📰 Media Ethics Discussion: Navigating Journalism in the Digital Age. Join the conversation about media ethics, credibility, and responsible reporting in today's digital landscape. #medianews #ethicsdiscussion",
+                          "author_name": "Media Matters",
+                          "days_since_posted": 1,
+                          "like_count": 1500,
+                          "view_count": 2300,
+                          "comment_count": 190
+                        },
+                        {
+                          "text": "🔥 Trending Tech: Innovations Redefining the Future of Technology. Explore cutting-edge gadgets, AI advancements, and the tech trends shaping our lives. #technologynews #futuretech",
+                          "author_name": "TechTrek",
+                          "days_since_posted": 2,
+                          "like_count": 1400,
+                          "view_count": 2100,
+                          "comment_count": 170
+                        },
+                        {
+                          "text": "🏆 Sports Analysis: Decoding Team Strategies and Player Performances. Dive deep into the world of sports analytics and gain insights into the strategies that lead to victory. #sportsanalytics #strategy",
+                          "author_name": "Sports Analytics Insight",
+                          "days_since_posted": 3,
+                          "like_count": 1300,
+                          "view_count": 2000,
+                          "comment_count": 160
+                        },
+                        {
+                          "text": "🌐 Tech Innovators Spotlight: Unveiling Visionaries Shaping the Digital Revolution. Learn about the tech pioneers driving innovation and disruption in the digital landscape. #techinnovators #visionaries",
+                          "author_name": "Tech Visionaries",
+                          "days_since_posted": 4,
+                          "like_count": 1200,
+                          "view_count": 1800,
+                          "comment_count": 150
+                        },
+                        {
+                          "text": "🌍 Environmental Advocacy: Championing Conservation and Biodiversity. Explore stories of individuals and organizations dedicated to protecting our planet's precious ecosystems. #environmentaladvocacy #conservation",
+                          "author_name": "Planet Protectors",
+                          "days_since_posted": 5,
+                          "like_count": 1100,
+                          "view_count": 1700,
+                          "comment_count": 140
+                        },
+                        {
+                          "text": "🌟 Quantum Reality Unveiled: Parallel Universes and Mind-Bending Experiments. Dive into the complexities of quantum physics and explore the possibility of multiple realities. #quantumreality #mindbending",
+                          "author_name": "Quantum Explorer",
+                          "days_since_posted": 2,
+                          "like_count": 1900,
+                          "view_count": 2500,
+                          "comment_count": 220
+                        },
+                        {
+                          "text": "🍄 Fantastical Foraging: Journey into Enchanted Forests for Rare Mushroom Discoveries. Embark on a whimsical adventure to uncover elusive magical mushrooms. #fantasyadventures #mushroomhunting",
+                          "author_name": "Mythical Wanderer",
+                          "days_since_posted": 3,
+                          "like_count": 1800,
+                          "view_count": 2400,
+                          "comment_count": 210
+                        },
+                        {
+                          "text": "🚀 Time Travel Chronicles: Interview with a Time Traveler from the Future. Delve into the surreal experience of time travel and the astonishing revelations of life in different eras. #timetraveler #futurelife",
+                          "author_name": "Temporal Voyager",
+                          "days_since_posted": 4,
+                          "like_count": 1700,
+                          "view_count": 2300,
+                          "comment_count": 200
+                        },
+                        {
+                          "text": "🍀 Luck Unleashed: Finding Four-Leaf Clovers That Grant Unusual Wishes. Join us in the quest to discover rare four-leaf clovers with extraordinary powers. #luckmagic #cloverhunt",
+                          "author_name": "Charm Seeker",
+                          "days_since_posted": 5,
+                          "like_count": 1600,
+                          "view_count": 2200,
+                          "comment_count": 190
+                        },
+                        {
+                          "text": "🌌 Galactic Gourmet: Extraterrestrial Cuisine and Alien Culinary Delights. Embark on a cosmic culinary journey as we explore the flavors of interstellar cuisine. #aliencuisine #galacticgourmet",
+                          "author_name": "Astro Gastronaut",
+                          "days_since_posted": 1,
+                          "like_count": 2000,
+                          "view_count": 2800,
+                          "comment_count": 240
+                        },
+                        {
+                          "text": "🔮 Psychic Phenomena: Unveiling the Secrets of Mind Readers and Precognition. Step into the world of psychics and explore their mysterious abilities to foresee the future. #psychicpowers #mindreading",
+                          "author_name": "Mystic Insights",
+                          "days_since_posted": 2,
+                          "like_count": 1900,
+                          "view_count": 2700,
+                          "comment_count": 230
+                        },
+                        {
+                          "text": "🍭 Sweet Dreamscape: Immersive Virtual Reality Worlds You Can Taste. Experience the next frontier of VR technology that lets you not only see and hear but also taste your virtual surroundings. #VRTaste #dreamscape",
+                          "author_name": "VR Visionary",
+                          "days_since_posted": 3,
+                          "like_count": 1800,
+                          "view_count": 2600,
+                          "comment_count": 220
+                        },
+                        {
+                          "text": "🌈 Rainbow Expeditions: Chasing Rainbows to Find the Elusive Pot of Gold. Join the hunt for leprechaun treasure and experience the vibrant journey to the end of a rainbow. #rainbowhunt #potofgold",
+                          "author_name": "Rainbow Adventurer",
+                          "days_since_posted": 4,
+                          "like_count": 1700,
+                          "view_count": 2500,
+                          "comment_count": 210
+                        },
+                        {
+                          "text": "🎩 Magician's Workshop: Unveiling the Tricks and Illusions Behind Mesmerizing Magic Shows. Peek behind the curtain to learn the secrets of creating astonishing illusions. #magicianssecrets #magictricks",
+                          "author_name": "Mystical Magician",
+                          "days_since_posted": 5,
+                          "like_count": 1600,
+                          "view_count": 2400,
+                          "comment_count": 200
+                        },
+                        {
+                          "text": "🧜‍♀️ Mermaid Chronicles: Exclusive Interviews with Real-Life Merpeople Exploring Ocean Depths. Dive into the enchanting world of mermaids and learn about their aquatic adventures. #mermaidlife #oceanexploration",
+                          "author_name": "Merfolk Observer",
+                          "days_since_posted": 1,
+                          "like_count": 1900,
+                          "view_count": 2700,
+                          "comment_count": 230
+                        },
+                        {
+                          "text": "🏰 Timeless Treasure Hunt: Quest for Hidden Relics in Forgotten Castles. Embark on an epic journey to uncover ancient artifacts and unravel the mysteries of the past. #treasurehunt #castlerelics",
+                          "author_name": "Relic Seeker",
+                          "days_since_posted": 2,
+                          "like_count": 1800,
+                          "view_count": 2600,
+                          "comment_count": 220
+                        },
+                        {
+                          "text": "🦄 Unicorn Encounters: Documenting the Mythical Beasts in their Natural Habitat. Join us on a magical expedition to witness the elusive unicorns in their enchanted realm. #unicornmagic #mythicalcreatures",
+                          "author_name": "Unicorn Tracker",
+                          "days_since_posted": 3,
+                          "like_count": 1700,
+                          "view_count": 2500,
+                          "comment_count": 210
+                        },
+                        {
+                          "text": "🌋 Volcano Odyssey: Journey into the Center of the Earth to Explore Subterranean Wonders. Descend into the depths and witness the molten beauty of Earth's fiery heart. #volcanoexploration #subterraneanwonders",
+                          "author_name": "Volcanic Voyager",
+                          "days_since_posted": 4,
+                          "like_count": 1600,
+                          "view_count": 2400,
+                          "comment_count": 200
+                        },
+                        {
+                          "text": "🛸 UFO Chronicles: Close Encounters and Extraterrestrial Investigations. Delve into the accounts of those who've come face-to-face with unidentified flying objects from other worlds. #UFOencounters #extraterrestrial",
+                          "author_name": "UFO Investigator",
+                          "days_since_posted": 5,
+                          "like_count": 1900,
+                          "view_count": 2700,
+                          "comment_count": 230
+                        },
+                        {
+                          "text": "🔥 Dragon Quest: Expedition to Discover the Lair of Mythical Dragons. Embark on a daring adventure to find the lair of legendary dragons and witness their majestic presence. #dragonquest #mythicalcreatures",
+                          "author_name": "Dragon Seeker",
+                          "days_since_posted": 1,
+                          "like_count": 1800,
+                          "view_count": 2600,
+                          "comment_count": 220
+                        },
+                        {
+                          "text": "👣 Fairy Footprints: Uncovering Enchanted Pathways to the Realm of Fairies. Follow the sparkling footprints and step into the realm where fairies and humans intertwine. #fairymagic #enchantedrealm",
+                          "author_name": "Fairy Whisperer",
+                          "days_since_posted": 2,
+                          "like_count": 1700,
+                          "view_count": 2500,
+                          "comment_count": 210
+                        },
+                        {
+                          "text": "🧚‍♂️ Gnome Expeditions: Expedition into Hidden Gnome Villages Beneath the Forest Floor. Venture into the depths to encounter the whimsical world of gnomes and their subterranean society. #gnomeadventures #hiddenvillages",
+                          "author_name": "Gnome Explorer",
+                          "days_since_posted": 3,
+                          "like_count": 1600,
+                          "view_count": 2400,
+                          "comment_count": 200
+                        },     
   ]
 };
