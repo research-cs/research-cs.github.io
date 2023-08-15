@@ -70,7 +70,7 @@ input {
 }
 
 img {
-   max-height: 45vh;
+   max-height: 50vh;
    width: auto;
 }
  
@@ -325,20 +325,1183 @@ ol li {
 
   })();
 </script>
+  <script type="text/javascript">
 
-  <script type="text/javascript" src="templates/util/util.js"></script>
+function parseTextFile() {
+    const data = reddit_data;
+
+    const lines = data.trim().split('\n');
+    const result = [];
+
+    for (const line of lines) {
+      const [submissionId, subreddit, title, author, comments, nsfw, score, upvoted, link, image] = line.split('\t');
+      const dictionary = {
+        "SUBMISSION_ID": submissionId,
+        "SUBREDDIT": subreddit,
+        "TITLE": title,
+        "AUTHOR": author,
+        "#_COMMENTS": parseInt(comments),
+        "NSFW": nsfw === 'NSFW',
+        "SCORE": parseInt(score),
+        "UPVOTED_%": parseFloat(upvoted),
+        "LINK": link,
+        "IMAGE": image,
+      };
+      result.push(dictionary);
+    }
+
+    return result;
+}
+
+function merge_objects(obj1, obj2) {
+  const result = {};
+  for (const key in obj1) {
+    result[key] = obj1[key];
+  }
+  for (const key in obj2) {
+    result[key] = obj2[key];
+  }
+  return result;
+}
+
+function shuffle_array(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+// truncates a number to two decimal points
+function truncate(number) {
+  return Math.round(number * 10) / 10;
+}
+
+function shallowCopy(obj) {
+  if (Array.isArray(obj)) {
+    return obj.map(item => shallowCopy(item));
+  } else if (typeof obj === 'object' && obj !== null) {
+    return Object.fromEntries(Object.entries(obj).map(([key, value]) => [key, shallowCopy(value)]));
+  }
+  return obj;
+}
+
+function string_to_rgb(string) {
+  // Simple hash function to convert the string to a numeric value
+  function hashString(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return hash;
+  }
+
+  // Convert the hash value to RGB values within the range [0, 255]
+  function intToRGB(i) {
+    const c = (i & 0x00FFFFFF).toString(16).toUpperCase();
+    return "00000".substring(0, 6 - c.length) + c;
+  }
+
+  // Generate a numeric hash value from the input string
+  const hashValue = hashString(string);
+
+  // Convert the hash value to RGB values
+  const rgbString = intToRGB(hashValue);
+
+  // Extract the RGB values and convert them to an array
+  const r = parseInt(rgbString.slice(0, 2), 16);
+  const g = parseInt(rgbString.slice(2, 4), 16);
+  const b = parseInt(rgbString.slice(4, 6), 16);
+
+  return [r, g, b];
+}
+
+function generate_ranking_text(weights, show_zeroes = false) {
+  let text = `$$\\begin{align*} \\text{Score} &= \\begin{aligned}[t]`;
+
+  for (const key in weights) {
+    if (weights[key] !== 0 || show_zeroes) {
+      
+      const sign = weights[key] >= 0 ? " + " : " - ";
+      text += `&${sign}${Math.abs(weights[key])} \\times \\text{${feature_dict[key]}} \\\\`;
+    }
+  }
+
+  text += "\\end{aligned} \\end{align*} $$";
+
+  return text;
+}
+
+function generate_study_array(studies, feature_counts, num_repeats, template, feature_keys, num_posts) {
+  const screen_array = [];
+
+  let introduction_screen = {
+    'type': "introduction",
+    'template': "introduction",
+  };
+
+  let submission_screen = {
+    'type': "submission",
+    'template': "submission",
+  };
+
+  screen_array.push(introduction_screen);
+
+  const shuffledStudies = shallowCopy(studies);
+  shuffle_array(shuffledStudies);
+
+  shuffle_array(json_posts["posts"]);
+  let post_index = 0;
   
+  for (let i = 0; i < shuffledStudies.length; i++) {
+    for (let k = 1; k <= num_repeats; k++) {
+      for (let j = 0; j < feature_counts.length; j++) {
+        const weights = generate_weights(feature_keys, feature_counts[j])
+        const studyObj = {
+          'study_type': shuffledStudies[i],
+          'feature_count': feature_counts[j],
+          'instance_number': k,
+          'type': "study",
+          'template': template,
+          'feeds': [json_posts["posts"].slice(post_index, post_index + num_posts)],
+          'weights': weights,
+        };
+
+        linear_combination_sort(studyObj['feeds'][0], weights);
+
+        post_index += num_posts;
+
+        if (studyObj['study_type'].startsWith('feed-selection')) {
+          studyObj['feeds'].push(shallowCopy(studyObj['feeds'][0]));
+
+          const correct_feed_index = Math.random() > 0.5 ? 0 : 1;
+          const incorrect_feed_index = correct_feed_index == 0 ? 1 : 0;
+
+          studyObj['correct_feed_index'] = correct_feed_index;
+
+          shuffle_array(studyObj['feeds'][incorrect_feed_index]);
+        }
+
+        if (studyObj['study_type'].startsWith('feed-comparison')) {
+          studyObj['feeds'].push(json_posts["posts"].slice(post_index, post_index + num_posts));
+          post_index += num_posts;
+
+          linear_combination_sort(studyObj['feeds'][1], weights);
+          let same_sort_B = JSON.stringify(studyObj['feeds'][1]);
+
+          let permuted = Math.random() > 0.5;
+          let permuted_weights = shallowCopy(weights);
+
+          if (permuted) {
+            do {
+              permute_weights_valence(permuted_weights);
+              linear_combination_sort(studyObj['feeds'][1], permuted_weights);
+            } while (JSON.stringify(studyObj['feeds'][1]) == same_sort_B);
+          } else {
+            linear_combination_sort(studyObj['feeds'][1], weights);
+          }
+
+          studyObj['permuted'] = permuted;
+          studyObj['permuted_weights'] = permuted_weights;
+        }
+
+        if(studyObj['study_type'].startsWith('post-placement')) {
+          studyObj['correct_position'] = Math.floor(Math.random() * num_posts);
+        }
+
+        screen_array.push(studyObj);
+      }
+    }
+
+    // Insert an exact copy of a study object randomly into the last num_repeats * num_feature_counts positions
+    const source_index = screen_array.length - (num_repeats * feature_counts.length);
+    const studyObj = shallowCopy(screen_array[source_index]);
+    const random_index = source_index + 3 + Math.floor(Math.random() * ((num_repeats * feature_counts.length) - 3));
+    screen_array.splice(random_index, 0, studyObj);
+  }
+
+  screen_array.push(submission_screen);
+
+  return screen_array;
+}
+
+function generate_post_survey_array(post_array, num_screens) {
+  const screen_array = [];
+
+  let introduction_screen = {
+    'type': "introduction",
+    'template': "introduction",
+  };
+
+  let submission_screen = {
+    'type': "submission",
+    'template': "submission",
+  };
+
+  screen_array.push(introduction_screen);
+
+  for (let i = 0; i < num_screens; i++) {
+    const surveyObj = {
+      'type': "study",
+      'study_type': 'post-question',
+      'template': "single-post-question",
+      'instance_number': i + 1,
+    };
+
+    screen_array.push(merge_objects(surveyObj, post_array[i]));
+  }
+
+  screen_array.push(submission_screen);
+
+  return screen_array;
+}
+
+function generate_screen_name(screen_info) {
+  let screen_name = `study-${screen_info["study_type"]}-features-${screen_info["feature_count"]}-${screen_info["instance_number"]}`;
+  if (screen_info.type == 'introduction') {
+    screen_name = 'introduction';
+  } else if (screen_info.type == 'submission') {
+    screen_name = 'submission';
+  }
+  return screen_name;
+}
+
+function get_questions(screen_type, confidence = true) {
+  const questions = {};
+  for (let i = 0; i < json_questions[screen_type].length; i++) {
+    questions[`Q${i+1}`] = json_questions[screen_type][i];
+  }
+
+  if (confidence) {
+    questions[`CF`] = json_questions["confidence"][0];
+    questions[`CF`]['text'] = json_questions["confidence-texts"][screen_type];
+  }
+  
+  return questions;
+}
+
+</script>
+
   <script type="text/javascript" src="templates/data/feed_data.json"></script>
   <script type="text/javascript" src="templates/data/question_data.json"></script>
-  
-  <script type="text/javascript" src="templates/screen_population/building-blocks.js"></script>
-  <script type="text/javascript" src="templates/screen_population/left-feed-questions.js"></script>
-  <script type="text/javascript" src="templates/main-study-js/transitions.js"></script>
 
-  <script type="text/javascript" src="templates/main-study-js/feed-sanitation.js"></script>
-  <script type="text/javascript" src="templates/main-study-js/rankfeed.js"></script>
-  <script type="text/javascript" src="templates/main-study-js/variable.js"></script>
-  <script type="text/javascript" src="templates/main-study-js/main.js"></script>
+  <script type="text/javascript">
+
+function insert_label(labelText, labelContainer, label_width) {
+  const label_div = document.createElement("div");
+  label_div.className = `col-${label_width} d-flex align-items-center`;
+  label_div.innerHTML = 
+  `<div class="feed-label">
+    <span class="font-weight-bold h2">${labelText}</span>
+  </div>`;
+  labelContainer.appendChild(label_div);
+}
+
+function insert_feed(feed_data, container, feed_width, locked) {
+  const feedBankContainer = document.createElement("div");
+  feedBankContainer.className = `col-md-${feed_width} p-md-1`;
+
+  const feedParentUl = document.createElement("ul");
+  feedParentUl.className = `feed sortable${locked ? ' locked' : ''} feed-list-bank list-unstyled`;
+
+  feed_data.forEach(post => {
+    insert_post(post, feedParentUl, locked);
+  });
+
+  feedBankContainer.appendChild(feedParentUl);
+
+  container.appendChild(feedBankContainer);
+
+  $('.sortable').sortable({
+    connectWith: '.sortable',
+    cancel: '.static',
+    scroll: false,
+    zIndex: 9999,
+    appendTo: $('.feed').not('.locked'),
+  });
+}
+
+function insert_post(post, feed_parent_list, locked) {
+  const postListItem = document.createElement("li");
+  postListItem.className = `bg-white border mt-2 post${locked ? ' static' : ''} rounded`;
+  let rgb = string_to_rgb(post.author_name);
+
+  postListItem.innerHTML = `
+    <div class="d-flex flex-row justify-content-between align-items-center p-1 border-bottom">
+      <div class="d-flex flex-row align-items-center feed-text px-2">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]});"></div>
+        <div class="d-flex flex-column flex-wrap ml-2">
+          <span class="font-weight-bold">${post.author_name}</span>
+          <span class="small-text">${post.days_since_posted} hour${post.days_since_posted != 1 ? "s" : ""} ago</span>
+        </div>
+      </div>
+      <div class="feed-icon px-2"><i class="fa fa-ellipsis-v text-black-50"></i></div>
+    </div>
+    <div class="p-1 px-1">
+      <span class="small-text">${post.text}</span>
+    </div>
+    <div class="d-flex justify-content-between p-1 py-1">
+      <div class="character-count p-1 px-1">
+        <span class="xs-text">${post.text.length} characters</span>
+      </div>
+      <div class="socials d-flex justify-content-end socials">
+        <div class="social-item">
+          <i class="fa fa-thumbs-up"></i>
+          <span class="count">${post.like_count}</span>
+        </div>
+        <div class="social-item">
+          <i class="fa fa-comments-o"></i>
+          <span class="count">${post.comment_count}</span>
+        </div>
+        <div class="social-item">
+          <i class="fa fa-eye"></i>
+          <span class="count">${post.view_count}</span>
+        </div>
+      </div>
+    </div>
+  `;
+
+  postListItem.setAttribute("data-number", post.correct_position ?? -1);
+
+  feed_parent_list.appendChild(postListItem);
+}
+
+function populate_feed_container(feeds, container, labeled) {
+  const feed_width = Math.floor(12 / feeds.length);
+  const label_width = feed_width;
+
+  const labelRow = document.createElement("div");
+  labelRow.className = "row label-container align-items-start pl-1 pr-3 pb-2";
+  container.appendChild(labelRow);
+
+  const feedRow = document.createElement("div");
+  feedRow.className = "row feed-scroll visible-scrollbar";
+  container.appendChild(feedRow);
+
+  for (let i = 0; i < feeds.length; i++) {
+    if (labeled) {
+      let labelText = String.fromCharCode(65 + i);
+      insert_label(labelText, labelRow, label_width);
+    }
+
+    insert_feed(feeds[i], feedRow, feed_width, true);
+  }
+}
+
+function insert_reddit_post(post, feed_parent_list) {
+  const postListItem = document.createElement("div");
+  postListItem.className = "bg-white border mt-2 post rounded p-2";
+
+  postListItem.innerHTML = `
+    <div class="d-flex justify-content-between align-items-center border-bottom mb-2">
+      <span class="font-weight-bold">${"r/" + post.SUBREDDIT}</span>
+      <div class="feed-icon"><i class="fa fa-ellipsis-v text-black-50"></i></div>
+    </div>
+    <div>
+      <span class="font-weight-bold">${post.TITLE}</span>
+    </div>
+    <div class="post-image mt-2">
+      <img src="${post.IMAGE}" class="rounded">
+    </div>
+    <div class="d-flex justify-content-between align-items-center mt-2">
+      <div class="d-flex">
+        <div class="small-text mr-2">
+          <i class="fa fa-thumbs-up"></i>
+          <span class="count">${post.SCORE}</span>
+        </div>
+        <div class="small-text">
+          <i class="fa fa-comments-o"></i>
+          <span class="count">${post["#_COMMENTS"]}</span>
+        </div>
+      </div>
+      <div class="small-text">
+        ${(post["UPVOTED_%"] * 100).toFixed(0)}% upvoted
+      </div>
+    </div>
+  `;
+
+  feed_parent_list.appendChild(postListItem);
+}
+
+function insert_text(question_text, container) {
+  const question_div = document.createElement("div");
+  question_div.className = "pr-3";
+
+  const question_element = document.createElement("p");
+  question_element.className = "small-text font-weight-bold mb-0";
+  question_element.innerHTML = question_text;
+  question_div.appendChild(question_element);
+
+  container.appendChild(question_div);
+}
+function insert_mcq(question, container, screen_name, question_name) {
+  const question_div = document.createElement("div");
+  question_div.className = "study-question pl-2 mb-2 mr-3 rounded";
+  question_div.id = `${screen_name}-${question_name}`;
+
+  insert_text(question.text, question_div);
+
+  for (let i = 0; i < question.options.length; i++) {
+    const radio_div = document.createElement("div");
+    const radio_input = document.createElement("input");
+    const radio_label = document.createElement("label");
+
+    radio_div.className = "form-check mt-2";
+    radio_input.className = "form-check-input";
+    radio_label.className = "form-check-label";
+    radio_label.style.display = "inline-block";
+    radio_label.style.paddingLeft = "25px";
+    radio_label.style.marginLeft = "-25px";
+
+    radio_input.type = "radio";
+    radio_input.name = `question_${container.id}_${question_name}`;
+    radio_input.value = question["option-key"][i];
+    radio_input.id = `${container.id}_${question.options[i].replace(/\s+/g, "_").toLowerCase()}`;
+
+    radio_label.for = radio_input.id;
+    radio_label.textContent = question.options[i];
+
+    radio_div.appendChild(radio_input);
+    radio_div.appendChild(radio_label);
+
+    question_div.appendChild(radio_div);
+
+    radio_label.addEventListener("click", () => {
+      radio_input.checked = true;
+    });
+  }
+
+  container.appendChild(question_div);
+}
+
+function insert_radio_buttons(question, container, screen_name, question_name) {
+  const question_div = document.createElement("div");
+  question_div.className = "study-question pl-2 mb-2 mr-3 rounded";
+  question_div.id = `${screen_name}-${question_name}`;
+
+  insert_text(question.text, question_div);
+
+  const radioButtonsRow = document.createElement("div");
+  radioButtonsRow.className = "radio-buttons-row mt-2";
+
+  radioButtonsRow.style.display = "flex";
+  radioButtonsRow.style.justifyContent = "between";
+
+  question_div.appendChild(radioButtonsRow);
+
+  let selectedButton = null;
+
+  const min_length = question.options.reduce((min, current) => {
+    return current.length < min ? current.length : min;
+  }, question.options[0].length);
+
+  for (let i = 0; i < question.options.length; i++) {
+    const radio_button = document.createElement("button");
+
+    radio_button.className = "btn btn-outline-primary mr-1 pt-2 d-flex justify-content-center align-items-center";
+    radio_button.type = "button"; 
+
+    radio_button.style.width = `${90 / question.options.length}%`;
+
+    radio_button.addEventListener("click", () => {
+      const selectedRadio = radio_button.querySelector("input[type='radio']");
+      selectedRadio.checked = true;
+
+      if (selectedButton) {
+        selectedButton.classList.remove("btn-primary");
+        selectedButton.querySelector("label").classList.remove("selected-label");
+      }
+
+      radio_button.classList.add("btn-primary");
+      selectedButton = radio_button;
+      selectedButton.querySelector("label").classList.add("selected-label"); 
+
+      radio_button.blur();
+    });
+
+    const radio_input = document.createElement("input");
+    radio_input.type = "radio";
+    radio_input.name = `question_${container.id}_${question_name}`;
+    radio_input.value = question['option-key'][i];
+    radio_input.id = `${container.id}_${question.options[i].replace(/\s+/g, "_")}`.toLowerCase();
+    radio_input.style.display = "none";
+
+    const radio_label = document.createElement("label");
+    radio_label.for = radio_input.id;
+    radio_label.textContent = question.options[i];
+
+    const maxFontSize = (100 *  Math.sqrt(questions_column_width)) / min_length;
+
+    radio_label.style.fontSize = `${maxFontSize}px`;
+
+    radio_label.classList.add("d-flex", "justify-content-center", "align-items-center");
+
+    radio_button.appendChild(radio_input);
+    radio_button.appendChild(radio_label);
+    radioButtonsRow.appendChild(radio_button);
+  }
+
+  container.appendChild(question_div);
+}
+
+function insert_checkbox(question, container, screen_name, question_name) {
+  const question_div = document.createElement("div");
+  question_div.className = "study-question mb-4 rounded"; 
+  question_div.id = `${screen_name}-${question_name}`;
+  
+  insert_text(question.text, question_div);
+
+  for (let i = 0; i < question.options.length; i++) {
+    const checkbox_div = document.createElement("div");
+    const checkbox_input = document.createElement("input");
+    const checkbox_label = document.createElement("label");
+
+    checkbox_div.className = "form-check mt-2"; 
+    checkbox_input.className = "form-check-input";
+    checkbox_label.className = "form-check-label";
+
+    checkbox_input.type = "checkbox";
+    checkbox_input.name = `question_${container.id}`;
+    checkbox_input.value = question['option-key'][i];
+    checkbox_input.id = `${container.id}_${question.options[i].replace(/\s+/g, "_").toLowerCase()}`;
+
+    checkbox_label.for = checkbox_input.id;
+    checkbox_label.textContent = question.options[i];
+    
+    checkbox_div.appendChild(checkbox_input);
+    checkbox_div.appendChild(checkbox_label);
+    question_div.appendChild(checkbox_div);
+  }
+  
+  container.appendChild(question_div);
+}
+
+function insert_post_placement(question, container, screen_name, question_name) {
+  const question_div = document.createElement("div");
+  question_div.className = "post-placement-question pl-2 mb-3 mr-3 rounded";
+  question_div.id = `${screen_name}-${question_name}`;
+
+  insert_text(question.text, question_div);
+
+  container.appendChild(question_div);
+
+  insert_feed(question['feed'], question_div, 12, false);
+}
+
+function insert_radio_grid(question, container, screen_name, question_name) {
+  const question_div = document.createElement("div");
+  question_div.className = "study-question mb-4";
+  question_div.id = `${screen_name}-${question_name}`;
+
+  insert_text(question.text, question_div);
+
+  const gridDiv = document.createElement("div");
+  gridDiv.className = "radio-grid";
+
+  for (let i = 0; i < question.entries.length; i++) {
+    const entryDiv = document.createElement("div");
+    entryDiv.className = "radio-grid-row row mb-2";
+
+    const entryLabel = document.createElement("div");
+    entryLabel.className = "col-md-3 radio-grid-entry";
+    entryLabel.textContent = question.entries[i];
+    entryDiv.appendChild(entryLabel);
+
+    const optionDiv = document.createElement("div");
+    optionDiv.className = "col-md-9 radio-grid-options";
+
+    for (let j = 0; j < question.options.length; j++) {
+      const radio_input = document.createElement("input");
+      const radio_label = document.createElement("label");
+
+      radio_input.className = "form-check-input";
+      radio_label.className = "form-check-label";
+
+      radio_input.type = "radio";
+      radio_input.name = `question_${container.id}_${i}`;
+      radio_input.value = question['option-key'][i][j];
+      radio_input.id = `${container.id}_${question.entries[i]}_${question.options[j].replace(/\s+/g, "_").toLowerCase()}`;
+      radio_input.setAttribute("data-entry", i);
+
+      radio_label.for = radio_input.id;
+      radio_label.textContent = question.options[j];
+
+      optionDiv.appendChild(radio_input);
+      optionDiv.appendChild(radio_label);
+    }
+
+    entryDiv.appendChild(optionDiv);
+    gridDiv.appendChild(entryDiv);
+  }
+
+  question_div.appendChild(gridDiv);
+  container.appendChild(question_div);
+}
+
+function populate_questions_container(questions, container, screen_name) {
+  
+  for (let question_name in questions) {
+    let question = questions[question_name];
+
+    if (question['type'] == 'checkbox') {
+      insert_checkbox(question, container, screen_name, question_name);
+    } else if (question['type'] == 'multiple-choice') {
+      insert_mcq(question, container, screen_name, question_name);
+    } else if (question['type'] == 'post-placement') {
+      insert_post_placement(question, container, screen_name, question_name);
+    } else if (question['type'] == 'radio-buttons') {
+      insert_radio_buttons(question, container, screen_name, question_name);
+    } else if (question['type'] == 'radio-grid') {
+      insert_radio_grid(question, container, screen_name, question_name);
+    } else {
+      console.log('unknown question type');
+    }
+  }
+}
+
+</script>
+  <script type="text/javascript">
+
+function populate_LFQ(screen_info, screen_name) {
+  $('#LFQ-feeds').empty();
+  $('#LFQ-questions-container').empty();
+
+  const screen_type = screen_info["study_type"];
+  const questions = get_questions(screen_type);
+  const num_feeds =  screen_info['feeds'].length;
+
+  let feeds = shallowCopy(screen_info['feeds']);
+
+  const unit_width = Math.min(12 / (num_feeds + 1), num_feeds * 5);
+
+  const feed_column_width = Math.floor(unit_width * num_feeds);
+  questions_column_width = Math.ceil(unit_width);
+
+  $('#LFQ-feed-container').removeClass(function (index, className) {
+    return (className.match(/\bcol-md-\S+/g) || []).join(' ');
+  }).addClass(`col-md-${feed_column_width}`);
+  
+  $('#LFQ-questions-container').removeClass(function (index, className) {
+    return (className.match(/\bcol-md-\S+/g) || []).join(' ');
+  }).addClass(`col-md-${questions_column_width}`);
+
+  let text = "";
+  let labeled = false;
+  let weights = screen_info['weights'];
+
+  if (screen_type == "feed-selection") {
+    text = `A scoring function is defined as follows:`;
+    labeled = true;
+    let correct_feed_idx = screen_info['correct_feed_index'];
+
+    questions['Q1']['options'] = Array.from({ length: feeds.length }, (value, index) => ("Feed " + String.fromCharCode(65 + index)));
+    questions['Q1']['option-key'] = Array.from({ length: feeds.length }, (value, index) => index === correct_feed_idx ? 1 : 0);
+  
+  } else if (screen_type == "post-placement") {
+    text = `This feed was sorted using the following scoring function:`;
+    labeled = false;
+    let randomIndex = screen_info['correct_position'];
+    let extractedPost = feeds[0][randomIndex];
+    extractedPost['correct_position'] = randomIndex;
+    
+    let question_feed = [extractedPost];
+    
+    feeds[0].splice(randomIndex, 1);
+    
+    questions['Q1']['feed'] = question_feed;
+  } else if (screen_type == "feed-comparison") {
+    text = `Feed A was generated according to the following scoring function:`;
+    labeled = true;
+
+    let original_weights = shallowCopy(weights);
+
+    linear_combination_sort(feeds[0], weights);
+    let permuted_feature, permuted_weights;
+
+    do {
+      permuted_weights = shallowCopy(weights);
+      permuted_feature = permute_weights(permuted_weights);
+      linear_combination_sort(feeds[1], permuted_weights);
+    } while (JSON.stringify(feeds[0]) == JSON.stringify(feeds[1]));
+
+    let change_direction = permuted_weights[permuted_feature] > original_weights[permuted_feature] ? 1 : -1;
+
+    let feature_options = shallowCopy(feature_names);
+    shuffle_array(feature_options);
+    questions['Q1']['options'] = feature_options;
+    questions['Q1']['option-key'] = Array.from({ length: feature_keys.length }, (value, index) => index === feature_keys.indexOf(feature_options[permuted_feature]) ? 1 : 0);
+
+    questions['Q2']['option-key'] = change_direction > 0 ? [1, 0] : [0, 1];
+  } else if (screen_type == "feed-comparison-B") {
+    text = `Feed A was generated according to the following scoring function:`;
+    labeled = true;
+
+    questions['Q1']['options'] = questions['Q1']['options'];
+    questions['Q1']['option-key'] = screen_info['permuted'] ? [1, 0] : [0, 1];
+  }
+
+  text += generate_ranking_text(weights, screen_type == "feed-comparison");
+  insert_text(text, document.getElementById('LFQ-questions-container'));
+
+  populate_feed_container(feeds, document.getElementById('LFQ-feeds'), labeled);
+  populate_questions_container(questions, document.getElementById('LFQ-questions-container'), screen_name);
+}
+
+</script>
+  <script type="text/javascript">
+
+/**
+ * Highlights unanswered question divs and adds a small red text indicating they were not answered.
+ * @param {Array} unanswered_divs - Array of unanswered question div elements.
+ */
+function highlight_unanswered_questions(unanswered_divs) {
+  // Get all question divs in the provided array
+  const question_divs = $(".study-question, .post-placement-question");
+
+  // Iterate through each question div
+  for (let i = 0; i < question_divs.length; i++) {
+    const question_div = question_divs[i];
+
+    // Check if the div is unanswered
+    if (unanswered_divs.includes(question_div)) {
+      // Highlight unanswered question div
+      question_div.style.border = "2px solid red";
+
+      // Add red text indicating that the question was not answered
+      if (question_div.lastChild.style.color != "red") {
+        const question_number_div = document.createElement("div");
+        question_number_div.className = "py-2";
+        question_number_div.style.color = "red";
+        question_number_div.style.fontSize = "small";
+        question_number_div.style.textAlign = "center";
+        question_number_div.textContent = `Please answer the required question.`;
+        question_div.appendChild(question_number_div);
+      }
+    } else {
+      // Remove highlighting and red text if the question is answered
+      question_div.style.border = "";
+      if (question_div.lastChild.style.color == "red") {
+        question_div.removeChild(question_div.lastChild);
+      }
+    }
+  }
+}
+
+/**
+ * Processes a checked question and updates the screen output.
+ * @param {Element} questionDiv - The question div element.
+ * @param {Object} screenOutput - The screen output object.
+ * @param {Array} unansweredQuestions - Array to track unanswered questions.
+ */
+function process_check_question(questionDiv, screenOutput, unansweredQuestions) {
+  const questionId = questionDiv.id;
+  const inputs = questionDiv.querySelectorAll("input:checked");
+
+  const checkedOptions = [];
+  let sumOfValues = 0;
+
+  for (let j = 0; j < inputs.length; j++) {
+    const checkedInput = inputs[j];
+    const optionText = checkedInput.nextElementSibling.textContent;
+    checkedOptions.push(optionText);
+    const optionValue = parseInt(checkedInput.value, 10);
+    sumOfValues += isNaN(optionValue) ? 0 : optionValue;
+  }
+
+  if (checkedOptions.length === 0) {
+    unansweredQuestions.push(questionDiv);
+  }
+
+  if (questionId.slice(-2) === "CF") {
+    screenOutput["chosen_confidence"] = checkedOptions[0];
+    screenOutput["confidence"] = sumOfValues;
+  } else {
+    const questionNum = questionId.slice(-2);
+    screenOutput["chosen_options_" + questionNum] = checkedOptions[0];
+    screenOutput["score_" + questionNum] = sumOfValues;
+  }
+}
+
+/**
+ * Processes a post placement question and updates the screen output.
+ * @param {Element} questionDiv - The question div element.
+ * @param {Object} screenOutput - The screen output object.
+ * @param {Array} unansweredQuestions - Array to track unanswered questions.
+ * @param {Element} feed - The feed element.
+ */
+function process_post_placement_question(questionDiv, screenOutput, unansweredQuestions, feed) {
+  const posts = feed.querySelectorAll('li');
+
+  let chosenIndex = -1;
+  let correctIndex = -1;
+  let distance = -1;
+
+  for (let i = 0; i < posts.length; i++) {
+    const post = posts[i];
+    const position = parseInt(post.dataset.number);
+    if (position >= 0) {
+      distance = Math.abs(i - position);
+      correctIndex = position;
+      chosenIndex = i;
+      break;
+    }
+  }
+
+  if (chosenIndex === -1) {
+    unansweredQuestions.push(questionDiv);
+  }
+
+  screenOutput["chosen_index"] = chosenIndex;
+  screenOutput["correct_index"] = correctIndex;
+  screenOutput["distance"] = distance;
+  screenOutput["score_Q1"] = distance === 0 ? 1 : 0;
+}
+
+/**
+ * Logs checked answers with sum and updates the screen output.
+ * @param {string} screenName - The screen name.
+ * @returns {Array} - Array of unanswered question div elements.
+ */
+function log_checked_answers_with_sum(screen_info, screenName) {
+  const studyQuestions = document.getElementsByClassName("study-question");
+  const postPlacementQuestions = document.getElementsByClassName("post-placement-question");
+  const feedElements = document.querySelectorAll('.feed');
+  const screenOutput = 
+  {
+    "study_type": screen_info.study_type,
+    "feature_count": screen_info.feature_count,
+    "instance_number": screen_info.instance_number,
+    "screen_name": screenName,
+    };
+
+  const unansweredQuestions = [];
+
+  for (let i = 0; i < studyQuestions.length; i++) {
+    process_check_question(studyQuestions[i], screenOutput, unansweredQuestions);
+  }
+
+  for (let i = 0; i < postPlacementQuestions.length; i++) {
+    process_post_placement_question(postPlacementQuestions[i], screenOutput, unansweredQuestions, feedElements[i]);
+  }
+
+  if (unansweredQuestions.length === 0) {
+    screenOutput['time-elapsed'] = (new Date().getTime() - start_times[screenName]) / 1000;
+
+    if (!output["questions"]) {
+      output["questions"] = [];
+    }
+
+    // if a screenOutput with the same screen name already exists, concatenate "REPEAT" to the screen name
+    const screenOutputWithSameName = output["questions"].find(output => output["screen_name"] === screenName);
+    if (screenOutputWithSameName) {
+      screenOutput["screen_name"] = screenName + "-REPEAT";
+    }
+
+    output["questions"].push(screenOutput);
+  }
+
+  return unansweredQuestions;
+}
+
+function log_introduction() {
+  const screenName = "introduction";
+  const screenOutput = 
+  {
+    "screen_name": screenName,
+    "time-elapsed": (new Date().getTime() - start_times[screenName]) / 1000,
+  };
+
+  if (!output["global"]) {
+    output["global"] = [];
+  }
+
+  output["global"].push(screenOutput);
+}
+
+function log_submission() {
+  const screenName = "submission";
+  const screenOutput =
+  {
+    "screen_name": screenName,
+    "time-elapsed": (new Date().getTime() - start_times[screenName]) / 1000,
+  };
+
+  if (!output["global"]) {
+    output["global"] = [];
+  }
+
+  output["global"].push(screenOutput);
+
+  const experimentOutput =
+  {
+    "screen_name": "experiment",
+    "time-elapsed": (new Date().getTime() - start_times["introduction"]) / 1000,  
+  }
+
+  output["global"].push(experimentOutput);
+}
+
+function next_screen() {
+  let curr_screen_info = screen_order[screen_index];
+  let curr_screen_name = generate_screen_name(curr_screen_info);
+
+  let next_screen_info = screen_order[screen_index + 1];
+  let next_screen_name = generate_screen_name(next_screen_info);
+
+  if (screen_index == 0) {
+    log_introduction();
+    deactivate_screen(curr_screen_info);
+    screen_index++;
+    activate_screen(next_screen_info, next_screen_name);
+  } else {
+    let missing_questions = log_checked_answers_with_sum(curr_screen_info, curr_screen_name);
+    if (missing_questions.length > 0) {
+      highlight_unanswered_questions(missing_questions);
+    } else {
+      deactivate_screen(curr_screen_info);
+      screen_index++;
+      activate_screen(next_screen_info, next_screen_name);
+    }
+  }
+}
+
+function deactivate_screen(screen_info) {
+  let screen_type = screen_info['template'];
+  window.scrollTo(0,0);
+  document.getElementById(screen_type).style.display = 'none';
+}
+
+function activate_screen(screen_info, screen_name) {
+  
+  start_times[screen_name] = new Date().getTime();
+
+  if (screen_info == undefined) {
+    alert('Screen name ' + screen_name + ' is undefined');
+    return;
+  }
+
+  let template = screen_info['template'];
+
+  if (template == "left-feed-questions") {
+    populate_LFQ(screen_info, screen_name);
+  } else if (template == "single-post-question") {
+    populate_SPQ(screen_info, screen_name);
+  } else if (template == "submission") {
+    document.getElementById("next-btn").style.display = "none";
+  }
+
+  document.getElementById(template).style.display = 'block';
+  window.scrollTo(0,0);
+
+  MathJax.typesetPromise().then(() => { });
+}
+
+function submit() {
+  log_submission();
+  proliferate.submit(output);
+}
+
+</script>
+  <script type="text/javascript">
+
+function removeEmojis(input) {
+  const emojiPattern = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}\u{1F191}-\u{1F251}\u{1F004}\u{1F0CF}\u{1F170}-\u{1F171}\u{1F17E}-\u{1F17F}\u{1F18E}\u{3030}\u{2B50}\u{2B55}\u{2B05}-\u{2B07}\u{2B1B}-\u{2B1C}\u{3297}\u{3299}\u{23F0}\u{23F3}\u{231A}-\u{231B}\u{25FD}-\u{25FE}\u{2B50}\u{23E9}-\u{23EC}\u{2B05}-\u{2B07}\u{2B1B}-\u{2B1C}\u{2934}-\u{2935}\u{2B05}-\u{2B07}\u{27A1}]/gu;
+
+  return input.replace(emojiPattern, '');
+}
+
+function removeHashtags(input) {
+  const hashtagPattern = /#[^\s#]+/g;
+
+  return input.replace(hashtagPattern, '');
+}
+
+// https://stackoverflow.com/questions/25582882/javascript-math-random-normal-distribution-gaussian-bell-curve
+function randn_bm(min, max, skew) {
+  let u = 0, v = 0;
+  while(u === 0) u = Math.random() //Converting [0,1) to (0,1)
+  while(v === 0) v = Math.random()
+  let num = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v )
+  
+  num = num / 10.0 + 0.5 // Translate to 0 -> 1
+  if (num > 1 || num < 0) 
+    num = randn_bm(min, max, skew) // resample between 0 and 1 if out of range
+  
+  else{
+    num = Math.pow(num, skew) // Skew
+    num *= max - min // Stretch to fill range
+    num += min // offset to min
+  }
+  return Math.round(num);
+}
+
+function sanitizePosts(posts) {
+
+  for (let i = 0; i < posts.length; i++) {
+    // if the first character is an emoji, remove it 65% of the time
+    if (posts[i].text.charCodeAt(0) >= 0x1F600 && posts[i].text.charCodeAt(0) <= 0x1F64F) {
+      if (Math.random() < 0.65) {
+        posts[i].text = posts[i].text.slice(2);
+      }
+    }
+
+    // Randomly remove emojis, hashtags, exclamations, and uppercases
+    if (Math.random() < 0.65) {
+      posts[i].text = removeEmojis(posts[i].text);
+    }
+
+    if (Math.random() < 0.65) {
+      posts[i].text = removeHashtags(posts[i].text);
+    }
+
+    if (Math.random() < 0.65) {
+      posts[i].text = posts[i].text.replace(/!/g, '.');
+    }
+
+    if (Math.random() < 0.35) {
+      posts[i].text = posts[i].text.toLowerCase();
+    }
+
+    // if the author_name is too long, remove the last word
+    while (posts[i].author_name.length > 16 && posts[i].author_name.split(" ").length > 1) {
+      posts[i].author_name = posts[i].author_name.split(" ").slice(0, -1).join(" ");
+    }
+
+    // if the author_name is still too long, remove the last characters starting at the last capital letter
+    if (posts[i].author_name.length > 18) {
+      const lastCapitalIndex = posts[i].author_name.split("").reverse().join("").search(/[A-Z]/);
+      posts[i].author_name = posts[i].author_name.slice(0, -lastCapitalIndex);
+    }
+
+    // Assign days_since_posted
+    posts[i].days_since_posted = randn_bm(0, 500, 4);
+
+    // Assign view_count, like_count, and comment_count
+    posts[i].view_count = randn_bm(0, 2500, 4);
+
+    posts[i].like_count =  randn_bm(posts[i].view_count / 6, posts[i].view_count, 1.1);
+
+    posts[i].comment_count = randn_bm(posts[i].like_count / 6, posts[i].like_count, 1.5);
+  }
+}
+
+</script>
+  <script type="text/javascript">
+
+/* takes in a feed array of posts and weights it's features according to the weights dictionary 
+ */
+function linear_combination_sort(feed, weights) {
+    feed.sort(function(a, b){
+        let a_score = 0;
+        let b_score = 0;
+        for (let key in weights) {
+            if (key == "character_count") {
+                a_score += weights[key] * a["text"].length;
+                b_score += weights[key] * b["text"].length;
+            } else {
+                a_score += weights[key] * a[key];
+                b_score += weights[key] * b[key];
+            }   
+        }
+        return  b_score - a_score;
+    });
+}
+
+// given an array of features (strings) and the number of features that should have
+// weight > 0, generates a random weight dictionary
+function generate_weights(features, num_features) {
+    let weights = {};
+    let num_features_set = 0;
+    while (num_features_set < num_features) {
+        let random_feature = features[Math.floor(Math.random() * features.length)];
+        if (weights[random_feature] == undefined) {
+            do {
+                weights[random_feature] = truncate(Math.random() * 2 - 1);
+            } while (Math.abs(weights[random_feature]) <= 0.1);
+            num_features_set++;
+        }
+    }
+
+    // set all other features to 0
+    for (let feature of features) {
+        if (weights[feature] == undefined) {
+            weights[feature] = 0;
+        }
+    }
+
+    return weights;
+}
+
+// function permute_weights(weights) {
+// modifies the weights dictionary with one of the weights changed
+// returns a the name of the weight that was changed
+function permute_weights(weights) {
+    let keys = Object.keys(weights);
+    let random_key = keys[Math.floor(Math.random() * keys.length)];
+    weights[random_key] = truncate(Math.random() * 2 - 1);
+    return random_key;
+}
+
+// function permute_weights_valence(weights) {
+// modifies the weights dictionary with one of the weights changed to another sign
+// returns a the name of the weight that was changed
+function permute_weights_valence(weights) {
+    let keys = Object.keys(weights);
+
+    let random_key = keys[Math.floor(Math.random() * keys.length)];
+
+    if (weights[random_key] == 0) {
+        do {
+            weights[random_key] = truncate(Math.random() * 2 - 1);
+        } while (Math.abs(weights[random_key]) <= 0.1);
+    } else {
+        weights[random_key] = -weights[random_key];
+    }
+    
+    return random_key;
+}
+
+</script>
+  <script>
+
+var questions_column_width;
+var feature_dict = 
+{
+    "days_since_posted": "Hours Since Posted", 
+    "like_count": "Like Count", 
+    "view_count": "View Count", 
+    "comment_count": "Comment Count", 
+    "character_count": "Character Count"
+};
+
+var feature_keys = Object.keys(feature_dict);
+var feature_names = Object.values(feature_dict);
+
+var startTime;
+
+sanitizePosts(json_posts["posts"]);
+shuffle_array(json_posts["posts"]);
+
+let screen_order = generate_study_array(["feed-comparison-B", "post-placement", "feed-selection"], [1, 2, 5], 2, "left-feed-questions", feature_keys, 8);
+
+var screen_index = 0;
+
+var start_times = {};
+
+output = {
+    
+}
+
+</script>
+  <script type="text/javascript">
+
+function main() {
+  activate_screen(screen_order[0], "introduction");
+}
+
+main();
+
+</script>
+
 
   </div>
 </body>
