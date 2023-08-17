@@ -334,7 +334,7 @@ function parseTextFile() {
     const result = [];
 
     for (const line of lines) {
-      const [submissionId, subreddit, title, author, comments, nsfw, score, upvoted, link, image] = line.split('\t');
+      const [submissionId, subreddit, title, author, comments, nsfw, score, upvoted, link, content] = line.split('\t');
       const dictionary = {
         "SUBMISSION_ID": submissionId,
         "SUBREDDIT": subreddit,
@@ -345,7 +345,6 @@ function parseTextFile() {
         "SCORE": parseInt(score),
         "UPVOTED_%": parseFloat(upvoted),
         "LINK": link,
-        "IMAGE": image,
       };
       result.push(dictionary);
     }
@@ -418,13 +417,21 @@ function string_to_rgb(string) {
 function generate_ranking_text(weights, show_zeroes = false) {
   let text = `$$\\begin{align*} \\text{Score} &= \\begin{aligned}[t]`;
 
+  let num_weights_nonzero = 0;
   for (const key in weights) {
-    if (weights[key] !== 0 || show_zeroes) {
-      
-      const sign = weights[key] >= 0 ? " + " : " - ";
-      text += `&${sign}${Math.abs(weights[key])} \\times \\text{${feature_dict[key]}} \\\\`;
+    if (Math.abs(weights[key]) > 0) {
+      num_weights_nonzero++;
     }
   }
+
+  for (const key in weights) {
+    if (weights[key] !== 0 || show_zeroes) {
+      const sign = weights[key] >= 0 ? " + " : " - ";
+      console.log(num_weights_nonzero);
+      text += `&${num_weights_nonzero > 1 || weights[key] < 0 ? sign : ''}${num_weights_nonzero > 1 ? Math.abs(weights[key]) + '\\times' : ''} \\text{${feature_dict[key]}} \\\\`;
+    }
+  }
+  
 
   text += "\\end{aligned} \\end{align*} $$";
 
@@ -697,10 +704,7 @@ function insert_reddit_post(post, feed_parent_list) {
       <div class="feed-icon"><i class="fa fa-ellipsis-v text-black-50"></i></div>
     </div>
     <div>
-      <span class="font-weight-bold">${post.TITLE}</span>
-    </div>
-    <div class="post-image mt-2">
-      <img src="${post.IMAGE}" class="rounded">
+      <span class="fs-5">${post.TITLE}</span>
     </div>
     <div class="d-flex justify-content-between align-items-center mt-2">
       <div class="d-flex">
@@ -782,14 +786,15 @@ function insert_radio_buttons(question, container, screen_name, question_name) {
 
   const radioButtonsRow = document.createElement("div");
   radioButtonsRow.className = "radio-buttons-row mt-2";
-
   radioButtonsRow.style.display = "flex";
-  radioButtonsRow.style.justifyContent = "between";
+  radioButtonsRow.style.justifyContent = "between"
 
   question_div.appendChild(radioButtonsRow);
 
   let selectedButton = null;
 
+  const availableWidth = container.offsetWidth / question.options.length;
+  
   const min_length = question.options.reduce((min, current) => {
     return current.length < min ? current.length : min;
   }, question.options[0].length);
@@ -798,7 +803,10 @@ function insert_radio_buttons(question, container, screen_name, question_name) {
     const radio_button = document.createElement("button");
 
     radio_button.className = "btn btn-outline-primary mr-1 pt-2 d-flex justify-content-center align-items-center";
-    radio_button.type = "button"; 
+    radio_button.type = "button";
+
+    const adjustedWidth = availableWidth * 0.9;
+    radio_button.style.width = `${adjustedWidth}px`;
 
     radio_button.style.width = `${90 / question.options.length}%`;
 
@@ -1419,6 +1427,12 @@ function generate_weights(features, num_features) {
             } while (Math.abs(weights[random_feature]) <= 0.1);
             num_features_set++;
         }
+    }
+
+    // if weights only has one entry, set it to 1 or -1 (depending on its sign)
+    if (Object.keys(weights).length == 1) {
+        let key = Object.keys(weights)[0];
+        weights[key] = weights[key] >= 0 ? 1 : -1;
     }
 
     // set all other features to 0
