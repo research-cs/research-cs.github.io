@@ -427,7 +427,6 @@ function generate_ranking_text(weights, show_zeroes = false) {
   for (const key in weights) {
     if (weights[key] !== 0 || show_zeroes) {
       const sign = weights[key] >= 0 ? " + " : " - ";
-      console.log(num_weights_nonzero);
       text += `&${num_weights_nonzero > 1 || weights[key] < 0 ? sign : ''}${num_weights_nonzero > 1 ? Math.abs(weights[key]) + '\\times' : ''} \\text{${feature_dict[key]}} \\\\`;
     }
   }
