@@ -222,40 +222,35 @@ ol li {
     </div>
   </div>
 </div>
-    <div class='row p-2' id='introduction' class="screen" style="display:none;">
-	<div class='col-12'>
-		<div class="card pb-4">
-			<div class="card-body">
-				<div class="row">
-					<div class="col-6">
-						<p> <b>If an equation is not displaying correctly, please refresh the page. </b></p>
-						<p>For the following questions, you will be given an expression for how a feed algorithm ranks and
-							orders posts. You wil then be asked to answer questions based on this description. A feed algorithm 
-							guides how posts are ordered by assigning each post a score, and then sorting them with the 
-							higher scoring posts placed towards the top of the feed. If the scoring function were <span>$$-\text{Hours Since Posted}$$</span> 
-							posts would be sorted based on how recently they were posted, with the lowest count of days since posted at the top. </p>
-						<p> Rankings may take into account any of 5 different features (indicated in the diagram) and 
-						assign them varying weights. For example, the ranking $$- 67\% \times \text{Hours Since Posted} \\ + 33\% \times \text{Comment Count} $$ would 
-						assign the post in the diagram with a score of $$- 67\% \times (39) + 33\% \times (42) = -26 + 14 = -12. $$ This would 
-						then lead the feed algorithm to place it further down the feed than posts with higher (more positive) scores. </p>
-					</div>
-					<div class="col-6" style="border: 1px solid #ccc; padding: 10px;">
-						<img src="./templates/reference_post.png">
-						<p><i>This is a sample post with its features highlighted.</i></p>
-					</div>
-				</div>
-				</p>
-					Each scenario will offer several pairs of questions and self-assessments. For each 
-					question, you can receive <b>$0.15 for a correct answer</b>. After each question, you will 
-					be asked to self-assess the accuracy of your prediction. Correct self-assessment 
-					will be bonused up to $0.06 in the form of a self-bet (full confidence = full bet on 
-					oneself, no confidence = full bet against oneself; rewards are provided according to 
-					the odds of getting the question right).
-				
-					The first three questions are practice. <b>Click next (or press enter) to start.</b></p>
-			</div>
-		</div>
-	</div>
+    <div class='row p-2' id='introduction' style="display:none;">
+    <div class='col-12'>
+        <div class="card pb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p style="font-size: 18px;"><b>If an equation isn't showing correctly, refresh the page.</b></p>
+                        <p style="font-size: 18px;">
+						In the upcoming questions, you'll be given a description for a feed algorithm that 
+						organizes and ranks posts. Then, you'll answer questions based on this description. 
+						</p>
+						<p style="font-size: 18px;">A feed algorithm sorts posts by giving each one a score and placing 
+						the posts with the highest scores at the top. For example, if an algorithm assigns scores according to posts'
+						<i>"Hours Since Posted"</i> older posts would have a higher score and appear at the top of the feed.</p>
+						<p style="font-size: 18px;">
+						You will receive <b>$0.15 for each correct answer</b>. After each question, you will also be asked 
+						to assess how confident you are in your answer. Correct self-assessment 
+						will be bonused up to $0.06. The first section will serve as practice. </p>
+						
+						<p> <b>Click next (or press enter) to start.</b></p>
+                    </div>
+                    <div class="col-6" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 50px;">
+                        <img src="./templates/reference_post.png">
+                        <p><i>Example post with highlighted parts.</i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
     <div class='row p-2' id='submission' style="display:none;">
 	<div class='col-12'>
@@ -275,7 +270,7 @@ ol li {
 		<div class="col-md-12 p-0" id="LFQ-feeds">
 		</div>
 	  </div>
-	  <div class="question-container px-md-1 py-md-3" id="LFQ-questions-container">
+	  <div class="question-container px-md-3 py-md-3" id="LFQ-questions-container">
 	  </div>
 	</div>
   </div>
@@ -497,17 +492,17 @@ function generate_study_array(studies, feature_counts, num_repeats, template, fe
       const weights = generate_weights(feature_keys, 1);
       
       if (studyType.startsWith('feed-selection')) {
-        const studyObj = generateFeedSelectionStudy(studyType, template, num_posts, weights, 1, 0, true);
+        const studyObj = generateFeedSelectionStudy(studyType, template, 4, weights, 1, 0, true);
         practice_array.push(studyObj);
       }
 
       if (studyType.startsWith('feed-comparison')) {
-        const studyObj = generateFeedComparisonStudy(studyType, template, num_posts, weights, 1, 0, true);
+        const studyObj = generateFeedComparisonStudy(studyType, template, 4, weights, 1, 0, true);
         practice_array.push(studyObj);
       }
 
       if (studyType.startsWith('post-placement')) {
-        const studyObj = generatePostPlacementStudy(studyType, template, num_posts, weights, 1, 0, true);
+        const studyObj = generatePostPlacementStudy(studyType, template, 4, weights, 1, 0, true);
         practice_array.push(studyObj);
       }
       
@@ -713,24 +708,10 @@ function insert_post(post, feed_parent_list, locked) {
   postListItem.className = `bg-white border mt-2 post${locked ? ' static' : ''} rounded`;
   let rgb = string_to_rgb(post.author_name);
 
-
-  // const imageUrls = [
-  //   "https://hai.stanford.edu/sites/default/files/styles/person_big/public/person/bio-images/michael%20bernstein%20headshot.jpeg?itok=BQg6ZadE",
-  //   "https://media.licdn.com/dms/image/C5603AQF4FVH3KOMxdg/profile-displayphoto-shrink_800_800/0/1616274278329?e=2147483647&v=beta&t=zAehjBRXjlUogSLd3U8mR9epzcgqpPSb4M-ar-oA2RQ",
-  //   "https://hai.stanford.edu/sites/default/files/styles/person_big/public/2020-03/michael_bernstein_photo.png?itok=LSErdXwP"
-  // ];
-  // const randomIndex = Math.floor(Math.random() * imageUrls.length);
-  // <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]});">
-  //         <img src="${imageUrls[randomIndex]}" alt="User Image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
-  //       </div>
-
   postListItem.innerHTML = `
     <div class="d-flex flex-row justify-content-between align-items-center p-1 border-bottom">
       <div class="d-flex flex-row align-items-center feed-text px-2">
-
         <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]});"></div>
-  
-
         <div class="d-flex flex-column flex-wrap ml-2">
           <span class="font-weight-bold">${post.author_name}</span>
           <span class="small-text">${post.days_since_posted} hour${post.days_since_posted != 1 ? "s" : ""} ago</span>
@@ -834,7 +815,7 @@ function insert_text(question_text, container) {
 }
 function insert_mcq(question, container, screen_name, question_name) {
   const question_div = document.createElement("div");
-  question_div.className = "study-question pl-2 mb-2 mr-3 rounded";
+  question_div.className = "study-question mb-2 mr-3 rounded";
   question_div.id = `${screen_name}-${question_name}`;
 
   insert_text(question.text, question_div);
@@ -980,7 +961,7 @@ function insert_checkbox(question, container, screen_name, question_name) {
 
 function insert_post_placement(question, container, screen_name, question_name) {
   const question_div = document.createElement("div");
-  question_div.className = "post-placement-question pl-2 mb-3 mr-3 rounded";
+  question_div.className = "post-placement-question mb-3 mr-3 rounded";
   question_div.id = `${screen_name}-${question_name}`;
 
   insert_text(question.text, question_div);
@@ -1155,9 +1136,6 @@ function populate_LFQ(screen_info, screen_name) {
 function highlight_unanswered_questions(unanswered_questions, incorrect_questions) {
   const question_divs = $(".study-question, .post-placement-question");
   
- 
-  console.log("incorrect:", incorrect_questions);
-  console.log("unanswered:", unanswered_questions);
   question_divs.each((i, question_div) => {
     if (unanswered_questions[question_div.id]) {
       question_div.setAttribute('data-state', 'unanswered');
@@ -1178,12 +1156,12 @@ function highlight_unanswered_questions(unanswered_questions, incorrect_question
 function answer_to_feedback(answer) {
   if (answer.question_type == "multiple-choice") {
     return `Your answer of "<strong>${answer.chosen_answers[0]}</strong>" was incorrect. The correct answer was "<strong>${answer.correct_answers[0]}</strong>". 
-            Please correct your answer and then proceed to the next question.`;
+            Please correct your answer and try a new version of this question in the next screen.`;
   }
   
   if (answer.question_type == "post-placement") {
     return `Your placement of the post at position <strong>${answer.chosen_answers[0] + 1}</strong> is incorrect. Its correct position is <strong>${answer.correct_answers[0] + 1}</strong>.
-            Please correct your answer and then proceed to the next question.`;
+            Please correct your answer and try a new version of this question in the next screen.`;
   }
 }
 
@@ -1464,12 +1442,39 @@ function next_screen() {
 
     if (Object.keys(unanswered_questions).length > 0 || Object.keys(incorrect_questions).length > 0) {
       highlight_unanswered_questions(unanswered_questions, incorrect_questions);
+
+      if (Object.keys(incorrect_questions).length > 0 && !curr_screen_info['attempted']) {
+        const studyType = curr_screen_info.study_type;
+        const weights = generate_weights(feature_keys, 1);
+      
+        if (studyType.startsWith('feed-selection') && practice_repeat_tally["feed-selection"] < 3) {
+          const studyObj = generateFeedSelectionStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
+          screen_order[1].splice(screen_index + 1, 0, studyObj);
+          practice_repeat_tally["feed-selection"]++;
+        }
+
+        if (studyType.startsWith('feed-comparison') && practice_repeat_tally["feed-comparison-B"] < 3) {
+          const studyObj = generateFeedComparisonStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
+          screen_order[1].splice(screen_index + 1, 0, studyObj);
+          practice_repeat_tally["feed-comparison-B"]++;
+        }
+
+        if (studyType.startsWith('post-placement') && practice_repeat_tally["post-placement"] < 3) {
+          const studyObj = generatePostPlacementStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
+          screen_order[1].splice(screen_index + 1, 0, studyObj);
+          practice_repeat_tally["post-placement"]++;
+        }
+
+        curr_screen_info['attempted'] = true;
+      }
+
     } else {
       deactivate_screen(curr_screen_info);
       increment_screen_index();
       activate_screen(next_screen_info, next_screen_name);
     }
   }
+
 }
 
 function deactivate_screen(screen_info) {
@@ -1732,6 +1737,12 @@ let section_index = 0;
 let screen_index = 0;
 
 var start_times = {};
+
+var practice_repeat_tally = {
+    "post-placement": 0,
+    "feed-comparison-B": 0,
+    "feed-selection": 0
+};
 
 output = {
     
