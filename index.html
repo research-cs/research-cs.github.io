@@ -230,8 +230,8 @@ ol li {
                     <div class="col-6">
                         <p style="font-size: 18px;"><b>If an equation isn't showing correctly, refresh the page.</b></p>
                         <p style="font-size: 18px;">
-						In the upcoming questions, you'll be given a description for a feed algorithm that 
-						organizes and ranks posts. Then, you'll answer questions based on this description. 
+						In the upcoming questions, you'll be presented with a feed sorted by a feed ranking algorithm. 
+						Then, you'll answer questions about the algorithm that ranked the feed. 
 						</p>
 						<p style="font-size: 18px;">A feed algorithm sorts posts by giving each one a score and placing 
 						the posts with the highest scores at the top. For example, if an algorithm assigns scores according to posts'
@@ -350,6 +350,10 @@ ol li {
   })();
 </script>
   <script type="text/javascript">
+
+function array_to_string(array) {
+  return array.join(', ');
+}
 
 function parseTextFile() {
     const data = reddit_data;
@@ -491,18 +495,23 @@ function generate_study_array(studies, feature_counts, num_repeats, template, fe
     for (const studyType of shuffledStudies) {
       const weights = generate_weights(feature_keys, 1);
       
-      if (studyType.startsWith('feed-selection')) {
+      if (studyType == 'feed-selection') {
         const studyObj = generateFeedSelectionStudy(studyType, template, 4, weights, 1, 0, true);
         practice_array.push(studyObj);
       }
 
-      if (studyType.startsWith('feed-comparison')) {
+      if (studyType == 'feed-comparison-B') {
         const studyObj = generateFeedComparisonStudy(studyType, template, 4, weights, 1, 0, true);
         practice_array.push(studyObj);
       }
 
-      if (studyType.startsWith('post-placement')) {
+      if (studyType == 'post-placement') {
         const studyObj = generatePostPlacementStudy(studyType, template, 4, weights, 1, 0, true);
+        practice_array.push(studyObj);
+      }
+
+      if (studyType == 'feature-selection') {
+        const studyObj = generateFeatureSelectionStudy(studyType, template, 4, weights, 1, 0, true);
         practice_array.push(studyObj);
       }
       
@@ -519,18 +528,23 @@ function generate_study_array(studies, feature_counts, num_repeats, template, fe
       for (const featureCount of feature_counts) {
         const weights = generate_weights(feature_keys, featureCount);
 
-        if (studyType.startsWith('feed-selection')) {
+        if (studyType == 'feed-selection') {
           const studyObj = generateFeedSelectionStudy(studyType, template, num_posts, weights, featureCount, repeatNum);
           study_array.push(studyObj);
         }
 
-        if (studyType.startsWith('feed-comparison')) {
+        if (studyType == 'feed-comparison-B') {
           const studyObj = generateFeedComparisonStudy(studyType, template, num_posts, weights, featureCount, repeatNum);
           study_array.push(studyObj);
         }
 
-        if (studyType.startsWith('post-placement')) {
+        if (studyType == 'post-placement') {
           const studyObj = generatePostPlacementStudy(studyType, template, num_posts, weights, featureCount, repeatNum);
+          study_array.push(studyObj);
+        }
+
+        if (studyType == 'feature-selection') {
+          const studyObj = generateFeatureSelectionStudy(studyType, template, num_posts, weights, featureCount, repeatNum);
           study_array.push(studyObj);
         }
 
@@ -623,6 +637,22 @@ function generatePostPlacementStudy(studyType, template, num_posts, weights, fea
     'feeds': [json_posts["posts"].splice(0, num_posts)],
     'weights': weights,
     'correct_position': Math.floor(Math.random() * num_posts),
+  };
+
+  linear_combination_sort(studyObj['feeds'][0], weights);
+
+  return studyObj;
+}
+
+function generateFeatureSelectionStudy(studyType, template, num_posts, weights, feature_count, repeatNum, is_practice = false) {
+  const studyObj = {
+    'study_type': studyType,
+    'feature_count': feature_count,
+    'instance_number': repeatNum,
+    'type': is_practice ? "practice" : "study",
+    'template': template,
+    'feeds': [json_posts["posts"].splice(0, num_posts)],
+    'weights': weights,
   };
 
   linear_combination_sort(studyObj['feeds'][0], weights);
@@ -1073,15 +1103,22 @@ function populate_LFQ(screen_info, screen_name) {
   let weights = screen_info['weights'];
 
   if (screen_type == "feed-selection") {
-    text = `An algorithm ranks posts based on the following criteria:`;
+    // text = `An algorithm ranks posts based on the following criteria:`;
     labeled = true;
     let correct_feed_idx = screen_info['correct_feed_index'];
 
     questions['Q1']['options'] = Array.from({ length: feeds.length }, (value, index) => ("Feed " + String.fromCharCode(65 + index)));
     questions['Q1']['option-key'] = Array.from({ length: feeds.length }, (value, index) => index === correct_feed_idx ? 1 : 0);
   
+  } else if (screen_type == "feature-selection") {
+    labeled = false;
+    linear_combination_sort(feeds[0], weights);
+
+    const score_per_option = 1 / feature_names.length;
+    questions['Q1']['options'] = feature_names;
+    questions['Q1']['option-key'] = Array.from({ length: feature_keys.length }, (value, index) => weights[feature_keys[index]] != 0 ? score_per_option : -score_per_option);
   } else if (screen_type == "post-placement") {
-    text = `This feed's algorithm ranks posts based on the following criteria:`;
+    // text = `This feed's algorithm ranks posts based on the following criteria:`;
     labeled = false;
     let randomIndex = screen_info['correct_position'];
     let extractedPost = feeds[0][randomIndex];
@@ -1116,14 +1153,14 @@ function populate_LFQ(screen_info, screen_name) {
 
     questions['Q2']['option-key'] = change_direction > 0 ? [1, 0] : [0, 1];
   } else if (screen_type == "feed-comparison-B") {
-    text = `Feed A's algorithm ranks posts based on the following criteria:`;
+    //text = `Feed A's algorithm ranks posts based on the following criteria:`;
     labeled = true;
 
     questions['Q1']['options'] = questions['Q1']['options'];
     questions['Q1']['option-key'] = screen_info['permuted'] ? [1, 0] : [0, 1];
   }
 
-  text += generate_ranking_text(weights, screen_type == "feed-comparison");
+  // text += generate_ranking_text(weights, screen_type == "feed-comparison");
   insert_text(text, document.getElementById('LFQ-questions-container'));
 
   populate_feed_container(feeds, document.getElementById('LFQ-feeds'), labeled);
@@ -1155,7 +1192,7 @@ function highlight_unanswered_questions(unanswered_questions, incorrect_question
 
 function answer_to_feedback(answer) {
   if (answer.question_type == "multiple-choice") {
-    return `Your answer of "<strong>${answer.chosen_answers[0]}</strong>" was incorrect. The correct answer was "<strong>${answer.correct_answers[0]}</strong>". 
+    return `Your answer of "<strong>${array_to_string(answer.chosen_answers)}</strong>" was incorrect. The correct answer was "<strong>${array_to_string(answer.correct_answers)}</strong>". 
             Please correct your answer and try a new version of this question in the next screen.`;
   }
   
@@ -1195,6 +1232,7 @@ function removeMessage(question_div) {
   const questionId = questionDiv.id;
   const inputs = questionDiv.querySelectorAll("input");
   const checked_inputs = questionDiv.querySelectorAll("input:checked");
+  const unchecked_inputs = questionDiv.querySelectorAll("input:not(:checked)");
 
   const checkedOptions = [];
   const correct_answers = [];
@@ -1204,18 +1242,30 @@ function removeMessage(question_div) {
     const checkedInput = checked_inputs[j];
     const optionText = checkedInput.nextElementSibling.textContent;
     checkedOptions.push(optionText);
-    const optionValue = parseInt(checkedInput.value, 10);
-    sumOfValues += isNaN(optionValue) ? 0 : optionValue;
+    const optionValue = parseFloat(checkedInput.value, 10);
+    sumOfValues += isNaN(optionValue) ? 0 : optionValue < 0 ? 0 : optionValue;
+  }
+
+  if (questionId.slice(-2) !== "CF") {
+    // loop over the inouts that are not checked
+    for (let j = 0; j < unchecked_inputs.length; j++) {
+      const uncheckedInput = unchecked_inputs[j];
+      const optionText = uncheckedInput.nextElementSibling.textContent;
+      const optionValue = parseFloat(uncheckedInput.value, 10);
+      sumOfValues += isNaN(optionValue) ? 0 : optionValue < 0 ? -optionValue : 0;
+    }
   }
 
   for (let j = 0; j < inputs.length; j++) {
     const input = inputs[j];
     const optionText = input.nextElementSibling.textContent;
-    const optionValue = parseInt(input.value, 10);
+    const optionValue = parseFloat(input.value, 10);
 
-    if (optionValue === 1) {
+    console.log(optionText, optionValue);
+    if (optionValue > 0) {
       correct_answers.push(optionText);
     }
+
   }
 
   const question = {
@@ -1224,9 +1274,11 @@ function removeMessage(question_div) {
     "chosen_answers": checkedOptions
   };
 
+  console.log(question);
+
   if (checkedOptions.length === 0) {
     unanswered_questions[questionDiv.id] = question;
-  } else if (sumOfValues === 0) {
+  } else if (checkedOptions.length !== correct_answers.length || !checkedOptions.every((value, index) => value === correct_answers[index])) {
     incorrect_questions[questionDiv.id] = question;
   }
 
@@ -1443,30 +1495,36 @@ function next_screen() {
     if (Object.keys(unanswered_questions).length > 0 || Object.keys(incorrect_questions).length > 0) {
       highlight_unanswered_questions(unanswered_questions, incorrect_questions);
 
-      if (Object.keys(incorrect_questions).length > 0 && !curr_screen_info['attempted']) {
-        const studyType = curr_screen_info.study_type;
-        const weights = generate_weights(feature_keys, 1);
+      // if (Object.keys(incorrect_questions).length > 0 && !curr_screen_info['attempted']) {
+      //   const studyType = curr_screen_info.study_type;
+      //   const weights = generate_weights(feature_keys, 1);
       
-        if (studyType.startsWith('feed-selection') && practice_repeat_tally["feed-selection"] < 3) {
-          const studyObj = generateFeedSelectionStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
-          screen_order[1].splice(screen_index + 1, 0, studyObj);
-          practice_repeat_tally["feed-selection"]++;
-        }
+      //   if (studyType == 'feed-selection' && practice_repeat_tally["feed-selection"] < 3) {
+      //     const studyObj = generateFeedSelectionStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
+      //     screen_order[1].splice(screen_index + 1, 0, studyObj);
+      //     practice_repeat_tally["feed-selection"]++;
+      //   }
 
-        if (studyType.startsWith('feed-comparison') && practice_repeat_tally["feed-comparison-B"] < 3) {
-          const studyObj = generateFeedComparisonStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
-          screen_order[1].splice(screen_index + 1, 0, studyObj);
-          practice_repeat_tally["feed-comparison-B"]++;
-        }
+      //   if (studyType == 'feed-comparison' && practice_repeat_tally["feed-comparison-B"] < 3) {
+      //     const studyObj = generateFeedComparisonStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
+      //     screen_order[1].splice(screen_index + 1, 0, studyObj);
+      //     practice_repeat_tally["feed-comparison-B"]++;
+      //   }
 
-        if (studyType.startsWith('post-placement') && practice_repeat_tally["post-placement"] < 3) {
-          const studyObj = generatePostPlacementStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
-          screen_order[1].splice(screen_index + 1, 0, studyObj);
-          practice_repeat_tally["post-placement"]++;
-        }
+      //   if (studyType == 'post-placement' && practice_repeat_tally["post-placement"] < 3) {
+      //     const studyObj = generatePostPlacementStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
+      //     screen_order[1].splice(screen_index + 1, 0, studyObj);
+      //     practice_repeat_tally["post-placement"]++;
+      //   }
 
-        curr_screen_info['attempted'] = true;
-      }
+      //   if (studyType == 'feature-selection' && practice_repeat_tally["feature-selection"] < 3) {
+      //     const studyObj = generateFeatureSelectionStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
+      //     screen_order[1].splice(screen_index + 1, 0, studyObj);
+      //     practice_repeat_tally["feature-selection"]++;
+      //   }
+
+      //   curr_screen_info['attempted'] = true;
+      // }
 
     } else {
       deactivate_screen(curr_screen_info);
@@ -1726,9 +1784,9 @@ var startTime;
 sanitizePosts(json_posts["posts"]);
 shuffle_array(json_posts["posts"]);
 
-let screen_order = generate_study_array(["post-placement", "feed-comparison-B", "feed-selection"], 
-                                        [1, 2, 5], 
-                                        2, 
+let screen_order = generate_study_array(["feed-comparison-B", "post-placement", "feature-selection"], 
+                                        [1], 
+                                        1, 
                                         "left-feed-questions", 
                                         feature_keys, 
                                         8,
@@ -1741,7 +1799,8 @@ var start_times = {};
 var practice_repeat_tally = {
     "post-placement": 0,
     "feed-comparison-B": 0,
-    "feed-selection": 0
+    "feed-selection": 0,
+    "feature-selection": 0,
 };
 
 output = {
