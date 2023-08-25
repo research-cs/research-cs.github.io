@@ -1287,7 +1287,7 @@ function removeMessage(question_div) {
     screenOutput["confidence"] = sumOfValues;
   } else {
     const questionNum = questionId.slice(-2);
-    screenOutput["chosen_options_" + questionNum] = checkedOptions[0];
+    screenOutput["chosen_options_" + questionNum] = checkedOptions;
     screenOutput["score_" + questionNum] = sumOfValues;
   }
 }
