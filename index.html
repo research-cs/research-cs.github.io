@@ -167,6 +167,15 @@ img {
    font-size: 12px;
    color: #888;
  }
+
+/* Add styling to elements with the "highlighted" class */
+.highlighted {
+  font-weight: bold; /* Make the text bold */
+  color: red !important; /* Add a red text color */
+  background-color: rgba(255, 0, 0, 0.2); /* Translucent red background */
+  padding: 2px; /* Optional: Add padding to the highlighted elements */
+  border-radius: 4px; /* Optional: Add rounded corners to the outline */
+}
  
  /* Add styles for the static posts */
  .static {
@@ -296,6 +305,7 @@ ol li {
 </div>
   
   </div>
+
   <script type='text/json' id='input'>
   
 </script>
@@ -349,35 +359,14 @@ ol li {
 
   })();
 </script>
-  <script type="text/javascript">
+  
+  <script type="text/javascript" src="templates/source_data/feed_data.json"></script>
+  <script type="text/javascript" src="templates/source_data/question_data.json"></script>
 
+  <script type="text/javascript">
+    
 function array_to_string(array) {
   return array.join(', ');
-}
-
-function parseTextFile() {
-    const data = reddit_data;
-
-    const lines = data.trim().split('\n');
-    const result = [];
-
-    for (const line of lines) {
-      const [submissionId, subreddit, title, author, comments, nsfw, score, upvoted, link, content] = line.split('\t');
-      const dictionary = {
-        "SUBMISSION_ID": submissionId,
-        "SUBREDDIT": subreddit,
-        "TITLE": title,
-        "AUTHOR": author,
-        "#_COMMENTS": parseInt(comments),
-        "NSFW": nsfw === 'NSFW',
-        "SCORE": parseInt(score),
-        "UPVOTED_%": parseFloat(upvoted),
-        "LINK": link,
-      };
-      result.push(dictionary);
-    }
-
-    return result;
 }
 
 function merge_objects(obj1, obj2) {
@@ -441,265 +430,33 @@ function string_to_rgb(string) {
 
   return [r, g, b];
 }
+    
+function parse_reddit_txt() {
+  const data = reddit_data;
 
-function generate_ranking_text(weights, show_zeroes = false) {
-  let text = `$$\\begin{align*}`;
+  const lines = data.trim().split('\n');
+  const result = [];
 
-  let sumOfAbsoluteWeights = 0;
-  let num_weights_nonzero = 0;
-  
-  // Calculate sum of absolute weights and count nonzero weights
-  for (const key in weights) {
-    if (Math.abs(weights[key]) > 0) {
-      sumOfAbsoluteWeights += Math.abs(weights[key]);
-      num_weights_nonzero++;
-    }
-  }
-  
-  // Calculate scaling factor to achieve a total of 100
-  const scalingFactor = 100 / sumOfAbsoluteWeights;
-
-  for (const key in weights) {
-    if (weights[key] !== 0 || show_zeroes) {
-      const scaledWeight = weights[key] * scalingFactor;
-      const roundedWeight = Math.abs(scaledWeight.toFixed(0));
-      const sign = scaledWeight >= 0 ? " + " : " - ";
-      text += `&${num_weights_nonzero > 1 || scaledWeight < 0 ? sign : ''}${num_weights_nonzero > 1 ? roundedWeight + '\\% \\times' : ''} \\text{${feature_dict[key]}} \\\\`;
-    }
+  for (const line of lines) {
+    const [submissionId, subreddit, title, author, comments, nsfw, score, upvoted, link, content] = line.split('\t');
+    const dictionary = {
+      "SUBMISSION_ID": submissionId,
+      "SUBREDDIT": subreddit,
+      "TITLE": title,
+      "AUTHOR": author,
+      "#_COMMENTS": parseInt(comments),
+      "NSFW": nsfw === 'NSFW',
+      "SCORE": parseInt(score),
+      "UPVOTED_%": parseFloat(upvoted),
+      "LINK": link,
+    };
+    result.push(dictionary);
   }
 
-  text += "\\end{align*} $$";
-
-  return text;
+  return result;
 }
 
-function generate_study_array(studies, feature_counts, num_repeats, template, feature_keys, num_posts, includes_practice) {
-  const screen_array = [];
-
-  // Introduction screen
-  const introduction_screen = {
-    'type': "introduction",
-    'template': "introduction",
-  };
-  screen_array.push([introduction_screen]);
-
-  // Shuffle studies and posts
-  const shuffledStudies = shallowCopy(studies);
-  shuffle_array(shuffledStudies);
-  shuffle_array(json_posts["posts"]);
-
-  let practice_array = [];
-
-  // generate practice screen for each study (with one feature)
-  if (includes_practice) {
-    for (const studyType of shuffledStudies) {
-      const weights = generate_weights(feature_keys, 1);
-      
-      if (studyType == 'feed-selection') {
-        const studyObj = generateFeedSelectionStudy(studyType, template, 4, weights, 1, 0, true);
-        practice_array.push(studyObj);
-      }
-
-      if (studyType == 'feed-comparison-B') {
-        const studyObj = generateFeedComparisonStudy(studyType, template, 4, weights, 1, 0, true);
-        practice_array.push(studyObj);
-      }
-
-      if (studyType == 'post-placement') {
-        const studyObj = generatePostPlacementStudy(studyType, template, 4, weights, 1, 0, true);
-        practice_array.push(studyObj);
-      }
-
-      if (studyType == 'feature-selection') {
-        const studyObj = generateFeatureSelectionStudy(studyType, template, 4, weights, 1, 0, true);
-        practice_array.push(studyObj);
-      }
-      
-    }
-
-    screen_array.push(practice_array);
-  }
-
-  let study_array = [];
-
-  // Generate study objects
-  for (const studyType of shuffledStudies) {
-    for (let repeatNum = 1; repeatNum <= num_repeats; repeatNum++) {
-      for (const featureCount of feature_counts) {
-        const weights = generate_weights(feature_keys, featureCount);
-
-        if (studyType == 'feed-selection') {
-          const studyObj = generateFeedSelectionStudy(studyType, template, num_posts, weights, featureCount, repeatNum);
-          study_array.push(studyObj);
-        }
-
-        if (studyType == 'feed-comparison-B') {
-          const studyObj = generateFeedComparisonStudy(studyType, template, num_posts, weights, featureCount, repeatNum);
-          study_array.push(studyObj);
-        }
-
-        if (studyType == 'post-placement') {
-          const studyObj = generatePostPlacementStudy(studyType, template, num_posts, weights, featureCount, repeatNum);
-          study_array.push(studyObj);
-        }
-
-        if (studyType == 'feature-selection') {
-          const studyObj = generateFeatureSelectionStudy(studyType, template, num_posts, weights, featureCount, repeatNum);
-          study_array.push(studyObj);
-        }
-
-      }
-    }
-
-    insertDuplicateStudy(study_array, num_repeats, feature_counts.length);
-  }
-
-  screen_array.push(study_array);
-
-  // Submission screen
-  const submission_screen = {
-    'type': "submission",
-    'template': "submission",
-  };
-  screen_array.push([submission_screen]);
-
-  return screen_array;
-}
-
-// Generate a feed-selection study object
-function generateFeedSelectionStudy(studyType, template, num_posts, weights, feature_count, repeatNum, is_practice = false) {
-  const studyObj = {
-    'study_type': studyType,
-    'feature_count': feature_count,
-    'instance_number': repeatNum,
-    'type': is_practice ? "practice" : "study",
-    'template': template,
-    'feeds': [json_posts["posts"].splice(0, num_posts)],
-    'weights': weights,
-  };
-
-  linear_combination_sort(studyObj['feeds'][0], weights);
-
-  if (studyObj['study_type'].startsWith('feed-selection')) {
-    studyObj['feeds'].push(shallowCopy(studyObj['feeds'][0]));
-    const correct_feed_index = Math.random() > 0.5 ? 0 : 1;
-    const incorrect_feed_index = correct_feed_index == 0 ? 1 : 0;
-    studyObj['correct_feed_index'] = correct_feed_index;
-    shuffle_array(studyObj['feeds'][incorrect_feed_index]);
-  }
-
-  return studyObj;
-}
-
-// Generate a feed-comparison study object
-function generateFeedComparisonStudy(studyType, template, num_posts, weights, feature_count, repeatNum, is_practice = false) {
-  const studyObj = {
-    'study_type': studyType,
-    'feature_count': feature_count,
-    'instance_number': repeatNum,
-    'type': is_practice ? "practice" : "study",
-    'template': template,
-    'feeds': [
-      json_posts["posts"].splice(0, num_posts),
-      json_posts["posts"].splice(0, num_posts)
-    ],
-    'weights': weights,
-  };
-
-  linear_combination_sort(studyObj['feeds'][0], weights);
-  linear_combination_sort(studyObj['feeds'][1], weights);
-
-  const same_sort_B = JSON.stringify(studyObj['feeds'][1]);
-  let permuted = Math.random() > 0.5;
-  let permuted_weights = shallowCopy(weights);
-
-  if (permuted) {
-    do {
-      permute_weights_valence(permuted_weights);
-      linear_combination_sort(studyObj['feeds'][1], permuted_weights);
-    } while (JSON.stringify(studyObj['feeds'][1]) == same_sort_B);
-  }
-
-  studyObj['permuted'] = permuted;
-  studyObj['permuted_weights'] = permuted_weights;
-
-  return studyObj;
-}
-
-// Generate a post-placement study object
-function generatePostPlacementStudy(studyType, template, num_posts, weights, feature_count, repeatNum, is_practice = false) {
-  const studyObj = {
-    'study_type': studyType,
-    'feature_count': feature_count,
-    'instance_number': repeatNum,
-    'type': is_practice ? "practice" : "study",
-    'template': template,
-    'feeds': [json_posts["posts"].splice(0, num_posts)],
-    'weights': weights,
-    'correct_position': Math.floor(Math.random() * num_posts),
-  };
-
-  linear_combination_sort(studyObj['feeds'][0], weights);
-
-  return studyObj;
-}
-
-function generateFeatureSelectionStudy(studyType, template, num_posts, weights, feature_count, repeatNum, is_practice = false) {
-  const studyObj = {
-    'study_type': studyType,
-    'feature_count': feature_count,
-    'instance_number': repeatNum,
-    'type': is_practice ? "practice" : "study",
-    'template': template,
-    'feeds': [json_posts["posts"].splice(0, num_posts)],
-    'weights': weights,
-  };
-
-  linear_combination_sort(studyObj['feeds'][0], weights);
-
-  return studyObj;
-}
-
-// Insert duplicate study for source study type
-function insertDuplicateStudy(screen_array, num_repeats, num_feature_counts) {
-  const source_index = screen_array.length - (num_repeats * num_feature_counts);
-  const studyObj = shallowCopy(screen_array[source_index]);
-  const random_index = source_index + 3 + Math.floor(Math.random() * ((num_repeats * num_feature_counts) - 3));
-  screen_array.splice(random_index, 0, studyObj);
-}
-
-function generate_screen_name(screen_info) {
-  let screen_name = `study-${screen_info["study_type"]}-features-${screen_info["feature_count"]}-${screen_info["instance_number"]}`;
-  if (screen_info.type == 'introduction') {
-    screen_name = 'introduction';
-  } else if (screen_info.type == 'submission') {
-    screen_name = 'submission';
-  }
-  return screen_name;
-}
-
-function get_questions(screen_type, confidence = true) {
-  const questions = {};
-  for (let i = 0; i < json_questions[screen_type].length; i++) {
-    questions[`Q${i+1}`] = json_questions[screen_type][i];
-  }
-
-  if (confidence) {
-    questions[`CF`] = json_questions["confidence"][0];
-    questions[`CF`]['text'] = json_questions["confidence-texts"][screen_type];
-  }
-  
-  return questions;
-}
-
-</script>
-
-  <script type="text/javascript" src="templates/data/feed_data.json"></script>
-  <script type="text/javascript" src="templates/data/question_data.json"></script>
-
-  <script type="text/javascript">
-
-function insert_label(labelText, labelContainer, label_width) {
+    function insert_label(labelText, labelContainer, label_width) {
   const label_div = document.createElement("div");
   label_div.className = `col-${label_width} d-flex align-items-center justify-content-center`; // Added justify-content-center
   label_div.innerHTML = 
@@ -738,13 +495,15 @@ function insert_post(post, feed_parent_list, locked) {
   postListItem.className = `bg-white border mt-2 post${locked ? ' static' : ''} rounded`;
   let rgb = string_to_rgb(post.author_name);
 
+  let highlighted_feature = post.changed_feature;
+
   postListItem.innerHTML = `
     <div class="d-flex flex-row justify-content-between align-items-center p-1 border-bottom">
       <div class="d-flex flex-row align-items-center feed-text px-2">
         <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]});"></div>
         <div class="d-flex flex-column flex-wrap ml-2">
           <span class="font-weight-bold">${post.author_name}</span>
-          <span class="small-text">${post.days_since_posted} hour${post.days_since_posted != 1 ? "s" : ""} ago</span>
+          <span class="small-text${highlighted_feature === 'days_since_posted' ? ' highlighted' : ''}">${post.days_since_posted} hour${post.days_since_posted != 1 ? "s" : ""} ago</span>
         </div>
       </div>
       <div class="feed-icon px-2"><i class="fa fa-ellipsis-v text-black-50"></i></div>
@@ -754,20 +513,20 @@ function insert_post(post, feed_parent_list, locked) {
     </div>
     <div class="d-flex justify-content-between p-1 py-1">
       <div class="character-count p-1 px-1">
-        <span class="xs-text">${post.text.length} characters</span>
+        <span class="xs-text${highlighted_feature === 'character_count' ? ' highlighted' : ''}">${post.text.length} characters</span>
       </div>
       <div class="socials d-flex justify-content-end socials">
         <div class="social-item">
           <i class="fa fa-thumbs-up"></i>
-          <span class="count">${post.like_count}</span>
+          <span class="count${highlighted_feature === 'like_count' ? ' highlighted' : ''}">${post.like_count}</span>
         </div>
         <div class="social-item">
           <i class="fa fa-comments-o"></i>
-          <span class="count">${post.comment_count}</span>
+          <span class="count${highlighted_feature === 'comment_count' ? ' highlighted' : ''}">${post.comment_count}</span>
         </div>
         <div class="social-item">
           <i class="fa fa-eye"></i>
-          <span class="count">${post.view_count}</span>
+          <span class="count${highlighted_feature === 'view_count' ? ' highlighted' : ''}">${post.view_count}</span>
         </div>
       </div>
     </div>
@@ -1071,11 +830,7 @@ function populate_questions_container(questions, container, screen_name) {
     }
   }
 }
-
-</script>
-  <script type="text/javascript">
-
-function populate_LFQ(screen_info, screen_name) {
+    function populate_LFQ(screen_info, screen_name) {
   $('#LFQ-feeds').empty();
   $('#LFQ-questions-container').empty();
 
@@ -1103,7 +858,6 @@ function populate_LFQ(screen_info, screen_name) {
   let weights = screen_info['weights'];
 
   if (screen_type == "feed-selection") {
-    // text = `An algorithm ranks posts based on the following criteria:`;
     labeled = true;
     let correct_feed_idx = screen_info['correct_feed_index'];
 
@@ -1118,7 +872,6 @@ function populate_LFQ(screen_info, screen_name) {
     questions['Q1']['options'] = feature_names;
     questions['Q1']['option-key'] = Array.from({ length: feature_keys.length }, (value, index) => weights[feature_keys[index]] != 0 ? score_per_option : -score_per_option);
   } else if (screen_type == "post-placement") {
-    // text = `This feed's algorithm ranks posts based on the following criteria:`;
     labeled = false;
     let randomIndex = screen_info['correct_position'];
     let extractedPost = feeds[0][randomIndex];
@@ -1130,97 +883,551 @@ function populate_LFQ(screen_info, screen_name) {
     
     questions['Q1']['feed'] = question_feed;
   } else if (screen_type == "feed-comparison") {
-    text = `Feed A was sorted using the following scoring:`;
     labeled = true;
 
-    let original_weights = shallowCopy(weights);
-
-    linear_combination_sort(feeds[0], weights);
-    let permuted_feature, permuted_weights;
-
-    do {
-      permuted_weights = shallowCopy(weights);
-      permuted_feature = permute_weights(permuted_weights);
-      linear_combination_sort(feeds[1], permuted_weights);
-    } while (JSON.stringify(feeds[0]) == JSON.stringify(feeds[1]));
-
-    let change_direction = permuted_weights[permuted_feature] > original_weights[permuted_feature] ? 1 : -1;
-
-    let feature_options = shallowCopy(feature_names);
-    shuffle_array(feature_options);
-    questions['Q1']['options'] = feature_options;
-    questions['Q1']['option-key'] = Array.from({ length: feature_keys.length }, (value, index) => index === feature_keys.indexOf(feature_options[permuted_feature]) ? 1 : 0);
-
-    questions['Q2']['option-key'] = change_direction > 0 ? [1, 0] : [0, 1];
-  } else if (screen_type == "feed-comparison-B") {
-    //text = `Feed A's algorithm ranks posts based on the following criteria:`;
-    labeled = true;
-
+    console.log(questions);
     questions['Q1']['options'] = questions['Q1']['options'];
+    console.log(questions['Q1']['options']);
     questions['Q1']['option-key'] = screen_info['permuted'] ? [1, 0] : [0, 1];
+  } else if (screen_type == "counterfactual-placement") {
+    labeled = false;
+
+    insert_feed([screen_info['new_post']], document.getElementById('LFQ-questions-container'), 12, true);
+
+    questions['Q1']['options'] = ["Higher", "Lower"];
+    questions['Q1']['option-key'] = screen_info['new_post_higher'] ? [1, 0] : [0, 1];
   }
 
-  // text += generate_ranking_text(weights, screen_type == "feed-comparison");
   insert_text(text, document.getElementById('LFQ-questions-container'));
 
   populate_feed_container(feeds, document.getElementById('LFQ-feeds'), labeled);
   populate_questions_container(questions, document.getElementById('LFQ-questions-container'), screen_name);
 }
 
-</script>
-  <script type="text/javascript">
+    const studies = ["feed-comparison", "post-placement", "counterfactual-placement"];
 
-function highlight_unanswered_questions(unanswered_questions, incorrect_questions) {
-  const question_divs = $(".study-question, .post-placement-question");
+const feature_dict = 
+{
+    "days_since_posted": "Hours Since Posted", 
+    "like_count": "Like Count", 
+    "view_count": "View Count", 
+    "comment_count": "Comment Count", 
+    "character_count": "Character Count"
+};
+
+const feature_keys = Object.keys(feature_dict);
+const feature_names = Object.values(feature_dict);
+
+const screen_colors = {
+  "introduction": "#BBBBBB", // Gray
+  "practice": "#00BFFF",     // Deep Sky Blue
+  "study": "#32CD32",        // Lime Green
+  "submission": "#FF6347"    // Tomato Red
+};
+    
+function removeEmojis(input) {
+  const emojiPattern = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}\u{1F191}-\u{1F251}\u{1F004}\u{1F0CF}\u{1F170}-\u{1F171}\u{1F17E}-\u{1F17F}\u{1F18E}\u{3030}\u{2B50}\u{2B55}\u{2B05}-\u{2B07}\u{2B1B}-\u{2B1C}\u{3297}\u{3299}\u{23F0}\u{23F3}\u{231A}-\u{231B}\u{25FD}-\u{25FE}\u{2B50}\u{23E9}-\u{23EC}\u{2B05}-\u{2B07}\u{2B1B}-\u{2B1C}\u{2934}-\u{2935}\u{2B05}-\u{2B07}\u{27A1}]/gu;
+
+  return input.replace(emojiPattern, '');
+}
+
+function removeHashtags(input) {
+  const hashtagPattern = /#[^\s#]+/g;
+
+  return input.replace(hashtagPattern, '');
+}
+
+// https://stackoverflow.com/questions/25582882/javascript-math-random-normal-distribution-gaussian-bell-curve
+function randn_bm(min, max, skew) {
+  let u = 0, v = 0;
+  while(u === 0) u = Math.random() //Converting [0,1) to (0,1)
+  while(v === 0) v = Math.random()
+  let num = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v )
   
-  question_divs.each((i, question_div) => {
-    if (unanswered_questions[question_div.id]) {
-      question_div.setAttribute('data-state', 'unanswered');
-      question_div.style.border = "2px solid red";
-      displayMessage(question_div, "red", "Please answer the required question.");
-    } else if (incorrect_questions[question_div.id]) {
-      question_div.setAttribute('data-state', 'incorrect');
-      question_div.style.border = "2px solid orange";
-      displayMessage(question_div, "orange", answer_to_feedback(incorrect_questions[question_div.id]));
-    } else {
-      question_div.removeAttribute('data-state');
-      question_div.style.border = "";
-      removeMessage(question_div);
+  num = num / 10.0 + 0.5 // Translate to 0 -> 1
+  if (num > 1 || num < 0) 
+    num = randn_bm(min, max, skew) // resample between 0 and 1 if out of range
+  
+  else{
+    num = Math.pow(num, skew) // Skew
+    num *= max - min // Stretch to fill range
+    num += min // offset to min
+  }
+  return Math.round(num);
+}
+
+function sanitize_posts(posts) {
+
+  for (let i = 0; i < posts.length; i++) {
+    // if the first character is an emoji, remove it 65% of the time
+    if (posts[i].text.charCodeAt(0) >= 0x1F600 && posts[i].text.charCodeAt(0) <= 0x1F64F) {
+      if (Math.random() < 0.65) {
+        posts[i].text = posts[i].text.slice(2);
+      }
     }
-  });
+
+    // Randomly remove emojis, hashtags, exclamations, and uppercases
+    if (Math.random() < 0.65) {
+      posts[i].text = removeEmojis(posts[i].text);
+    }
+
+    if (Math.random() < 0.65) {
+      posts[i].text = removeHashtags(posts[i].text);
+    }
+
+    if (Math.random() < 0.65) {
+      posts[i].text = posts[i].text.replace(/!/g, '.');
+    }
+
+    if (Math.random() < 0.35) {
+      posts[i].text = posts[i].text.toLowerCase();
+    }
+
+    // if the author_name is too long, remove the last word
+    while (posts[i].author_name.length > 16 && posts[i].author_name.split(" ").length > 1) {
+      posts[i].author_name = posts[i].author_name.split(" ").slice(0, -1).join(" ");
+    }
+
+    // if the author_name is still too long, remove the last characters starting at the last capital letter
+    if (posts[i].author_name.length > 18) {
+      const lastCapitalIndex = posts[i].author_name.split("").reverse().join("").search(/[A-Z]/);
+      posts[i].author_name = posts[i].author_name.slice(0, -lastCapitalIndex);
+    }
+
+    // Assign days_since_posted
+    posts[i].days_since_posted = randn_bm(0, 500, 4);
+
+    // Assign view_count, like_count, and comment_count
+    posts[i].view_count = randn_bm(0, 2500, 4);
+
+    posts[i].like_count =  randn_bm(posts[i].view_count / 6, posts[i].view_count, 1.1);
+
+    posts[i].comment_count = randn_bm(posts[i].like_count / 6, posts[i].like_count, 1.5);
+  }
+}
+    
+/* takes in a feed array of posts and weights it's features according to the weights dictionary 
+ */
+function linear_combination_sort(feed, weights) {
+    feed.sort(function(a, b){
+        let a_score = 0;
+        let b_score = 0;
+        for (let key in weights) {
+            if (key == "character_count") {
+                a_score += weights[key] * a["text"].length;
+                b_score += weights[key] * b["text"].length;
+            } else {
+                a_score += weights[key] * a[key];
+                b_score += weights[key] * b[key];
+            }   
+        }
+        return  b_score - a_score;
+    });
 }
 
-function answer_to_feedback(answer) {
-  if (answer.question_type == "multiple-choice") {
-    return `Your answer of "<strong>${array_to_string(answer.chosen_answers)}</strong>" was incorrect. The correct answer was "<strong>${array_to_string(answer.correct_answers)}</strong>". 
-            Please correct your answer and try a new version of this question in the next screen.`;
+// given an array of features (strings) and the number of features that should have
+// weight > 0, generates a random weight dictionary
+function generate_weights(features, num_features) {
+    let weights = {};
+    let num_features_set = 0;
+    while (num_features_set < num_features) {
+        let random_feature = features[Math.floor(Math.random() * features.length)];
+        if (weights[random_feature] == undefined) {
+            do {
+                weights[random_feature] = truncate(Math.random() * 2 - 1);
+            } while (Math.abs(weights[random_feature]) <= 0.1);
+            num_features_set++;
+        }
+    }
+
+    // if weights only has one entry, set it to 1 or -1 (depending on its sign)
+    if (Object.keys(weights).length == 1) {
+        let key = Object.keys(weights)[0];
+        weights[key] = weights[key] >= 0 ? 1 : -1;
+    }
+
+    // set all other features to 0
+    for (let feature of features) {
+        if (weights[feature] == undefined) {
+            weights[feature] = 0;
+        }
+    }
+
+    return weights;
+}
+
+// function permute_weights(weights) {
+// modifies the weights dictionary with one of the weights changed
+// returns a the name of the weight that was changed
+function permute_weights(weights) {
+    let keys = Object.keys(weights);
+    let random_key = keys[Math.floor(Math.random() * keys.length)];
+    weights[random_key] = truncate(Math.random() * 2 - 1);
+    return random_key;
+}
+
+function get_random_nonzero_weight(weights) {
+    let keys = Object.keys(weights);
+    let random_key = keys[Math.floor(Math.random() * keys.length)];
+    while (weights[random_key] == 0) {
+        random_key = keys[Math.floor(Math.random() * keys.length)];
+    }
+    return random_key;
+}
+
+// function permute_weights_valence(weights) {
+// modifies the weights dictionary with one of the weights changed to another sign
+// returns a the name of the weight that was changed
+function permute_weights_valence(weights) {
+    let keys = Object.keys(weights);
+
+    let random_key = keys[Math.floor(Math.random() * keys.length)];
+
+    if (weights[random_key] == 0) {
+        do {
+            weights[random_key] = truncate(Math.random() * 2 - 1);
+        } while (Math.abs(weights[random_key]) <= 0.1);
+    } else {
+        weights[random_key] = -weights[random_key];
+    }
+    
+    return random_key;
+}
+
+function generate_ranking_text(weights, show_zeroes = false) {
+    let text = `$$\\begin{align*}`;
+  
+    let sumOfAbsoluteWeights = 0;
+    let num_weights_nonzero = 0;
+    
+    // Calculate sum of absolute weights and count nonzero weights
+    for (const key in weights) {
+      if (Math.abs(weights[key]) > 0) {
+        sumOfAbsoluteWeights += Math.abs(weights[key]);
+        num_weights_nonzero++;
+      }
+    }
+    
+    // Calculate scaling factor to achieve a total of 100
+    const scalingFactor = 100 / sumOfAbsoluteWeights;
+  
+    for (const key in weights) {
+      if (weights[key] !== 0 || show_zeroes) {
+        const scaledWeight = weights[key] * scalingFactor;
+        const roundedWeight = Math.abs(scaledWeight.toFixed(0));
+        const sign = scaledWeight >= 0 ? " + " : " - ";
+        text += `&${num_weights_nonzero > 1 || scaledWeight < 0 ? sign : ''}${num_weights_nonzero > 1 ? roundedWeight + '\\% \\times' : ''} \\text{${feature_dict[key]}} \\\\`;
+      }
+    }
+  
+    text += "\\end{align*} $$";
+  
+    return text;
   }
   
-  if (answer.question_type == "post-placement") {
-    return `Your placement of the post at position <strong>${answer.chosen_answers[0] + 1}</strong> is incorrect. Its correct position is <strong>${answer.correct_answers[0] + 1}</strong>.
-            Please correct your answer and try a new version of this question in the next screen.`;
+  function generate_study_array(studies, posts, feature_counts, num_repeats, template, feature_keys, num_posts, includes_practice) {
+    const screen_array = [];
+  
+    // Introduction screen
+    const introduction_screen = {
+      'type': "introduction",
+      'template': "introduction",
+    };
+    screen_array.push([introduction_screen]);
+  
+    // Shuffle studies and posts
+    const shuffledStudies = shallowCopy(studies);
+    shuffle_array(shuffledStudies);
+    shuffle_array(posts);
+    sanitize_posts(posts);
+  
+    let practice_array = [];
+  
+    // generate practice screen for each study (with one feature)
+    if (includes_practice) {
+      for (const studyType of shuffledStudies) {
+        console.log(studyType);
+        const weights = generate_weights(feature_keys, 1);
+        
+        if (studyType == 'feed-selection') {
+          const studyObj = generateFeedSelectionStudy(studyType, template, 4, weights, 1, 0, true);
+          practice_array.push(studyObj);
+        }
+  
+        if (studyType == 'feed-comparison') {
+          const studyObj = generateFeedComparisonStudy(studyType, template, 4, weights, 1, 0, true);
+          practice_array.push(studyObj);
+        }
+  
+        if (studyType == 'post-placement') {
+          const studyObj = generatePostPlacementStudy(studyType, template, 4, weights, 1, 0, true);
+          practice_array.push(studyObj);
+        }
+  
+        if (studyType == 'feature-selection') {
+          const studyObj = generateFeatureSelectionStudy(studyType, template, 4, weights, 1, 0, true);
+          practice_array.push(studyObj);
+        }
+
+        if (studyType == 'counterfactual-placement') {
+          const studyObj = generateCounterfactualPlacementStudy(studyType, template, 4, weights, 1, 0, true);
+          practice_array.push(studyObj);
+        }
+        
+      }
+  
+      screen_array.push(practice_array);
+    }
+  
+    let study_array = [];
+  
+    // Generate study objects
+    for (const studyType of shuffledStudies) {
+      for (let repeatNum = 1; repeatNum <= num_repeats; repeatNum++) {
+        for (const featureCount of feature_counts) {
+          const weights = generate_weights(feature_keys, featureCount);
+  
+          if (studyType == 'feed-selection') {
+            const studyObj = generateFeedSelectionStudy(studyType, template, num_posts, weights, featureCount, repeatNum);
+            study_array.push(studyObj);
+          }
+  
+          if (studyType == 'feed-comparison') {
+            const studyObj = generateFeedComparisonStudy(studyType, template, num_posts, weights, featureCount, repeatNum);
+            study_array.push(studyObj);
+          }
+  
+          if (studyType == 'post-placement') {
+            const studyObj = generatePostPlacementStudy(studyType, template, num_posts, weights, featureCount, repeatNum);
+            study_array.push(studyObj);
+          }
+  
+          if (studyType == 'feature-selection') {
+            const studyObj = generateFeatureSelectionStudy(studyType, template, num_posts, weights, featureCount, repeatNum);
+            study_array.push(studyObj);
+          }
+
+          if (studyType == 'counterfactual-placement') {
+            const studyObj = generateCounterfactualPlacementStudy(studyType, template, num_posts, weights, featureCount, repeatNum);
+            study_array.push(studyObj);
+          }
+  
+        }
+      }
+  
+      insertDuplicateStudy(study_array, num_repeats, feature_counts.length);
+    }
+  
+    screen_array.push(study_array);
+  
+    // Submission screen
+    const submission_screen = {
+      'type': "submission",
+      'template': "submission",
+    };
+    screen_array.push([submission_screen]);
+  
+    return screen_array;
   }
-}
 
-function displayMessage(question_div, color, message) {
-  removeMessage(question_div);
+  function generateCounterfactualPlacementStudy(studyType, template, num_posts, weights, feature_count, repeatNum, is_practice = false) {
+    const studyObj = {
+      'study_type': studyType,
+      'feature_count': feature_count,
+      'instance_number': repeatNum,
+      'type': is_practice ? "practice" : "study",
+      'template': template,
+      'feeds': [json_posts["posts"].splice(0, num_posts)],
+      'weights': weights,
+    };
 
-  const message_div = document.createElement("div");
-  message_div.className = "message py-2";
-  message_div.style.color = color;
-  message_div.style.fontSize = "medium";
-  message_div.style.textAlign = "center";
-  message_div.innerHTML = message;
-  question_div.appendChild(message_div);
-}
+    linear_combination_sort(studyObj['feeds'][0], weights);
+    
+    let post_index = Math.floor(Math.random() * (num_posts - 2)) + 1;
+    let post = studyObj['feeds'][0][post_index];
+    let new_post = shallowCopy(post);
+    let dummy_feed = shallowCopy(studyObj['feeds'][0]);
 
-function removeMessage(question_div) {
-  const message_div = question_div.querySelector('.message');
-  if (message_div) {
-    question_div.removeChild(message_div);
+    // change one of the features of the post until its hypothetical position in the feed is different
+
+    let changed_feature = get_random_nonzero_weight(weights);
+
+    do {
+      console.log("dummy feed: ", dummy_feed);
+      dummy_feed.splice(post_index, 1);
+
+      // Array of generic texts (exclamations)
+      const genericTexts = ["This is great!", "Wow, amazing!", "Incredible!", "Fantastic!"];
+
+      if (changed_feature === "character_count") {
+        // Change the length of the text, either by removing a random number of words,
+        // or adding generic text at the end
+        let text = new_post["text"];
+
+        // Randomly decide whether to delete words or add generic text
+        if (Math.random() < 0.5) {
+          // Calculate the number of words to remove (randomly)
+          const words = text.split(' ');
+          const wordsToRemove = Math.floor(Math.random() * words.length);
+
+          // Remove the specified number of words from the end
+          const newText = words.slice(0, words.length - wordsToRemove).join(' ');
+
+          // Update the 'text' property in the 'new_post' object
+          new_post["text"] = newText;
+        } else {
+          // Randomly select a generic text from the array
+          const randomIndex = Math.floor(Math.random() * genericTexts.length);
+          const selectedText = genericTexts[randomIndex];
+
+          // Add the selected generic text at the end
+          new_post["text"] = text + ' ' + selectedText;
+        }
+      } else {
+        // For other features, modify the value by multiplying it with a random factor
+        new_post[changed_feature] = Math.floor(new_post[changed_feature] * Math.random() * 2);
+      }
+
+      new_post["changed_feature"] = changed_feature;
+      dummy_feed.push(new_post);
+      linear_combination_sort(dummy_feed, weights);
+    } while (dummy_feed.indexOf(new_post) == post_index);
+
+    studyObj['feeds'][0][post_index]["changed_feature"] = changed_feature;
+
+    studyObj['new_post'] = new_post;
+    studyObj['new_post_higher'] = dummy_feed.indexOf(new_post) < post_index;
+
+    return studyObj;
   }
-}
 
+  
+  // Generate a feed-selection study object
+  function generateFeedSelectionStudy(studyType, template, num_posts, weights, feature_count, repeatNum, is_practice = false) {
+    const studyObj = {
+      'study_type': studyType,
+      'feature_count': feature_count,
+      'instance_number': repeatNum,
+      'type': is_practice ? "practice" : "study",
+      'template': template,
+      'feeds': [json_posts["posts"].splice(0, num_posts)],
+      'weights': weights,
+    };
+  
+    linear_combination_sort(studyObj['feeds'][0], weights);
+  
+    if (studyObj['study_type'].startsWith('feed-selection')) {
+      studyObj['feeds'].push(shallowCopy(studyObj['feeds'][0]));
+      const correct_feed_index = Math.random() > 0.5 ? 0 : 1;
+      const incorrect_feed_index = correct_feed_index == 0 ? 1 : 0;
+      studyObj['correct_feed_index'] = correct_feed_index;
+      shuffle_array(studyObj['feeds'][incorrect_feed_index]);
+    }
+  
+    return studyObj;
+  }
+  
+  // Generate a feed-comparison study object
+  function generateFeedComparisonStudy(studyType, template, num_posts, weights, feature_count, repeatNum, is_practice = false) {
+    const studyObj = {
+      'study_type': studyType,
+      'feature_count': feature_count,
+      'instance_number': repeatNum,
+      'type': is_practice ? "practice" : "study",
+      'template': template,
+      'feeds': [
+        json_posts["posts"].splice(0, num_posts),
+        json_posts["posts"].splice(0, num_posts)
+      ],
+      'weights': weights,
+    };
+  
+    linear_combination_sort(studyObj['feeds'][0], weights);
+    linear_combination_sort(studyObj['feeds'][1], weights);
+  
+    const same_sort_B = JSON.stringify(studyObj['feeds'][1]);
+    let permuted = Math.random() > 0.5;
+    let permuted_weights = shallowCopy(weights);
+  
+    if (permuted) {
+      do {
+        permute_weights_valence(permuted_weights);
+        linear_combination_sort(studyObj['feeds'][1], permuted_weights);
+      } while (JSON.stringify(studyObj['feeds'][1]) == same_sort_B);
+    }
+  
+    studyObj['permuted'] = permuted;
+    studyObj['permuted_weights'] = permuted_weights;
+  
+    return studyObj;
+  }
+  
+  // Generate a post-placement study object
+  function generatePostPlacementStudy(studyType, template, num_posts, weights, feature_count, repeatNum, is_practice = false) {
+    const studyObj = {
+      'study_type': studyType,
+      'feature_count': feature_count,
+      'instance_number': repeatNum,
+      'type': is_practice ? "practice" : "study",
+      'template': template,
+      'feeds': [json_posts["posts"].splice(0, num_posts)],
+      'weights': weights,
+      'correct_position': Math.floor(Math.random() * num_posts),
+    };
+  
+    linear_combination_sort(studyObj['feeds'][0], weights);
+  
+    return studyObj;
+  }
+  
+  function generateFeatureSelectionStudy(studyType, template, num_posts, weights, feature_count, repeatNum, is_practice = false) {
+    const studyObj = {
+      'study_type': studyType,
+      'feature_count': feature_count,
+      'instance_number': repeatNum,
+      'type': is_practice ? "practice" : "study",
+      'template': template,
+      'feeds': [json_posts["posts"].splice(0, num_posts)],
+      'weights': weights,
+    };
+  
+    linear_combination_sort(studyObj['feeds'][0], weights);
+  
+    return studyObj;
+  }
+  
+  // Insert duplicate study for source study type
+  function insertDuplicateStudy(screen_array, num_repeats, num_feature_counts) {
+    const source_index = screen_array.length - (num_repeats * num_feature_counts);
+    const studyObj = shallowCopy(screen_array[source_index]);
+    const random_index = source_index + 3 + Math.floor(Math.random() * ((num_repeats * num_feature_counts) - 3));
+    screen_array.splice(random_index, 0, studyObj);
+  }
+  
+  function generate_screen_name(screen_info) {
+    let screen_name = `study-${screen_info["study_type"]}-features-${screen_info["feature_count"]}-${screen_info["instance_number"]}`;
+    if (screen_info.type == 'introduction') {
+      screen_name = 'introduction';
+    } else if (screen_info.type == 'submission') {
+      screen_name = 'submission';
+    }
+    return screen_name;
+  }
+  
+  function get_questions(screen_type, confidence = true) {
+    const questions = {};
+    for (let i = 0; i < json_questions[screen_type].length; i++) {
+      questions[`Q${i+1}`] = json_questions[screen_type][i];
+    }
+  
+    if (confidence) {
+      questions[`CF`] = json_questions["confidence"][0];
+      questions[`CF`]['text'] = json_questions["confidence-texts"][screen_type];
+    }
+    
+    return questions;
+  }
+    
 
 /**
  * Processes a checked question and updates the screen output.
@@ -1299,7 +1506,7 @@ function removeMessage(question_div) {
  * @param {Array} unansweredQuestions - Array to track unanswered questions.
  * @param {Element} feed - The feed element.
  */
- function process_post_placement_question(questionDiv, screenOutput, unanswered_questions, incorrect_questions, feed) {
+function process_post_placement_question(questionDiv, screenOutput, unanswered_questions, incorrect_questions, feed) {
   const posts = feed.querySelectorAll('li');
 
   let chosenIndex = -1;
@@ -1439,6 +1646,57 @@ function log_submission() {
 
   output["global"].push(experimentOutput);
 }
+    function highlight_unanswered_questions(unanswered_questions, incorrect_questions) {
+  const question_divs = $(".study-question, .post-placement-question");
+  
+  question_divs.each((i, question_div) => {
+    if (unanswered_questions[question_div.id]) {
+      question_div.setAttribute('data-state', 'unanswered');
+      question_div.style.border = "2px solid red";
+      displayMessage(question_div, "red", "Please answer the required question.");
+    } else if (incorrect_questions[question_div.id]) {
+      question_div.setAttribute('data-state', 'incorrect');
+      question_div.style.border = "2px solid orange";
+      displayMessage(question_div, "orange", answer_to_feedback(incorrect_questions[question_div.id]));
+    } else {
+      question_div.removeAttribute('data-state');
+      question_div.style.border = "";
+      removeMessage(question_div);
+    }
+  });
+}
+
+function answer_to_feedback(answer) {
+  if (answer.question_type == "multiple-choice") {
+    return `Your answer of "<strong>${array_to_string(answer.chosen_answers)}</strong>" was incorrect. The correct answer was "<strong>${array_to_string(answer.correct_answers)}</strong>". 
+            Please correct your answer and try a new version of this question in the next screen.`;
+  }
+  
+  if (answer.question_type == "post-placement") {
+    return `Your placement of the post at position <strong>${answer.chosen_answers[0] + 1}</strong> is incorrect. Its correct position is <strong>${answer.correct_answers[0] + 1}</strong>.
+            Please correct your answer and try a new version of this question in the next screen.`;
+  }
+}
+
+function displayMessage(question_div, color, message) {
+  removeMessage(question_div);
+
+  const message_div = document.createElement("div");
+  message_div.className = "message py-2";
+  message_div.style.color = color;
+  message_div.style.fontSize = "medium";
+  message_div.style.textAlign = "center";
+  message_div.innerHTML = message;
+  question_div.appendChild(message_div);
+}
+
+function removeMessage(question_div) {
+  const message_div = question_div.querySelector('.message');
+  if (message_div) {
+    question_div.removeChild(message_div);
+  }
+}
+
 
 // gets the next screen in the array of arrays that is screen order
 function get_next_screen(sectionIdx, screenIdx) {
@@ -1552,8 +1810,8 @@ function activate_screen(screen_info, screen_name) {
 
   let top_bar = document.getElementById("top-bar");
 
-  if (screenColors.hasOwnProperty(screen_info.type)) {
-    top_bar.style.backgroundColor = screenColors[screen_info.type];
+  if (screen_colors.hasOwnProperty(screen_info.type)) {
+    top_bar.style.backgroundColor = screen_colors[screen_info.type];
   } else {
     top_bar.style.backgroundColor = "#CCCCCC"; // Default color if screen type is not found
   }
@@ -1588,236 +1846,32 @@ function submit() {
   log_submission();
   proliferate.submit(output);
 }
-
-</script>
-  <script type="text/javascript">
-
-function removeEmojis(input) {
-  const emojiPattern = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}\u{1F191}-\u{1F251}\u{1F004}\u{1F0CF}\u{1F170}-\u{1F171}\u{1F17E}-\u{1F17F}\u{1F18E}\u{3030}\u{2B50}\u{2B55}\u{2B05}-\u{2B07}\u{2B1B}-\u{2B1C}\u{3297}\u{3299}\u{23F0}\u{23F3}\u{231A}-\u{231B}\u{25FD}-\u{25FE}\u{2B50}\u{23E9}-\u{23EC}\u{2B05}-\u{2B07}\u{2B1B}-\u{2B1C}\u{2934}-\u{2935}\u{2B05}-\u{2B07}\u{27A1}]/gu;
-
-  return input.replace(emojiPattern, '');
-}
-
-function removeHashtags(input) {
-  const hashtagPattern = /#[^\s#]+/g;
-
-  return input.replace(hashtagPattern, '');
-}
-
-// https://stackoverflow.com/questions/25582882/javascript-math-random-normal-distribution-gaussian-bell-curve
-function randn_bm(min, max, skew) {
-  let u = 0, v = 0;
-  while(u === 0) u = Math.random() //Converting [0,1) to (0,1)
-  while(v === 0) v = Math.random()
-  let num = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v )
-  
-  num = num / 10.0 + 0.5 // Translate to 0 -> 1
-  if (num > 1 || num < 0) 
-    num = randn_bm(min, max, skew) // resample between 0 and 1 if out of range
-  
-  else{
-    num = Math.pow(num, skew) // Skew
-    num *= max - min // Stretch to fill range
-    num += min // offset to min
-  }
-  return Math.round(num);
-}
-
-function sanitizePosts(posts) {
-
-  for (let i = 0; i < posts.length; i++) {
-    // if the first character is an emoji, remove it 65% of the time
-    if (posts[i].text.charCodeAt(0) >= 0x1F600 && posts[i].text.charCodeAt(0) <= 0x1F64F) {
-      if (Math.random() < 0.65) {
-        posts[i].text = posts[i].text.slice(2);
-      }
-    }
-
-    // Randomly remove emojis, hashtags, exclamations, and uppercases
-    if (Math.random() < 0.65) {
-      posts[i].text = removeEmojis(posts[i].text);
-    }
-
-    if (Math.random() < 0.65) {
-      posts[i].text = removeHashtags(posts[i].text);
-    }
-
-    if (Math.random() < 0.65) {
-      posts[i].text = posts[i].text.replace(/!/g, '.');
-    }
-
-    if (Math.random() < 0.35) {
-      posts[i].text = posts[i].text.toLowerCase();
-    }
-
-    // if the author_name is too long, remove the last word
-    while (posts[i].author_name.length > 16 && posts[i].author_name.split(" ").length > 1) {
-      posts[i].author_name = posts[i].author_name.split(" ").slice(0, -1).join(" ");
-    }
-
-    // if the author_name is still too long, remove the last characters starting at the last capital letter
-    if (posts[i].author_name.length > 18) {
-      const lastCapitalIndex = posts[i].author_name.split("").reverse().join("").search(/[A-Z]/);
-      posts[i].author_name = posts[i].author_name.slice(0, -lastCapitalIndex);
-    }
-
-    // Assign days_since_posted
-    posts[i].days_since_posted = randn_bm(0, 500, 4);
-
-    // Assign view_count, like_count, and comment_count
-    posts[i].view_count = randn_bm(0, 2500, 4);
-
-    posts[i].like_count =  randn_bm(posts[i].view_count / 6, posts[i].view_count, 1.1);
-
-    posts[i].comment_count = randn_bm(posts[i].like_count / 6, posts[i].like_count, 1.5);
-  }
-}
-
-</script>
-  <script type="text/javascript">
-
-/* takes in a feed array of posts and weights it's features according to the weights dictionary 
- */
-function linear_combination_sort(feed, weights) {
-    feed.sort(function(a, b){
-        let a_score = 0;
-        let b_score = 0;
-        for (let key in weights) {
-            if (key == "character_count") {
-                a_score += weights[key] * a["text"].length;
-                b_score += weights[key] * b["text"].length;
-            } else {
-                a_score += weights[key] * a[key];
-                b_score += weights[key] * b[key];
-            }   
-        }
-        return  b_score - a_score;
-    });
-}
-
-// given an array of features (strings) and the number of features that should have
-// weight > 0, generates a random weight dictionary
-function generate_weights(features, num_features) {
-    let weights = {};
-    let num_features_set = 0;
-    while (num_features_set < num_features) {
-        let random_feature = features[Math.floor(Math.random() * features.length)];
-        if (weights[random_feature] == undefined) {
-            do {
-                weights[random_feature] = truncate(Math.random() * 2 - 1);
-            } while (Math.abs(weights[random_feature]) <= 0.1);
-            num_features_set++;
-        }
-    }
-
-    // if weights only has one entry, set it to 1 or -1 (depending on its sign)
-    if (Object.keys(weights).length == 1) {
-        let key = Object.keys(weights)[0];
-        weights[key] = weights[key] >= 0 ? 1 : -1;
-    }
-
-    // set all other features to 0
-    for (let feature of features) {
-        if (weights[feature] == undefined) {
-            weights[feature] = 0;
-        }
-    }
-
-    return weights;
-}
-
-// function permute_weights(weights) {
-// modifies the weights dictionary with one of the weights changed
-// returns a the name of the weight that was changed
-function permute_weights(weights) {
-    let keys = Object.keys(weights);
-    let random_key = keys[Math.floor(Math.random() * keys.length)];
-    weights[random_key] = truncate(Math.random() * 2 - 1);
-    return random_key;
-}
-
-// function permute_weights_valence(weights) {
-// modifies the weights dictionary with one of the weights changed to another sign
-// returns a the name of the weight that was changed
-function permute_weights_valence(weights) {
-    let keys = Object.keys(weights);
-
-    let random_key = keys[Math.floor(Math.random() * keys.length)];
-
-    if (weights[random_key] == 0) {
-        do {
-            weights[random_key] = truncate(Math.random() * 2 - 1);
-        } while (Math.abs(weights[random_key]) <= 0.1);
-    } else {
-        weights[random_key] = -weights[random_key];
-    }
-    
-    return random_key;
-}
-
-</script>
-  <script>
-
-var questions_column_width;
-var feature_dict = 
-{
-    "days_since_posted": "Hours Since Posted", 
-    "like_count": "Like Count", 
-    "view_count": "View Count", 
-    "comment_count": "Comment Count", 
-    "character_count": "Character Count"
-};
-
-const screenColors = {
-  introduction: "#BBBBBB", // gray?
-  practice: "#00BFFF",     // Deep Sky Blue
-  study: "#32CD32",        // Lime Green
-  submission: "#FF6347"    // Tomato Red
-};
-
-
-var feature_keys = Object.keys(feature_dict);
-var feature_names = Object.values(feature_dict);
-
-var startTime;
-
-sanitizePosts(json_posts["posts"]);
-shuffle_array(json_posts["posts"]);
-
-let screen_order = generate_study_array(["feed-comparison-B", "post-placement", "feature-selection"], 
-                                        [1, 2, 5], 
+    let section_index, screen_index;
+let start_times = {};
+let screen_order = generate_study_array(studies,
+                                        json_posts["posts"],
+                                        [1], 
                                         2, 
                                         "left-feed-questions", 
                                         feature_keys, 
                                         8,
                                         true);
-let section_index = 0;
-let screen_index = 0;
 
-var start_times = {};
+const practice_repeat_tally = Object.fromEntries(studies.map(study => [study, 0]));
+const output = {}
 
-var practice_repeat_tally = {
-    "post-placement": 0,
-    "feed-comparison-B": 0,
-    "feed-selection": 0,
-    "feature-selection": 0,
-};
+function init() {
+  console.log(screen_order);
 
-output = {
-    
-}
-
-</script>
-  <script type="text/javascript">
-
-function main() {
+  start_time = new Date();
+  section_index = 0;
+  screen_index = 0;
   activate_screen(screen_order[0][0], "introduction");
 }
 
-main();
+init();
 
-</script>
-
+  </script>
 
   </div>
 </body>
