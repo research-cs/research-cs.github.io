@@ -10,16 +10,6 @@ json_questions = {
         "options": ["Feature A", "Feature B", "Feature C", "Feature D"],
     }],
     "feed-comparison": [{
-        "text": "One feature's weight in Feed A's scoring function was changed to generate Feed B's scoring function. Which feature's weight was changed?",
-        "type": "multiple-choice",
-        "options": ["Feature A", "Feature B", "Feature C", "Feature D"],
-    },
-    {
-        "text": "Was the weight increased (made more positive) or decreased (made more negative)?",
-        "type": "multiple-choice",
-        "options": ["Increased", "Decreased"],
-    }],
-    "feed-comparison-B": [{
         "text": "Feed B contains a different set of posts from Feed A's. Were feed B's posts sorted by the same algorithm as Feed A?",
         "type": "multiple-choice",
         "options": ["Different", "The same"],
@@ -27,6 +17,11 @@ json_questions = {
     "post-placement": [{
         "text": "Look at how the feed to the left was organized. Then, place the post below in its correct position in the feed.",
         "type": "post-placement",
+    }],
+    "counterfactual-placement": [{
+        "text": "Look at how the feed to the left was organized. If the highlighted post changed in this way, would it be placed lower or higher in the feed?",
+        "type": "multiple-choice",
+        "options": ["Above", "Below"],
     }],
     "confidence": [{
         "text": "How confident are you about your answer to the above?",
@@ -42,9 +37,9 @@ json_questions = {
     }],
     "confidence-texts": {
         "feed-selection": "How confident are you that your selection is correct?",
-        "feed-comparison": "How confident are you that your selections are correct?",
-        "post-placement": "How confident are you that your placement is correct?",
-        "feed-comparison-B": "How confident are you that your answer is correct?",
+        "feed-comparison": "How confident are you that your answer is correct?",
         "feature-selection": "How confident are you that your selections are correct?",
+        "post-placement": "How confident are you that your placement is correct?",
+        "counterfactual-placement": "How confident are you that your answer is correct?",
     },
 }
