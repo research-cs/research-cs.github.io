@@ -360,8 +360,8 @@ ol li {
   })();
 </script>
   
-  <script type="text/javascript" src="templates/source_data/feed_data.json"></script>
-  <script type="text/javascript" src="templates/source_data/question_data.json"></script>
+  <script type="text/javascript" src="templates/data/feed_data.json"></script>
+  <script type="text/javascript" src="templates/data/question_data.json"></script>
 
   <script type="text/javascript">
     
@@ -885,9 +885,7 @@ function populate_questions_container(questions, container, screen_name) {
   } else if (screen_type == "feed-comparison") {
     labeled = true;
 
-    console.log(questions);
     questions['Q1']['options'] = questions['Q1']['options'];
-    console.log(questions['Q1']['options']);
     questions['Q1']['option-key'] = screen_info['permuted'] ? [1, 0] : [0, 1];
   } else if (screen_type == "counterfactual-placement") {
     labeled = false;
@@ -1146,7 +1144,6 @@ function generate_ranking_text(weights, show_zeroes = false) {
     // generate practice screen for each study (with one feature)
     if (includes_practice) {
       for (const studyType of shuffledStudies) {
-        console.log(studyType);
         const weights = generate_weights(feature_keys, 1);
         
         if (studyType == 'feed-selection') {
@@ -1253,7 +1250,6 @@ function generate_ranking_text(weights, show_zeroes = false) {
     let changed_feature = get_random_nonzero_weight(weights);
 
     do {
-      console.log("dummy feed: ", dummy_feed);
       dummy_feed.splice(post_index, 1);
 
       // Array of generic texts (exclamations)
@@ -1468,7 +1464,6 @@ function generate_ranking_text(weights, show_zeroes = false) {
     const optionText = input.nextElementSibling.textContent;
     const optionValue = parseFloat(input.value, 10);
 
-    console.log(optionText, optionValue);
     if (optionValue > 0) {
       correct_answers.push(optionText);
     }
@@ -1480,8 +1475,6 @@ function generate_ranking_text(weights, show_zeroes = false) {
     "correct_answers": correct_answers,
     "chosen_answers": checkedOptions
   };
-
-  console.log(question);
 
   if (checkedOptions.length === 0) {
     unanswered_questions[questionDiv.id] = question;
@@ -1861,7 +1854,6 @@ const practice_repeat_tally = Object.fromEntries(studies.map(study => [study, 0]
 const output = {}
 
 function init() {
-  console.log(screen_order);
 
   start_time = new Date();
   section_index = 0;
