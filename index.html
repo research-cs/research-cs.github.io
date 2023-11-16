@@ -11,8 +11,9 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.3.0/math.min.js"></script>
 
-  <script type="text/javascript" id="MathJax-script" async
+  <!-- <script type="text/javascript" id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.3/tex-mml-chtml.js">
   </script>
   <script>
@@ -25,7 +26,7 @@
                   
       } 
     };
-  </script>
+  </script> -->
 
   <style>
 
@@ -179,9 +180,14 @@ img {
  
  /* Add styles for the static posts */
  .static {
-   border: 2px solid lightgray !important; 
-   opacity: 0.85; /* You can adjust the opacity to your preference */
+   border: 2px solid rgb(182, 182, 182) !important; 
+   opacity: 0.9;
  }
+
+ .unmoveable {
+  border: 2px solid lightgray !important; 
+  opacity: 0.7;
+}
 
  /* Add styles for the draggable posts */
  .post:not(.static) {
@@ -237,24 +243,21 @@ ol li {
             <div class="card-body">
                 <div class="row">
                     <div class="col-6">
-                        <p style="font-size: 18px;"><b>If an equation isn't showing correctly, refresh the page.</b></p>
                         <p style="font-size: 18px;">
-						In the upcoming questions, you'll be presented with a feed sorted by a feed ranking algorithm. 
-						Then, you'll answer questions about the algorithm that ranked the feed. 
+						In the upcoming screens, you'll be presented with some social media feeds and asked to answer some
+                        questions about them. The posts in these feeds will be sorted by some combination of the features 
+                        highlighted in the diagram to the right.
 						</p>
-						<p style="font-size: 18px;">A feed algorithm sorts posts by giving each one a score and placing 
-						the posts with the highest scores at the top. For example, if an algorithm assigns scores according to posts'
-						<i>"Hours Since Posted"</i> older posts would have a higher score and appear at the top of the feed.</p>
 						<p style="font-size: 18px;">
 						You will receive <b>$0.15 for each correct answer</b>. After each question, you will also be asked 
 						to assess how confident you are in your answer. Correct self-assessment 
-						will be bonused up to $0.06. The first section will serve as practice. </p>
+						will be bonused up to $0.06. </p>
 						
 						<p> <b>Click next (or press enter) to start.</b></p>
                     </div>
                     <div class="col-6" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 50px;">
-                        <img src="./templates/reference_post.png">
-                        <p><i>Example post with highlighted parts.</i></p>
+                        <img src="./templates/reference_post.png" width="70%" height="70%">
+                        <p><i>Example post with highlighted features.</i></p>
                     </div>
                 </div>
             </div>
@@ -364,11 +367,23 @@ ol li {
   <script type="text/javascript" src="templates/data/question_data.json"></script>
 
   <script type="text/javascript">
-    
+    /**
+ * Joins an array into a string with comma and space separators.
+ *
+ * @param {Array} array - The array to be converted to a string.
+ * @returns {string} The joined string.
+ */
 function array_to_string(array) {
   return array.join(', ');
 }
 
+/**
+ * Merges two objects into a new object.
+ *
+ * @param {Object} obj1 - The first object.
+ * @param {Object} obj2 - The second object.
+ * @returns {Object} The merged object.
+ */
 function merge_objects(obj1, obj2) {
   const result = {};
   for (const key in obj1) {
@@ -380,6 +395,11 @@ function merge_objects(obj1, obj2) {
   return result;
 }
 
+/**
+ * Shuffles an array using the Fisher-Yates algorithm.
+ *
+ * @param {Array} array - The array to be shuffled.
+ */
 function shuffle_array(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -387,23 +407,69 @@ function shuffle_array(array) {
   }
 }
 
-// truncates a number to two decimal points
+/**
+ * Truncates a number to two decimal points.
+ *
+ * @param {number} number - The number to be truncated.
+ * @returns {number} The truncated number.
+ */
 function truncate(number) {
   return Math.round(number * 10) / 10;
 }
 
-function shallowCopy(obj) {
+/**
+ * Shallow copy of an object or an array.
+ *
+ * @param {Object|Array} obj - The object or array to be copied.
+ * @returns {Object|Array} The shallow copy of the input.
+ */
+function shallow_copy(obj) {
   if (Array.isArray(obj)) {
-    return obj.map(item => shallowCopy(item));
+    return obj.map(item => shallow_copy(item));
   } else if (typeof obj === 'object' && obj !== null) {
-    return Object.fromEntries(Object.entries(obj).map(([key, value]) => [key, shallowCopy(value)]));
+    return Object.fromEntries(Object.entries(obj).map(([key, value]) => [key, shallow_copy(value)]));
   }
   return obj;
 }
 
+/**
+ * Generates random deep-copied samples from the provided data array, excluding specified posts.
+ *
+ * @param {Array} data - The array from which to select random samples.
+ * @param {number} sample_size - The number of random samples to generate.
+ * @param {Array} excluded_posts - Posts that should not be included in the new sample.
+ * @returns {Array} An array containing deep-copied random samples.
+ */
+function get_random_sample(data, sample_size, excluded_posts = []) {
+  const availablePosts = data.filter(post => !excluded_posts.some(excludedPost => isEqual(excludedPost, post)));
+  const samples = new Set();
+
+  while (samples.size < sample_size && availablePosts.length > 0) {
+    const randomIndex = Math.floor(Math.random() * availablePosts.length);
+    const randomPost = availablePosts[randomIndex];
+
+    if (!samples.has(JSON.stringify(randomPost))) {
+      samples.add(JSON.stringify(randomPost));
+    }
+  }
+
+  return Array.from(samples).map(post => JSON.parse(post));
+}
+
+// Helper function for deep equality check
+function isEqual(objA, objB) {
+  return JSON.stringify(objA) === JSON.stringify(objB);
+}
+
+/**
+ * Converts a string to an RGB color based on a hash function.
+ *
+ * @param {string} string - The input string.
+ * @returns {Array} An array containing the RGB values [r, g, b].
+ */
 function string_to_rgb(string) {
   // Simple hash function to convert the string to a numeric value
-  function hashString(str) {
+  function hash_string(str) {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
       hash = str.charCodeAt(i) + ((hash << 5) - hash);
@@ -412,21 +478,21 @@ function string_to_rgb(string) {
   }
 
   // Convert the hash value to RGB values within the range [0, 255]
-  function intToRGB(i) {
+  function int_to_rgb(i) {
     const c = (i & 0x00FFFFFF).toString(16).toUpperCase();
     return "00000".substring(0, 6 - c.length) + c;
   }
 
   // Generate a numeric hash value from the input string
-  const hashValue = hashString(string);
+  const hash_value = hash_string(string);
 
   // Convert the hash value to RGB values
-  const rgbString = intToRGB(hashValue);
+  const rgb_string = int_to_rgb(hash_value);
 
   // Extract the RGB values and convert them to an array
-  const r = parseInt(rgbString.slice(0, 2), 16);
-  const g = parseInt(rgbString.slice(2, 4), 16);
-  const b = parseInt(rgbString.slice(4, 6), 16);
+  const r = parseInt(rgb_string.slice(0, 2), 16);
+  const g = parseInt(rgb_string.slice(2, 4), 16);
+  const b = parseInt(rgb_string.slice(4, 6), 16);
 
   return [r, g, b];
 }
@@ -456,54 +522,109 @@ function parse_reddit_txt() {
   return result;
 }
 
-    function insert_label(labelText, labelContainer, label_width) {
+    /**
+ * Inserts a label into a container.
+ *
+ * @param {string} label_text - The text of the label.
+ * @param {HTMLElement} label_container - The container where the label will be inserted.
+ * @param {number} label_width - The width of the label container.
+ */
+function insert_label(label_text, label_container, label_width) {
   const label_div = document.createElement("div");
   label_div.className = `col-${label_width} d-flex align-items-center justify-content-center`; // Added justify-content-center
   label_div.innerHTML = 
   `<div class="feed-label pt-2">
-    <span class="font-weight-bold h2">${labelText}</span>
+    <span class="h2">${label_text}</span>
   </div>`;
-  labelContainer.appendChild(label_div);
+  label_container.appendChild(label_div);
 }
 
-function insert_feed(feed_data, container, feed_width, locked) {
-  const feedBankContainer = document.createElement("div");
-  feedBankContainer.className = `col-md-${feed_width} p-md-1`;
+/**
+ * Inserts a feed into a container with an option to load more posts.
+ *
+ * @param {Array} feed_data - The data for the feed.
+ * @param {HTMLElement} container - The container where the feed will be inserted.
+ * @param {number} feed_width - The width of the feed container.
+ * @param {number} starting_num_posts - The number of initial posts to display.
+ * @param {number} num_posts_to_load - The number of posts to load on each "Load More" click.
+ * @param {boolean} is_locked - Indicates whether the feed is locked in place.
+ */
+// function insert_feed(feed_data, container, feed_width, starting_num_posts, num_posts_to_load, is_locked) {
+//   const feed_bank_container = document.createElement("div");
+//   feed_bank_container.className = `col-md-${feed_width} p-md-1`;
 
-  const feedParentUl = document.createElement("ul");
-  feedParentUl.className = `feed sortable${locked ? ' locked' : ''} feed-list-bank list-unstyled`;
+//   const feed_parent_ul = document.createElement("ul");
+//   feed_parent_ul.className = `feed sortable${is_locked ? ' locked' : ''} feed-list-bank list-unstyled`;
 
-  feed_data.forEach(post => {
-    insert_post(post, feedParentUl, locked);
-  });
+//   function insert_post_range(start, end) {
+//     for (let i = start; i < end; i++) {
+//       if (i >= feed_data.length) {
+//         break;
+//       }
+//       insert_post(feed_data[i], feed_parent_ul, is_locked);
+//     }
+//   }
 
-  feedBankContainer.appendChild(feedParentUl);
+//   // Insert the initial posts
+//   insert_post_range(0, starting_num_posts);
 
-  container.appendChild(feedBankContainer);
+//   // Create a "Load More" button
+//   const load_more_button = document.createElement("button");
+//   load_more_button.innerText = "Load More";
+//   load_more_button.className = "load-more-button btn btn-light btn-block mt-3";
+//   load_more_button.style.backgroundColor = "#f0f8ff";
+//   let current_num_posts = starting_num_posts;
 
-  $('.sortable').sortable({
-    connectWith: '.sortable',
-    cancel: '.static',
-    scroll: false,
-    zIndex: 9999,
-    appendTo: $('.feed').not('.locked'),
-  });
-}
+//   // Hide the button if all posts have been loaded
+//   if (current_num_posts >= feed_data.length) {
+//     load_more_button.style.display = "none";
+//   }
 
+//   // Attach a click event to the "Load More" button
+//   load_more_button.addEventListener("click", () => {
+//     const next_num_posts = current_num_posts + num_posts_to_load;
+//     insert_post_range(current_num_posts, next_num_posts);
+//     current_num_posts = next_num_posts;
+
+//     // Hide the button if all posts have been loaded
+//     if (current_num_posts >= feed_data.length) {
+//       load_more_button.style.display = "none";
+//     }
+//   });
+
+//   feed_bank_container.appendChild(feed_parent_ul);
+//   feed_bank_container.appendChild(load_more_button);
+//   container.appendChild(feed_bank_container);
+
+//   $('.sortable').sortable({
+//     connectWith: '.sortable',
+//     cancel: '.static',
+//     scroll: false,
+//     zIndex: 9999,
+//     appendTo: $('.feed').not('.locked'),
+//   });
+// }
+
+/**
+ * Inserts a post into a list.
+ *
+ * @param {Object} post - The post data.
+ * @param {HTMLElement} feed_parent_list - The parent list where the post will be inserted.
+ * @param {boolean} locked - Indicates whether the post is locked.
+ */
 function insert_post(post, feed_parent_list, locked) {
-  const postListItem = document.createElement("li");
-  postListItem.className = `bg-white border mt-2 post${locked ? ' static' : ''} rounded`;
+  const post_list_item = document.createElement("li");
+  post_list_item.className = `bg-white border mt-2 post${locked ? ' static' : ''} rounded`;
   let rgb = string_to_rgb(post.author_name);
 
   let highlighted_feature = post.changed_feature;
 
-  postListItem.innerHTML = `
+  post_list_item.innerHTML = `
     <div class="d-flex flex-row justify-content-between align-items-center p-1 border-bottom">
       <div class="d-flex flex-row align-items-center feed-text px-2">
         <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]});"></div>
         <div class="d-flex flex-column flex-wrap ml-2">
           <span class="font-weight-bold">${post.author_name}</span>
-          <span class="small-text${highlighted_feature === 'days_since_posted' ? ' highlighted' : ''}">${post.days_since_posted} hour${post.days_since_posted != 1 ? "s" : ""} ago</span>
         </div>
       </div>
       <div class="feed-icon px-2"><i class="fa fa-ellipsis-v text-black-50"></i></div>
@@ -528,42 +649,153 @@ function insert_post(post, feed_parent_list, locked) {
           <i class="fa fa-eye"></i>
           <span class="count${highlighted_feature === 'view_count' ? ' highlighted' : ''}">${post.view_count}</span>
         </div>
+        <div class="social-item">
+          <i class="fa fa-retweet"></i>
+          <span class="count${highlighted_feature === 'repost_count' ? ' highlighted' : ''}">${post.repost_count}</span>
+        </div>
+        <div class="social-item">
+          <span class="small-text${highlighted_feature === 'days_since_posted' ? ' highlighted' : ''}">${post.days_since_posted} hour${post.days_since_posted != 1 ? "s" : ""} ago</span>
+        </div>
       </div>
     </div>
   `;
 
-  postListItem.setAttribute("data-number", post.correct_position ?? -1);
+  post_list_item.setAttribute("data-number", post.correct_position ?? -1);
 
-  feed_parent_list.appendChild(postListItem);
+  feed_parent_list.appendChild(post_list_item);
 }
 
-function populate_feed_container(feeds, container, labeled) {
+/**
+ * Inserts a feed into a container with an option to toggle visibility of posts.
+ *
+ * @param {Array} feed_data - The data for the feed.
+ * @param {HTMLElement} container - The container where the feed will be inserted.
+ * @param {number} feed_width - The width of the feed container.
+ * @param {number} starting_num_posts - The number of initial posts to display.
+ * @param {number} num_posts_to_load - The number of posts to toggle visibility for on each "Load More" click.
+ * @param {boolean} is_locked - Indicates whether the feed is locked in place.
+ */
+function insert_feed(feed_data, container, feed_width, starting_num_posts, num_posts_to_load, is_locked) {
+  const feed_bank_container = document.createElement("div");
+  feed_bank_container.className = `col-md-${feed_width} p-md-1`;
+
+  const feed_parent_ul = document.createElement("ul");
+  feed_parent_ul.className = `feed sortable${is_locked ? ' locked' : ''} feed-list-bank list-unstyled`;
+
+  for (let i = 0; i < feed_data.length; i++) {
+    insert_post(feed_data[i], feed_parent_ul, is_locked);
+
+    // Initially hide all posts except the first 'starting_num_posts'
+    if (i >= starting_num_posts) {
+      // these posts should also not be able to move around
+      feed_parent_ul.lastChild.style.display = 'none';
+      feed_parent_ul.lastElementChild.classList.add('unmoveable');
+    }
+  }
+
+  feed_bank_container.appendChild(feed_parent_ul);
+  container.appendChild(feed_bank_container);
+
+  $('.sortable').sortable({
+    connectWith: '.sortable',
+    items: 'li:not(.unmoveable)', // Specify which items can be sorted
+    cancel: '.static',
+    scroll: true,
+    zIndex: 9999,
+    appendTo: $('.feed').not('.locked'),
+  });  
+}
+
+/**
+ * Populates a feed container with feeds and a single "Load More" button.
+ *
+ * @param {Array} feeds - The feeds to be inserted.
+ * @param {HTMLElement} container - The container for feeds and the "Load More" button.
+ * @param {boolean} labeled - Indicates whether labels are added.
+ * @param {number} starting_num_posts - The number of initial posts to display for each feed.
+ * @param {number} num_posts_to_load - The number of posts to toggle visibility for on each "Load More" click for each feed.
+ */
+function populate_feed_container(feeds, container, labeled, starting_num_posts, num_posts_to_load) {
   const feed_width = Math.floor(12 / feeds.length);
   const label_width = feed_width;
 
-  const labelRow = document.createElement("div");
-  labelRow.className = "row label-container align-items-start pl-1 pr-3 pb-1";
-  container.appendChild(labelRow);
+  const label_row = document.createElement("div");
+  label_row.className = "row label-container align-items-start pl-1 pr-3 pb-1";
+  container.appendChild(label_row);
 
-  const feedRow = document.createElement("div");
-  feedRow.className = "row feed-scroll visible-scrollbar";
-  container.appendChild(feedRow);
+  const feed_row = document.createElement("div");
+  feed_row.className = "row feed-scroll visible-scrollbar";
+  
+  const labels = ["Yesterday's Feed", "Today's Feed"];
 
   for (let i = 0; i < feeds.length; i++) {
     if (labeled) {
-      let labelText = String.fromCharCode(65 + i);
-      insert_label(labelText, labelRow, label_width);
+      let label_text = labels[i]; // String.fromCharCode(65 + i);
+      insert_label(label_text, label_row, label_width);
     }
 
-    insert_feed(feeds[i], feedRow, feed_width, true);
+    const feedData = feeds[i];
+    insert_feed(feedData, feed_row, feed_width, starting_num_posts, num_posts_to_load, true);
   }
+
+  container.appendChild(feed_row);
+
+  const loadMoreButton = document.createElement("button");
+  loadMoreButton.innerText = "Load More";
+  loadMoreButton.className = "load-more-button btn btn-light btn-block mt-1";
+  loadMoreButton.style.backgroundColor = "#f0f8ff";
+  feed_row.appendChild(loadMoreButton);
+
+  loadMoreButton.addEventListener("click", () => {
+    const feedContainers = feed_row.querySelectorAll('.feed-list-bank');
+    let buttonHidden = true;
+
+    for (let i = 0; i < feedContainers.length; i++) {
+      const feedContainer = feedContainers[i];
+      const allPosts = feedContainer.children;
+      let postsToShow = num_posts_to_load;
+
+      // Find the first hidden post
+      let startIndex = 0;
+      for (let j = 0; j < allPosts.length; j++) {
+        if (allPosts[j].style.display === 'none') {
+          startIndex = j;
+          break;
+        }
+      }
+
+      // Show the next posts to reveal
+      for (let j = startIndex; j < allPosts.length; j++) {
+        if (postsToShow > 0 && allPosts[j].style.display === 'none') {
+          allPosts[j].style.display = 'block';
+          postsToShow--;
+        }
+      }
+
+      // Check if the last post is revealed
+      if (allPosts[allPosts.length - 1].style.display === 'none') {
+        buttonHidden = false;
+      }
+    }
+
+    // Hide the "Load More" button if the last post is revealed
+    if (buttonHidden) {
+      loadMoreButton.style.display = 'none';
+    }
+  });
 }
 
+/**
+ * Inserts a Reddit post into a container.
+ *
+ * @param {Object} post - The Reddit post data.
+ * @param {HTMLElement} feed_parent_list - The parent list where the post will be inserted.
+ */
 function insert_reddit_post(post, feed_parent_list) {
-  const postListItem = document.createElement("div");
-  postListItem.className = "bg-white border mt-2 post rounded p-2";
+  const post_list_item = document.createElement("div");
+  post_list_item.className = "bg-white border mt-2 post rounded p-2";
 
-  postListItem.innerHTML = `
+  post_list_item.innerHTML = `
     <div class="d-flex justify-content-between align-items-center border-bottom mb-2">
       <span class="font-weight-bold">${"r/" + post.SUBREDDIT}</span>
       <div class="feed-icon"><i class="fa fa-ellipsis-v text-black-50"></i></div>
@@ -588,9 +820,15 @@ function insert_reddit_post(post, feed_parent_list) {
     </div>
   `;
 
-  feed_parent_list.appendChild(postListItem);
+  feed_parent_list.appendChild(post_list_item);
 }
 
+/**
+ * Inserts text into a container.
+ *
+ * @param {string} question_text - The text to be inserted.
+ * @param {HTMLElement} container - The container where the text will be inserted.
+ */
 function insert_text(question_text, container) {
   const question_div = document.createElement("div");
   question_div.className = "pr-3";
@@ -602,6 +840,15 @@ function insert_text(question_text, container) {
 
   container.appendChild(question_div);
 }
+
+/**
+ * Inserts a multiple-choice question into a container.
+ *
+ * @param {Object} question - The multiple-choice question data.
+ * @param {HTMLElement} container - The container where the question will be inserted.
+ * @param {string} screen_name - The screen name.
+ * @param {string} question_name - The name of the question.
+ */
 function insert_mcq(question, container, screen_name, question_name) {
   const question_div = document.createElement("div");
   question_div.className = "study-question mb-2 mr-3 rounded";
@@ -642,6 +889,14 @@ function insert_mcq(question, container, screen_name, question_name) {
   container.appendChild(question_div);
 }
 
+/**
+ * Inserts radio buttons for a question into a container.
+ *
+ * @param {Object} question - The question data.
+ * @param {HTMLElement} container - The container where the question will be inserted.
+ * @param {string} screen_name - The screen name.
+ * @param {string} question_name - The name of the question.
+ */
 function insert_radio_buttons(question, container, screen_name, question_name) {
   const question_div = document.createElement("div");
   question_div.className = "study-question pl-2 mb-2 mr-3 rounded";
@@ -695,7 +950,7 @@ function insert_radio_buttons(question, container, screen_name, question_name) {
     radio_input.type = "radio";
     radio_input.name = `question_${container.id}_${question_name}`;
     radio_input.value = question['option-key'][i];
-    radio_input.id = `${container.id}_${question.options[i].replace(/\s+/g, "_")}`.toLowerCase();
+    radio_input.id = `${container.id}_${question.options[i].replace(/\s+/g, "_").toLowerCase()}`;
     radio_input.style.display = "none";
 
     const radio_label = document.createElement("label");
@@ -716,6 +971,14 @@ function insert_radio_buttons(question, container, screen_name, question_name) {
   container.appendChild(question_div);
 }
 
+/**
+ * Inserts checkboxes for a question into a container.
+ *
+ * @param {Object} question - The question data.
+ * @param {HTMLElement} container - The container where the question will be inserted.
+ * @param {string} screen_name - The screen name.
+ * @param {string} question_name - The name of the question.
+ */
 function insert_checkbox(question, container, screen_name, question_name) {
   const question_div = document.createElement("div");
   question_div.className = "study-question mb-4 rounded"; 
@@ -748,6 +1011,14 @@ function insert_checkbox(question, container, screen_name, question_name) {
   container.appendChild(question_div);
 }
 
+/**
+ * Inserts a post placement question into a container.
+ *
+ * @param {Object} question - The question data.
+ * @param {HTMLElement} container - The container where the question will be inserted.
+ * @param {string} screen_name - The screen name.
+ * @param {string} question_name - The name of the question.
+ */
 function insert_post_placement(question, container, screen_name, question_name) {
   const question_div = document.createElement("div");
   question_div.className = "post-placement-question mb-3 mr-3 rounded";
@@ -757,9 +1028,17 @@ function insert_post_placement(question, container, screen_name, question_name) 
 
   container.appendChild(question_div);
 
-  insert_feed(question['feed'], question_div, 12, false);
+  insert_feed(question['feed'], question_div, 12, 1, 1, false);
 }
 
+/**
+ * Inserts a radio grid question into a container.
+ *
+ * @param {Object} question - The question data.
+ * @param {HTMLElement} container - The container where the question will be inserted.
+ * @param {string} screen_name - The screen name.
+ * @param {string} question_name - The name of the question.
+ */
 function insert_radio_grid(question, container, screen_name, question_name) {
   const question_div = document.createElement("div");
   question_div.className = "study-question mb-4";
@@ -767,20 +1046,20 @@ function insert_radio_grid(question, container, screen_name, question_name) {
 
   insert_text(question.text, question_div);
 
-  const gridDiv = document.createElement("div");
-  gridDiv.className = "radio-grid";
+  const grid_div = document.createElement("div");
+  grid_div.className = "radio-grid";
 
   for (let i = 0; i < question.entries.length; i++) {
-    const entryDiv = document.createElement("div");
-    entryDiv.className = "radio-grid-row row mb-2";
+    const entry_div = document.createElement("div");
+    entry_div.className = "radio-grid-row row mb-2";
 
-    const entryLabel = document.createElement("div");
-    entryLabel.className = "col-md-3 radio-grid-entry";
-    entryLabel.textContent = question.entries[i];
-    entryDiv.appendChild(entryLabel);
+    const entry_label = document.createElement("div");
+    entry_label.className = "col-md-3 radio-grid-entry";
+    entry_label.textContent = question.entries[i];
+    entry_div.appendChild(entry_label);
 
-    const optionDiv = document.createElement("div");
-    optionDiv.className = "col-md-9 radio-grid-options";
+    const option_div = document.createElement("div");
+    option_div.className = "col-md-9 radio-grid-options";
 
     for (let j = 0; j < question.options.length; j++) {
       const radio_input = document.createElement("input");
@@ -798,18 +1077,25 @@ function insert_radio_grid(question, container, screen_name, question_name) {
       radio_label.for = radio_input.id;
       radio_label.textContent = question.options[j];
 
-      optionDiv.appendChild(radio_input);
-      optionDiv.appendChild(radio_label);
+      option_div.appendChild(radio_input);
+      option_div.appendChild(radio_label);
     }
 
-    entryDiv.appendChild(optionDiv);
-    gridDiv.appendChild(entryDiv);
+    entry_div.appendChild(option_div);
+    grid_div.appendChild(entry_div);
   }
 
-  question_div.appendChild(gridDiv);
+  question_div.appendChild(grid_div);
   container.appendChild(question_div);
 }
 
+/**
+ * Populates a questions container with various question types.
+ *
+ * @param {Object} questions - The questions to be inserted.
+ * @param {HTMLElement} container - The container for questions.
+ * @param {string} screen_name - The screen name.
+ */
 function populate_questions_container(questions, container, screen_name) {
 
   for (let question_name in questions) {
@@ -825,6 +1111,8 @@ function populate_questions_container(questions, container, screen_name) {
       insert_radio_buttons(question, container, screen_name, question_name);
     } else if (question['type'] == 'radio-grid') {
       insert_radio_grid(question, container, screen_name, question_name);
+    } else if (question['type'] == 'text') {
+      insert_text(question.text, container);
     } else {
       console.log('unknown question type');
     }
@@ -835,10 +1123,10 @@ function populate_questions_container(questions, container, screen_name) {
   $('#LFQ-questions-container').empty();
 
   const screen_type = screen_info["study_type"];
-  const questions = get_questions(screen_type, screen_info['type'] != 'practice');
+  const questions = get_questions(screen_type, screen_info['type'] != 'practice' && screen_info['study_type'] != 'exposure');
   const num_feeds =  screen_info['feeds'].length;
 
-  let feeds = shallowCopy(screen_info['feeds']);
+  let feeds = shallow_copy(screen_info['feeds']);
 
   const unit_width = Math.min(12 / (num_feeds + 1), num_feeds * 5);
 
@@ -873,13 +1161,8 @@ function populate_questions_container(questions, container, screen_name) {
     questions['Q1']['option-key'] = Array.from({ length: feature_keys.length }, (value, index) => weights[feature_keys[index]] != 0 ? score_per_option : -score_per_option);
   } else if (screen_type == "post-placement") {
     labeled = false;
-    let randomIndex = screen_info['correct_position'];
-    let extractedPost = feeds[0][randomIndex];
-    extractedPost['correct_position'] = randomIndex;
     
-    let question_feed = [extractedPost];
-    
-    feeds[0].splice(randomIndex, 1);
+    let question_feed = [screen_info['extracted_post']];
     
     questions['Q1']['feed'] = question_feed;
   } else if (screen_type == "feed-comparison") {
@@ -890,15 +1173,18 @@ function populate_questions_container(questions, container, screen_name) {
   } else if (screen_type == "counterfactual-placement") {
     labeled = false;
 
-    insert_feed([screen_info['new_post']], document.getElementById('LFQ-questions-container'), 12, true);
+    insert_feed([screen_info['new_post']], document.getElementById('LFQ-questions-container'), 12, 1, 1, true);
 
-    questions['Q1']['options'] = ["Higher", "Lower"];
-    questions['Q1']['option-key'] = screen_info['new_post_higher'] ? [1, 0] : [0, 1];
+    questions['Q1']['options'] = ["Higher", "Unchanged", "Lower"];
+
+    let option_key = [0, 0, 0];
+    option_key[1 - screen_info['new_post_higher_same_lower']] = 1;
+    questions['Q1']['option-key'] = option_key;
   }
 
   insert_text(text, document.getElementById('LFQ-questions-container'));
 
-  populate_feed_container(feeds, document.getElementById('LFQ-feeds'), labeled);
+  populate_feed_container(feeds, document.getElementById('LFQ-feeds'), labeled, screen_info['starting_num_posts'], screen_info['num_posts_to_load']);
   populate_questions_container(questions, document.getElementById('LFQ-questions-container'), screen_name);
 }
 
@@ -910,7 +1196,8 @@ const feature_dict =
     "like_count": "Like Count", 
     "view_count": "View Count", 
     "comment_count": "Comment Count", 
-    "character_count": "Character Count"
+    "character_count": "Character Count",
+    "repost_count": "Repost Count",
 };
 
 const feature_keys = Object.keys(feature_dict);
@@ -957,29 +1244,38 @@ function randn_bm(min, max, skew) {
 function sanitize_posts(posts) {
 
   for (let i = 0; i < posts.length; i++) {
+    // make all text lorem ipsum
+    const original_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+
+    const words = original_text.split(' ');
+    const random_word_count = Math.floor(Math.random() * (words.length - 10)) + 10;
+    const truncated_text = words.slice(0, random_word_count).join(' ');
+
+    posts[i].text = truncated_text;
+
     // if the first character is an emoji, remove it 65% of the time
-    if (posts[i].text.charCodeAt(0) >= 0x1F600 && posts[i].text.charCodeAt(0) <= 0x1F64F) {
-      if (Math.random() < 0.65) {
-        posts[i].text = posts[i].text.slice(2);
-      }
-    }
+    // if (posts[i].text.charCodeAt(0) >= 0x1F600 && posts[i].text.charCodeAt(0) <= 0x1F64F) {
+    //   if (Math.random() < 0.65) {
+    //     posts[i].text = posts[i].text.slice(2);
+    //   }
+    // }
 
-    // Randomly remove emojis, hashtags, exclamations, and uppercases
-    if (Math.random() < 0.65) {
-      posts[i].text = removeEmojis(posts[i].text);
-    }
+    // // Randomly remove emojis, hashtags, exclamations, and uppercases
+    // if (Math.random() < 0.65) {
+    //   posts[i].text = removeEmojis(posts[i].text);
+    // }
 
-    if (Math.random() < 0.65) {
-      posts[i].text = removeHashtags(posts[i].text);
-    }
+    // if (Math.random() < 0.65) {
+    //   posts[i].text = removeHashtags(posts[i].text);
+    // }
 
-    if (Math.random() < 0.65) {
-      posts[i].text = posts[i].text.replace(/!/g, '.');
-    }
+    // if (Math.random() < 0.65) {
+    //   posts[i].text = posts[i].text.replace(/!/g, '.');
+    // }
 
-    if (Math.random() < 0.35) {
-      posts[i].text = posts[i].text.toLowerCase();
-    }
+    // if (Math.random() < 0.35) {
+    //   posts[i].text = posts[i].text.toLowerCase();
+    // }
 
     // if the author_name is too long, remove the last word
     while (posts[i].author_name.length > 16 && posts[i].author_name.split(" ").length > 1) {
@@ -998,431 +1294,700 @@ function sanitize_posts(posts) {
     // Assign view_count, like_count, and comment_count
     posts[i].view_count = randn_bm(0, 2500, 4);
 
-    posts[i].like_count =  randn_bm(posts[i].view_count / 6, posts[i].view_count, 1.1);
+    posts[i].like_count =  randn_bm(posts[i].view_count / 10, 1.3 * posts[i].view_count, 1.05);
 
-    posts[i].comment_count = randn_bm(posts[i].like_count / 6, posts[i].like_count, 1.5);
+    posts[i].comment_count = randn_bm(posts[i].like_count / 10, 1.8 * posts[i].like_count, 1.2);
+
+    posts[i].repost_count = randn_bm(posts[i].like_count / 10, 1.8 * posts[i].like_count, 1.2);
+
   }
 }
-    
-/* takes in a feed array of posts and weights it's features according to the weights dictionary 
+    /**
+ * Unsort posts based on remaining features.
+ * @param {Array} posts - An array of post objects.
+ * @param {string} feature_to_ignore - The feature to ignore while unsorting.
+ */
+function unsort_posts(posts, feature_to_ignore, first_num_posts_to_change) {
+  if (first_num_posts_to_change === undefined) {
+    first_num_posts_to_change = posts.length;
+  }
+
+  // Validate inputs
+  if (!Array.isArray(posts) || typeof feature_to_ignore !== 'string') {
+    throw new Error('Invalid input. Expecting an array of posts and a string for feature_to_ignore.');
+  }
+
+  const feature_keys = Object.keys(posts[0]); // Assuming all posts have the same keys
+  if (!feature_keys.includes(feature_to_ignore)) {
+    throw new Error('The specified feature_to_ignore does not exist in the post objects.');
+  }
+
+  const remaining_feature_keys = feature_keys.filter(key => key !== feature_to_ignore);
+
+  function is_sorted_by_feature_increasing(feature) {
+    for (let i = 1; i < first_num_posts_to_change; i++) {
+      if (posts[i].hasOwnProperty(feature) && posts[i][feature] < posts[i - 1][feature]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function is_sorted_by_feature_decreasing(feature) {
+    for (let i = 1; i < first_num_posts_to_change; i++) {
+      if (posts[i].hasOwnProperty(feature) && posts[i][feature] > posts[i - 1][feature]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  const maxAttempts = 1000; // Set a maximum number of attempts
+  let attempts = 0;
+
+  for (const feature of remaining_feature_keys) {
+    attempts = 0; // Reset attempts for each feature
+
+    while (
+      (is_sorted_by_feature_increasing(feature) || is_sorted_by_feature_decreasing(feature)) &&
+      attempts < maxAttempts
+    ) {
+      let index1, index2;
+      do {
+        index1 = Math.floor(Math.random() * first_num_posts_to_change);
+        index2 = Math.floor(Math.random() * first_num_posts_to_change);
+      } while (index1 === index2);
+
+      // Swap only if the feature exists in both posts
+      if (posts[index1].hasOwnProperty(feature) && posts[index2].hasOwnProperty(feature)) {
+        const temp = posts[index1][feature];
+        posts[index1][feature] = posts[index2][feature];
+        posts[index2][feature] = temp;
+
+        if (feature === 'character_count' && posts[index1].hasOwnProperty('text') && posts[index2].hasOwnProperty('text')) {
+          const textTemp = posts[index1]['text'];
+          posts[index1]['text'] = posts[index2]['text'];
+          posts[index2]['text'] = textTemp;
+        }
+      }
+
+      attempts++; // Increment attempts
+    }
+
+    if (attempts === maxAttempts) {
+      console.warn(`Reached maximum number of attempts (${maxAttempts}) for unsorting posts by feature ${feature}.`);
+    }
+  }
+}
+
+/**
+ * Sorts a feed array of posts based on the provided weights dictionary.
+ * @param {Array} feed - The feed array of posts to be sorted.
+ * @param {Object} weights - The weights dictionary for features.
  */
 function linear_combination_sort(feed, weights) {
-    feed.sort(function(a, b){
-        let a_score = 0;
-        let b_score = 0;
-        for (let key in weights) {
-            if (key == "character_count") {
-                a_score += weights[key] * a["text"].length;
-                b_score += weights[key] * b["text"].length;
-            } else {
-                a_score += weights[key] * a[key];
-                b_score += weights[key] * b[key];
-            }   
-        }
-        return  b_score - a_score;
-    });
+  feed.sort(function (a, b) {
+    let a_score = 0;
+    let b_score = 0;
+    for (let key in weights) {
+      if (key === "character_count") {
+        a_score += weights[key] * a["text"].length;
+        b_score += weights[key] * b["text"].length;
+      } else {
+        a_score += weights[key] * a[key];
+        b_score += weights[key] * b[key];
+      }
+    }
+    return b_score - a_score;
+  });
 }
 
-// given an array of features (strings) and the number of features that should have
-// weight > 0, generates a random weight dictionary
+/**
+ * Generates a random weight dictionary for the given features.
+ * @param {Array} features - The array of feature names.
+ * @param {number} num_features - The number of features to have weight > 0.
+ * @returns {Object} - The randomly generated weights dictionary.
+ */
 function generate_weights(features, num_features) {
-    let weights = {};
-    let num_features_set = 0;
-    while (num_features_set < num_features) {
-        let random_feature = features[Math.floor(Math.random() * features.length)];
-        if (weights[random_feature] == undefined) {
-            do {
-                weights[random_feature] = truncate(Math.random() * 2 - 1);
-            } while (Math.abs(weights[random_feature]) <= 0.1);
-            num_features_set++;
-        }
+  let weights = {};
+  let num_features_set = 0;
+  while (num_features_set < num_features) {
+    let random_feature = features[Math.floor(Math.random() * features.length)];
+    if (weights[random_feature] === undefined) {
+      do {
+        weights[random_feature] = truncate(Math.random() * 2 - 1);
+      } while (Math.abs(weights[random_feature]) <= 0.1);
+      num_features_set++;
     }
+  }
 
-    // if weights only has one entry, set it to 1 or -1 (depending on its sign)
-    if (Object.keys(weights).length == 1) {
-        let key = Object.keys(weights)[0];
-        weights[key] = weights[key] >= 0 ? 1 : -1;
+  if (Object.keys(weights).length === 1) {
+    let key = Object.keys(weights)[0];
+    weights[key] = weights[key] >= 0 ? 1 : -1;
+  }
+
+  for (let feature of features) {
+    if (weights[feature] === undefined) {
+      weights[feature] = 0;
     }
+  }
 
-    // set all other features to 0
-    for (let feature of features) {
-        if (weights[feature] == undefined) {
-            weights[feature] = 0;
-        }
-    }
-
-    return weights;
+  return weights;
 }
 
-// function permute_weights(weights) {
-// modifies the weights dictionary with one of the weights changed
-// returns a the name of the weight that was changed
+/**
+ * Modifies the weights dictionary with one of the weights changed.
+ * @param {Object} weights - The weights dictionary to be modified.
+ * @returns {string} - The name of the weight that was changed.
+ */
 function permute_weights(weights) {
-    let keys = Object.keys(weights);
-    let random_key = keys[Math.floor(Math.random() * keys.length)];
-    weights[random_key] = truncate(Math.random() * 2 - 1);
-    return random_key;
+  let keys = Object.keys(weights);
+  let random_key = keys[Math.floor(Math.random() * keys.length)];
+  weights[random_key] = truncate(Math.random() * 2 - 1);
+  return random_key;
 }
 
+/**
+ * Returns the name of a randomly selected nonzero weight from the weights dictionary.
+ * @param {Object} weights - The weights dictionary.
+ * @returns {string} - The name of the selected nonzero weight.
+ */
 function get_random_nonzero_weight(weights) {
-    let keys = Object.keys(weights);
-    let random_key = keys[Math.floor(Math.random() * keys.length)];
-    while (weights[random_key] == 0) {
-        random_key = keys[Math.floor(Math.random() * keys.length)];
-    }
-    return random_key;
+  let keys = Object.keys(weights);
+  let random_key = keys[Math.floor(Math.random() * keys.length)];
+  while (weights[random_key] === 0) {
+    random_key = keys[Math.floor(Math.random() * keys.length)];
+  }
+  return random_key;
 }
 
-// function permute_weights_valence(weights) {
-// modifies the weights dictionary with one of the weights changed to another sign
-// returns a the name of the weight that was changed
+/**
+ * Modifies the weights dictionary by changing the sign of one of the weights.
+ * @param {Object} weights - The weights dictionary to be modified.
+ * @returns {string} - The name of the weight that was changed.
+ */
 function permute_weights_valence(weights) {
-    let keys = Object.keys(weights);
+  let keys = Object.keys(weights);
+  let random_key = keys[Math.floor(Math.random() * keys.length)];
 
-    let random_key = keys[Math.floor(Math.random() * keys.length)];
+  if (weights[random_key] === 0) {
+    do {
+      weights[random_key] = truncate(Math.random() * 2 - 1);
+    } while (Math.abs(weights[random_key]) <= 0.1);
+  } else {
+    weights[random_key] = -weights[random_key];
+  }
 
-    if (weights[random_key] == 0) {
-        do {
-            weights[random_key] = truncate(Math.random() * 2 - 1);
-        } while (Math.abs(weights[random_key]) <= 0.1);
-    } else {
-        weights[random_key] = -weights[random_key];
-    }
-    
-    return random_key;
+  return random_key;
 }
 
+/**
+ * Generates ranking text based on the provided weights.
+ * @param {Object} weights - The weights dictionary for features.
+ * @param {boolean} show_zeroes - Indicates whether to show weights with a value of zero.
+ * @returns {string} - The generated ranking text.
+ */
 function generate_ranking_text(weights, show_zeroes = false) {
-    let text = `$$\\begin{align*}`;
-  
-    let sumOfAbsoluteWeights = 0;
-    let num_weights_nonzero = 0;
-    
-    // Calculate sum of absolute weights and count nonzero weights
-    for (const key in weights) {
-      if (Math.abs(weights[key]) > 0) {
-        sumOfAbsoluteWeights += Math.abs(weights[key]);
-        num_weights_nonzero++;
-      }
-    }
-    
-    // Calculate scaling factor to achieve a total of 100
-    const scalingFactor = 100 / sumOfAbsoluteWeights;
-  
-    for (const key in weights) {
-      if (weights[key] !== 0 || show_zeroes) {
-        const scaledWeight = weights[key] * scalingFactor;
-        const roundedWeight = Math.abs(scaledWeight.toFixed(0));
-        const sign = scaledWeight >= 0 ? " + " : " - ";
-        text += `&${num_weights_nonzero > 1 || scaledWeight < 0 ? sign : ''}${num_weights_nonzero > 1 ? roundedWeight + '\\% \\times' : ''} \\text{${feature_dict[key]}} \\\\`;
-      }
-    }
-  
-    text += "\\end{align*} $$";
-  
-    return text;
-  }
-  
-  function generate_study_array(studies, posts, feature_counts, num_repeats, template, feature_keys, num_posts, includes_practice) {
-    const screen_array = [];
-  
-    // Introduction screen
-    const introduction_screen = {
-      'type': "introduction",
-      'template': "introduction",
-    };
-    screen_array.push([introduction_screen]);
-  
-    // Shuffle studies and posts
-    const shuffledStudies = shallowCopy(studies);
-    shuffle_array(shuffledStudies);
-    shuffle_array(posts);
-    sanitize_posts(posts);
-  
-    let practice_array = [];
-  
-    // generate practice screen for each study (with one feature)
-    if (includes_practice) {
-      for (const studyType of shuffledStudies) {
-        const weights = generate_weights(feature_keys, 1);
-        
-        if (studyType == 'feed-selection') {
-          const studyObj = generateFeedSelectionStudy(studyType, template, 4, weights, 1, 0, true);
-          practice_array.push(studyObj);
-        }
-  
-        if (studyType == 'feed-comparison') {
-          const studyObj = generateFeedComparisonStudy(studyType, template, 4, weights, 1, 0, true);
-          practice_array.push(studyObj);
-        }
-  
-        if (studyType == 'post-placement') {
-          const studyObj = generatePostPlacementStudy(studyType, template, 4, weights, 1, 0, true);
-          practice_array.push(studyObj);
-        }
-  
-        if (studyType == 'feature-selection') {
-          const studyObj = generateFeatureSelectionStudy(studyType, template, 4, weights, 1, 0, true);
-          practice_array.push(studyObj);
-        }
+  let text = `$$\\begin{align*}`;
 
-        if (studyType == 'counterfactual-placement') {
-          const studyObj = generateCounterfactualPlacementStudy(studyType, template, 4, weights, 1, 0, true);
-          practice_array.push(studyObj);
-        }
-        
-      }
-  
-      screen_array.push(practice_array);
-    }
-  
-    let study_array = [];
-  
-    // Generate study objects
-    for (const studyType of shuffledStudies) {
-      for (let repeatNum = 1; repeatNum <= num_repeats; repeatNum++) {
-        for (const featureCount of feature_counts) {
-          const weights = generate_weights(feature_keys, featureCount);
-  
-          if (studyType == 'feed-selection') {
-            const studyObj = generateFeedSelectionStudy(studyType, template, num_posts, weights, featureCount, repeatNum);
-            study_array.push(studyObj);
-          }
-  
-          if (studyType == 'feed-comparison') {
-            const studyObj = generateFeedComparisonStudy(studyType, template, num_posts, weights, featureCount, repeatNum);
-            study_array.push(studyObj);
-          }
-  
-          if (studyType == 'post-placement') {
-            const studyObj = generatePostPlacementStudy(studyType, template, num_posts, weights, featureCount, repeatNum);
-            study_array.push(studyObj);
-          }
-  
-          if (studyType == 'feature-selection') {
-            const studyObj = generateFeatureSelectionStudy(studyType, template, num_posts, weights, featureCount, repeatNum);
-            study_array.push(studyObj);
-          }
+  let sum_of_absolute_weights = 0;
+  let num_weights_nonzero = 0;
 
-          if (studyType == 'counterfactual-placement') {
-            const studyObj = generateCounterfactualPlacementStudy(studyType, template, num_posts, weights, featureCount, repeatNum);
-            study_array.push(studyObj);
-          }
-  
-        }
-      }
-  
-      insertDuplicateStudy(study_array, num_repeats, feature_counts.length);
+  for (const key in weights) {
+    if (Math.abs(weights[key]) > 0) {
+      sum_of_absolute_weights += Math.abs(weights[key]);
+      num_weights_nonzero++;
     }
-  
-    screen_array.push(study_array);
-  
-    // Submission screen
-    const submission_screen = {
-      'type': "submission",
-      'template': "submission",
-    };
-    screen_array.push([submission_screen]);
-  
-    return screen_array;
   }
 
-  function generateCounterfactualPlacementStudy(studyType, template, num_posts, weights, feature_count, repeatNum, is_practice = false) {
-    const studyObj = {
-      'study_type': studyType,
-      'feature_count': feature_count,
-      'instance_number': repeatNum,
-      'type': is_practice ? "practice" : "study",
-      'template': template,
-      'feeds': [json_posts["posts"].splice(0, num_posts)],
-      'weights': weights,
-    };
+  const scaling_factor = 100 / sum_of_absolute_weights;
 
-    linear_combination_sort(studyObj['feeds'][0], weights);
+  for (const key in weights) {
+    if (weights[key] !== 0 || show_zeroes) {
+      const scaled_weight = weights[key] * scaling_factor;
+      const rounded_weight = Math.abs(scaled_weight.toFixed(0));
+      const sign = scaled_weight >= 0 ? " + " : " - ";
+      text += `&${num_weights_nonzero > 1 || scaled_weight < 0 ? sign : ''}${num_weights_nonzero > 1 ? rounded_weight + '\\% \\times' : ''} \\text{${feature_dict[key]}} \\\\`;
+    }
+  }
+
+  text += "\\end{align*} $$";
+
+  return text;
+}
+
+/**
+ * Generate a study object based on the specified study type.
+ *
+ * @param {string} studyType - The type of study to generate.
+ * @param {string} template - The study template.
+ * @param {object[]} base_posts - An array of base posts.
+ * @param {object} weights - Weights for study parameters.
+ * @param {number} feature_count - The count of features.
+ * @param {number} repeat_num - What repeat number of the same  question and feature count.
+ * @param {boolean} is_practice - Whether this is a practice screen or not.
+ * @returns {object|null} The generated study object, or null if the study type is not recognized.
+ */
+function generate_study_object(studyType, template, base_posts, starting_num_posts, num_posts_to_load, weights, feature_count, repeat_num, is_practice = false) {
+  let studyObj = null; // Declare the variable here
+
+  switch (studyType) {
+    case 'feed-selection':
+      console.error("update feed selection");
+      // Uncomment and implement generate_feed_selection_study
+      // studyObj = generate_feed_selection_study(studyType, template, numPosts, weights, featureCount, repeatNum);
+      break;
+
+    case 'feed-comparison':
+      studyObj = generate_feed_comparison_study(studyType, template, base_posts, starting_num_posts, num_posts_to_load, weights, feature_count, repeat_num, is_practice);
+      break;
+
+    case 'post-placement':
+      studyObj = generate_post_placement_study(studyType, template, base_posts, starting_num_posts, num_posts_to_load, weights, feature_count, repeat_num, is_practice);
+      break;
+
+    case 'feature-selection':
+      console.error("update feed selection");
+      // Uncomment and implement generate_feature_selection_study
+      // studyObj = generate_feature_selection_study(studyType, template, numPosts, weights, featureCount, repeatNum);
+      break;
+
+    case 'counterfactual-placement':
+      studyObj = generate_counterfactual_placement_study(studyType, template, base_posts, starting_num_posts, num_posts_to_load, weights, feature_count, repeat_num, is_practice);
+      break;
+
+    default:
+      // Handle other cases or return null if needed
+      break;
+  }
+
+  return studyObj; // Return the study object here
+}
+
+/**
+ * Generates a study array based on input parameters.
+ * @param {Array} studies - The array of study types.
+ * @param {Array} posts - The array of posts.
+ * @param {Array} feature_counts - The array of feature counts.
+ * @param {number} num_same_features_and_question - The number of study repetitions with same feature count and question.
+ * @param {string} template - The study template.
+ * @param {Array} feature_keys - The array of feature keys.
+ * @param {number} num_posts - The number of posts in each study.
+ * @param {number} starting_num_posts - The number of posts to start in each feed.
+ * @param {number} num_posts_to_load - The number of posts to load with each "load more".
+ * @param {boolean} includes_practice - Indicates whether to include practice studies.
+ * @returns {Array} - The generated study array.
+ */
+function generate_study_array(studies, posts, feature_counts, num_same_features_and_question, template, feature_keys, num_posts, starting_num_posts, num_posts_to_load, includes_practice) {
+  const screen_array = [];
+
+  // Introduction screen
+  const introduction_screen = {
+    'type': "introduction",
+    'template': "introduction",
+  };
+  screen_array.push([introduction_screen]);
+
+  // Shuffle studies and posts
+  const shuffled_studies = shallow_copy(studies);
+  shuffle_array(shuffled_studies);
+  shuffle_array(posts);
+  sanitize_posts(posts);
+  posts.forEach(post => {
+    // Calculate and add the text_length attribute to each post
+    post.character_count = post.text.length;
+  });
+
+  let practice_array = [];
+
+  // Generate practice screen for each study (with one feature)
+  if (includes_practice) {
+    for (const study_type of shuffled_studies) {
+      const base_posts = get_random_sample(json_posts['posts'], 10);
+      const weights = generate_weights(feature_keys, 1);
+
+      for (let repeat_num = 1; repeat_num <= 2; repeat_num++) {
+        const studyObj = generate_study_object(study_type, template, base_posts, starting_num_posts, num_posts_to_load, weights, 1, repeat_num, true);
+        if (studyObj) {
+          practice_array.push(studyObj);
+        }
+      }
+    }
+
+    screen_array.push(practice_array);
+  }
+
+  let study_array = [];
+
+  // Generate study objects
+  const weights = generate_weights(feature_keys, feature_counts[0]);
+  let base_posts = get_random_sample(json_posts['posts'], num_posts);
+  linear_combination_sort(base_posts, weights);
+
+  let used_weights = Object.keys(shallow_copy(weights)).reduce((result, key) => {
+    if (weights[key] !== 0) {
+      result[key] = weights[key];
+    }
+    return result;
+  }, {});
+
+  if (Object.keys(used_weights).length === 1) {
+    unsort_posts(posts, Object.keys(used_weights)[0], starting_num_posts - 1);
+  }
+
+  const exposure_obj = {
+    'study_type': 'exposure',
+    'type': "study",
+    'template': "left-feed-questions",
+    'feeds': [base_posts],
+    'starting_num_posts': starting_num_posts,
+    'num_posts_to_load': num_posts_to_load,
+  };
+
+  study_array.push(exposure_obj);
+
+  for (const study_type of shuffled_studies) {
+    for (let repeat_num = 1; repeat_num <= num_same_features_and_question; repeat_num++) {
+      
     
-    let post_index = Math.floor(Math.random() * (num_posts - 2)) + 1;
-    let post = studyObj['feeds'][0][post_index];
-    let new_post = shallowCopy(post);
-    let dummy_feed = shallowCopy(studyObj['feeds'][0]);
+      const studyObj = generate_study_object(study_type, template, base_posts, starting_num_posts, num_posts_to_load, weights, feature_counts[0], repeat_num);
+      if (studyObj) {
+        study_array.push(studyObj);
+      }
+    }
+  }
 
-    // change one of the features of the post until its hypothetical position in the feed is different
+  screen_array.push(study_array);
 
-    let changed_feature = get_random_nonzero_weight(weights);
+  // Submission screen
+  const submission_screen = {
+    'type': "submission",
+    'template': "submission",
+  };
+  screen_array.push([submission_screen]);
 
-    do {
-      dummy_feed.splice(post_index, 1);
+  return screen_array;
+}
 
-      // Array of generic texts (exclamations)
+/**
+ * Generates a Counterfactual Placement study object.
+ * @param {string} study_type - The type of study.
+ * @param {string} template - The study template.
+ * @param {object[]} base_posts - An array of base posts.
+ * @param {Object} weights - The weights for features.
+ * @param {number} feature_count - The feature count.
+ * @param {number} repeat_num - The repetition number.
+ * @param {boolean} is_practice - Indicates if it's a practice study.
+ * @returns {Object} - The Counterfactual Placement study object.
+ */
+function generate_counterfactual_placement_study(study_type, template, base_posts, starting_num_posts, num_posts_to_load, weights, feature_count, repeat_num, is_practice = false) {
+  posts = shallow_copy(base_posts);
+
+  let post_index = Math.floor(Math.random() * (num_posts_to_load - 2)) + 1;
+  let post = posts[post_index];
+  let new_post;
+  let dummy_feed;
+
+  const higher_same_lower = [-1, 0, 1][Math.floor(Math.random() * 3)];
+
+  let change_direction;
+  let changed_feature;
+
+  do {
+    new_post = shallow_copy(post);
+    changed_feature = Object.keys(weights)[Math.floor(Math.random() * Object.keys(weights).length)];
+
+    dummy_feed = shallow_copy(posts);
+    dummy_feed.splice(post_index, 1);
+
+    if (changed_feature === "character_count") {
       const genericTexts = ["This is great!", "Wow, amazing!", "Incredible!", "Fantastic!"];
 
-      if (changed_feature === "character_count") {
-        // Change the length of the text, either by removing a random number of words,
-        // or adding generic text at the end
-        let text = new_post["text"];
+      // Change the length of the text, either by removing a random number of words,
+      // or adding generic text at the end
+      let text = new_post["text"];
 
-        // Randomly decide whether to delete words or add generic text
-        if (Math.random() < 0.5) {
-          // Calculate the number of words to remove (randomly)
-          const words = text.split(' ');
-          const wordsToRemove = Math.floor(Math.random() * words.length);
+      // Randomly decide whether to delete words or add generic text
+      if (Math.random() < 0.5) {
+        // Calculate the number of words to remove (randomly)
+        const words = text.split(' ');
+        const wordsToRemove = Math.floor(Math.random() * words.length);
 
-          // Remove the specified number of words from the end
-          const newText = words.slice(0, words.length - wordsToRemove).join(' ');
+        // Remove the specified number of words from the end
+        const newText = words.slice(0, words.length - wordsToRemove).join(' ');
 
-          // Update the 'text' property in the 'new_post' object
-          new_post["text"] = newText;
-        } else {
-          // Randomly select a generic text from the array
-          const randomIndex = Math.floor(Math.random() * genericTexts.length);
-          const selectedText = genericTexts[randomIndex];
-
-          // Add the selected generic text at the end
-          new_post["text"] = text + ' ' + selectedText;
-        }
+        // Update the 'text' property in the 'new_post' object
+        new_post["text"] = newText;
       } else {
-        // For other features, modify the value by multiplying it with a random factor
-        new_post[changed_feature] = Math.floor(new_post[changed_feature] * Math.random() * 2);
+        // Randomly select a generic text from the array
+        const randomIndex = Math.floor(Math.random() * genericTexts.length);
+        const selectedText = genericTexts[randomIndex];
+
+        // Add the selected generic text at the end
+        new_post["text"] = text + ' ' + selectedText;
       }
-
-      new_post["changed_feature"] = changed_feature;
-      dummy_feed.push(new_post);
-      linear_combination_sort(dummy_feed, weights);
-    } while (dummy_feed.indexOf(new_post) == post_index);
-
-    studyObj['feeds'][0][post_index]["changed_feature"] = changed_feature;
-
-    studyObj['new_post'] = new_post;
-    studyObj['new_post_higher'] = dummy_feed.indexOf(new_post) < post_index;
-
-    return studyObj;
-  }
-
-  
-  // Generate a feed-selection study object
-  function generateFeedSelectionStudy(studyType, template, num_posts, weights, feature_count, repeatNum, is_practice = false) {
-    const studyObj = {
-      'study_type': studyType,
-      'feature_count': feature_count,
-      'instance_number': repeatNum,
-      'type': is_practice ? "practice" : "study",
-      'template': template,
-      'feeds': [json_posts["posts"].splice(0, num_posts)],
-      'weights': weights,
-    };
-  
-    linear_combination_sort(studyObj['feeds'][0], weights);
-  
-    if (studyObj['study_type'].startsWith('feed-selection')) {
-      studyObj['feeds'].push(shallowCopy(studyObj['feeds'][0]));
-      const correct_feed_index = Math.random() > 0.5 ? 0 : 1;
-      const incorrect_feed_index = correct_feed_index == 0 ? 1 : 0;
-      studyObj['correct_feed_index'] = correct_feed_index;
-      shuffle_array(studyObj['feeds'][incorrect_feed_index]);
+    } else {
+      // For other features, modify the value by multiplying it with a random factor
+      new_post[changed_feature] = Math.floor(new_post[changed_feature] * Math.random() * 2);
     }
+
+    new_post["changed_feature"] = changed_feature;
+    dummy_feed.push(new_post);
+    linear_combination_sort(dummy_feed, weights);
+
+    let change_in_index = post_index - dummy_feed.indexOf(new_post);
+    change_direction = change_in_index === 0 ? 0 : change_in_index / Math.abs(change_in_index);
+  } while (change_direction !== higher_same_lower);
+
+  posts[post_index]["changed_feature"] = changed_feature;
+
+  const study_obj = {
+    'study_type': study_type,
+    'feature_count': feature_count,
+    'instance_number': repeat_num,
+    'type': is_practice ? "practice" : "study",
+    'template': template,
+    'feeds': [posts],
+    'weights': weights,
+    'starting_num_posts': starting_num_posts,
+    'num_posts_to_load': num_posts_to_load,
+    'new_post': new_post,
+    'new_post_higher_same_lower': higher_same_lower,
+  };
+
+  return study_obj;
+}
+
+/**
+ * Generates a Feed Comparison study object.
+ * @param {string} study_type - The type of study.
+ * @param {string} template - The study template.
+ * @param {number} num_posts - The number of posts.
+ * @param {Object} weights - The weights for features.
+ * @param {number} feature_count - The feature count.
+ * @param {number} repeat_num - The repetition number.
+ * @param {boolean} is_practice - Indicates if it's a practice study.
+ * @returns {Object} - The Feed Comparison study object.
+ */
+function generate_feed_comparison_study(study_type, template, base_posts, starting_num_posts, num_posts_to_load, weights, feature_count, repeat_num, is_practice = false) {
+  base_posts = shallow_copy(base_posts);
+
+  let comparison_posts = get_random_sample(json_posts['posts'], base_posts.length, base_posts);
   
-    return studyObj;
+  linear_combination_sort(comparison_posts, weights);
+
+  const same_sort_B = JSON.stringify(comparison_posts);
+  let permuted = Math.random() > 0.5;
+  let permuted_weights = shallow_copy(weights);
+
+  if (permuted) {
+    do {
+      permute_weights_valence(permuted_weights);
+      linear_combination_sort(comparison_posts, permuted_weights);
+    } while (JSON.stringify(comparison_posts) == same_sort_B);
   }
-  
-  // Generate a feed-comparison study object
-  function generateFeedComparisonStudy(studyType, template, num_posts, weights, feature_count, repeatNum, is_practice = false) {
-    const studyObj = {
-      'study_type': studyType,
-      'feature_count': feature_count,
-      'instance_number': repeatNum,
-      'type': is_practice ? "practice" : "study",
-      'template': template,
-      'feeds': [
-        json_posts["posts"].splice(0, num_posts),
-        json_posts["posts"].splice(0, num_posts)
-      ],
-      'weights': weights,
-    };
-  
-    linear_combination_sort(studyObj['feeds'][0], weights);
-    linear_combination_sort(studyObj['feeds'][1], weights);
-  
-    const same_sort_B = JSON.stringify(studyObj['feeds'][1]);
-    let permuted = Math.random() > 0.5;
-    let permuted_weights = shallowCopy(weights);
-  
-    if (permuted) {
-      do {
-        permute_weights_valence(permuted_weights);
-        linear_combination_sort(studyObj['feeds'][1], permuted_weights);
-      } while (JSON.stringify(studyObj['feeds'][1]) == same_sort_B);
+
+  let used_permuted_weights = Object.keys(shallow_copy(permuted_weights)).reduce((result, key) => {
+    if (permuted_weights[key] !== 0) {
+      result[key] = permuted_weights[key];
     }
-  
-    studyObj['permuted'] = permuted;
-    studyObj['permuted_weights'] = permuted_weights;
-  
-    return studyObj;
+    return result;
+  }, {});
+
+  if (Object.keys(used_permuted_weights).length === 1) {
+    unsort_posts(comparison_posts, Object.keys(used_permuted_weights)[0], starting_num_posts - 1);
   }
-  
-  // Generate a post-placement study object
-  function generatePostPlacementStudy(studyType, template, num_posts, weights, feature_count, repeatNum, is_practice = false) {
-    const studyObj = {
-      'study_type': studyType,
-      'feature_count': feature_count,
-      'instance_number': repeatNum,
-      'type': is_practice ? "practice" : "study",
-      'template': template,
-      'feeds': [json_posts["posts"].splice(0, num_posts)],
-      'weights': weights,
-      'correct_position': Math.floor(Math.random() * num_posts),
-    };
-  
-    linear_combination_sort(studyObj['feeds'][0], weights);
-  
-    return studyObj;
-  }
-  
-  function generateFeatureSelectionStudy(studyType, template, num_posts, weights, feature_count, repeatNum, is_practice = false) {
-    const studyObj = {
-      'study_type': studyType,
-      'feature_count': feature_count,
-      'instance_number': repeatNum,
-      'type': is_practice ? "practice" : "study",
-      'template': template,
-      'feeds': [json_posts["posts"].splice(0, num_posts)],
-      'weights': weights,
-    };
-  
-    linear_combination_sort(studyObj['feeds'][0], weights);
-  
-    return studyObj;
-  }
-  
-  // Insert duplicate study for source study type
-  function insertDuplicateStudy(screen_array, num_repeats, num_feature_counts) {
-    const source_index = screen_array.length - (num_repeats * num_feature_counts);
-    const studyObj = shallowCopy(screen_array[source_index]);
-    const random_index = source_index + 3 + Math.floor(Math.random() * ((num_repeats * num_feature_counts) - 3));
-    screen_array.splice(random_index, 0, studyObj);
-  }
-  
-  function generate_screen_name(screen_info) {
-    let screen_name = `study-${screen_info["study_type"]}-features-${screen_info["feature_count"]}-${screen_info["instance_number"]}`;
-    if (screen_info.type == 'introduction') {
-      screen_name = 'introduction';
-    } else if (screen_info.type == 'submission') {
-      screen_name = 'submission';
+
+  const study_obj = {
+    'study_type': study_type,
+    'feature_count': feature_count,
+    'instance_number': repeat_num,
+    'type': is_practice ? "practice" : "study",
+    'template': template,
+    'feeds': [
+      base_posts,
+      comparison_posts,
+    ],
+    'weights': weights,
+    'starting_num_posts': starting_num_posts,
+    'num_posts_to_load': num_posts_to_load,
+    'permuted': permuted,
+    'permuted_weights': permuted_weights,
+  };
+
+  return study_obj;
+}
+
+/**
+ * Generates a Post Placement study object.
+ * @param {string} study_type - The type of study.
+ * @param {object[]} base_posts - An array of base posts.
+ * @param {number} num_posts - The number of posts.
+ * @param {Object} weights - The weights for features.
+ * @param {number} feature_count - The feature count.
+ * @param {number} repeat_num - The repetition number.
+ * @param {boolean} is_practice - Indicates if it's a practice study.
+ * @returns {Object} - The Post Placement study object.
+ */
+function generate_post_placement_study(study_type, template, base_posts, starting_num_posts, num_posts_to_load, weights, feature_count, repeat_num, is_practice = false) {
+  base_posts = shallow_copy(base_posts);
+
+  let new_post_index = base_posts.length;
+  let new_post = get_random_sample(json_posts['posts'], 1, base_posts)[0];
+
+  // Combine base_posts and the new_post
+  let all_posts = [...base_posts, new_post];
+
+  while (new_post_index >= num_posts_to_load) {
+    // Clone and extract the new_post from json_posts['posts']
+    new_post = get_random_sample(json_posts['posts'], 1, base_posts)[0];
+
+    if (base_posts.indexOf(new_post) != -1) {
+      continue;
     }
-    return screen_name;
+
+    // Combine base_posts and the new_post
+    all_posts = [...base_posts, new_post];
+
+    // Linearly sort all_posts based on weights
+    linear_combination_sort(all_posts, weights);
+
+    // Find the index of the new_post in the sorted all_posts array
+    new_post_index = all_posts.indexOf(new_post);
   }
-  
-  function get_questions(screen_type, confidence = true) {
-    const questions = {};
-    for (let i = 0; i < json_questions[screen_type].length; i++) {
-      questions[`Q${i+1}`] = json_questions[screen_type][i];
-    }
-  
-    if (confidence) {
-      questions[`CF`] = json_questions["confidence"][0];
-      questions[`CF`]['text'] = json_questions["confidence-texts"][screen_type];
-    }
-    
-    return questions;
+
+  // Create a new already sorted array that excludes the new_post
+  const without_new_post = all_posts.filter(post => post !== new_post);
+
+  const study_obj = {
+    'study_type': study_type,
+    'feature_count': feature_count,
+    'instance_number': repeat_num,
+    'type': is_practice ? "practice" : "study",
+    'template': template,
+    'weights': weights,
+    'extracted_post': new_post,
+    'correct_position': new_post_index,
+    'feeds': [without_new_post],
+    'starting_num_posts': starting_num_posts,
+    'num_posts_to_load': num_posts_to_load,
+  };
+
+  study_obj['extracted_post']['correct_position'] = study_obj['correct_position'];
+
+  return study_obj;
+}
+
+/**
+ * Generates a Feature Selection study object.
+ * @param {string} study_type - The type of study.
+ * @param {string} template - The study template.
+ * @param {number} num_posts - The number of posts.
+ * @param {Object} weights - The weights for features.
+ * @param {number} feature_count - The feature count.
+ * @param {number} repeat_num - The repetition number.
+ * @param {boolean} is_practice - Indicates if it's a practice study.
+ * @returns {Object} - The Feature Selection study object.
+ */
+// function generate_feature_selection_study(study_type, template, num_posts, weights, feature_count, repeat_num, is_practice = false) {
+//   const study_obj = {
+//     'study_type': study_type,
+//     'feature_count': feature_count,
+//     'instance_number': repeat_num,
+//     'type': is_practice ? "practice" : "study",
+//     'template': template,
+//     'feeds': [json_posts["posts"].splice(0, num_posts)],
+//     'weights': weights,
+//   };
+
+//   linear_combination_sort(study_obj['feeds'][0], weights);
+
+//   return study_obj;
+// }
+
+/**
+ * Generates a Feed Selection study object.
+ * @param {string} study_type - The type of study.
+ * @param {string} template - The study template.
+ * @param {object[]} base_posts - An array of base posts.
+ * @param {Object} weights - The weights for features.
+ * @param {number} feature_count - The feature count.
+ * @param {number} repeat_num - The repetition number.
+ * @param {boolean} is_practice - Indicates if it's a practice study.
+ * @returns {Object} - The Feed Selection study object.
+ */
+// function generate_feed_selection_study(study_type, template, num_posts, weights, feature_count, repeat_num, is_practice = false) {
+//   const study_obj = {
+//     'study_type': study_type,
+//     'feature_count': feature_count,
+//     'instance_number': repeat_num,
+//     'type': is_practice ? "practice" : "study",
+//     'template': template,
+//     'feeds': [json_posts["posts"].splice(0, num_posts)],
+//     'weights': weights,
+//   };
+
+//   linear_combination_sort(study_obj['feeds'][0], weights);
+
+//   if (study_obj['study_type'].startsWith('feed-selection')) {
+//     study_obj['feeds'].push(shallow_copy(study_obj['feeds'][0]));
+//     const correct_feed_index = Math.random() > 0.5 ? 0 : 1;
+//     const incorrect_feed_index = correct_feed_index == 0 ? 1 : 0;
+//     study_obj['correct_feed_index'] = correct_feed_index;
+//     shuffle_array(study_obj['feeds'][incorrect_feed_index]);
+//   }
+
+//   return study_obj;
+// }
+
+/**
+ * Inserts a duplicate study into the screen array.
+ * @param {Array} screen_array - The screen array.
+ * @param {number} num_repeats - The number of same feature count+questions repetitions.
+ * @param {number} num_feature_counts - The number of feature counts.
+ */
+function insert_duplicate_study(screen_array, num_repeats, num_feature_counts) {
+  const source_index = screen_array.length - (num_repeats * num_feature_counts);
+  const study_obj = shallow_copy(screen_array[source_index]);
+  const random_index = source_index + 3 + Math.floor(Math.random() * ((num_repeats * num_feature_counts) - 3));
+  screen_array.splice(random_index, 0, study_obj);
+}
+
+/**
+ * Generates a screen name based on screen information.
+ * @param {Object} screen_info - The screen information object.
+ * @returns {string} - The generated screen name.
+ */
+function generate_screen_name(screen_info) {
+  let screen_name = `study-${screen_info["study_type"]}-features-${screen_info["feature_count"]}-${screen_info["instance_number"]}`;
+  if (screen_info.type == 'introduction') {
+    screen_name = 'introduction';
+  } else if (screen_info.type == 'submission') {
+    screen_name = 'submission';
   }
+  return screen_name;
+}
+
+/**
+ * Gets questions for a given screen type.
+ * @param {string} screen_type - The screen type.
+ * @param {boolean} confidence - Indicates whether to include confidence questions.
+ * @returns {Object} - The questions.
+ */
+function get_questions(screen_type, confidence = true) {
+  const questions = {};
+  for (let i = 0; i < json_questions[screen_type].length; i++) {
+    questions[`Q${i+1}`] = json_questions[screen_type][i];
+  }
+
+  if (confidence) {
+    questions[`CF`] = json_questions["confidence"][0];
+    questions[`CF`]['text'] = json_questions["confidence-texts"][screen_type];
+  }
+
+  return questions;
+}
+  
     
 
 /**
@@ -1639,40 +2204,57 @@ function log_submission() {
 
   output["global"].push(experimentOutput);
 }
-    function highlight_unanswered_questions(unanswered_questions, incorrect_questions) {
+    
+/**
+ * Highlights unanswered and incorrect questions on the screen.
+ * @param {Object} unanswered_questions - Questions that are unanswered.
+ * @param {Object} incorrect_questions - Questions that are answered incorrectly.
+ */
+function highlight_unanswered_questions(unanswered_questions, incorrect_questions) {
   const question_divs = $(".study-question, .post-placement-question");
-  
+
   question_divs.each((i, question_div) => {
     if (unanswered_questions[question_div.id]) {
       question_div.setAttribute('data-state', 'unanswered');
       question_div.style.border = "2px solid red";
-      displayMessage(question_div, "red", "Please answer the required question.");
+      display_message(question_div, "red", "Please answer the required question.");
     } else if (incorrect_questions[question_div.id]) {
       question_div.setAttribute('data-state', 'incorrect');
       question_div.style.border = "2px solid orange";
-      displayMessage(question_div, "orange", answer_to_feedback(incorrect_questions[question_div.id]));
+      display_message(question_div, "orange", answer_to_feedback(incorrect_questions[question_div.id]));
     } else {
       question_div.removeAttribute('data-state');
       question_div.style.border = "";
-      removeMessage(question_div);
+      remove_message(question_div);
     }
   });
 }
 
+/**
+ * Generates a feedback message based on the answer type.
+ * @param {Object} answer - The answer object.
+ * @returns {string} - The feedback message.
+ */
 function answer_to_feedback(answer) {
-  if (answer.question_type == "multiple-choice") {
+  if (answer.question_type === "multiple-choice") {
     return `Your answer of "<strong>${array_to_string(answer.chosen_answers)}</strong>" was incorrect. The correct answer was "<strong>${array_to_string(answer.correct_answers)}</strong>". 
             Please correct your answer and try a new version of this question in the next screen.`;
   }
-  
-  if (answer.question_type == "post-placement") {
+
+  if (answer.question_type === "post-placement") {
     return `Your placement of the post at position <strong>${answer.chosen_answers[0] + 1}</strong> is incorrect. Its correct position is <strong>${answer.correct_answers[0] + 1}</strong>.
             Please correct your answer and try a new version of this question in the next screen.`;
   }
 }
 
-function displayMessage(question_div, color, message) {
-  removeMessage(question_div);
+/**
+ * Displays a message on the screen.
+ * @param {HTMLElement} question_div - The question div element.
+ * @param {string} color - The color of the message.
+ * @param {string} message - The message to display.
+ */
+function display_message(question_div, color, message) {
+  remove_message(question_div);
 
   const message_div = document.createElement("div");
   message_div.className = "message py-2";
@@ -1683,15 +2265,23 @@ function displayMessage(question_div, color, message) {
   question_div.appendChild(message_div);
 }
 
-function removeMessage(question_div) {
+/**
+ * Removes a message from the screen.
+ * @param {HTMLElement} question_div - The question div element.
+ */
+function remove_message(question_div) {
   const message_div = question_div.querySelector('.message');
   if (message_div) {
     question_div.removeChild(message_div);
   }
 }
 
-
-// gets the next screen in the array of arrays that is screen order
+/**
+ * Gets the next screen in the array of arrays that is screen order.
+ * @param {number} sectionIdx - The section index.
+ * @param {number} screenIdx - The screen index.
+ * @returns {[Object, string]} - The next screen info and name.
+ */
 function get_next_screen(sectionIdx, screenIdx) {
   let curr_screen_info = screen_order[sectionIdx][screenIdx];
   let curr_screen_name = generate_screen_name(curr_screen_info);
@@ -1699,8 +2289,8 @@ function get_next_screen(sectionIdx, screenIdx) {
   let next_screen_info = null;
   let next_screen_name = null;
 
-  if (screenIdx == screen_order[sectionIdx].length - 1) {
-    if (sectionIdx == screen_order.length - 1) {
+  if (screenIdx === screen_order[sectionIdx].length - 1) {
+    if (sectionIdx === screen_order.length - 1) {
       return [undefined, undefined];
     } else {
       next_screen_info = screen_order[sectionIdx + 1][0];
@@ -1714,8 +2304,11 @@ function get_next_screen(sectionIdx, screenIdx) {
   }
 }
 
+/**
+ * Increments the screen index.
+ */
 function increment_screen_index() {
-  if (section_index < screen_order.length - 1 && screen_index == screen_order[section_index].length - 1) {
+  if (section_index < screen_order.length - 1 && screen_index === screen_order[section_index].length - 1) {
     section_index++;
     screen_index = 0;
   } else if (section_index < screen_order.length && screen_index < screen_order[section_index].length - 1) {
@@ -1723,21 +2316,26 @@ function increment_screen_index() {
   }
 }
 
+/**
+ * Proceeds to the next screen.
+ */
 function next_screen() {
   let curr_screen_info = screen_order[section_index][screen_index];
   let curr_screen_name = generate_screen_name(curr_screen_info);
 
   let [next_screen_info, next_screen_name] = get_next_screen(section_index, screen_index);
 
-  if (curr_screen_info.type == "introduction") {
+  console.log(next_screen_info);
+
+  if (curr_screen_info.type === "introduction") {
     log_introduction();
     deactivate_screen(curr_screen_info);
     increment_screen_index();
     activate_screen(next_screen_info, next_screen_name);
   } else {
-    const is_practice = curr_screen_info.type == "practice";
+    const is_practice = curr_screen_info.type === "practice";
 
-    let[unanswered_questions, incorrect_questions] = log_checked_answers_with_sum(curr_screen_info, curr_screen_name);
+    let [unanswered_questions, incorrect_questions] = log_checked_answers_with_sum(curr_screen_info, curr_screen_name);
 
     if (!is_practice) {
       incorrect_questions = {};
@@ -1745,58 +2343,36 @@ function next_screen() {
 
     if (Object.keys(unanswered_questions).length > 0 || Object.keys(incorrect_questions).length > 0) {
       highlight_unanswered_questions(unanswered_questions, incorrect_questions);
-
-      // if (Object.keys(incorrect_questions).length > 0 && !curr_screen_info['attempted']) {
-      //   const studyType = curr_screen_info.study_type;
-      //   const weights = generate_weights(feature_keys, 1);
+      // Logic to insert more practice questions if wrong
       
-      //   if (studyType == 'feed-selection' && practice_repeat_tally["feed-selection"] < 3) {
-      //     const studyObj = generateFeedSelectionStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
-      //     screen_order[1].splice(screen_index + 1, 0, studyObj);
-      //     practice_repeat_tally["feed-selection"]++;
-      //   }
-
-      //   if (studyType == 'feed-comparison' && practice_repeat_tally["feed-comparison-B"] < 3) {
-      //     const studyObj = generateFeedComparisonStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
-      //     screen_order[1].splice(screen_index + 1, 0, studyObj);
-      //     practice_repeat_tally["feed-comparison-B"]++;
-      //   }
-
-      //   if (studyType == 'post-placement' && practice_repeat_tally["post-placement"] < 3) {
-      //     const studyObj = generatePostPlacementStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
-      //     screen_order[1].splice(screen_index + 1, 0, studyObj);
-      //     practice_repeat_tally["post-placement"]++;
-      //   }
-
-      //   if (studyType == 'feature-selection' && practice_repeat_tally["feature-selection"] < 3) {
-      //     const studyObj = generateFeatureSelectionStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
-      //     screen_order[1].splice(screen_index + 1, 0, studyObj);
-      //     practice_repeat_tally["feature-selection"]++;
-      //   }
-
-      //   curr_screen_info['attempted'] = true;
-      // }
-
     } else {
       deactivate_screen(curr_screen_info);
       increment_screen_index();
       activate_screen(next_screen_info, next_screen_name);
     }
   }
-
 }
 
+/**
+ * Deactivates the current screen.
+ * @param {Object} screen_info - The screen info object.
+ */
 function deactivate_screen(screen_info) {
   let screen_type = screen_info['template'];
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
   document.getElementById(screen_type).style.display = 'none';
 }
 
+/**
+ * Activates the next screen.
+ * @param {Object} screen_info - The screen info object.
+ * @param {string} screen_name - The name of the screen.
+ */
 function activate_screen(screen_info, screen_name) {
   
   start_times[screen_name] = new Date().getTime();
 
-  // find div with id screen-title and set its text to screen_name bootstrap
+  // Find div with id screen-title and set its text to screen_name bootstrap
   let screen_title = document.getElementById("screen-title");
   let capitalizedType = screen_info.type.charAt(0).toUpperCase() + screen_info.type.slice(1);
   screen_title.innerHTML = capitalizedType;
@@ -1809,52 +2385,271 @@ function activate_screen(screen_info, screen_name) {
     top_bar.style.backgroundColor = "#CCCCCC"; // Default color if screen type is not found
   }
 
-  if (screen_info.type == "practice" || screen_info.type == "study") {
+  if (screen_info.type === "practice" || screen_info.type === "study") {
     let question_progress = document.getElementById("question-progress");
     question_progress.innerHTML = `Question ${screen_index + 1} of ${screen_order[section_index].length}`;
   }
 
-  if (screen_info == undefined) {
+  if (screen_info === undefined) {
     alert('Screen name ' + screen_name + ' is undefined');
     return;
   }
 
   let template = screen_info['template'];
 
-  if (template == "left-feed-questions") {
+  if (template === "left-feed-questions") {
     populate_LFQ(screen_info, screen_name);
-  } else if (template == "single-post-question") {
+  } else if (template === "single-post-question") {
     populate_SPQ(screen_info, screen_name);
-  } else if (template == "submission") {
+  } else if (template === "submission") {
     document.getElementById("next-btn").style.display = "none";
   }
 
   document.getElementById(template).style.display = 'block';
-  window.scrollTo(0,0);
-
-  MathJax.typesetPromise().then(() => { });
+  window.scrollTo(0, 0);
 }
 
+/**
+ * Submits the current screen.
+ */
 function submit() {
   log_submission();
   proliferate.submit(output);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+// function highlight_unanswered_questions(unanswered_questions, incorrect_questions) {
+//   const question_divs = $(".study-question, .post-placement-question");
+  
+//   question_divs.each((i, question_div) => {
+//     if (unanswered_questions[question_div.id]) {
+//       question_div.setAttribute('data-state', 'unanswered');
+//       question_div.style.border = "2px solid red";
+//       displayMessage(question_div, "red", "Please answer the required question.");
+//     } else if (incorrect_questions[question_div.id]) {
+//       question_div.setAttribute('data-state', 'incorrect');
+//       question_div.style.border = "2px solid orange";
+//       displayMessage(question_div, "orange", answer_to_feedback(incorrect_questions[question_div.id]));
+//     } else {
+//       question_div.removeAttribute('data-state');
+//       question_div.style.border = "";
+//       removeMessage(question_div);
+//     }
+//   });
+// }
+
+// function answer_to_feedback(answer) {
+//   if (answer.question_type == "multiple-choice") {
+//     return `Your answer of "<strong>${array_to_string(answer.chosen_answers)}</strong>" was incorrect. The correct answer was "<strong>${array_to_string(answer.correct_answers)}</strong>". 
+//             Please correct your answer and try a new version of this question in the next screen.`;
+//   }
+  
+//   if (answer.question_type == "post-placement") {
+//     return `Your placement of the post at position <strong>${answer.chosen_answers[0] + 1}</strong> is incorrect. Its correct position is <strong>${answer.correct_answers[0] + 1}</strong>.
+//             Please correct your answer and try a new version of this question in the next screen.`;
+//   }
+// }
+
+// function displayMessage(question_div, color, message) {
+//   removeMessage(question_div);
+
+//   const message_div = document.createElement("div");
+//   message_div.className = "message py-2";
+//   message_div.style.color = color;
+//   message_div.style.fontSize = "medium";
+//   message_div.style.textAlign = "center";
+//   message_div.innerHTML = message;
+//   question_div.appendChild(message_div);
+// }
+
+// function removeMessage(question_div) {
+//   const message_div = question_div.querySelector('.message');
+//   if (message_div) {
+//     question_div.removeChild(message_div);
+//   }
+// }
+
+
+// // gets the next screen in the array of arrays that is screen order
+// function get_next_screen(sectionIdx, screenIdx) {
+//   let curr_screen_info = screen_order[sectionIdx][screenIdx];
+//   let curr_screen_name = generate_screen_name(curr_screen_info);
+
+//   let next_screen_info = null;
+//   let next_screen_name = null;
+
+//   if (screenIdx == screen_order[sectionIdx].length - 1) {
+//     if (sectionIdx == screen_order.length - 1) {
+//       return [undefined, undefined];
+//     } else {
+//       next_screen_info = screen_order[sectionIdx + 1][0];
+//       next_screen_name = generate_screen_name(next_screen_info);
+//       return [next_screen_info, next_screen_name];
+//     }
+//   } else {
+//     next_screen_info = screen_order[sectionIdx][screenIdx + 1];
+//     next_screen_name = generate_screen_name(next_screen_info);
+//     return [next_screen_info, next_screen_name];
+//   }
+// }
+
+// function increment_screen_index() {
+//   if (section_index < screen_order.length - 1 && screen_index == screen_order[section_index].length - 1) {
+//     section_index++;
+//     screen_index = 0;
+//   } else if (section_index < screen_order.length && screen_index < screen_order[section_index].length - 1) {
+//     screen_index++;
+//   }
+// }
+
+// function next_screen() {
+//   let curr_screen_info = screen_order[section_index][screen_index];
+//   let curr_screen_name = generate_screen_name(curr_screen_info);
+
+//   let [next_screen_info, next_screen_name] = get_next_screen(section_index, screen_index);
+
+//   if (curr_screen_info.type == "introduction") {
+//     log_introduction();
+//     deactivate_screen(curr_screen_info);
+//     increment_screen_index();
+//     activate_screen(next_screen_info, next_screen_name);
+//   } else {
+//     const is_practice = curr_screen_info.type == "practice";
+
+//     let[unanswered_questions, incorrect_questions] = log_checked_answers_with_sum(curr_screen_info, curr_screen_name);
+
+//     if (!is_practice) {
+//       incorrect_questions = {};
+//     }
+
+//     if (Object.keys(unanswered_questions).length > 0 || Object.keys(incorrect_questions).length > 0) {
+//       highlight_unanswered_questions(unanswered_questions, incorrect_questions);
+
+//       // logic to insert more practice questions if wrong
+
+//       // if (Object.keys(incorrect_questions).length > 0 && !curr_screen_info['attempted']) {
+//       //   const studyType = curr_screen_info.study_type;
+//       //   const weights = generate_weights(feature_keys, 1);
+      
+//       //   if (studyType == 'feed-selection' && practice_repeat_tally["feed-selection"] < 3) {
+//       //     const studyObj = generateFeedSelectionStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
+//       //     screen_order[1].splice(screen_index + 1, 0, studyObj);
+//       //     practice_repeat_tally["feed-selection"]++;
+//       //   }
+
+//       //   if (studyType == 'feed-comparison' && practice_repeat_tally["feed-comparison-B"] < 3) {
+//       //     const studyObj = generateFeedComparisonStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
+//       //     screen_order[1].splice(screen_index + 1, 0, studyObj);
+//       //     practice_repeat_tally["feed-comparison-B"]++;
+//       //   }
+
+//       //   if (studyType == 'post-placement' && practice_repeat_tally["post-placement"] < 3) {
+//       //     const studyObj = generatePostPlacementStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
+//       //     screen_order[1].splice(screen_index + 1, 0, studyObj);
+//       //     practice_repeat_tally["post-placement"]++;
+//       //   }
+
+//       //   if (studyType == 'feature-selection' && practice_repeat_tally["feature-selection"] < 3) {
+//       //     const studyObj = generateFeatureSelectionStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
+//       //     screen_order[1].splice(screen_index + 1, 0, studyObj);
+//       //     practice_repeat_tally["feature-selection"]++;
+//       //   }
+
+//       //   curr_screen_info['attempted'] = true;
+//       // }
+
+//     } else {
+//       deactivate_screen(curr_screen_info);
+//       increment_screen_index();
+//       activate_screen(next_screen_info, next_screen_name);
+//     }
+//   }
+
+// }
+
+// function deactivate_screen(screen_info) {
+//   let screen_type = screen_info['template'];
+//   window.scrollTo(0,0);
+//   document.getElementById(screen_type).style.display = 'none';
+// }
+
+// function activate_screen(screen_info, screen_name) {
+  
+//   start_times[screen_name] = new Date().getTime();
+
+//   // find div with id screen-title and set its text to screen_name bootstrap
+//   let screen_title = document.getElementById("screen-title");
+//   let capitalizedType = screen_info.type.charAt(0).toUpperCase() + screen_info.type.slice(1);
+//   screen_title.innerHTML = capitalizedType;
+
+//   let top_bar = document.getElementById("top-bar");
+
+//   if (screen_colors.hasOwnProperty(screen_info.type)) {
+//     top_bar.style.backgroundColor = screen_colors[screen_info.type];
+//   } else {
+//     top_bar.style.backgroundColor = "#CCCCCC"; // Default color if screen type is not found
+//   }
+
+//   if (screen_info.type == "practice" || screen_info.type == "study") {
+//     let question_progress = document.getElementById("question-progress");
+//     question_progress.innerHTML = `Question ${screen_index + 1} of ${screen_order[section_index].length}`;
+//   }
+
+//   if (screen_info == undefined) {
+//     alert('Screen name ' + screen_name + ' is undefined');
+//     return;
+//   }
+
+//   let template = screen_info['template'];
+
+//   if (template == "left-feed-questions") {
+//     populate_LFQ(screen_info, screen_name);
+//   } else if (template == "single-post-question") {
+//     populate_SPQ(screen_info, screen_name);
+//   } else if (template == "submission") {
+//     document.getElementById("next-btn").style.display = "none";
+//   }
+
+//   document.getElementById(template).style.display = 'block';
+//   window.scrollTo(0,0);
+
+//   MathJax.typesetPromise().then(() => { });
+// }
+
+// function submit() {
+//   log_submission();
+//   proliferate.submit(output);
+// }
     let section_index, screen_index;
 let start_times = {};
+
+let num_features_for_study = [1, 1, 1][Math.floor(Math.random() * 3)];
+
 let screen_order = generate_study_array(studies,
                                         json_posts["posts"],
-                                        [1], 
-                                        2, 
+                                        [num_features_for_study], 
+                                        3,
                                         "left-feed-questions", 
                                         feature_keys, 
-                                        8,
-                                        true);
+                                        12,
+                                        6,
+                                        6,
+                                        false);
 
 const practice_repeat_tally = Object.fromEntries(studies.map(study => [study, 0]));
 const output = {}
 
 function init() {
-
   start_time = new Date();
   section_index = 0;
   screen_index = 0;
