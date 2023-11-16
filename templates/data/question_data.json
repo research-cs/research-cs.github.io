@@ -1,4 +1,8 @@
 json_questions = {
+    "exposure": [{
+        "text": "To the left is the main feed you'll be asked questions about. Spend a few moments looking at how it was sorted.",
+        "type": "text",
+    }],
     "feed-selection": [{
         "text": "Feed A and Feed B have the same set of posts. Which feed was made using the scoring above?",
         "type": "multiple-choice",
@@ -10,18 +14,18 @@ json_questions = {
         "options": ["Feature A", "Feature B", "Feature C", "Feature D"],
     }],
     "feed-comparison": [{
-        "text": "Feed B contains a different set of posts from Feed A's. Were feed B's posts sorted by the same algorithm as Feed A?",
+        "text": "The feed to the left is a feed you were presented with yesterday. To the right is a new feed you are presented with today. Is today's feed sorted differently from yesterday's feed?",
         "type": "multiple-choice",
         "options": ["Different", "The same"],
     }],
     "post-placement": [{
-        "text": "Look at how the feed to the left was organized. Then, place the post below in its correct position in the feed.",
+        "text": "Look at how the feed was sorted. Then, place the post below in its correct position in the feed.",
         "type": "post-placement",
     }],
     "counterfactual-placement": [{
-        "text": "Look at how the feed to the left was organized. If the highlighted post changed in this way, would it be placed lower or higher in the feed?",
+        "text": "Look at how the feed was sorted. If the given post changed as highlighted above, would its placement now be higher, unchanged, or lower?",
         "type": "multiple-choice",
-        "options": ["Above", "Below"],
+        "options": ["Higher", "Unchanged", "Lower"],
     }],
     "confidence": [{
         "text": "How confident are you about your answer to the above?",
