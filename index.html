@@ -147,7 +147,7 @@ img {
  }
 
  .post .small-text {
-   font-size: 12px;
+   font-size: 14px;
    color: #888;
  }
 
@@ -167,6 +167,11 @@ img {
    gap: 3px;
    font-size: 12px;
    color: #888;
+ }
+
+ .count {
+    font-size: 14px !important;
+    color: #888;
  }
 
 /* Add styling to elements with the "highlighted" class */
@@ -224,6 +229,11 @@ ol li {
    min-height: 100px;
  }
 
+  /* Style for the redacted items */
+  .redacted {
+    background-color: white;  /* You can customize the redaction appearance */
+    color: white
+  }
 </style>   
 </head>
 
@@ -365,7 +375,6 @@ ol li {
   
   <script type="text/javascript" src="templates/data/feed_data.json"></script>
   <script type="text/javascript" src="templates/data/question_data.json"></script>
-
   <script type="text/javascript">
     /**
  * Joins an array into a string with comma and space separators.
@@ -624,37 +633,37 @@ function insert_post(post, feed_parent_list, locked) {
       <div class="d-flex flex-row align-items-center feed-text px-2">
         <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]});"></div>
         <div class="d-flex flex-column flex-wrap ml-2">
-          <span class="font-weight-bold">${post.author_name}</span>
+          <span class="font-weight-bold author-name">${post.author_name}</span>
         </div>
       </div>
       <div class="feed-icon px-2"><i class="fa fa-ellipsis-v text-black-50"></i></div>
     </div>
     <div class="p-1 px-1">
-      <span class="small-text">${post.text}</span>
+      <span class="small-text post_text">${post.text}</span>
     </div>
     <div class="d-flex justify-content-between p-1 py-1">
       <div class="character-count p-1 px-1">
-        <span class="xs-text${highlighted_feature === 'character_count' ? ' highlighted' : ''}">${post.text.length} characters</span>
+        <span class="count${highlighted_feature === 'character_count' ? ' highlighted' : ''}">${post.text.length} characters</span>
       </div>
       <div class="socials d-flex justify-content-end socials">
-        <div class="social-item">
+        <div  class="social-item post_like">
           <i class="fa fa-thumbs-up"></i>
           <span class="count${highlighted_feature === 'like_count' ? ' highlighted' : ''}">${post.like_count}</span>
         </div>
-        <div class="social-item">
+        <div  class="social-item post_comment">
           <i class="fa fa-comments-o"></i>
           <span class="count${highlighted_feature === 'comment_count' ? ' highlighted' : ''}">${post.comment_count}</span>
         </div>
-        <div class="social-item">
+        <div  class="social-item post_view">
           <i class="fa fa-eye"></i>
           <span class="count${highlighted_feature === 'view_count' ? ' highlighted' : ''}">${post.view_count}</span>
         </div>
-        <div class="social-item">
+        <div class="social-item post_repost">
           <i class="fa fa-retweet"></i>
           <span class="count${highlighted_feature === 'repost_count' ? ' highlighted' : ''}">${post.repost_count}</span>
         </div>
-        <div class="social-item">
-          <span class="small-text${highlighted_feature === 'days_since_posted' ? ' highlighted' : ''}">${post.days_since_posted} hour${post.days_since_posted != 1 ? "s" : ""} ago</span>
+        <div  class="social-item post_time">
+          <span class="count${highlighted_feature === 'days_since_posted' ? ' highlighted' : ''}">${post.days_since_posted} hour${post.days_since_posted != 1 ? "s" : ""} ago</span>
         </div>
       </div>
     </div>
@@ -746,7 +755,7 @@ function populate_feed_container(feeds, container, labeled, starting_num_posts, 
   loadMoreButton.style.backgroundColor = "#f0f8ff";
   feed_row.appendChild(loadMoreButton);
 
-  loadMoreButton.addEventListener("click", () => {
+  loadMoreButton.addEventListener("click", () => {    
     const feedContainers = feed_row.querySelectorAll('.feed-list-bank');
     let buttonHidden = true;
 
@@ -1117,6 +1126,8 @@ function populate_questions_container(questions, container, screen_name) {
       console.log('unknown question type');
     }
   }
+
+  redactItems(redacted); 
 }
     function populate_LFQ(screen_info, screen_name) {
   $('#LFQ-feeds').empty();
@@ -1209,6 +1220,10 @@ const screen_colors = {
   "study": "#32CD32",        // Lime Green
   "submission": "#FF6347"    // Tomato Red
 };
+
+// these are feed items we want redacted based on class names in 'bulding_blocks.js'
+const redacted = [];//['post_text', 'author-name'];
+//const redacted = ['post_comment', 'post_view', 'post_repost', 'post_time', 'small-text'];
     
 function removeEmojis(input) {
   const emojiPattern = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}\u{1F191}-\u{1F251}\u{1F004}\u{1F0CF}\u{1F170}-\u{1F171}\u{1F17E}-\u{1F17F}\u{1F18E}\u{3030}\u{2B50}\u{2B55}\u{2B05}-\u{2B07}\u{2B1B}-\u{2B1C}\u{3297}\u{3299}\u{23F0}\u{23F3}\u{231A}-\u{231B}\u{25FD}-\u{25FE}\u{2B50}\u{23E9}-\u{23EC}\u{2B05}-\u{2B07}\u{2B1B}-\u{2B1C}\u{2934}-\u{2935}\u{2B05}-\u{2B07}\u{27A1}]/gu;
@@ -1681,7 +1696,10 @@ function generate_study_array(studies, posts, feature_counts, num_same_features_
  * @returns {Object} - The Counterfactual Placement study object.
  */
 function generate_counterfactual_placement_study(study_type, template, base_posts, starting_num_posts, num_posts_to_load, weights, feature_count, repeat_num, is_practice = false) {
-  posts = shallow_copy(base_posts);
+  const maxIterations = 1000; // Set your desired maximum iteration limit
+  let iterationCount = 0;
+
+  let posts = shallow_copy(base_posts);
 
   let post_index = Math.floor(Math.random() * (num_posts_to_load - 2)) + 1;
   let post = posts[post_index];
@@ -1694,6 +1712,12 @@ function generate_counterfactual_placement_study(study_type, template, base_post
   let changed_feature;
 
   do {
+    // Check if the maximum iteration limit is reached
+    if (iterationCount >= maxIterations) {
+      console.warn("Maximum iteration limit reached. Consider checking your logic.");
+      break; // Exit the loop
+    }
+
     new_post = shallow_copy(post);
     changed_feature = Object.keys(weights)[Math.floor(Math.random() * Object.keys(weights).length)];
 
@@ -1701,7 +1725,16 @@ function generate_counterfactual_placement_study(study_type, template, base_post
     dummy_feed.splice(post_index, 1);
 
     if (changed_feature === "character_count") {
-      const genericTexts = ["This is great!", "Wow, amazing!", "Incredible!", "Fantastic!"];
+      const generic_texts = [
+        "Hoc est admirabile, dignum admiratione!",
+        "Incredibile! Omnes oculi convergent!",
+        "Mirum est initium, omne initium difficilimum.",
+        "Vivamus, cogitemus, amemus! Vita brevis est.",
+        "Sapientia est potentia in omni tempore.",
+        "Tempus fugit, carpe diem! Hauriamus ex momento.",
+        "Amicitia vinculum aureum, preciosa et duratura.",
+        "Per aspera ad astra. Virtus in difficultatibus crescit.",
+      ];
 
       // Change the length of the text, either by removing a random number of words,
       // or adding generic text at the end
@@ -1720,15 +1753,15 @@ function generate_counterfactual_placement_study(study_type, template, base_post
         new_post["text"] = newText;
       } else {
         // Randomly select a generic text from the array
-        const randomIndex = Math.floor(Math.random() * genericTexts.length);
-        const selectedText = genericTexts[randomIndex];
+        const randomIndex = Math.floor(Math.random() * generic_texts.length);
+        const selectedText = generic_texts[randomIndex];
 
         // Add the selected generic text at the end
         new_post["text"] = text + ' ' + selectedText;
       }
     } else {
       // For other features, modify the value by multiplying it with a random factor
-      new_post[changed_feature] = Math.floor(new_post[changed_feature] * Math.random() * 2);
+      new_post[changed_feature] = Math.floor(new_post[changed_feature] * Math.random() * 5);
     }
 
     new_post["changed_feature"] = changed_feature;
@@ -1737,6 +1770,8 @@ function generate_counterfactual_placement_study(study_type, template, base_post
 
     let change_in_index = post_index - dummy_feed.indexOf(new_post);
     change_direction = change_in_index === 0 ? 0 : change_in_index / Math.abs(change_in_index);
+
+    iterationCount++; // Increment the iteration count
   } while (change_direction !== higher_same_lower);
 
   posts[post_index]["changed_feature"] = changed_feature;
@@ -2325,7 +2360,7 @@ function next_screen() {
 
   let [next_screen_info, next_screen_name] = get_next_screen(section_index, screen_index);
 
-  console.log(next_screen_info);
+  // console.log(next_screen_info);
 
   if (curr_screen_info.type === "introduction") {
     log_introduction();
@@ -2362,16 +2397,41 @@ function deactivate_screen(screen_info) {
   window.scrollTo(0, 0);
   document.getElementById(screen_type).style.display = 'none';
 }
+  /** 
+   * JavaScript code to redact the specified class item.
+   * @param {string} classNames - The class name of the item to redact. 
+   */
+
+function redactItems(classNames) {
+  classNames.forEach(className => {
+    let items = document.getElementsByClassName(className);
+    if (items.length > 0) {
+      for (let i = 0; i < items.length; i++) {
+        
+        // set color to black
+        items[i].style.color = 'white';
+        
+        //items[i].style.display = 'none';
+        items[i].classList.add('redacted');
+      }
+    } else {
+      console.log(`No items with class name ${className} found`);
+    }
+
+  });
+
+}
 
 /**
  * Activates the next screen.
  * @param {Object} screen_info - The screen info object.
  * @param {string} screen_name - The name of the screen.
  */
+
 function activate_screen(screen_info, screen_name) {
   
   start_times[screen_name] = new Date().getTime();
-
+  
   // Find div with id screen-title and set its text to screen_name bootstrap
   let screen_title = document.getElementById("screen-title");
   let capitalizedType = screen_info.type.charAt(0).toUpperCase() + screen_info.type.slice(1);
@@ -2406,6 +2466,8 @@ function activate_screen(screen_info, screen_name) {
   }
 
   document.getElementById(template).style.display = 'block';
+  redactItems(redacted); 
+
   window.scrollTo(0, 0);
 }
 
@@ -2416,224 +2478,10 @@ function submit() {
   log_submission();
   proliferate.submit(output);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-// function highlight_unanswered_questions(unanswered_questions, incorrect_questions) {
-//   const question_divs = $(".study-question, .post-placement-question");
-  
-//   question_divs.each((i, question_div) => {
-//     if (unanswered_questions[question_div.id]) {
-//       question_div.setAttribute('data-state', 'unanswered');
-//       question_div.style.border = "2px solid red";
-//       displayMessage(question_div, "red", "Please answer the required question.");
-//     } else if (incorrect_questions[question_div.id]) {
-//       question_div.setAttribute('data-state', 'incorrect');
-//       question_div.style.border = "2px solid orange";
-//       displayMessage(question_div, "orange", answer_to_feedback(incorrect_questions[question_div.id]));
-//     } else {
-//       question_div.removeAttribute('data-state');
-//       question_div.style.border = "";
-//       removeMessage(question_div);
-//     }
-//   });
-// }
-
-// function answer_to_feedback(answer) {
-//   if (answer.question_type == "multiple-choice") {
-//     return `Your answer of "<strong>${array_to_string(answer.chosen_answers)}</strong>" was incorrect. The correct answer was "<strong>${array_to_string(answer.correct_answers)}</strong>". 
-//             Please correct your answer and try a new version of this question in the next screen.`;
-//   }
-  
-//   if (answer.question_type == "post-placement") {
-//     return `Your placement of the post at position <strong>${answer.chosen_answers[0] + 1}</strong> is incorrect. Its correct position is <strong>${answer.correct_answers[0] + 1}</strong>.
-//             Please correct your answer and try a new version of this question in the next screen.`;
-//   }
-// }
-
-// function displayMessage(question_div, color, message) {
-//   removeMessage(question_div);
-
-//   const message_div = document.createElement("div");
-//   message_div.className = "message py-2";
-//   message_div.style.color = color;
-//   message_div.style.fontSize = "medium";
-//   message_div.style.textAlign = "center";
-//   message_div.innerHTML = message;
-//   question_div.appendChild(message_div);
-// }
-
-// function removeMessage(question_div) {
-//   const message_div = question_div.querySelector('.message');
-//   if (message_div) {
-//     question_div.removeChild(message_div);
-//   }
-// }
-
-
-// // gets the next screen in the array of arrays that is screen order
-// function get_next_screen(sectionIdx, screenIdx) {
-//   let curr_screen_info = screen_order[sectionIdx][screenIdx];
-//   let curr_screen_name = generate_screen_name(curr_screen_info);
-
-//   let next_screen_info = null;
-//   let next_screen_name = null;
-
-//   if (screenIdx == screen_order[sectionIdx].length - 1) {
-//     if (sectionIdx == screen_order.length - 1) {
-//       return [undefined, undefined];
-//     } else {
-//       next_screen_info = screen_order[sectionIdx + 1][0];
-//       next_screen_name = generate_screen_name(next_screen_info);
-//       return [next_screen_info, next_screen_name];
-//     }
-//   } else {
-//     next_screen_info = screen_order[sectionIdx][screenIdx + 1];
-//     next_screen_name = generate_screen_name(next_screen_info);
-//     return [next_screen_info, next_screen_name];
-//   }
-// }
-
-// function increment_screen_index() {
-//   if (section_index < screen_order.length - 1 && screen_index == screen_order[section_index].length - 1) {
-//     section_index++;
-//     screen_index = 0;
-//   } else if (section_index < screen_order.length && screen_index < screen_order[section_index].length - 1) {
-//     screen_index++;
-//   }
-// }
-
-// function next_screen() {
-//   let curr_screen_info = screen_order[section_index][screen_index];
-//   let curr_screen_name = generate_screen_name(curr_screen_info);
-
-//   let [next_screen_info, next_screen_name] = get_next_screen(section_index, screen_index);
-
-//   if (curr_screen_info.type == "introduction") {
-//     log_introduction();
-//     deactivate_screen(curr_screen_info);
-//     increment_screen_index();
-//     activate_screen(next_screen_info, next_screen_name);
-//   } else {
-//     const is_practice = curr_screen_info.type == "practice";
-
-//     let[unanswered_questions, incorrect_questions] = log_checked_answers_with_sum(curr_screen_info, curr_screen_name);
-
-//     if (!is_practice) {
-//       incorrect_questions = {};
-//     }
-
-//     if (Object.keys(unanswered_questions).length > 0 || Object.keys(incorrect_questions).length > 0) {
-//       highlight_unanswered_questions(unanswered_questions, incorrect_questions);
-
-//       // logic to insert more practice questions if wrong
-
-//       // if (Object.keys(incorrect_questions).length > 0 && !curr_screen_info['attempted']) {
-//       //   const studyType = curr_screen_info.study_type;
-//       //   const weights = generate_weights(feature_keys, 1);
-      
-//       //   if (studyType == 'feed-selection' && practice_repeat_tally["feed-selection"] < 3) {
-//       //     const studyObj = generateFeedSelectionStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
-//       //     screen_order[1].splice(screen_index + 1, 0, studyObj);
-//       //     practice_repeat_tally["feed-selection"]++;
-//       //   }
-
-//       //   if (studyType == 'feed-comparison' && practice_repeat_tally["feed-comparison-B"] < 3) {
-//       //     const studyObj = generateFeedComparisonStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
-//       //     screen_order[1].splice(screen_index + 1, 0, studyObj);
-//       //     practice_repeat_tally["feed-comparison-B"]++;
-//       //   }
-
-//       //   if (studyType == 'post-placement' && practice_repeat_tally["post-placement"] < 3) {
-//       //     const studyObj = generatePostPlacementStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
-//       //     screen_order[1].splice(screen_index + 1, 0, studyObj);
-//       //     practice_repeat_tally["post-placement"]++;
-//       //   }
-
-//       //   if (studyType == 'feature-selection' && practice_repeat_tally["feature-selection"] < 3) {
-//       //     const studyObj = generateFeatureSelectionStudy(studyType, "left-feed-questions", 4, weights, 1, 0, true);
-//       //     screen_order[1].splice(screen_index + 1, 0, studyObj);
-//       //     practice_repeat_tally["feature-selection"]++;
-//       //   }
-
-//       //   curr_screen_info['attempted'] = true;
-//       // }
-
-//     } else {
-//       deactivate_screen(curr_screen_info);
-//       increment_screen_index();
-//       activate_screen(next_screen_info, next_screen_name);
-//     }
-//   }
-
-// }
-
-// function deactivate_screen(screen_info) {
-//   let screen_type = screen_info['template'];
-//   window.scrollTo(0,0);
-//   document.getElementById(screen_type).style.display = 'none';
-// }
-
-// function activate_screen(screen_info, screen_name) {
-  
-//   start_times[screen_name] = new Date().getTime();
-
-//   // find div with id screen-title and set its text to screen_name bootstrap
-//   let screen_title = document.getElementById("screen-title");
-//   let capitalizedType = screen_info.type.charAt(0).toUpperCase() + screen_info.type.slice(1);
-//   screen_title.innerHTML = capitalizedType;
-
-//   let top_bar = document.getElementById("top-bar");
-
-//   if (screen_colors.hasOwnProperty(screen_info.type)) {
-//     top_bar.style.backgroundColor = screen_colors[screen_info.type];
-//   } else {
-//     top_bar.style.backgroundColor = "#CCCCCC"; // Default color if screen type is not found
-//   }
-
-//   if (screen_info.type == "practice" || screen_info.type == "study") {
-//     let question_progress = document.getElementById("question-progress");
-//     question_progress.innerHTML = `Question ${screen_index + 1} of ${screen_order[section_index].length}`;
-//   }
-
-//   if (screen_info == undefined) {
-//     alert('Screen name ' + screen_name + ' is undefined');
-//     return;
-//   }
-
-//   let template = screen_info['template'];
-
-//   if (template == "left-feed-questions") {
-//     populate_LFQ(screen_info, screen_name);
-//   } else if (template == "single-post-question") {
-//     populate_SPQ(screen_info, screen_name);
-//   } else if (template == "submission") {
-//     document.getElementById("next-btn").style.display = "none";
-//   }
-
-//   document.getElementById(template).style.display = 'block';
-//   window.scrollTo(0,0);
-
-//   MathJax.typesetPromise().then(() => { });
-// }
-
-// function submit() {
-//   log_submission();
-//   proliferate.submit(output);
-// }
     let section_index, screen_index;
 let start_times = {};
 
-let num_features_for_study = [1, 1, 1][Math.floor(Math.random() * 3)];
+let num_features_for_study = [1, 2, 5][Math.floor(Math.random() * 3)];
 
 let screen_order = generate_study_array(studies,
                                         json_posts["posts"],
