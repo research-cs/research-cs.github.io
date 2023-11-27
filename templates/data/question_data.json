@@ -1,6 +1,6 @@
 json_questions = {
     "exposure": [{
-        "text": "To the left is the main feed you'll be asked questions about. Spend a few moments looking at how it was sorted.",
+        "text": "To the left is a feed sorted by the main feed algorithm used throughout this survey. Spend a few moments looking at how it was sorted, as you will use this information on the rest of the questions.",
         "type": "text",
     }],
     "feed-selection": [{
