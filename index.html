@@ -1222,7 +1222,7 @@ const screen_colors = {
 };
 
 // these are feed items we want redacted based on class names in 'bulding_blocks.js'
-const redacted = []; //['post_text', 'author-name'];
+const redacted = []; // ['post_text', 'author-name'];
 //const redacted = ['post_comment', 'post_view', 'post_repost', 'post_time', 'small-text'];
     
 function removeEmojis(input) {
@@ -2052,7 +2052,7 @@ function get_questions(screen_type, confidence = true) {
     const optionText = checkedInput.nextElementSibling.textContent;
     checkedOptions.push(optionText);
     const optionValue = parseFloat(checkedInput.value, 10);
-    sumOfValues += isNaN(optionValue) ? 0 : optionValue < 0 ? 0 : optionValue;
+    sumOfValues += isNaN(optionValue) ? 0 : optionValue;
   }
 
   if (questionId.slice(-2) !== "CF") {
@@ -2441,7 +2441,7 @@ function redactItems(classNames) {
         items[i].classList.add('redacted');
       }
     } else {
-      console.log(`No items with class name ${className} found`);
+      // console.log(`No items with class name ${className} found`);
     }
 
   });
@@ -2526,7 +2526,6 @@ const output = {}
 
 function init() {
   if (redacted.length > 0) {
-    console.log(json_questions["exposure"][0]["text"]);
     json_questions["exposure"][0]["text"] += " Text has been redacted because it is not relevant to the tasks.";
   }
 
