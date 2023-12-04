@@ -1,6 +1,6 @@
 json_questions = {
     "exposure": [{
-        "text": "To the left is a feed sorted by the main feed algorithm used throughout this survey. Spend a few moments looking at how it was sorted, as you will use this information on the rest of the questions.",
+        "text": "To the left is your feed today. Spend a few moments looking at how it was sorted, as you will use this information to answer the rest of the questions.",
         "type": "text",
     }],
     "feed-selection": [{
@@ -14,16 +14,16 @@ json_questions = {
         "options": ["Feature A", "Feature B", "Feature C", "Feature D"],
     }],
     "feed-comparison": [{
-        "text": "The feed to the left is a feed you were presented with yesterday. To the right is a new feed you are presented with today. Is today's feed sorted differently from yesterday's feed?",
+        "text": "The feed to the left is your feed today. To the right is a new feed you're presented with tomorrow. Is tomorrow's feed sorted differently from your feed today?",
         "type": "multiple-choice",
         "options": ["Different", "The same"],
     }],
     "post-placement": [{
-        "text": "Look at how the feed was sorted. Then, place the post below in its correct position in the feed.",
+        "text": "Look at how your feed today was sorted. Then, place the post below in its correct position in the feed.",
         "type": "post-placement",
     }],
     "counterfactual-placement": [{
-        "text": "Look at how the feed was sorted. If the given post changed as highlighted above, would its placement now be higher, unchanged, or lower?",
+        "text": "Look at how your feed today was sorted. If the given post changed as highlighted above, would its placement now be higher, unchanged, or lower?",
         "type": "multiple-choice",
         "options": ["Higher", "Unchanged", "Lower"],
     }],
