@@ -1188,7 +1188,7 @@ function populate_questions_container(questions, container, screen_name) {
   populate_questions_container(questions, document.getElementById('LFQ-questions-container'), screen_name);
 }
 
-    const studies = ["feed-comparison", "post-placement", "counterfactual-placement"];
+    const studies = [/*"feed-comparison",*/ "post-placement", /*"counterfactual-placement"*/];
 
 const possible_num_features = [1, 2, 3];
 
@@ -1222,8 +1222,9 @@ const screen_colors = {
 };
 
 // these are feed items we want redacted based on class names in 'bulding_blocks.js'
-const redacted = []; // ['post_text', 'author-name'];
-//const redacted = ['post_comment', 'post_view', 'post_repost', 'post_time', 'small-text'];
+
+const redacted = [];
+// const redacted = ['post_text', 'author-name'];
     
 function removeEmojis(input) {
   const emojiPattern = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}\u{1F191}-\u{1F251}\u{1F004}\u{1F0CF}\u{1F170}-\u{1F171}\u{1F17E}-\u{1F17F}\u{1F18E}\u{3030}\u{2B50}\u{2B55}\u{2B05}-\u{2B07}\u{2B1B}-\u{2B1C}\u{3297}\u{3299}\u{23F0}\u{23F3}\u{231A}-\u{231B}\u{25FD}-\u{25FE}\u{2B50}\u{23E9}-\u{23EC}\u{2B05}-\u{2B07}\u{2B1B}-\u{2B1C}\u{2934}-\u{2935}\u{2B05}-\u{2B07}\u{27A1}]/gu;
@@ -2474,6 +2475,9 @@ function activate_screen(screen_info, screen_name) {
   if (screen_info.type === "practice" || screen_info.type === "study") {
     let question_progress = document.getElementById("question-progress");
     question_progress.innerHTML = `Question ${screen_index + 1} of ${screen_order[section_index].length}`;
+  } else {
+    let question_progress = document.getElementById("question-progress");
+    question_progress.innerHTML = "";
   }
 
   if (screen_info === undefined) {
@@ -2513,7 +2517,7 @@ let num_features_for_study = possible_num_features[Math.floor(Math.random() * po
 let screen_order = generate_study_array(studies,
                                         json_posts["posts"],
                                         [num_features_for_study], 
-                                        3,
+                                        9,
                                         "left-feed-questions", 
                                         feature_keys, 
                                         12,
