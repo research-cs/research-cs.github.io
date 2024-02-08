@@ -608,9 +608,14 @@ function insert_post(post, feed_parent_list, locked) {
     </div>
   `;
 
+  // console.log(post.correct_position);
   post_list_item.setAttribute("data-number", post.correct_position ?? -1);
 
   feed_parent_list.appendChild(post_list_item);
+
+  const posts = feed_parent_list.querySelectorAll("li");
+
+  // console.log(posts[posts.length - 1].getAttribute("data-number"));
 }
 
 /**
@@ -1305,7 +1310,7 @@ function process_post_arrangement_question(
 
   for (let i = 0; i < posts.length; i++) {
     const post = posts[i];
-    const position = parseInt(post.dataset.number);
+    const position = post.getAttribute("data-number");
 
     // console.log("i", i);
     // console.log("position", position);
@@ -1349,7 +1354,10 @@ function get_screen_results(screen_info, screen_name) {
   const questions = document.getElementsByClassName("form-question");
   const post_bank_questions =
     document.getElementsByClassName("post-bank-question");
-  const feed_elements = document.querySelectorAll(".feed");
+
+  const feedContainer = document.querySelector(".feed-container");
+  const feed_elements = feedContainer.querySelectorAll(".feed");
+
   const screen_output = {
     screen_type: screen_info.screen_type,
     feature_count: screen_info.feature_count,
@@ -1366,7 +1374,7 @@ function get_screen_results(screen_info, screen_name) {
       questions[i],
       screen_output,
       unanswered_questions,
-      incorrect_questions
+      incorrect_questionsx
     );
   }
 
