@@ -12,7 +12,9 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.3.0/math.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
+  <!-- MathJax may be used for displaying math equations. -->
   <!-- <script type="text/javascript" id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.3/tex-mml-chtml.js">
   </script>
@@ -186,6 +188,12 @@ img {
   padding: 2px; /* Optional: Add padding to the highlighted elements */
   border-radius: 4px; /* Optional: Add rounded corners to the outline */
 }
+
+.highlighted-text {
+  /* translucent yellow background */
+  background-color: rgba(255, 255, 0, 0.67);
+}
+
  
  /* Add styles for the static posts */
  .static {
@@ -243,7 +251,8 @@ ol li {
 
 <body>
 
-  <div class='container-fluid px-1'>
+  <!-- display area -->
+  <div id="display-area" class='container-fluid px-1'>
     <div class="container-fluid mt-0 text-white fixed-top" id="top-bar">
   <div class="d-flex justify-content-between py-2 px-4">
     <h3 id="screen-title" class="m-0">Screen Title</h3>
@@ -270,7 +279,8 @@ ol li {
 						<p> <b>Click next (or press enter) to start.</b></p>
                     </div>
                     <div class="col-6" id="post-container" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 50px;">
-                        <img id="post-image" src="" style="width: 90%; height: auto; max-width: 100%;">
+                        <!-- <img id="post-image" src="" style="width: 90%; height: auto; max-width: 100%;"> -->
+                        <div id="post-image" style="width: 90%; height: auto; max-width: 100%;"></div>
                         <p><i>Example post with highlighted features.</i></p>
                     </div>
                 </div>
@@ -290,13 +300,13 @@ ol li {
 		</div>
 	</div>
 </div>
-    <div class="container-fluid p-0" id="left-feed-questions" class="screen" style="display:none;">
+    <div class="container-fluid p-0" id="feed-and-sidebar" class="screen" style="display:none;">
 	<div class="row justify-content-center">
-	  <div class="feed-container" id="LFQ-feed-container">
-		<div class="col-md-12 p-0" id="LFQ-feeds">
+	  <div class="feed-container" id="FS-feed-container">
+		<div class="col-md-12 p-0" id="FS-feeds">
 		</div>
 	  </div>
-	  <div class="question-container px-md-3 py-md-3" id="LFQ-questions-container">
+	  <div class="question-container px-md-3 py-md-3" id="FS-sidebar">
 	  </div>
 	</div>
   </div>
@@ -378,162 +388,156 @@ ol li {
 </script>
   
   <script type="text/javascript" src="templates/data/feed_data.json"></script>
-  <script type="text/javascript" src="templates/data/question_data.json"></script>
+  <script type="text/javascript" src="templates/data/concept_feed_data.json"></script>
+
   <script type="text/javascript">
-    /**
- * Joins an array into a string with comma and space separators.
- *
- * @param {Array} array - The array to be converted to a string.
- * @returns {string} The joined string.
- */
-function array_to_string(array) {
-  return array.join(', ');
-}
+    const question_screen_types = [
+  /*"feed_comparison" , "post_placement" /*"counterfactual_placement",*/ "post_arrangement",
+];
 
-/**
- * Merges two objects into a new object.
- *
- * @param {Object} obj1 - The first object.
- * @param {Object} obj2 - The second object.
- * @returns {Object} The merged object.
- */
-function merge_objects(obj1, obj2) {
-  const result = {};
-  for (const key in obj1) {
-    result[key] = obj1[key];
-  }
-  for (const key in obj2) {
-    result[key] = obj2[key];
-  }
-  return result;
-}
+const possible_num_features = [null];
 
-/**
- * Shuffles an array using the Fisher-Yates algorithm.
- *
- * @param {Array} array - The array to be shuffled.
- */
-function shuffle_array(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-}
+const num_same_features_and_question = 3;
 
-/**
- * Truncates a number to two decimal points.
- *
- * @param {number} number - The number to be truncated.
- * @returns {number} The truncated number.
- */
-function truncate(number) {
-  return Math.round(number * 10) / 10;
-}
+const concept_index = Math.floor(
+  Math.random() * json_concept_posts["posts"].length
+);
 
-/**
- * Shallow copy of an object or an array.
- *
- * @param {Object|Array} obj - The object or array to be copied.
- * @returns {Object|Array} The shallow copy of the input.
- */
-function shallow_copy(obj) {
-  if (Array.isArray(obj)) {
-    return obj.map(item => shallow_copy(item));
-  } else if (typeof obj === 'object' && obj !== null) {
-    return Object.fromEntries(Object.entries(obj).map(([key, value]) => [key, shallow_copy(value)]));
-  }
-  return obj;
-}
+const source_posts = json_concept_posts["posts"][concept_index][0];
 
-/**
- * Generates random deep-copied samples from the provided data array, excluding specified posts.
- *
- * @param {Array} data - The array from which to select random samples.
- * @param {number} sample_size - The number of random samples to generate.
- * @param {Array} excluded_posts - Posts that should not be included in the new sample.
- * @returns {Array} An array containing deep-copied random samples.
- */
-function get_random_sample(data, sample_size, excluded_posts = []) {
-  const availablePosts = data.filter(post => !excluded_posts.some(excludedPost => isEqual(excludedPost, post)));
-  const samples = new Set();
+const num_posts_per_screen = 12;
+const num_posts_at_load = 6;
+const num_posts_to_load = 6;
 
-  while (samples.size < sample_size && availablePosts.length > 0) {
-    const randomIndex = Math.floor(Math.random() * availablePosts.length);
-    const randomPost = availablePosts[randomIndex];
+const include_practice = false;
 
-    if (!samples.has(JSON.stringify(randomPost))) {
-      samples.add(JSON.stringify(randomPost));
-    }
-  }
+const feature_dict = {
+  days_since_posted: "Hours Since Posted",
+  like_count: "Like Count",
+  // "view_count": "View Count",
+  comment_count: "Comment Count",
+  // "character_count": "Character Count",
+  // "repost_count": "Repost Count",
+};
 
-  return Array.from(samples).map(post => JSON.parse(post));
-}
+const feature_keys = Object.keys(feature_dict);
+const feature_names = Object.values(feature_dict);
 
-// Helper function for deep equality check
-function isEqual(objA, objB) {
-  return JSON.stringify(objA) === JSON.stringify(objB);
-}
+// let image_source =
+//   feature_keys.length > 3
+//     ? "./templates/images/reference_post.png"
+//     : "./templates/images/reduced_reference_post.png";
+// document.getElementById("post-image").src = image_source;
 
-/**
- * Converts a string to an RGB color based on a hash function.
- *
- * @param {string} string - The input string.
- * @returns {Array} An array containing the RGB values [r, g, b].
- */
-function string_to_rgb(string) {
-  // Simple hash function to convert the string to a numeric value
-  function hash_string(str) {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    return hash;
-  }
+// these are feed items we want redacted based on class names in 'bulding_blocks.js'
+const redacted_classes = []; // ['post_text', 'author-name'];
+const any_redacted = redacted_classes.length > 0;
 
-  // Convert the hash value to RGB values within the range [0, 255]
-  function int_to_rgb(i) {
-    const c = (i & 0x00FFFFFF).toString(16).toUpperCase();
-    return "00000".substring(0, 6 - c.length) + c;
-  }
+const include_confidence = true;
 
-  // Generate a numeric hash value from the input string
-  const hash_value = hash_string(string);
+const SCREEN_TYPE_INFO = {
+  introduction: {
+    template_id: "static_markdown",
+    markdown: `
+In the upcoming screens, you'll be presented with some social media feeds and asked to answer some questions about them. The posts in these feeds will be sorted by some combination of the features highlighted in the diagram to the right.
 
-  // Convert the hash value to RGB values
-  const rgb_string = int_to_rgb(hash_value);
+You will receive **$0.15 for each correct answer**. After each question, you will also be asked to assess how confident you are in your answer. Correct self-assessment will be bonused up to $0.06.
 
-  // Extract the RGB values and convert them to an array
-  const r = parseInt(rgb_string.slice(0, 2), 16);
-  const g = parseInt(rgb_string.slice(2, 4), 16);
-  const b = parseInt(rgb_string.slice(4, 6), 16);
+**Click next (or press enter) to start.**
+    `,
+  },
 
-  return [r, g, b];
-}
-    
-function parse_reddit_txt() {
-  const data = reddit_data;
+  exposure: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
+To the left is your feed today. Spend a few moments looking at how it was sorted, as you will use this information to answer the rest of the questions. ${
+          any_redacted
+            ? "Some text has been redacted because it is not relevant to the tasks."
+            : ""
+        }
+        `,
+      },
+    ],
+  },
 
-  const lines = data.trim().split('\n');
-  const result = [];
+  post_arrangement: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
+Recall how the feed you saw at the beginning was ordered. Arrange the following posts to imitate that ordering.
+`,
+        answer_area: "post_bank",
+        includes_confidence: include_confidence,
+      },
+    ],
+  },
 
-  for (const line of lines) {
-    const [submissionId, subreddit, title, author, comments, nsfw, score, upvoted, link, content] = line.split('\t');
-    const dictionary = {
-      "SUBMISSION_ID": submissionId,
-      "SUBREDDIT": subreddit,
-      "TITLE": title,
-      "AUTHOR": author,
-      "#_COMMENTS": parseInt(comments),
-      "NSFW": nsfw === 'NSFW',
-      "SCORE": parseInt(score),
-      "UPVOTED_%": parseFloat(upvoted),
-      "LINK": link,
-    };
-    result.push(dictionary);
-  }
+  post_placement: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
+Look at how your feed today was sorted. Then, place the post below in its correct position in the feed.
+        `,
+        answer_area: "post_bank",
+        includes_confidence: include_confidence,
+      },
+    ],
+  },
 
-  return result;
-}
+  counterfactual_placement: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
+Look at how your feed today was sorted. If the given post changed as highlighted above, would its placement now be higher, unchanged, or lower?
+        `,
+        answer_area: "multiple_choice",
+        includes_confidence: include_confidence,
+      },
+    ],
+  },
+
+  feed_comparison: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
+The feed to the left is your feed today. To the right is a new feed you're presented with tomorrow. Is tomorrow's feed sorted differently from your feed today?
+        `,
+        answer_area: "multiple_choice",
+        includes_confidence: include_confidence,
+      },
+    ],
+  },
+
+  submission: {
+    template_id: "static_markdown",
+    markdown: `
+Thank you for completing our entire study! Please **click submit.** It may take a moment to redirect you.
+    `,
+  },
+};
+    const SECTION_COLORS = {
+  introduction: "#BBBBBB", // Gray
+  practice: "#00BFFF", // Deep Sky Blue
+  exposure: "#FFD700", // Gold
+  questions: "#32CD32", // Lime Green
+  submission: "#FF6347", // Tomato Red
+  default: "CCCCCC",
+};
+
+const feature_icon_dict = {
+  days_since_posted: "fa fa-clock-o",
+  like_count: "fa fa-thumbs-up",
+  view_count: "fa fa-eye",
+  comment_count: "fa fa-comments-o",
+  character_count: "fa fa-font",
+  repost_count: "fa fa-retweet",
+};
 
     /**
  * Inserts a label into a container.
@@ -545,78 +549,11 @@ function parse_reddit_txt() {
 function insert_label(label_text, label_container, label_width) {
   const label_div = document.createElement("div");
   label_div.className = `col-${label_width} d-flex align-items-center justify-content-center`; // Added justify-content-center
-  label_div.innerHTML = 
-  `<div class="feed-label pt-2">
+  label_div.innerHTML = `<div class="feed-label pt-2">
     <span class="h2">${label_text}</span>
   </div>`;
   label_container.appendChild(label_div);
 }
-
-/**
- * Inserts a feed into a container with an option to load more posts.
- *
- * @param {Array} feed_data - The data for the feed.
- * @param {HTMLElement} container - The container where the feed will be inserted.
- * @param {number} feed_width - The width of the feed container.
- * @param {number} starting_num_posts - The number of initial posts to display.
- * @param {number} num_posts_to_load - The number of posts to load on each "Load More" click.
- * @param {boolean} is_locked - Indicates whether the feed is locked in place.
- */
-// function insert_feed(feed_data, container, feed_width, starting_num_posts, num_posts_to_load, is_locked) {
-//   const feed_bank_container = document.createElement("div");
-//   feed_bank_container.className = `col-md-${feed_width} p-md-1`;
-
-//   const feed_parent_ul = document.createElement("ul");
-//   feed_parent_ul.className = `feed sortable${is_locked ? ' locked' : ''} feed-list-bank list-unstyled`;
-
-//   function insert_post_range(start, end) {
-//     for (let i = start; i < end; i++) {
-//       if (i >= feed_data.length) {
-//         break;
-//       }
-//       insert_post(feed_data[i], feed_parent_ul, is_locked);
-//     }
-//   }
-
-//   // Insert the initial posts
-//   insert_post_range(0, starting_num_posts);
-
-//   // Create a "Load More" button
-//   const load_more_button = document.createElement("button");
-//   load_more_button.innerText = "Load More";
-//   load_more_button.className = "load-more-button btn btn-light btn-block mt-3";
-//   load_more_button.style.backgroundColor = "#f0f8ff";
-//   let current_num_posts = starting_num_posts;
-
-//   // Hide the button if all posts have been loaded
-//   if (current_num_posts >= feed_data.length) {
-//     load_more_button.style.display = "none";
-//   }
-
-//   // Attach a click event to the "Load More" button
-//   load_more_button.addEventListener("click", () => {
-//     const next_num_posts = current_num_posts + num_posts_to_load;
-//     insert_post_range(current_num_posts, next_num_posts);
-//     current_num_posts = next_num_posts;
-
-//     // Hide the button if all posts have been loaded
-//     if (current_num_posts >= feed_data.length) {
-//       load_more_button.style.display = "none";
-//     }
-//   });
-
-//   feed_bank_container.appendChild(feed_parent_ul);
-//   feed_bank_container.appendChild(load_more_button);
-//   container.appendChild(feed_bank_container);
-
-//   $('.sortable').sortable({
-//     connectWith: '.sortable',
-//     cancel: '.static',
-//     scroll: false,
-//     zIndex: 9999,
-//     appendTo: $('.feed').not('.locked'),
-//   });
-// }
 
 /**
  * Inserts a post into a list.
@@ -627,7 +564,9 @@ function insert_label(label_text, label_container, label_width) {
  */
 function insert_post(post, feed_parent_list, locked) {
   const post_list_item = document.createElement("li");
-  post_list_item.className = `bg-white border mt-2 post${locked ? ' static' : ''} rounded`;
+  post_list_item.className = `bg-white border mt-2 post${
+    locked ? " static" : ""
+  } rounded`;
   let rgb = string_to_rgb(post.author_name);
 
   let highlighted_feature = post.changed_feature;
@@ -635,7 +574,9 @@ function insert_post(post, feed_parent_list, locked) {
   post_list_item.innerHTML = `
     <div class="d-flex flex-row justify-content-between align-items-center p-1 border-bottom">
       <div class="d-flex flex-row align-items-center feed-text px-2">
-        <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]});"></div>
+        <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgb(${
+          rgb[0]
+        }, ${rgb[1]}, ${rgb[2]});"></div>
         <div class="d-flex flex-column flex-wrap ml-2">
           <span class="font-weight-bold author-name">${post.author_name}</span>
         </div>
@@ -643,16 +584,27 @@ function insert_post(post, feed_parent_list, locked) {
       <div class="feed-icon px-2"><i class="fa fa-ellipsis-v text-black-50"></i></div>
     </div>
     <div class="p-1 px-1">
-      <span class="small-text post_text">${post.text}</span>
+      <span class="small-text post_text
+      ${highlighted_feature === "text" ? " highlighted-text" : ""}">${
+    post.text
+  }</span>
     </div>
     <div class="d-flex justify-content-between p-1 py-1">
-      ${Object.keys(feature_dict).map(key => `
+      ${Object.keys(feature_dict)
+        .map(
+          (key) => `
         <div class="${key} p-1 px-1">
           <i class="${feature_icon_dict[key]}"></i>
-          <span class="count${highlighted_feature === key ? ' highlighted' : ''}">
-            ${post[key]} ${feature_dict[key]}
-          </span>
-        </div>`).join('')}
+          ${
+            post[key]
+              ? `<span class="count${
+                  highlighted_feature === key ? " highlighted" : ""
+                }">${post[key]} ${feature_dict[key]}</span>`
+              : "--"
+          }
+        </div>`
+        )
+        .join("")}
     </div>
   `;
 
@@ -671,35 +623,33 @@ function insert_post(post, feed_parent_list, locked) {
  * @param {number} num_posts_to_load - The number of posts to toggle visibility for on each "Load More" click.
  * @param {boolean} is_locked - Indicates whether the feed is locked in place.
  */
-function insert_feed(feed_data, container, feed_width, starting_num_posts, num_posts_to_load, is_locked) {
+function insert_feed(
+  feed_data,
+  container,
+  feed_width,
+  starting_num_posts,
+  num_posts_to_load,
+  is_locked
+) {
   const feed_bank_container = document.createElement("div");
   feed_bank_container.className = `col-md-${feed_width} p-md-1`;
 
   const feed_parent_ul = document.createElement("ul");
-  feed_parent_ul.className = `feed sortable${is_locked ? ' locked' : ''} feed-list-bank list-unstyled`;
+  feed_parent_ul.className = `feed sortable${
+    is_locked ? " locked" : ""
+  } feed-list-bank list-unstyled`;
 
   for (let i = 0; i < feed_data.length; i++) {
     insert_post(feed_data[i], feed_parent_ul, is_locked);
 
-    // Initially hide all posts except the first 'starting_num_posts'
     if (i >= starting_num_posts) {
-      // these posts should also not be able to move around
-      feed_parent_ul.lastChild.style.display = 'none';
-      feed_parent_ul.lastElementChild.classList.add('unmoveable');
+      feed_parent_ul.lastChild.style.display = "none";
+      feed_parent_ul.lastElementChild.classList.add("unmoveable");
     }
   }
 
   feed_bank_container.appendChild(feed_parent_ul);
   container.appendChild(feed_bank_container);
-
-  $('.sortable').sortable({
-    connectWith: '.sortable',
-    items: 'li:not(.unmoveable)', // Specify which items can be sorted
-    cancel: '.static',
-    scroll: true,
-    zIndex: 9999,
-    appendTo: $('.feed').not('.locked'),
-  });  
 }
 
 /**
@@ -711,7 +661,13 @@ function insert_feed(feed_data, container, feed_width, starting_num_posts, num_p
  * @param {number} starting_num_posts - The number of initial posts to display for each feed.
  * @param {number} num_posts_to_load - The number of posts to toggle visibility for on each "Load More" click for each feed.
  */
-function populate_feed_container(feeds, container, labeled, starting_num_posts, num_posts_to_load) {
+function populate_feed_container(
+  feeds,
+  container,
+  labeled,
+  starting_num_posts,
+  num_posts_to_load
+) {
   const feed_width = Math.floor(12 / feeds.length);
   const label_width = feed_width;
 
@@ -721,7 +677,7 @@ function populate_feed_container(feeds, container, labeled, starting_num_posts, 
 
   const feed_row = document.createElement("div");
   feed_row.className = "row feed-scroll visible-scrollbar";
-  
+
   const labels = ["Your Feed Today", "Your Feed Tomorrow"];
 
   for (let i = 0; i < feeds.length; i++) {
@@ -731,110 +687,86 @@ function populate_feed_container(feeds, container, labeled, starting_num_posts, 
     }
 
     const feedData = feeds[i];
-    insert_feed(feedData, feed_row, feed_width, starting_num_posts, num_posts_to_load, true);
+    insert_feed(
+      feedData,
+      feed_row,
+      feed_width,
+      starting_num_posts,
+      num_posts_to_load,
+      true
+    );
   }
 
   container.appendChild(feed_row);
 
-  const loadMoreButton = document.createElement("button");
-  loadMoreButton.innerText = "Load More";
-  loadMoreButton.className = "load-more-button btn btn-light btn-block mt-1";
-  loadMoreButton.style.backgroundColor = "#f0f8ff";
-  feed_row.appendChild(loadMoreButton);
+  const load_more_button = document.createElement("button");
+  load_more_button.innerText = "Load More";
+  load_more_button.className = "load-more-button btn btn-light btn-block mt-1";
+  load_more_button.style.backgroundColor = "#f0f8ff";
 
-  loadMoreButton.addEventListener("click", () => {    
-    const feedContainers = feed_row.querySelectorAll('.feed-list-bank');
-    let buttonHidden = true;
+  if (starting_num_posts >= feeds[0].length) {
+    load_more_button.style.display = "none";
+  }
+
+  feed_row.appendChild(load_more_button);
+
+  load_more_button.addEventListener("click", () => {
+    const feedContainers = feed_row.querySelectorAll(".feed-list-bank");
+    let button_hidden = true;
 
     for (let i = 0; i < feedContainers.length; i++) {
       const feedContainer = feedContainers[i];
-      const allPosts = feedContainer.children;
+      const all_posts = feedContainer.children;
       let postsToShow = num_posts_to_load;
 
       // Find the first hidden post
       let startIndex = 0;
-      for (let j = 0; j < allPosts.length; j++) {
-        if (allPosts[j].style.display === 'none') {
+      for (let j = 0; j < all_posts.length; j++) {
+        if (all_posts[j].style.display === "none") {
           startIndex = j;
           break;
         }
       }
 
       // Show the next posts to reveal
-      for (let j = startIndex; j < allPosts.length; j++) {
-        if (postsToShow > 0 && allPosts[j].style.display === 'none') {
-          allPosts[j].style.display = 'block';
+      for (let j = startIndex; j < all_posts.length; j++) {
+        if (postsToShow > 0 && all_posts[j].style.display === "none") {
+          all_posts[j].style.display = "block";
           postsToShow--;
         }
       }
 
       // Check if the last post is revealed
-      if (allPosts[allPosts.length - 1].style.display === 'none') {
-        buttonHidden = false;
+      if (
+        all_posts.length > 0 &&
+        all_posts[all_posts.length - 1].style.display === "none"
+      ) {
+        button_hidden = false;
       }
     }
 
     // Hide the "Load More" button if the last post is revealed
-    if (buttonHidden) {
-      loadMoreButton.style.display = 'none';
+    if (button_hidden) {
+      load_more_button.style.display = "none";
     }
   });
 }
 
 /**
- * Inserts a Reddit post into a container.
- *
- * @param {Object} post - The Reddit post data.
- * @param {HTMLElement} feed_parent_list - The parent list where the post will be inserted.
- */
-function insert_reddit_post(post, feed_parent_list) {
-  const post_list_item = document.createElement("div");
-  post_list_item.className = "bg-white border mt-2 post rounded p-2";
-
-  post_list_item.innerHTML = `
-    <div class="d-flex justify-content-between align-items-center border-bottom mb-2">
-      <span class="font-weight-bold">${"r/" + post.SUBREDDIT}</span>
-      <div class="feed-icon"><i class="fa fa-ellipsis-v text-black-50"></i></div>
-    </div>
-    <div>
-      <span class="fs-5">${post.TITLE}</span>
-    </div>
-    <div class="d-flex justify-content-between align-items-center mt-2">
-      <div class="d-flex">
-        <div class="small-text mr-2">
-          <i class="fa fa-thumbs-up"></i>
-          <span class="count">${post.SCORE}</span>
-        </div>
-        <div class="small-text">
-          <i class="fa fa-comments-o"></i>
-          <span class="count">${post["#_COMMENTS"]}</span>
-        </div>
-      </div>
-      <div class="small-text">
-        ${(post["UPVOTED_%"] * 100).toFixed(0)}% upvoted
-      </div>
-    </div>
-  `;
-
-  feed_parent_list.appendChild(post_list_item);
-}
-
-/**
  * Inserts text into a container.
  *
- * @param {string} question_text - The text to be inserted.
- * @param {HTMLElement} container - The container where the text will be inserted.
+ * @param {string} markdown - The text to be inserted.
+ * @param {HTMLElement} entry_div - The container where the text will be inserted.
  */
-function insert_text(question_text, container) {
-  const question_div = document.createElement("div");
-  question_div.className = "pr-3";
+function insert_markdown(markdown, entry_div) {
+  const text_div = document.createElement("div");
+  text_div.className = "pr-3";
 
-  const question_element = document.createElement("p");
-  question_element.className = "small-text font-weight-bold mb-0";
-  question_element.innerHTML = question_text;
-  question_div.appendChild(question_element);
+  text_div.innerHTML = marked.parse(markdown);
 
-  container.appendChild(question_div);
+  text_div.style.fontSize = "1.2em";
+
+  entry_div.appendChild(text_div);
 }
 
 /**
@@ -847,10 +779,10 @@ function insert_text(question_text, container) {
  */
 function insert_mcq(question, container, screen_name, question_name) {
   const question_div = document.createElement("div");
-  question_div.className = "study-question mb-2 mr-3 rounded";
+  question_div.className = "form-question mb-2 mr-3 rounded";
   question_div.id = `${screen_name}-${question_name}`;
 
-  insert_text(question.text, question_div);
+  insert_markdown(question.text, question_div);
 
   for (let i = 0; i < question.options.length; i++) {
     const radio_div = document.createElement("div");
@@ -867,7 +799,9 @@ function insert_mcq(question, container, screen_name, question_name) {
     radio_input.type = "radio";
     radio_input.name = `question_${container.id}_${question_name}`;
     radio_input.value = question["option-key"][i];
-    radio_input.id = `${container.id}_${question.options[i].replace(/\s+/g, "_").toLowerCase()}`;
+    radio_input.id = `${container.id}_${question.options[i]
+      .replace(/\s+/g, "_")
+      .toLowerCase()}`;
 
     radio_label.for = radio_input.id;
     radio_label.textContent = question.options[i];
@@ -895,22 +829,22 @@ function insert_mcq(question, container, screen_name, question_name) {
  */
 function insert_radio_buttons(question, container, screen_name, question_name) {
   const question_div = document.createElement("div");
-  question_div.className = "study-question pl-2 mb-2 mr-3 rounded";
+  question_div.className = "form-question pl-2 mb-2 mr-3 rounded";
   question_div.id = `${screen_name}-${question_name}`;
 
-  insert_text(question.text, question_div);
+  insert_markdown(question.text, question_div);
 
   const radioButtonsRow = document.createElement("div");
   radioButtonsRow.className = "radio-buttons-row mt-2";
   radioButtonsRow.style.display = "flex";
-  radioButtonsRow.style.justifyContent = "between"
+  radioButtonsRow.style.justifyContent = "between";
 
   question_div.appendChild(radioButtonsRow);
 
   let selectedButton = null;
 
   const availableWidth = container.offsetWidth / question.options.length;
-  
+
   const min_length = question.options.reduce((min, current) => {
     return current.length < min ? current.length : min;
   }, question.options[0].length);
@@ -918,7 +852,8 @@ function insert_radio_buttons(question, container, screen_name, question_name) {
   for (let i = 0; i < question.options.length; i++) {
     const radio_button = document.createElement("button");
 
-    radio_button.className = "btn btn-outline-primary mr-1 pt-2 d-flex justify-content-center align-items-center";
+    radio_button.className =
+      "btn btn-outline-primary mr-1 pt-2 d-flex justify-content-center align-items-center";
     radio_button.type = "button";
 
     const adjustedWidth = availableWidth * 0.9;
@@ -932,12 +867,14 @@ function insert_radio_buttons(question, container, screen_name, question_name) {
 
       if (selectedButton) {
         selectedButton.classList.remove("btn-primary");
-        selectedButton.querySelector("label").classList.remove("selected-label");
+        selectedButton
+          .querySelector("label")
+          .classList.remove("selected-label");
       }
 
       radio_button.classList.add("btn-primary");
       selectedButton = radio_button;
-      selectedButton.querySelector("label").classList.add("selected-label"); 
+      selectedButton.querySelector("label").classList.add("selected-label");
 
       radio_button.blur();
     });
@@ -945,19 +882,25 @@ function insert_radio_buttons(question, container, screen_name, question_name) {
     const radio_input = document.createElement("input");
     radio_input.type = "radio";
     radio_input.name = `question_${container.id}_${question_name}`;
-    radio_input.value = question['option-key'][i];
-    radio_input.id = `${container.id}_${question.options[i].replace(/\s+/g, "_").toLowerCase()}`;
+    radio_input.value = question["option-key"][i];
+    radio_input.id = `${container.id}_${question.options[i]
+      .replace(/\s+/g, "_")
+      .toLowerCase()}`;
     radio_input.style.display = "none";
 
     const radio_label = document.createElement("label");
     radio_label.for = radio_input.id;
     radio_label.textContent = question.options[i];
 
-    const maxFontSize = (100 *  Math.sqrt(questions_column_width)) / min_length;
+    const maxFontSize = (100 * Math.sqrt(questions_column_width)) / min_length;
 
     radio_label.style.fontSize = `${maxFontSize}px`;
 
-    radio_label.classList.add("d-flex", "justify-content-center", "align-items-center");
+    radio_label.classList.add(
+      "d-flex",
+      "justify-content-center",
+      "align-items-center"
+    );
 
     radio_button.appendChild(radio_input);
     radio_button.appendChild(radio_label);
@@ -977,33 +920,35 @@ function insert_radio_buttons(question, container, screen_name, question_name) {
  */
 function insert_checkbox(question, container, screen_name, question_name) {
   const question_div = document.createElement("div");
-  question_div.className = "study-question mb-4 rounded"; 
+  question_div.className = "form-question mb-4 rounded";
   question_div.id = `${screen_name}-${question_name}`;
-  
-  insert_text(question.text, question_div);
+
+  insert_markdown(question.text, question_div);
 
   for (let i = 0; i < question.options.length; i++) {
     const checkbox_div = document.createElement("div");
     const checkbox_input = document.createElement("input");
     const checkbox_label = document.createElement("label");
 
-    checkbox_div.className = "form-check mt-2"; 
+    checkbox_div.className = "form-check mt-2";
     checkbox_input.className = "form-check-input";
     checkbox_label.className = "form-check-label";
 
     checkbox_input.type = "checkbox";
     checkbox_input.name = `question_${container.id}`;
-    checkbox_input.value = question['option-key'][i];
-    checkbox_input.id = `${container.id}_${question.options[i].replace(/\s+/g, "_").toLowerCase()}`;
+    checkbox_input.value = question["option-key"][i];
+    checkbox_input.id = `${container.id}_${question.options[i]
+      .replace(/\s+/g, "_")
+      .toLowerCase()}`;
 
     checkbox_label.for = checkbox_input.id;
     checkbox_label.textContent = question.options[i];
-    
+
     checkbox_div.appendChild(checkbox_input);
     checkbox_div.appendChild(checkbox_label);
     question_div.appendChild(checkbox_div);
   }
-  
+
   container.appendChild(question_div);
 }
 
@@ -1015,216 +960,779 @@ function insert_checkbox(question, container, screen_name, question_name) {
  * @param {string} screen_name - The screen name.
  * @param {string} question_name - The name of the question.
  */
-function insert_post_placement(question, container, screen_name, question_name) {
-  const question_div = document.createElement("div");
-  question_div.className = "post-placement-question mb-3 mr-3 rounded";
-  question_div.id = `${screen_name}-${question_name}`;
+function insert_post_bank(entry, entry_div, screen_name) {
+  entry_div.className = "post-bank-question mb-3 mr-3 rounded";
+  entry_div.id = `${screen_name}`;
 
-  insert_text(question.text, question_div);
-
-  container.appendChild(question_div);
-
-  insert_feed(question['feed'], question_div, 12, 1, 1, false);
+  insert_feed(entry.post_bank, entry_div, 12, entry.post_bank.length, 1, false);
 }
 
-/**
- * Inserts a radio grid question into a container.
- *
- * @param {Object} question - The question data.
- * @param {HTMLElement} container - The container where the question will be inserted.
- * @param {string} screen_name - The screen name.
- * @param {string} question_name - The name of the question.
- */
-function insert_radio_grid(question, container, screen_name, question_name) {
-  const question_div = document.createElement("div");
-  question_div.className = "study-question mb-4";
-  question_div.id = `${screen_name}-${question_name}`;
+function insert_sidebar_entry(entry, sidebar, screen_name) {
+  const entry_div = document.createElement("div");
 
-  insert_text(question.text, question_div);
-
-  const grid_div = document.createElement("div");
-  grid_div.className = "radio-grid";
-
-  for (let i = 0; i < question.entries.length; i++) {
-    const entry_div = document.createElement("div");
-    entry_div.className = "radio-grid-row row mb-2";
-
-    const entry_label = document.createElement("div");
-    entry_label.className = "col-md-3 radio-grid-entry";
-    entry_label.textContent = question.entries[i];
-    entry_div.appendChild(entry_label);
-
-    const option_div = document.createElement("div");
-    option_div.className = "col-md-9 radio-grid-options";
-
-    for (let j = 0; j < question.options.length; j++) {
-      const radio_input = document.createElement("input");
-      const radio_label = document.createElement("label");
-
-      radio_input.className = "form-check-input";
-      radio_label.className = "form-check-label";
-
-      radio_input.type = "radio";
-      radio_input.name = `question_${container.id}_${i}`;
-      radio_input.value = question['option-key'][i][j];
-      radio_input.id = `${container.id}_${question.entries[i]}_${question.options[j].replace(/\s+/g, "_").toLowerCase()}`;
-      radio_input.setAttribute("data-entry", i);
-
-      radio_label.for = radio_input.id;
-      radio_label.textContent = question.options[j];
-
-      option_div.appendChild(radio_input);
-      option_div.appendChild(radio_label);
-    }
-
-    entry_div.appendChild(option_div);
-    grid_div.appendChild(entry_div);
+  if (entry.hasOwnProperty("markdown")) {
+    insert_markdown(entry.markdown, entry_div);
   }
 
-  question_div.appendChild(grid_div);
-  container.appendChild(question_div);
+  if (entry.hasOwnProperty("answer_area")) {
+    switch (entry.answer_area) {
+      case "multiple_choice":
+        insert_mcq(entry_div, screen_name);
+        break;
+      case "radio_buttons":
+        insert_radio_buttons(entry, sidebar, screen_name, entry.name);
+        break;
+      case "checkbox":
+        insert_checkbox(entry, sidebar, screen_name, entry.name);
+        break;
+      case "post_bank":
+        insert_post_bank(entry, entry_div, screen_name);
+        break;
+    }
+  }
+
+  sidebar.appendChild(entry_div);
 }
 
 /**
  * Populates a questions container with various question types.
  *
- * @param {Object} questions - The questions to be inserted.
+ * @param {Object} entries - The questions to be inserted.
  * @param {HTMLElement} container - The container for questions.
  * @param {string} screen_name - The screen name.
  */
-function populate_questions_container(questions, container, screen_name) {
-
-  for (let question_name in questions) {
-    let question = questions[question_name];
-
-    if (question['type'] == 'checkbox') {
-      insert_checkbox(question, container, screen_name, question_name);
-    } else if (question['type'] == 'multiple-choice') {
-      insert_mcq(question, container, screen_name, question_name);
-    } else if (question['type'] == 'post-placement') {
-      insert_post_placement(question, container, screen_name, question_name);
-    } else if (question['type'] == 'radio-buttons') {
-      insert_radio_buttons(question, container, screen_name, question_name);
-    } else if (question['type'] == 'radio-grid') {
-      insert_radio_grid(question, container, screen_name, question_name);
-    } else if (question['type'] == 'text') {
-      insert_text(question.text, container);
-    } else {
-      console.log('unknown question type');
-    }
+function populate_sidebar(entries, sidebar, screen_name) {
+  for (let entry of entries) {
+    insert_sidebar_entry(entry, sidebar, screen_name);
   }
 
-  redactItems(redacted); 
+  redact_items(redacted_classes);
 }
-    function populate_LFQ(screen_info, screen_name) {
-  $('#LFQ-feeds').empty();
-  $('#LFQ-questions-container').empty();
+    /**
+ * Activates the next screen.
+ * @param {Object} screen_info - The screen info object.
+ * @param {string} screen_name - The name of the screen.
+ */
+function display_screen(screen_info, section_name) {
+  let screen_name = generate_screen_name(screen_info);
 
-  const screen_type = screen_info["study_type"];
-  const questions = get_questions(screen_type, screen_info['type'] != 'practice' && screen_info['study_type'] != 'exposure');
-  const num_feeds =  screen_info['feeds'].length;
+  // Set the screen title
+  let screen_title = document.getElementById("screen-title");
+  screen_title.innerHTML =
+    section_name.charAt(0).toUpperCase() + section_name.slice(1);
 
-  let feeds = shallow_copy(screen_info['feeds']);
+  // Set the top bar color
+  let top_bar = document.getElementById("top-bar");
 
-  const unit_width = Math.min(12 / (num_feeds + 1), num_feeds * 5);
+  if (SECTION_COLORS.hasOwnProperty(section_name)) {
+    top_bar.style.backgroundColor = SECTION_COLORS[section_name];
+  } else {
+    top_bar.style.backgroundColor = SECTION_COLORS.default;
+  }
 
-  const feed_column_width = Math.floor(unit_width * num_feeds);
-  questions_column_width = Math.ceil(unit_width);
+  let question_progress = document.getElementById("question-progress");
+  if (question_screen_types.includes(screen_info.screen_type)) {
+    question_progress.innerHTML = `Question ${curr_screen_index + 1} of ${
+      study_array[curr_section_index].screens.length
+    }`;
+  } else {
+    question_progress.innerHTML = "";
+  }
 
-  $('#LFQ-feed-container').removeClass(function (index, className) {
-    return (className.match(/\bcol-md-\S+/g) || []).join(' ');
-  }).addClass(`col-md-${feed_column_width}`);
-  
-  $('#LFQ-questions-container').removeClass(function (index, className) {
-    return (className.match(/\bcol-md-\S+/g) || []).join(' ');
-  }).addClass(`col-md-${questions_column_width}`);
+  if (screen_info === undefined) {
+    console.error("Screen name " + screen_name + " is undefined");
+    return;
+  }
+
+  let template_id = screen_info.template_id;
+
+  if (template_id === "feed-and-sidebar") {
+    populate_FS_screen(screen_info, screen_name);
+  } else if (template_id === "submission") {
+    document.getElementById("next-btn").style.display = "none";
+  } else {
+    let intro_post = json_concept_posts["posts"][1][0][3];
+    intro_post["changed_feature"] = "text";
+    insert_feed(
+      [intro_post],
+      document.getElementById("post-image"),
+      12,
+      1,
+      1,
+      true
+    );
+  }
+
+  document.getElementById(template_id).style.display = "block";
+  redact_items(redacted_classes);
+
+  window.scrollTo(0, 0);
+}
+    function populate_FS_screen(screen_info, screen_name) {
+  $("#FS-feeds").empty();
+  $("#FS-sidebar").empty();
+
+  const screen_type = screen_info.screen_type;
+  const sidebar_entries = screen_info.sidebar_entries;
+
+  let feeds = deep_copy(screen_info["feeds"]);
+
+  const unit_width = Math.min(12 / (feeds.length + 1), feeds.length * 5);
+
+  const feed_column_width = Math.floor(unit_width * feeds.length);
+  const sidebar_column_width = Math.ceil(unit_width);
+
+  $("#FS-feed-container")
+    .removeClass(function (index, className) {
+      return (className.match(/\bcol-md-\S+/g) || []).join(" ");
+    })
+    .addClass(`col-md-${feed_column_width}`);
+
+  $("#FS-sidebar")
+    .removeClass(function (index, className) {
+      return (className.match(/\bcol-md-\S+/g) || []).join(" ");
+    })
+    .addClass(`col-md-${sidebar_column_width}`);
 
   let text = "";
   let labeled = true;
-  let weights = screen_info['weights'];
+  let weights = screen_info["weights"];
 
-  if (screen_type == "exposure") {
+  if (screen_type == "feed_selection") {
     labeled = true;
-  } else if (screen_type == "feed-selection") {
-    labeled = true;
-    let correct_feed_idx = screen_info['correct_feed_index'];
+    let correct_feed_idx = screen_info["correct_feed_index"];
 
-    questions['Q1']['options'] = Array.from({ length: feeds.length }, (value, index) => ("Feed " + String.fromCharCode(65 + index)));
-    questions['Q1']['option-key'] = Array.from({ length: feeds.length }, (value, index) => index === correct_feed_idx ? 1 : 0);
-  
-  } else if (screen_type == "feature-selection") {
+    sidebar_entries["Q1"]["options"] = Array.from(
+      { length: feeds.length },
+      (value, index) => "Feed " + String.fromCharCode(65 + index)
+    );
+    sidebar_entries["Q1"]["option_key"] = Array.from(
+      { length: feeds.length },
+      (value, index) => (index === correct_feed_idx ? 1 : 0)
+    );
+  } else if (screen_type == "post_placement") {
     // labeled = false;
-    linear_combination_sort(feeds[0], weights);
-
-    const score_per_option = 1 / feature_names.length;
-    questions['Q1']['options'] = feature_names;
-    questions['Q1']['option-key'] = Array.from({ length: feature_keys.length }, (value, index) => weights[feature_keys[index]] !== 0 ? score_per_option : -score_per_option);
-  } else if (screen_type == "post-placement") {
-    // labeled = false;
-    
-    let question_feed = [screen_info['extracted_post']];
-    
-    questions['Q1']['feed'] = question_feed;
-  } else if (screen_type == "feed-comparison") {
+    // let question_feed = [screen_info["extracted_post"]];
+    // sidebar_entries["Q1"]["feed"] = question_feed;
+  } else if (screen_type == "feed_comparison") {
     labeled = true;
 
-    questions['Q1']['options'] = questions['Q1']['options'];
-    questions['Q1']['option-key'] = screen_info['permuted'] ? [1, 0] : [0, 1];
-  } else if (screen_type == "counterfactual-placement") {
-    // labeled = false;
+    sidebar_entries["Q1"]["options"] = sidebar_entries["Q1"]["options"];
+    sidebar_entries["Q1"]["option_key"] = screen_info["permuted"]
+      ? [1, 0]
+      : [0, 1];
+  } else if (screen_type == "counterfactual_placement") {
+    insert_feed(
+      [screen_info["new_post"]],
+      document.getElementById("FS-sidebar"),
+      12,
+      1,
+      1,
+      true
+    );
 
-    insert_feed([screen_info['new_post']], document.getElementById('LFQ-questions-container'), 12, 1, 1, true);
-
-    questions['Q1']['options'] = ["Higher", "Unchanged", "Lower"];
+    sidebar_entries["Q1"]["options"] = ["Higher", "Unchanged", "Lower"];
 
     let option_key = [0, 0, 0];
-    option_key[1 - screen_info['new_post_higher_same_lower']] = 1;
-    questions['Q1']['option-key'] = option_key;
+    option_key[1 - screen_info["new_post_higher_same_lower"]] = 1;
+    sidebar_entries["Q1"]["option_key"] = option_key;
   }
 
-  insert_text(text, document.getElementById('LFQ-questions-container'));
+  populate_sidebar(
+    sidebar_entries,
+    document.getElementById("FS-sidebar"),
+    screen_name
+  );
 
-  populate_feed_container(feeds, document.getElementById('LFQ-feeds'), labeled, screen_info['starting_num_posts'], screen_info['num_posts_to_load']);
-  populate_questions_container(questions, document.getElementById('LFQ-questions-container'), screen_name);
+  populate_feed_container(
+    feeds,
+    document.getElementById("FS-feeds"),
+    labeled,
+    screen_info["starting_num_posts"],
+    screen_info["num_posts_to_load"]
+  );
+
+  $(".sortable").sortable({
+    connectWith: ".sortable",
+    items: "li:not(.unmoveable)",
+    cancel: ".static",
+    scroll: true,
+    zIndex: 9999,
+    appendTo: $(".feed").not(".locked"),
+  });
 }
 
-    const studies = [/*"feed-comparison",*/ "post-placement", /*"counterfactual-placement"*/];
+    /**
+ * Processes a checked question and updates the screen output.
+ * @param {Element} questionDiv - The question div element.
+ * @param {Object} screen_output - The screen output object.
+ * @param {Array} unansweredQuestions - Array to track unanswered questions.
+ */
+function process_check_question(
+  questionDiv,
+  screen_output,
+  unanswered_questions,
+  incorrect_questions
+) {
+  const questionId = questionDiv.id;
+  const inputs = questionDiv.querySelectorAll("input");
+  const checked_inputs = questionDiv.querySelectorAll("input:checked");
+  const unchecked_inputs = questionDiv.querySelectorAll("input:not(:checked)");
 
-const possible_num_features = [1, 2, 3];
+  const checkedOptions = [];
+  const correct_answers = [];
+  let sumOfValues = 0;
 
-const feature_dict = 
-{
-    "days_since_posted": "Hours Since Posted", 
-    "like_count": "Like Count", 
-    // "view_count": "View Count", 
-    "comment_count": "Comment Count", 
-    // "character_count": "Character Count",
-    // "repost_count": "Repost Count",
-};
+  for (let j = 0; j < checked_inputs.length; j++) {
+    const checkedInput = checked_inputs[j];
+    const optionText = checkedInput.nextElementSibling.textContent;
+    checkedOptions.push(optionText);
+    const optionValue = parseFloat(checkedInput.value, 10);
+    sumOfValues += isNaN(optionValue) ? 0 : optionValue;
+  }
 
-const feature_icon_dict = {
-  "days_since_posted": "fa fa-clock-o",
-  "like_count": "fa fa-thumbs-up",
-  "view_count": "fa fa-eye",
-  "comment_count": "fa fa-comments-o",
-  "character_count": "fa fa-font",
-  "repost_count": "fa fa-retweet",
-};
+  if (questionId.slice(-2) !== "CF") {
+    // loop over the inouts that are not checked
+    for (let j = 0; j < unchecked_inputs.length; j++) {
+      const uncheckedInput = unchecked_inputs[j];
+      const optionText = uncheckedInput.nextElementSibling.textContent;
+      const optionValue = parseFloat(uncheckedInput.value, 10);
+      sumOfValues += isNaN(optionValue)
+        ? 0
+        : optionValue < 0
+        ? -optionValue
+        : 0;
+    }
+  }
 
-const feature_keys = Object.keys(feature_dict);
-const feature_names = Object.values(feature_dict);
+  for (let j = 0; j < inputs.length; j++) {
+    const input = inputs[j];
+    const optionText = input.nextElementSibling.textContent;
+    const optionValue = parseFloat(input.value, 10);
 
-const screen_colors = {
-  "introduction": "#BBBBBB", // Gray
-  "practice": "#00BFFF",     // Deep Sky Blue
-  "study": "#32CD32",        // Lime Green
-  "submission": "#FF6347"    // Tomato Red
-};
+    if (optionValue > 0) {
+      correct_answers.push(optionText);
+    }
+  }
 
-// these are feed items we want redacted based on class names in 'bulding_blocks.js'
+  const question = {
+    question_type: "multiple_choice",
+    correct_answers: correct_answers,
+    chosen_answers: checkedOptions,
+  };
 
-const redacted = [];
-// const redacted = ['post_text', 'author-name'];
+  if (checkedOptions.length === 0) {
+    unanswered_questions[questionDiv.id] = question;
+  } else if (
+    checkedOptions.length !== correct_answers.length ||
+    !checkedOptions.every((value, index) => value === correct_answers[index])
+  ) {
+    incorrect_questions[questionDiv.id] = question;
+  }
+
+  if (questionId.slice(-2) === "CF") {
+    screen_output["chosen_confidence"] = checkedOptions[0];
+    screen_output["confidence"] = sumOfValues;
+  } else {
+    const questionNum = questionId.slice(-2);
+    screen_output["chosen_options_" + questionNum] = checkedOptions;
+    screen_output["score_" + questionNum] = sumOfValues;
+  }
+}
+
+/**
+ * Processes a post placement question and updates the screen output.
+ * @param {Element} question_div - The question div element.
+ * @param {Object} screen_output - The screen output object.
+ * @param {Array} unansweredQuestions - Array to track unanswered questions.
+ * @param {Element} feed_ul - The feed element.
+ */
+function process_post_placement_question(
+  question_div,
+  screen_output,
+  unanswered_questions,
+  incorrect_questions,
+  feed_ul
+) {
+  const posts = feed_ul.querySelectorAll("li");
+
+  let chosenIndex = -1;
+  let correctIndex = -1;
+  let distance = -1;
+
+  for (let i = 0; i < posts.length; i++) {
+    const post = posts[i];
+    const position = parseInt(post.dataset.number);
+    if (position >= 0) {
+      distance = Math.abs(i - position);
+      correctIndex = position;
+      chosenIndex = i;
+      break;
+    }
+  }
+
+  const question = {
+    question_type: "post_placement",
+    correct_answers: [correctIndex],
+    chosen_answers: [chosenIndex],
+  };
+
+  if (chosenIndex === -1) {
+    unanswered_questions[question_div.id] = question;
+  } else if (distance > 0) {
+    incorrect_questions[question_div.id] = question;
+  }
+
+  screen_output["chosen_index"] = chosenIndex;
+  screen_output["correct_index"] = correctIndex;
+  screen_output["distance"] = distance;
+  screen_output["score_Q1"] = distance === 0 ? 1 : 0;
+}
+
+function process_post_arrangement_question(
+  question_div,
+  screen_output,
+  unanswered_questions,
+  incorrect_questions,
+  feed_ul
+) {
+  // for each li in the feed_ul, get the data-number and append it to response_ordering
+  const posts = feed_ul.querySelectorAll("li");
+
+  let response_ordering = [];
+
+  let some_incorrect = false;
+
+  for (let i = 0; i < posts.length; i++) {
+    const post = posts[i];
+    const position = parseInt(post.dataset.number);
+
+    // console.log("i", i);
+    // console.log("position", position);
+    response_ordering.push(position);
+
+    if (i !== position) {
+      some_incorrect = true;
+    }
+  }
+
+  screen_output["response_ordering"] = response_ordering;
+  // if response ordering is in strictly increasing order
+  screen_output["score_Q1"] = response_ordering.every((val, i, arr) => {
+    return i === 0 || val > arr[i - 1];
+  })
+    ? 1
+    : 0;
+
+  const question = {
+    question_type: "post_arrangement",
+    correct_answers: null,
+    chosen_answers: response_ordering,
+  };
+
+  // if there are any li anywhere within the question_div, then incomplete is true
+  const incomplete_posts = question_div.querySelectorAll("li");
+
+  if (incomplete_posts.length > 0) {
+    unanswered_questions[question_div.id] = question;
+  } else if (some_incorrect) {
+    incorrect_questions[question_div.id] = question;
+  }
+}
+
+/**
+ * Logs checked answers with sum and updates the screen output.
+ * @param {string} screen_name - The screen name.
+ * @returns {Array} - Array of unanswered question div elements.
+ */
+function get_screen_results(screen_info, screen_name) {
+  const questions = document.getElementsByClassName("form-question");
+  const post_bank_questions =
+    document.getElementsByClassName("post-bank-question");
+  const feed_elements = document.querySelectorAll(".feed");
+  const screen_output = {
+    screen_type: screen_info.screen_type,
+    feature_count: screen_info.feature_count,
+    instance_number: screen_info.instance_number,
+    screen_name: screen_name,
+  };
+
+  const unanswered_questions = {};
+  const incorrect_questions = {};
+  const is_practice = screen_info.is_practice;
+
+  for (let i = 0; i < questions.length; i++) {
+    process_check_question(
+      questions[i],
+      screen_output,
+      unanswered_questions,
+      incorrect_questions
+    );
+  }
+
+  for (let i = 0; i < post_bank_questions.length; i++) {
+    if (screen_info.screen_type === "post_placement") {
+      process_post_placement_question(
+        post_bank_questions[i],
+        screen_output,
+        unanswered_questions,
+        incorrect_questions,
+        feed_elements[i]
+      );
+    } else {
+      process_post_arrangement_question(
+        post_bank_questions[i],
+        screen_output,
+        unanswered_questions,
+        incorrect_questions,
+        feed_elements[i]
+      );
+    }
+  }
+
+  if (Object.keys(unanswered_questions).length === 0) {
+    if (is_practice) {
+      screen_output["screen_name"] = screen_name + "-PRACTICE";
+      screen_output["practice"] = true;
+
+      const screenOutputWithSameName = output["practice"].find(
+        (output) => output["screen_name"] == screen_output["screen_name"]
+      );
+      if (screenOutputWithSameName) {
+        screen_output["tries"] = screenOutputWithSameName["tries"] + 1;
+      } else {
+        screen_output["tries"] = 1;
+      }
+
+      let practice_outputs = output["practice"] ?? [];
+      output["practice"] = practice_outputs.filter(
+        (output) => output["screen_name"] !== screen_output["screen_name"]
+      );
+    } else {
+      screen_output["practice"] = false;
+
+      // if a screen_output with the same screen name already exists, concatenate "REPEAT" to the screen name
+      let question_outputs = output["questions"] ?? [];
+      const screen_output_with_same_name = question_outputs.find(
+        (output) => output["screen_name"] === screen_name
+      );
+
+      if (screen_output_with_same_name) {
+        screen_output["screen_name"] = screen_name + "-REPEAT";
+        screen_output["repeat"] = true;
+      } else {
+        screen_output["repeat"] = false;
+      }
+    }
+
+    // output["questions"].push(screen_output);
+  }
+
+  return [screen_output, unanswered_questions, incorrect_questions];
+}
+
+function log_screen(section_index, screen_index) {
+  const screen_info = study_array[section_index].screens[screen_index];
+  const screen_name = generate_screen_name(screen_info);
+
+  let unanswered_questions = {};
+  let incorrect_questions = {};
+  let screen_output = {};
+
+  if (question_screen_types.includes(screen_info.screen_type)) {
+    [screen_output, unanswered_questions, incorrect_questions] =
+      get_screen_results(screen_info, screen_name);
+  }
+
+  if (Object.keys(unanswered_questions).length === 0) {
+    screen_output["time_elapsed"] =
+      (new Date().getTime() -
+        study_array[section_index].screens[screen_index]["start_time"]) /
+      1000;
+
+    if (!screen_output.hasOwnProperty("screen_name")) {
+      screen_output["screen_name"] = screen_name;
+    }
+
+    let section_name = study_array[section_index].section_name;
+
+    if (!output[section_name]) {
+      output[section_name] = [];
+    }
+
+    output[section_name].push(screen_output);
+  }
+
+  return [unanswered_questions, incorrect_questions];
+}
+
+function log_section(section_index) {
+  const section_name = study_array[section_index].section_name;
+  const section_output = {
+    section_name: section_name,
+    time_elapsed:
+      (new Date().getTime() - study_array[section_index]["start_time"]) / 1000,
+  };
+
+  output["global"].push(section_output);
+}
+
+// function log_introduction() {
+//   const section_name = "introduction";
+//   const introduction_output = {
+//     section_name: section_name,
+//     time_elapsed: (new Date().getTime() - start_times[section_name]) / 1000,
+//   };
+
+//   if (!output["global"]) {
+//     output["global"] = [];
+//   }
+
+//   output["global"].push(introduction_output);
+// }
+
+// function log_exposure() {
+//   const section_name = "exposure";
+//   const exposure_output = {
+//     section_name: section_name,
+//     time_elapsed: (new Date().getTime() - start_times[section_name]) / 1000,
+//   };
+
+//   if (!output["global"]) {
+//     output["global"] = [];
+//   }
+
+//   output["global"].push(exposure_output);
+// }
+
+// function log_submission() {
+//   const section_name = "submission";
+//   const submission_output = {
+//     section_name: section_name,
+//     time_elapsed: (new Date().getTime() - start_times[section_name]) / 1000,
+//   };
+
+//   if (!output["global"]) {
+//     output["global"] = [];
+//   }
+
+//   output["global"].push(submission_output);
+
+//   const questions_output = {
+//     section_name: "questions",
+//     // time elapsed for question is total time elapsed minus time elapsed for all other sections
+//     time_elapsed:
+//       (new Date().getTime() - start_times["introduction"]) / 1000 -
+//       output["global"].reduce((acc, val) => acc + val.time_elapsed, 0),
+//   };
+
+//   output["global"].push(questions_output);
+// }
+    /**
+ * Highlights unanswered and incorrect questions on the screen.
+ * @param {Object} unanswered_questions - Questions that are unanswered.
+ * @param {Object} incorrect_questions - Questions that are answered incorrectly.
+ */
+function highlight_unanswered_questions(
+  unanswered_questions,
+  incorrect_questions
+) {
+  const question_divs = $(".form-question, .post-bank-question");
+
+  question_divs.each((i, question_div) => {
+    if (unanswered_questions[question_div.id]) {
+      question_div.setAttribute("data-state", "unanswered");
+      question_div.style.border = "2px solid red";
+      display_message(
+        question_div,
+        "red",
+        "Please answer the required question."
+      );
+    } else if (incorrect_questions[question_div.id]) {
+      question_div.setAttribute("data-state", "incorrect");
+      question_div.style.border = "2px solid orange";
+      display_message(
+        question_div,
+        "orange",
+        answer_to_feedback(incorrect_questions[question_div.id])
+      );
+    } else {
+      question_div.removeAttribute("data-state");
+      question_div.style.border = "";
+      remove_message(question_div);
+    }
+  });
+}
+
+/**
+ * Generates a feedback message based on the answer type.
+ * @param {Object} answer - The answer object.
+ * @returns {string} - The feedback message.
+ */
+function answer_to_feedback(answer) {
+  if (answer.question_type === "multiple-choice") {
+    return `Your answer of "<strong>${array_to_string(
+      answer.chosen_answers
+    )}</strong>" was incorrect. The correct answer was "<strong>${array_to_string(
+      answer.correct_answers
+    )}</strong>". 
+            Please correct your answer and try a new version of this question in the next screen.`;
+  }
+
+  if (answer.question_type === "post_placement") {
+    return `Your placement of the post at position <strong>${
+      answer.chosen_answers[0] + 1
+    }</strong> is incorrect. Its correct position is <strong>${
+      answer.correct_answers[0] + 1
+    }</strong>.
+            Please correct your answer and try a new version of this question in the next screen.`;
+  }
+}
+
+/**
+ * Displays a message on the screen.
+ * @param {HTMLElement} question_div - The question div element.
+ * @param {string} color - The color of the message.
+ * @param {string} message - The message to display.
+ */
+function display_message(question_div, color, message) {
+  remove_message(question_div);
+
+  const message_div = document.createElement("div");
+  message_div.className = "message py-2";
+  message_div.style.color = color;
+  message_div.style.fontSize = "medium";
+  message_div.style.textAlign = "center";
+  message_div.innerHTML = message;
+  question_div.appendChild(message_div);
+}
+
+/**
+ * Removes a message from the screen.
+ * @param {HTMLElement} question_div - The question div element.
+ */
+function remove_message(question_div) {
+  const message_div = question_div.querySelector(".message");
+  if (message_div) {
+    question_div.removeChild(message_div);
+  }
+}
+
+/**
+ * Increments the screen index.
+ */
+function increment_screen_index() {
+  if (
+    curr_screen_index === study_array[curr_section_index].screens.length - 1 &&
+    curr_section_index < study_array.length - 1
+  ) {
+    curr_section_index++;
+    curr_screen_index = 0;
+  } else if (
+    curr_section_index < study_array.length &&
+    curr_screen_index < study_array[curr_section_index].screens.length - 1
+  ) {
+    curr_screen_index++;
+  } else {
+    console.error("No more screens to advance to");
+  }
+}
+
+/**
+ * Proceeds to the next screen.
+ */
+function next_screen() {
+  let curr_screen_info =
+    study_array[curr_section_index].screens[curr_screen_index];
+
+  if (question_screen_types.includes(curr_screen_info.screen_type)) {
+    const is_practice = curr_screen_info.screen_type === "practice";
+
+    let [_, unanswered_questions, incorrect_questions] = get_screen_results(
+      curr_screen_info,
+      generate_screen_name(curr_screen_info)
+    );
+
+    if (!is_practice) {
+      incorrect_questions = {};
+    }
+
+    if (
+      Object.keys(unanswered_questions).length > 0 ||
+      Object.keys(incorrect_questions).length > 0
+    ) {
+      highlight_unanswered_questions(unanswered_questions, incorrect_questions);
+      return;
+    }
+  }
+
+  deactivate_screen(curr_screen_info.template_id);
+
+  // log the screen
+  log_screen(curr_section_index, curr_screen_index);
+
+  // if last screen of section, log the section
+  if (
+    curr_screen_index ===
+    study_array[curr_section_index].screens.length - 1
+  ) {
+    log_section(curr_section_index);
+  }
+
+  // increment indexes
+  increment_screen_index();
+
+  // if first screen of new section, log the start time of the new section
+  if (curr_screen_index === 0) {
+    study_array[curr_section_index]["start_time"] = new Date().getTime();
+  }
+
+  // log the start time of the new screen
+  study_array[curr_section_index].screens[curr_screen_index]["start_time"] =
+    new Date().getTime();
+
+  display_screen(
+    study_array[curr_section_index].screens[curr_screen_index],
+    study_array[curr_section_index].section_name
+  );
+}
+
+/**
+ * Deactivates the current screen.
+ * @param {Object} screen_info - The screen info object.
+ */
+function deactivate_screen(template_id) {
+  window.scrollTo(0, 0);
+  document.getElementById(template_id).style.display = "none";
+}
+/**
+ * Redact the specified class item.
+ * @param {string} classNames - The class name of the item to redact.
+ */
+function redact_items(classNames) {
+  classNames.forEach((className) => {
+    let items = document.getElementsByClassName(className);
+    if (items.length > 0) {
+      for (let i = 0; i < items.length; i++) {
+        // set color to black
+        items[i].style.color = "gray";
+
+        //items[i].style.display = 'none';
+        items[i].classList.add("redacted");
+      }
+    } else {
+      // console.log(`No items with class name ${className} found`);
+    }
+  });
+}
+
+/**
+ * Submits the current screen.
+ */
+function submit() {
+  proliferate.submit(output);
+}
+
     
 function removeEmojis(input) {
   const emojiPattern = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}\u{1F191}-\u{1F251}\u{1F004}\u{1F0CF}\u{1F170}-\u{1F171}\u{1F17E}-\u{1F17F}\u{1F18E}\u{3030}\u{2B50}\u{2B55}\u{2B05}-\u{2B07}\u{2B1B}-\u{2B1C}\u{3297}\u{3299}\u{23F0}\u{23F3}\u{231A}-\u{231B}\u{25FD}-\u{25FE}\u{2B50}\u{23E9}-\u{23EC}\u{2B05}-\u{2B07}\u{2B1B}-\u{2B1C}\u{2934}-\u{2935}\u{2B05}-\u{2B07}\u{27A1}]/gu;
@@ -1319,6 +1827,232 @@ function sanitize_posts(posts) {
   }
 }
     /**
+ * Generate a screen object based on the specified screen type.
+ *
+ * @param {string} screen_type - The type of screen to generate.
+ * @param {object[]} base_posts - An array of base posts.
+ * @param {number} starting_num_posts - The number of posts to start in each feed.
+ * @param {number} num_posts_to_load - The number of posts to load with each "load more".
+ * @param {object} weights - Weights for screen parameters.
+ * @param {number} feature_count - The count of features.
+ * @param {number} repeat_num - What repeat number of the same  question and feature count.
+ * @param {boolean} is_practice - Whether this is a practice screen or not.
+ * @returns {object|null} The generated screen object, or null if the screen type is not recognized.
+ */
+function generate_screen_object(
+  screen_type,
+  base_posts,
+  starting_num_posts,
+  num_posts_to_load,
+  weights,
+  feature_count,
+  repeat_num,
+  is_practice = false
+) {
+  let screen = null;
+
+  switch (screen_type) {
+    case "feed_comparison":
+      screen = generate_feed_comparison_screen(
+        screen_type,
+        base_posts,
+        starting_num_posts,
+        num_posts_to_load,
+        weights,
+        feature_count,
+        repeat_num,
+        is_practice
+      );
+      break;
+
+    case "post_placement":
+      screen = generate_post_placement_screen(
+        screen_type,
+        base_posts,
+        starting_num_posts,
+        num_posts_to_load,
+        weights,
+        feature_count,
+        repeat_num,
+        is_practice
+      );
+      break;
+
+    case "counterfactual_placement":
+      screen = generate_counterfactual_placement_screen(
+        screen_type,
+        base_posts,
+        starting_num_posts,
+        num_posts_to_load,
+        weights,
+        feature_count,
+        repeat_num,
+        is_practice
+      );
+      break;
+
+    case "post_arrangement":
+      screen = generate_post_arrangement_screen(
+        screen_type,
+        starting_num_posts,
+        num_posts_to_load,
+        repeat_num,
+        is_practice
+      );
+      break;
+
+    default:
+      console.error(`screen type ${screen_type} not recognized`);
+      break;
+  }
+
+  return screen; // Return the screen object here
+}
+
+/**
+ * Generates a screen array based on input parameters.
+ * @param {Array} question_screen_types - The array of screen types.
+ * @param {Array} posts - The array of posts.
+ * @param {Array} feature_counts - The array of feature counts.
+ * @param {number} num_same_features_and_question - The number of screen repetitions with same feature count and question.
+ * @param {Array} feature_keys - The array of feature keys.
+ * @param {number} num_posts - The number of posts in each screen.
+ * @param {number} starting_num_posts - The number of posts to start in each feed.
+ * @param {number} num_posts_to_load - The number of posts to load with each "load more".
+ * @param {boolean} includes_practice - Indicates whether to include practice screens.
+ * @returns {Array} - The generated screen array.
+ */
+function generate_screen_array(
+  question_screen_types,
+  posts,
+  feature_counts,
+  num_same_features_and_question,
+  feature_keys,
+  num_posts,
+  starting_num_posts,
+  num_posts_to_load,
+  includes_practice
+) {
+  const section_array = [];
+
+  // Introduction screen
+  const introduction_screen = {
+    screen_type: "introduction",
+    template_id: "introduction",
+  };
+
+  section_array.push({
+    section_name: "introduction",
+    screens: [introduction_screen],
+  });
+
+  // Shuffle screen types and posts
+  const shuffled_screen_types = deep_copy(question_screen_types);
+  shuffle_array(shuffled_screen_types);
+
+  posts.forEach((post) => {
+    // Calculate and add the text_length attribute to each post
+    post.character_count = post.text.length;
+  });
+
+  let practice_array = [];
+
+  // Generate practice screen for each screen (with one feature)
+  if (includes_practice) {
+    for (const screen_type of shuffled_screen_types) {
+      const base_posts = get_random_sample(posts, 10);
+      const weights = generate_weights(feature_keys, 1);
+
+      for (let repeat_num = 1; repeat_num <= 2; repeat_num++) {
+        const screen = generate_screen_object(
+          screen_type,
+          base_posts,
+          starting_num_posts,
+          num_posts_to_load,
+          weights,
+          1,
+          repeat_num,
+          true
+        );
+        if (screen) {
+          practice_array.push(screen);
+        }
+      }
+    }
+
+    section_array.push({ section_name: "practice", screens: practice_array });
+  }
+
+  let scored_screens_array = [];
+
+  // Generate screen objects
+  const weights = generate_weights(feature_keys, feature_counts[0]);
+  let base_posts = get_random_sample(posts, num_posts);
+  linear_combination_sort(base_posts, weights);
+
+  let used_weights = Object.keys(deep_copy(weights)).reduce((result, key) => {
+    if (weights[key] !== 0) {
+      result[key] = weights[key];
+    }
+    return result;
+  }, {});
+
+  if (Object.keys(used_weights).length === 1) {
+    unsort_posts(posts, Object.keys(used_weights)[0], starting_num_posts - 1);
+  }
+
+  const exposure_screen = generate_exposure_screen(
+    base_posts,
+    starting_num_posts,
+    num_posts_to_load
+  );
+
+  section_array.push({
+    section_name: "exposure",
+    screens: [exposure_screen],
+  });
+
+  for (const screen_type of shuffled_screen_types) {
+    for (
+      let repeat_num = 1;
+      repeat_num <= num_same_features_and_question;
+      repeat_num++
+    ) {
+      const screen = generate_screen_object(
+        screen_type,
+        base_posts,
+        starting_num_posts,
+        num_posts_to_load,
+        weights,
+        feature_counts[0],
+        repeat_num
+      );
+
+      if (screen) {
+        scored_screens_array.push(screen);
+      }
+    }
+  }
+
+  section_array.push({
+    section_name: "questions",
+    screens: scored_screens_array,
+  });
+
+  // Submission screen
+  const submission_screen = {
+    screen_type: "submission",
+    template_id: "submission",
+  };
+
+  section_array.push({
+    section_name: "submission",
+    screens: [submission_screen],
+  });
+
+  return section_array;
+}
+    /**
  * Unsort posts based on remaining features.
  * @param {Array} posts - An array of post objects.
  * @param {string} feature_to_ignore - The feature to ignore while unsorting.
@@ -1329,20 +2063,29 @@ function unsort_posts(posts, feature_to_ignore, first_num_posts_to_change) {
   }
 
   // Validate inputs
-  if (!Array.isArray(posts) || typeof feature_to_ignore !== 'string') {
-    throw new Error('Invalid input. Expecting an array of posts and a string for feature_to_ignore.');
+  if (!Array.isArray(posts) || typeof feature_to_ignore !== "string") {
+    throw new Error(
+      "Invalid input. Expecting an array of posts and a string for feature_to_ignore."
+    );
   }
 
   const feature_keys = Object.keys(posts[0]); // Assuming all posts have the same keys
   if (!feature_keys.includes(feature_to_ignore)) {
-    throw new Error('The specified feature_to_ignore does not exist in the post objects.');
+    throw new Error(
+      "The specified feature_to_ignore does not exist in the post objects."
+    );
   }
 
-  const remaining_feature_keys = feature_keys.filter(key => key !== feature_to_ignore);
+  const remaining_feature_keys = feature_keys.filter(
+    (key) => key !== feature_to_ignore
+  );
 
   function is_sorted_by_feature_increasing(feature) {
     for (let i = 1; i < first_num_posts_to_change; i++) {
-      if (posts[i].hasOwnProperty(feature) && posts[i][feature] < posts[i - 1][feature]) {
+      if (
+        posts[i].hasOwnProperty(feature) &&
+        posts[i][feature] < posts[i - 1][feature]
+      ) {
         return false;
       }
     }
@@ -1351,7 +2094,10 @@ function unsort_posts(posts, feature_to_ignore, first_num_posts_to_change) {
 
   function is_sorted_by_feature_decreasing(feature) {
     for (let i = 1; i < first_num_posts_to_change; i++) {
-      if (posts[i].hasOwnProperty(feature) && posts[i][feature] > posts[i - 1][feature]) {
+      if (
+        posts[i].hasOwnProperty(feature) &&
+        posts[i][feature] > posts[i - 1][feature]
+      ) {
         return false;
       }
     }
@@ -1365,7 +2111,8 @@ function unsort_posts(posts, feature_to_ignore, first_num_posts_to_change) {
     attempts = 0; // Reset attempts for each feature
 
     while (
-      (is_sorted_by_feature_increasing(feature) || is_sorted_by_feature_decreasing(feature)) &&
+      (is_sorted_by_feature_increasing(feature) ||
+        is_sorted_by_feature_decreasing(feature)) &&
       attempts < maxAttempts
     ) {
       let index1, index2;
@@ -1375,15 +2122,22 @@ function unsort_posts(posts, feature_to_ignore, first_num_posts_to_change) {
       } while (index1 === index2);
 
       // Swap only if the feature exists in both posts
-      if (posts[index1].hasOwnProperty(feature) && posts[index2].hasOwnProperty(feature)) {
+      if (
+        posts[index1].hasOwnProperty(feature) &&
+        posts[index2].hasOwnProperty(feature)
+      ) {
         const temp = posts[index1][feature];
         posts[index1][feature] = posts[index2][feature];
         posts[index2][feature] = temp;
 
-        if (feature === 'character_count' && posts[index1].hasOwnProperty('text') && posts[index2].hasOwnProperty('text')) {
-          const textTemp = posts[index1]['text'];
-          posts[index1]['text'] = posts[index2]['text'];
-          posts[index2]['text'] = textTemp;
+        if (
+          feature === "character_count" &&
+          posts[index1].hasOwnProperty("text") &&
+          posts[index2].hasOwnProperty("text")
+        ) {
+          const textTemp = posts[index1]["text"];
+          posts[index1]["text"] = posts[index2]["text"];
+          posts[index2]["text"] = textTemp;
         }
       }
 
@@ -1391,31 +2145,11 @@ function unsort_posts(posts, feature_to_ignore, first_num_posts_to_change) {
     }
 
     if (attempts === maxAttempts) {
-      console.warn(`Reached maximum number of attempts (${maxAttempts}) for unsorting posts by feature ${feature}.`);
+      console.warn(
+        `Reached maximum number of attempts (${maxAttempts}) for unsorting posts by feature ${feature}.`
+      );
     }
   }
-}
-
-/**
- * Sorts a feed array of posts based on the provided weights dictionary.
- * @param {Array} feed - The feed array of posts to be sorted.
- * @param {Object} weights - The weights dictionary for features.
- */
-function linear_combination_sort(feed, weights) {
-  feed.sort(function (a, b) {
-    let a_score = 0;
-    let b_score = 0;
-    for (let key in weights) {
-      if (key === "character_count") {
-        a_score += weights[key] * a["text"].length;
-        b_score += weights[key] * b["text"].length;
-      } else {
-        a_score += weights[key] * a[key];
-        b_score += weights[key] * b[key];
-      }
-    }
-    return b_score - a_score;
-  });
 }
 
 /**
@@ -1426,9 +2160,11 @@ function linear_combination_sort(feed, weights) {
  */
 function generate_weights(features, num_features) {
   if (num_features > features.length) {
-    throw new Error('The number of features cannot be greater than the number of features.');
+    throw new Error(
+      "The number of features cannot be greater than the number of features."
+    );
   }
-  
+
   let weights = {};
   let num_features_set = 0;
   while (num_features_set < num_features) {
@@ -1453,6 +2189,28 @@ function generate_weights(features, num_features) {
   }
 
   return weights;
+}
+
+/**
+ * Sorts a feed array of posts based on the provided weights dictionary.
+ * @param {Array} feed - The feed array of posts to be sorted.
+ * @param {Object} weights - The weights dictionary for features.
+ */
+function linear_combination_sort(feed, weights) {
+  feed.sort(function (a, b) {
+    let a_score = 0;
+    let b_score = 0;
+    for (let key in weights) {
+      if (key === "character_count") {
+        a_score += weights[key] * a["text"].length;
+        b_score += weights[key] * b["text"].length;
+      } else {
+        a_score += weights[key] * a[key];
+        b_score += weights[key] * b[key];
+      }
+    }
+    return b_score - a_score;
+  });
 }
 
 /**
@@ -1502,212 +2260,70 @@ function permute_weights_valence(weights) {
 }
 
 /**
- * Generates ranking text based on the provided weights.
- * @param {Object} weights - The weights dictionary for features.
- * @param {boolean} show_zeroes - Indicates whether to show weights with a value of zero.
- * @returns {string} - The generated ranking text.
+ * Inserts a duplicate screen into the screen array.
+ * @param {Array} screen_array - The screen array.
+ * @param {number} num_repeats - The number of same feature count+questions repetitions.
+ * @param {number} num_feature_counts - The number of feature counts.
  */
-function generate_ranking_text(weights, show_zeroes = false) {
-  let text = `$$\\begin{align*}`;
-
-  let sum_of_absolute_weights = 0;
-  let num_weights_nonzero = 0;
-
-  for (const key in weights) {
-    if (Math.abs(weights[key]) > 0) {
-      sum_of_absolute_weights += Math.abs(weights[key]);
-      num_weights_nonzero++;
-    }
-  }
-
-  const scaling_factor = 100 / sum_of_absolute_weights;
-
-  for (const key in weights) {
-    if (weights[key] !== 0 || show_zeroes) {
-      const scaled_weight = weights[key] * scaling_factor;
-      const rounded_weight = Math.abs(scaled_weight.toFixed(0));
-      const sign = scaled_weight >= 0 ? " + " : " - ";
-      text += `&${num_weights_nonzero > 1 || scaled_weight < 0 ? sign : ''}${num_weights_nonzero > 1 ? rounded_weight + '\\% \\times' : ''} \\text{${feature_dict[key]}} \\\\`;
-    }
-  }
-
-  text += "\\end{align*} $$";
-
-  return text;
+function insert_duplicate_screen(
+  screen_array,
+  num_repeats,
+  num_feature_counts
+) {
+  const source_index = screen_array.length - num_repeats * num_feature_counts;
+  const screen = deep_copy(screen_array[source_index]);
+  const random_index =
+    source_index +
+    3 +
+    Math.floor(Math.random() * (num_repeats * num_feature_counts - 3));
+  screen_array.splice(random_index, 0, screen);
 }
 
 /**
- * Generate a study object based on the specified study type.
- *
- * @param {string} studyType - The type of study to generate.
- * @param {string} template - The study template.
- * @param {object[]} base_posts - An array of base posts.
- * @param {object} weights - Weights for study parameters.
- * @param {number} feature_count - The count of features.
- * @param {number} repeat_num - What repeat number of the same  question and feature count.
- * @param {boolean} is_practice - Whether this is a practice screen or not.
- * @returns {object|null} The generated study object, or null if the study type is not recognized.
+ * Generates a screen name based on screen information.
+ * @param {Object} screen_info - The screen information object.
+ * @returns {string} - The generated screen name.
  */
-function generate_study_object(studyType, template, base_posts, starting_num_posts, num_posts_to_load, weights, feature_count, repeat_num, is_practice = false) {
-  let studyObj = null; // Declare the variable here
-
-  switch (studyType) {
-    case 'feed-selection':
-      console.error("update feed selection");
-      // Uncomment and implement generate_feed_selection_study
-      // studyObj = generate_feed_selection_study(studyType, template, numPosts, weights, featureCount, repeatNum);
-      break;
-
-    case 'feed-comparison':
-      studyObj = generate_feed_comparison_study(studyType, template, base_posts, starting_num_posts, num_posts_to_load, weights, feature_count, repeat_num, is_practice);
-      break;
-
-    case 'post-placement':
-      studyObj = generate_post_placement_study(studyType, template, base_posts, starting_num_posts, num_posts_to_load, weights, feature_count, repeat_num, is_practice);
-      break;
-
-    case 'feature-selection':
-      console.error("update feed selection");
-      // Uncomment and implement generate_feature_selection_study
-      // studyObj = generate_feature_selection_study(studyType, template, numPosts, weights, featureCount, repeatNum);
-      break;
-
-    case 'counterfactual-placement':
-      studyObj = generate_counterfactual_placement_study(studyType, template, base_posts, starting_num_posts, num_posts_to_load, weights, feature_count, repeat_num, is_practice);
-      break;
-
-    default:
-      // Handle other cases or return null if needed
-      break;
+function generate_screen_name(screen_info) {
+  let screen_name = `study-${screen_info.screen_type}-features-${screen_info["feature_count"]}-${screen_info["instance_number"]}`;
+  if (screen_info.screen_type == "introduction") {
+    screen_name = "introduction";
+  } else if (screen_info.screen_type == "submission") {
+    screen_name = "submission";
   }
-
-  return studyObj; // Return the study object here
+  if (screen_info.screen_type == "exposure") {
+    screen_name = "exposure";
+  }
+  return screen_name;
 }
 
-/**
- * Generates a study array based on input parameters.
- * @param {Array} studies - The array of study types.
- * @param {Array} posts - The array of posts.
- * @param {Array} feature_counts - The array of feature counts.
- * @param {number} num_same_features_and_question - The number of study repetitions with same feature count and question.
- * @param {string} template - The study template.
- * @param {Array} feature_keys - The array of feature keys.
- * @param {number} num_posts - The number of posts in each study.
- * @param {number} starting_num_posts - The number of posts to start in each feed.
- * @param {number} num_posts_to_load - The number of posts to load with each "load more".
- * @param {boolean} includes_practice - Indicates whether to include practice studies.
- * @returns {Array} - The generated study array.
- */
-function generate_study_array(studies, posts, feature_counts, num_same_features_and_question, template, feature_keys, num_posts, starting_num_posts, num_posts_to_load, includes_practice) {
-  const screen_array = [];
-
-  // Introduction screen
-  const introduction_screen = {
-    'type': "introduction",
-    'template': "introduction",
-  };
-  screen_array.push([introduction_screen]);
-
-  // Shuffle studies and posts
-  const shuffled_studies = shallow_copy(studies);
-  shuffle_array(shuffled_studies);
-  shuffle_array(posts);
-  sanitize_posts(posts);
-  posts.forEach(post => {
-    // Calculate and add the text_length attribute to each post
-    post.character_count = post.text.length;
-  });
-
-  let practice_array = [];
-
-  // Generate practice screen for each study (with one feature)
-  if (includes_practice) {
-    for (const study_type of shuffled_studies) {
-      const base_posts = get_random_sample(json_posts['posts'], 10);
-      const weights = generate_weights(feature_keys, 1);
-
-      for (let repeat_num = 1; repeat_num <= 2; repeat_num++) {
-        const studyObj = generate_study_object(study_type, template, base_posts, starting_num_posts, num_posts_to_load, weights, 1, repeat_num, true);
-        if (studyObj) {
-          practice_array.push(studyObj);
-        }
-      }
-    }
-
-    screen_array.push(practice_array);
-  }
-
-  let study_array = [];
-
-  // Generate study objects
-  const weights = generate_weights(feature_keys, feature_counts[0]);
-  let base_posts = get_random_sample(json_posts['posts'], num_posts);
-  linear_combination_sort(base_posts, weights);
-
-  let used_weights = Object.keys(shallow_copy(weights)).reduce((result, key) => {
-    if (weights[key] !== 0) {
-      result[key] = weights[key];
-    }
-    return result;
-  }, {});
-
-  if (Object.keys(used_weights).length === 1) {
-    unsort_posts(posts, Object.keys(used_weights)[0], starting_num_posts - 1);
-  }
-
-  const exposure_obj = {
-    'study_type': 'exposure',
-    'type': "study",
-    'template': "left-feed-questions",
-    'feeds': [base_posts],
-    'starting_num_posts': starting_num_posts,
-    'num_posts_to_load': num_posts_to_load,
-  };
-
-  study_array.push(exposure_obj);
-
-  for (const study_type of shuffled_studies) {
-    for (let repeat_num = 1; repeat_num <= num_same_features_and_question; repeat_num++) {
-      
-    
-      const studyObj = generate_study_object(study_type, template, base_posts, starting_num_posts, num_posts_to_load, weights, feature_counts[0], repeat_num);
-      if (studyObj) {
-        study_array.push(studyObj);
-      }
-    }
-  }
-
-  screen_array.push(study_array);
-
-  // Submission screen
-  const submission_screen = {
-    'type': "submission",
-    'template': "submission",
-  };
-  screen_array.push([submission_screen]);
-
-  return screen_array;
-}
-
-/**
- * Generates a Counterfactual Placement study object.
- * @param {string} study_type - The type of study.
- * @param {string} template - The study template.
+    /**
+ * Generates a Counterfactual Placement screen object.
+ * @param {string} screen_type - The type of screen.
  * @param {object[]} base_posts - An array of base posts.
  * @param {Object} weights - The weights for features.
  * @param {number} feature_count - The feature count.
  * @param {number} repeat_num - The repetition number.
- * @param {boolean} is_practice - Indicates if it's a practice study.
- * @returns {Object} - The Counterfactual Placement study object.
+ * @param {boolean} is_practice - Indicates if it's a practice screen.
+ * @returns {Object} - The Counterfactual Placement screen object.
  */
-function generate_counterfactual_placement_study(study_type, template, base_posts, starting_num_posts, num_posts_to_load, weights, feature_count, repeat_num, is_practice = false) {
+function generate_counterfactual_placement_screen(
+  screen_type,
+  base_posts,
+  starting_num_posts,
+  num_posts_to_load,
+  weights,
+  feature_count,
+  repeat_num,
+  is_practice = false
+) {
   const maxIterations = 1000; // Set your desired maximum iteration limit
   let iterationCount = 0;
 
-  let posts = shallow_copy(base_posts);
+  let posts = deep_copy(base_posts);
 
   let post_index = Math.floor(Math.random() * (num_posts_to_load - 2)) + 1;
-  let post = shallow_copy(posts[post_index]);
+  let post = deep_copy(posts[post_index]);
   let new_post;
   let dummy_feed;
 
@@ -1719,14 +2335,19 @@ function generate_counterfactual_placement_study(study_type, template, base_post
   do {
     // Check if the maximum iteration limit is reached
     if (iterationCount >= maxIterations) {
-      console.warn("Maximum iteration limit reached. Consider checking your logic.");
+      console.warn(
+        "Maximum iteration limit reached. Consider checking your logic."
+      );
       break; // Exit the loop
     }
 
-    new_post = shallow_copy(post);
-    changed_feature = Object.keys(weights)[Math.floor(Math.random() * Object.keys(weights).length)];
+    new_post = deep_copy(post);
+    changed_feature =
+      Object.keys(weights)[
+        Math.floor(Math.random() * Object.keys(weights).length)
+      ];
 
-    dummy_feed = shallow_copy(posts);
+    dummy_feed = deep_copy(posts);
     dummy_feed.splice(post_index, 1);
 
     if (changed_feature === "character_count") {
@@ -1748,11 +2369,11 @@ function generate_counterfactual_placement_study(study_type, template, base_post
       // Randomly decide whether to delete words or add generic text
       if (Math.random() < 0.5) {
         // Calculate the number of words to remove (randomly)
-        const words = text.split(' ');
+        const words = text.split(" ");
         const wordsToRemove = Math.floor(Math.random() * words.length);
 
         // Remove the specified number of words from the end
-        const newText = words.slice(0, words.length - wordsToRemove).join(' ');
+        const newText = words.slice(0, words.length - wordsToRemove).join(" ");
 
         // Update the 'text' property in the 'new_post' object
         new_post["text"] = newText;
@@ -1762,11 +2383,13 @@ function generate_counterfactual_placement_study(study_type, template, base_post
         const selectedText = generic_texts[randomIndex];
 
         // Add the selected generic text at the end
-        new_post["text"] = text + ' ' + selectedText;
+        new_post["text"] = text + " " + selectedText;
       }
     } else {
       // For other features, modify the value by multiplying it with a random factor
-      new_post[changed_feature] = Math.floor(new_post[changed_feature] * Math.random() * 5);
+      new_post[changed_feature] = Math.floor(
+        new_post[changed_feature] * Math.random() * 5
+      );
     }
 
     new_post["changed_feature"] = changed_feature;
@@ -1774,51 +2397,91 @@ function generate_counterfactual_placement_study(study_type, template, base_post
     linear_combination_sort(dummy_feed, weights);
 
     let change_in_index = post_index - dummy_feed.indexOf(new_post);
-    change_direction = change_in_index === 0 ? 0 : change_in_index / Math.abs(change_in_index);
+    change_direction =
+      change_in_index === 0 ? 0 : change_in_index / Math.abs(change_in_index);
 
     iterationCount++; // Increment the iteration count
   } while (change_direction !== higher_same_lower || new_post === post);
 
   posts[post_index]["changed_feature"] = changed_feature;
 
-  const study_obj = {
-    'study_type': study_type,
-    'feature_count': feature_count,
-    'instance_number': repeat_num,
-    'type': is_practice ? "practice" : "study",
-    'template': template,
-    'feeds': [posts],
-    'weights': weights,
-    'starting_num_posts': starting_num_posts,
-    'num_posts_to_load': num_posts_to_load,
-    'new_post': new_post,
-    'new_post_higher_same_lower': higher_same_lower,
+  const screen = {
+    screen_type: screen_type,
+    feature_count: feature_count,
+    instance_number: repeat_num,
+    is_practice: is_practice,
+    template_id: SCREEN_TYPE_INFO[screen_type].template_id,
+    feeds: [posts],
+    weights: weights,
+    starting_num_posts: starting_num_posts,
+    num_posts_to_load: num_posts_to_load,
+    new_post: new_post,
+    new_post_higher_same_lower: higher_same_lower,
   };
 
-  return study_obj;
+  return screen;
 }
+    /**
+ * Generates an Exposure screen object.
+ * @param {object[]} base_posts - An array of base posts.
+ * @param {number} starting_num_posts - The starting number of posts.
+ * @param {number} num_posts_to_load - The number of posts to load with each "load more".
+ */
+function generate_exposure_screen(
+  base_posts,
+  starting_num_posts,
+  num_posts_to_load
+) {
+  const screen_type = "exposure";
 
-/**
- * Generates a Feed Comparison study object.
- * @param {string} study_type - The type of study.
- * @param {string} template - The study template.
+  const sidebar_entries = deep_copy(
+    SCREEN_TYPE_INFO[screen_type].sidebar_entries
+  );
+
+  const screen = {
+    screen_type: screen_type,
+    template_id: SCREEN_TYPE_INFO.exposure.template_id,
+    feeds: [base_posts],
+    starting_num_posts: starting_num_posts,
+    num_posts_to_load: num_posts_to_load,
+    sidebar_entries: sidebar_entries,
+  };
+
+  return screen;
+}
+    /**
+ * Generates a Feed Comparison screen object.
+ * @param {string} screen_type - The type of screen.
  * @param {number} num_posts - The number of posts.
  * @param {Object} weights - The weights for features.
  * @param {number} feature_count - The feature count.
  * @param {number} repeat_num - The repetition number.
- * @param {boolean} is_practice - Indicates if it's a practice study.
- * @returns {Object} - The Feed Comparison study object.
+ * @param {boolean} is_practice - Indicates if it's a practice screen.
+ * @returns {Object} - The Feed Comparison screen object.
  */
-function generate_feed_comparison_study(study_type, template, base_posts, starting_num_posts, num_posts_to_load, weights, feature_count, repeat_num, is_practice = false) {
-  base_posts = shallow_copy(base_posts);
+function generate_feed_comparison_screen(
+  screen_type,
+  base_posts,
+  starting_num_posts,
+  num_posts_to_load,
+  weights,
+  feature_count,
+  repeat_num,
+  is_practice = false
+) {
+  base_posts = deep_copy(base_posts);
 
-  let comparison_posts = get_random_sample(json_posts['posts'], base_posts.length, base_posts);
-  
+  let comparison_posts = get_random_sample(
+    json_posts["posts"],
+    base_posts.length,
+    base_posts
+  );
+
   linear_combination_sort(comparison_posts, weights);
 
   const same_sort_B = JSON.stringify(comparison_posts);
   let permuted = Math.random() > 0.5;
-  let permuted_weights = shallow_copy(weights);
+  let permuted_weights = deep_copy(weights);
 
   if (permuted) {
     do {
@@ -1827,60 +2490,72 @@ function generate_feed_comparison_study(study_type, template, base_posts, starti
     } while (JSON.stringify(comparison_posts) == same_sort_B);
   }
 
-  let used_permuted_weights = Object.keys(shallow_copy(permuted_weights)).reduce((result, key) => {
-    if (permuted_weights[key] !== 0) {
-      result[key] = permuted_weights[key];
-    }
-    return result;
-  }, {});
+  let used_permuted_weights = Object.keys(deep_copy(permuted_weights)).reduce(
+    (result, key) => {
+      if (permuted_weights[key] !== 0) {
+        result[key] = permuted_weights[key];
+      }
+      return result;
+    },
+    {}
+  );
 
   if (Object.keys(used_permuted_weights).length === 1) {
-    unsort_posts(comparison_posts, Object.keys(used_permuted_weights)[0], starting_num_posts - 1);
+    unsort_posts(
+      comparison_posts,
+      Object.keys(used_permuted_weights)[0],
+      starting_num_posts - 1
+    );
   }
 
-  const study_obj = {
-    'study_type': study_type,
-    'feature_count': feature_count,
-    'instance_number': repeat_num,
-    'type': is_practice ? "practice" : "study",
-    'template': template,
-    'feeds': [
-      base_posts,
-      comparison_posts,
-    ],
-    'weights': weights,
-    'starting_num_posts': starting_num_posts,
-    'num_posts_to_load': num_posts_to_load,
-    'permuted': permuted,
-    'permuted_weights': permuted_weights,
+  const screen = {
+    screen_type: screen_type,
+    feature_count: feature_count,
+    instance_number: repeat_num,
+    is_practice: is_practice,
+    template_id: SCREEN_TYPE_INFO[screen_type].template_id,
+    feeds: [base_posts, comparison_posts],
+    weights: weights,
+    starting_num_posts: starting_num_posts,
+    num_posts_to_load: num_posts_to_load,
+    permuted: permuted,
+    permuted_weights: permuted_weights,
   };
 
-  return study_obj;
+  return screen;
 }
-
-/**
- * Generates a Post Placement study object.
- * @param {string} study_type - The type of study.
+    /**
+ * Generates a Post Placement screen object.
+ * @param {string} screen_type - The type of screen.
  * @param {object[]} base_posts - An array of base posts.
  * @param {number} num_posts - The number of posts.
  * @param {Object} weights - The weights for features.
  * @param {number} feature_count - The feature count.
  * @param {number} repeat_num - The repetition number.
- * @param {boolean} is_practice - Indicates if it's a practice study.
- * @returns {Object} - The Post Placement study object.
+ * @param {boolean} is_practice - Indicates if it's a practice screen.
+ * @returns {Object} - The Post Placement screen object.
  */
-function generate_post_placement_study(study_type, template, base_posts, starting_num_posts, num_posts_to_load, weights, feature_count, repeat_num, is_practice = false) {
-  base_posts = shallow_copy(base_posts);
+function generate_post_placement_screen(
+  screen_type,
+  base_posts,
+  starting_num_posts,
+  num_posts_to_load,
+  weights,
+  feature_count,
+  repeat_num,
+  is_practice = false
+) {
+  base_posts = deep_copy(base_posts);
 
   let new_post_index = base_posts.length;
-  let new_post = get_random_sample(json_posts['posts'], 1, base_posts)[0];
+  let new_post = get_random_sample(json_posts["posts"], 1, base_posts)[0];
 
   // Combine base_posts and the new_post
   let all_posts = [...base_posts, new_post];
 
   while (new_post_index >= num_posts_to_load) {
     // Clone and extract the new_post from json_posts['posts']
-    new_post = get_random_sample(json_posts['posts'], 1, base_posts)[0];
+    new_post = get_random_sample(json_posts["posts"], 1, base_posts)[0];
 
     if (base_posts.indexOf(new_post) != -1) {
       continue;
@@ -1897,661 +2572,269 @@ function generate_post_placement_study(study_type, template, base_posts, startin
   }
 
   // Create a new already sorted array that excludes the new_post
-  const without_new_post = all_posts.filter(post => post !== new_post);
+  const without_new_post = all_posts.filter((post) => post !== new_post);
 
-  const study_obj = {
-    'study_type': study_type,
-    'feature_count': feature_count,
-    'instance_number': repeat_num,
-    'type': is_practice ? "practice" : "study",
-    'template': template,
-    'weights': weights,
-    'extracted_post': new_post,
-    'correct_position': new_post_index,
-    'feeds': [without_new_post],
-    'starting_num_posts': starting_num_posts,
-    'num_posts_to_load': num_posts_to_load,
-  };
+  const sidebar_entries = deep_copy(
+    SCREEN_TYPE_INFO[screen_type].sidebar_entries
+  );
 
-  study_obj['extracted_post']['correct_position'] = study_obj['correct_position'];
+  new_post["correct_position"] = new_post_index;
 
-  return study_obj;
-}
-
-/**
- * Generates a Feature Selection study object.
- * @param {string} study_type - The type of study.
- * @param {string} template - The study template.
- * @param {number} num_posts - The number of posts.
- * @param {Object} weights - The weights for features.
- * @param {number} feature_count - The feature count.
- * @param {number} repeat_num - The repetition number.
- * @param {boolean} is_practice - Indicates if it's a practice study.
- * @returns {Object} - The Feature Selection study object.
- */
-// function generate_feature_selection_study(study_type, template, num_posts, weights, feature_count, repeat_num, is_practice = false) {
-//   const study_obj = {
-//     'study_type': study_type,
-//     'feature_count': feature_count,
-//     'instance_number': repeat_num,
-//     'type': is_practice ? "practice" : "study",
-//     'template': template,
-//     'feeds': [json_posts["posts"].splice(0, num_posts)],
-//     'weights': weights,
-//   };
-
-//   linear_combination_sort(study_obj['feeds'][0], weights);
-
-//   return study_obj;
-// }
-
-/**
- * Generates a Feed Selection study object.
- * @param {string} study_type - The type of study.
- * @param {string} template - The study template.
- * @param {object[]} base_posts - An array of base posts.
- * @param {Object} weights - The weights for features.
- * @param {number} feature_count - The feature count.
- * @param {number} repeat_num - The repetition number.
- * @param {boolean} is_practice - Indicates if it's a practice study.
- * @returns {Object} - The Feed Selection study object.
- */
-// function generate_feed_selection_study(study_type, template, num_posts, weights, feature_count, repeat_num, is_practice = false) {
-//   const study_obj = {
-//     'study_type': study_type,
-//     'feature_count': feature_count,
-//     'instance_number': repeat_num,
-//     'type': is_practice ? "practice" : "study",
-//     'template': template,
-//     'feeds': [json_posts["posts"].splice(0, num_posts)],
-//     'weights': weights,
-//   };
-
-//   linear_combination_sort(study_obj['feeds'][0], weights);
-
-//   if (study_obj['study_type'].startsWith('feed-selection')) {
-//     study_obj['feeds'].push(shallow_copy(study_obj['feeds'][0]));
-//     const correct_feed_index = Math.random() > 0.5 ? 0 : 1;
-//     const incorrect_feed_index = correct_feed_index == 0 ? 1 : 0;
-//     study_obj['correct_feed_index'] = correct_feed_index;
-//     shuffle_array(study_obj['feeds'][incorrect_feed_index]);
-//   }
-
-//   return study_obj;
-// }
-
-/**
- * Inserts a duplicate study into the screen array.
- * @param {Array} screen_array - The screen array.
- * @param {number} num_repeats - The number of same feature count+questions repetitions.
- * @param {number} num_feature_counts - The number of feature counts.
- */
-function insert_duplicate_study(screen_array, num_repeats, num_feature_counts) {
-  const source_index = screen_array.length - (num_repeats * num_feature_counts);
-  const study_obj = shallow_copy(screen_array[source_index]);
-  const random_index = source_index + 3 + Math.floor(Math.random() * ((num_repeats * num_feature_counts) - 3));
-  screen_array.splice(random_index, 0, study_obj);
-}
-
-/**
- * Generates a screen name based on screen information.
- * @param {Object} screen_info - The screen information object.
- * @returns {string} - The generated screen name.
- */
-function generate_screen_name(screen_info) {
-  let screen_name = `study-${screen_info["study_type"]}-features-${screen_info["feature_count"]}-${screen_info["instance_number"]}`;
-  if (screen_info.type == 'introduction') {
-    screen_name = 'introduction';
-  } else if (screen_info.type == 'submission') {
-    screen_name = 'submission';
-  } if (screen_info.study_type == 'exposure') {
-    screen_name = 'exposure';
-  }
-  return screen_name;
-}
-
-/**
- * Gets questions for a given screen type.
- * @param {string} screen_type - The screen type.
- * @param {boolean} confidence - Indicates whether to include confidence questions.
- * @returns {Object} - The questions.
- */
-function get_questions(screen_type, confidence = true) {
-  const questions = {};
-  for (let i = 0; i < json_questions[screen_type].length; i++) {
-    questions[`Q${i+1}`] = json_questions[screen_type][i];
-  }
-
-  if (confidence) {
-    questions[`CF`] = json_questions["confidence"][0];
-    questions[`CF`]['text'] = json_questions["confidence-texts"][screen_type];
-  }
-
-  return questions;
-}
-  
-    
-
-/**
- * Processes a checked question and updates the screen output.
- * @param {Element} questionDiv - The question div element.
- * @param {Object} screenOutput - The screen output object.
- * @param {Array} unansweredQuestions - Array to track unanswered questions.
- */
- function process_check_question(questionDiv, screenOutput, unanswered_questions, incorrect_questions) {
-  const questionId = questionDiv.id;
-  const inputs = questionDiv.querySelectorAll("input");
-  const checked_inputs = questionDiv.querySelectorAll("input:checked");
-  const unchecked_inputs = questionDiv.querySelectorAll("input:not(:checked)");
-
-  const checkedOptions = [];
-  const correct_answers = [];
-  let sumOfValues = 0;
-
-  for (let j = 0; j < checked_inputs.length; j++) {
-    const checkedInput = checked_inputs[j];
-    const optionText = checkedInput.nextElementSibling.textContent;
-    checkedOptions.push(optionText);
-    const optionValue = parseFloat(checkedInput.value, 10);
-    sumOfValues += isNaN(optionValue) ? 0 : optionValue;
-  }
-
-  if (questionId.slice(-2) !== "CF") {
-    // loop over the inouts that are not checked
-    for (let j = 0; j < unchecked_inputs.length; j++) {
-      const uncheckedInput = unchecked_inputs[j];
-      const optionText = uncheckedInput.nextElementSibling.textContent;
-      const optionValue = parseFloat(uncheckedInput.value, 10);
-      sumOfValues += isNaN(optionValue) ? 0 : optionValue < 0 ? -optionValue : 0;
-    }
-  }
-
-  for (let j = 0; j < inputs.length; j++) {
-    const input = inputs[j];
-    const optionText = input.nextElementSibling.textContent;
-    const optionValue = parseFloat(input.value, 10);
-
-    if (optionValue > 0) {
-      correct_answers.push(optionText);
-    }
-
-  }
-
-  const question = {
-    "question_type": "multiple-choice",
-    "correct_answers": correct_answers,
-    "chosen_answers": checkedOptions
-  };
-
-  if (checkedOptions.length === 0) {
-    unanswered_questions[questionDiv.id] = question;
-  } else if (checkedOptions.length !== correct_answers.length || !checkedOptions.every((value, index) => value === correct_answers[index])) {
-    incorrect_questions[questionDiv.id] = question;
-  }
-
-  if (questionId.slice(-2) === "CF") {
-    screenOutput["chosen_confidence"] = checkedOptions[0];
-    screenOutput["confidence"] = sumOfValues;
-  } else {
-    const questionNum = questionId.slice(-2);
-    screenOutput["chosen_options_" + questionNum] = checkedOptions;
-    screenOutput["score_" + questionNum] = sumOfValues;
-  }
-}
-
-/**
- * Processes a post placement question and updates the screen output.
- * @param {Element} questionDiv - The question div element.
- * @param {Object} screenOutput - The screen output object.
- * @param {Array} unansweredQuestions - Array to track unanswered questions.
- * @param {Element} feed - The feed element.
- */
-function process_post_placement_question(questionDiv, screenOutput, unanswered_questions, incorrect_questions, feed) {
-  const posts = feed.querySelectorAll('li');
-
-  let chosenIndex = -1;
-  let correctIndex = -1;
-  let distance = -1;
-
-  for (let i = 0; i < posts.length; i++) {
-    const post = posts[i];
-    const position = parseInt(post.dataset.number);
-    if (position >= 0) {
-      distance = Math.abs(i - position);
-      correctIndex = position;
-      chosenIndex = i;
-      break;
-    }
-  }
-
-  const question = {
-    "question_type": "post-placement",
-    "correct_answers": [correctIndex],
-    "chosen_answers": [chosenIndex],
-  };
-
-  if (chosenIndex === -1) {
-    unanswered_questions[questionDiv.id] = question;
-  } else if (distance > 0) {
-    incorrect_questions[questionDiv.id] = question;
-  }
-
-  screenOutput["chosen_index"] = chosenIndex;
-  screenOutput["correct_index"] = correctIndex;
-  screenOutput["distance"] = distance;
-  screenOutput["score_Q1"] = distance === 0 ? 1 : 0;
-}
-
-/**
- * Logs checked answers with sum and updates the screen output.
- * @param {string} screenName - The screen name.
- * @returns {Array} - Array of unanswered question div elements.
- */
-function log_checked_answers_with_sum(screen_info, screenName) {
-  const studyQuestions = document.getElementsByClassName("study-question");
-  const postPlacementQuestions = document.getElementsByClassName("post-placement-question");
-  const feedElements = document.querySelectorAll('.feed');
-  const screenOutput = 
-  {
-    "study_type": screen_info.study_type,
-    "feature_count": screen_info.feature_count,
-    "instance_number": screen_info.instance_number,
-    "screen_name": screenName,
-    };
-
-  const unanswered_questions = {};
-  const incorrect_questions = {};
-  const is_practice = screen_info.type == "practice";
-
-  for (let i = 0; i < studyQuestions.length; i++) {
-    process_check_question(studyQuestions[i], screenOutput, unanswered_questions, incorrect_questions);
-  }
-
-  for (let i = 0; i < postPlacementQuestions.length; i++) {
-    process_post_placement_question(postPlacementQuestions[i], screenOutput, unanswered_questions, incorrect_questions, feedElements[i]);
-  }
-
-  if (Object.keys(unanswered_questions).length === 0) {
-    screenOutput['time-elapsed'] = (new Date().getTime() - start_times[screenName]) / 1000;
-
-    if (!output["questions"]) {
-      output["questions"] = [];
-    }
-
-    if (is_practice) {
-      screenOutput["screen_name"] = screenName + "-PRACTICE";
-      screenOutput["practice"] = true;
-
-      const screenOutputWithSameName = output["questions"].find(output => output["screen_name"] == screenOutput["screen_name"]);
-      if (screenOutputWithSameName) {
-        screenOutput["tries"] = screenOutputWithSameName["tries"] + 1;
-      } else {
-        screenOutput["tries"] = 1;
-      }
-
-      output["questions"] = output["questions"].filter(output => output["screen_name"] !== screenOutput["screen_name"]);
-    } else {
-      screenOutput["practice"] = false;
-
-      // if a screenOutput with the same screen name already exists, concatenate "REPEAT" to the screen name
-      const screenOutputWithSameName = output["questions"].find(output => output["screen_name"] === screenName);
-      if (screenOutputWithSameName) {
-        screenOutput["screen_name"] = screenName + "-REPEAT";
-        screenOutput["repeat"] = true;
-      } else {
-        screenOutput["repeat"] = false;
-      }
-    }
-
-    output["questions"].push(screenOutput);
-  }
-
-  return [unanswered_questions, incorrect_questions];
-}
-
-function log_introduction() {
-  const screenName = "introduction";
-  const screenOutput = 
-  {
-    "screen_name": screenName,
-    "time-elapsed": (new Date().getTime() - start_times[screenName]) / 1000,
-  };
-
-  if (!output["global"]) {
-    output["global"] = [];
-  }
-
-  output["global"].push(screenOutput);
-}
-
-function log_exposure() {
-  const screenName = "exposure";
-  const screenOutput = 
-  {
-    "screen_name": screenName,
-    "time-elapsed": (new Date().getTime() - start_times[screenName]) / 1000,
-  };
-
-  if (!output["global"]) {
-    output["global"] = [];
-  }
-
-  output["global"].push(screenOutput);
-}
-
-function log_submission() {
-  const screenName = "submission";
-  const screenOutput =
-  {
-    "screen_name": screenName,
-    "time-elapsed": (new Date().getTime() - start_times[screenName]) / 1000,
-  };
-
-  if (!output["global"]) {
-    output["global"] = [];
-  }
-
-  output["global"].push(screenOutput);
-
-  const experimentOutput =
-  {
-    "screen_name": "experiment",
-    "time-elapsed": (new Date().getTime() - start_times["introduction"]) / 1000,  
-  }
-
-  output["global"].push(experimentOutput);
-}
-    
-/**
- * Highlights unanswered and incorrect questions on the screen.
- * @param {Object} unanswered_questions - Questions that are unanswered.
- * @param {Object} incorrect_questions - Questions that are answered incorrectly.
- */
-function highlight_unanswered_questions(unanswered_questions, incorrect_questions) {
-  const question_divs = $(".study-question, .post-placement-question");
-
-  question_divs.each((i, question_div) => {
-    if (unanswered_questions[question_div.id]) {
-      question_div.setAttribute('data-state', 'unanswered');
-      question_div.style.border = "2px solid red";
-      display_message(question_div, "red", "Please answer the required question.");
-    } else if (incorrect_questions[question_div.id]) {
-      question_div.setAttribute('data-state', 'incorrect');
-      question_div.style.border = "2px solid orange";
-      display_message(question_div, "orange", answer_to_feedback(incorrect_questions[question_div.id]));
-    } else {
-      question_div.removeAttribute('data-state');
-      question_div.style.border = "";
-      remove_message(question_div);
+  // loop over the sidebar entries that have an answer are of "post_bank"
+  sidebar_entries.forEach((entry) => {
+    if (entry.answer_area === "post_bank") {
+      entry["post_bank"] = [new_post];
     }
   });
-}
 
-/**
- * Generates a feedback message based on the answer type.
- * @param {Object} answer - The answer object.
- * @returns {string} - The feedback message.
+  const screen = {
+    screen_type: screen_type,
+    feature_count: feature_count,
+    instance_number: repeat_num,
+    is_practice: is_practice,
+    template_id: SCREEN_TYPE_INFO[screen_type].template_id,
+    weights: weights,
+    feeds: [without_new_post],
+    starting_num_posts: starting_num_posts,
+    num_posts_to_load: num_posts_to_load,
+    sidebar_entries: sidebar_entries,
+  };
+
+  return screen;
+}
+    /**
+ * Generates a Post Placement screen object.
+ * @param {string} screen_type - The type of screen.
+ * @param {number} starting_num_posts - The starting number of posts.
+ * @param {number} num_posts_to_load - The number of posts to load with each "load more".
+ * @param {number} repeat_num - The repetition number.
+ * @param {boolean} is_practice - Indicates if it's a practice screen.
  */
-function answer_to_feedback(answer) {
-  if (answer.question_type === "multiple-choice") {
-    return `Your answer of "<strong>${array_to_string(answer.chosen_answers)}</strong>" was incorrect. The correct answer was "<strong>${array_to_string(answer.correct_answers)}</strong>". 
-            Please correct your answer and try a new version of this question in the next screen.`;
-  }
+function generate_post_arrangement_screen(
+  screen_type,
+  starting_num_posts,
+  num_posts_to_load,
+  repeat_num,
+  is_practice = false
+) {
+  let posts = deep_copy(json_concept_posts["posts"][concept_index][repeat_num]);
 
-  if (answer.question_type === "post-placement") {
-    return `Your placement of the post at position <strong>${answer.chosen_answers[0] + 1}</strong> is incorrect. Its correct position is <strong>${answer.correct_answers[0] + 1}</strong>.
-            Please correct your answer and try a new version of this question in the next screen.`;
-  }
-}
-
-/**
- * Displays a message on the screen.
- * @param {HTMLElement} question_div - The question div element.
- * @param {string} color - The color of the message.
- * @param {string} message - The message to display.
- */
-function display_message(question_div, color, message) {
-  remove_message(question_div);
-
-  const message_div = document.createElement("div");
-  message_div.className = "message py-2";
-  message_div.style.color = color;
-  message_div.style.fontSize = "medium";
-  message_div.style.textAlign = "center";
-  message_div.innerHTML = message;
-  question_div.appendChild(message_div);
-}
-
-/**
- * Removes a message from the screen.
- * @param {HTMLElement} question_div - The question div element.
- */
-function remove_message(question_div) {
-  const message_div = question_div.querySelector('.message');
-  if (message_div) {
-    question_div.removeChild(message_div);
-  }
-}
-
-/**
- * Gets the next screen in the array of arrays that is screen order.
- * @param {number} sectionIdx - The section index.
- * @param {number} screenIdx - The screen index.
- * @returns {[Object, string]} - The next screen info and name.
- */
-function get_next_screen(sectionIdx, screenIdx) {
-  let curr_screen_info = screen_order[sectionIdx][screenIdx];
-  let curr_screen_name = generate_screen_name(curr_screen_info);
-
-  let next_screen_info = null;
-  let next_screen_name = null;
-
-  if (screenIdx === screen_order[sectionIdx].length - 1) {
-    if (sectionIdx === screen_order.length - 1) {
-      return [undefined, undefined];
-    } else {
-      next_screen_info = screen_order[sectionIdx + 1][0];
-      next_screen_name = generate_screen_name(next_screen_info);
-      return [next_screen_info, next_screen_name];
-    }
-  } else {
-    next_screen_info = screen_order[sectionIdx][screenIdx + 1];
-    next_screen_name = generate_screen_name(next_screen_info);
-    return [next_screen_info, next_screen_name];
-  }
-}
-
-/**
- * Increments the screen index.
- */
-function increment_screen_index() {
-  if (section_index < screen_order.length - 1 && screen_index === screen_order[section_index].length - 1) {
-    section_index++;
-    screen_index = 0;
-  } else if (section_index < screen_order.length && screen_index < screen_order[section_index].length - 1) {
-    screen_index++;
-  }
-}
-
-/**
- * Proceeds to the next screen.
- */
-function next_screen() {
-  let curr_screen_info = screen_order[section_index][screen_index];
-  let curr_screen_name = generate_screen_name(curr_screen_info);
-
-  let [next_screen_info, next_screen_name] = get_next_screen(section_index, screen_index);
-
-  // console.log(next_screen_info);
-
-  if (curr_screen_info.type === "introduction") {
-    log_introduction();
-    deactivate_screen(curr_screen_info);
-    increment_screen_index();
-    activate_screen(next_screen_info, next_screen_name);
-  } else if (curr_screen_info.study_type === "exposure") {
-    log_exposure();
-    deactivate_screen(curr_screen_info);
-    increment_screen_index();
-    activate_screen(next_screen_info, next_screen_name);
-  } else {
-    const is_practice = curr_screen_info.type === "practice";
-
-    let [unanswered_questions, incorrect_questions] = log_checked_answers_with_sum(curr_screen_info, curr_screen_name);
-
-    if (!is_practice) {
-      incorrect_questions = {};
-    }
-
-    if (Object.keys(unanswered_questions).length > 0 || Object.keys(incorrect_questions).length > 0) {
-      highlight_unanswered_questions(unanswered_questions, incorrect_questions);
-      // Logic to insert more practice questions if wrong
-      
-    } else {
-      deactivate_screen(curr_screen_info);
-      increment_screen_index();
-      activate_screen(next_screen_info, next_screen_name);
-    }
-  }
-}
-
-/**
- * Deactivates the current screen.
- * @param {Object} screen_info - The screen info object.
- */
-function deactivate_screen(screen_info) {
-  let screen_type = screen_info['template'];
-  window.scrollTo(0, 0);
-  document.getElementById(screen_type).style.display = 'none';
-}
-  /** 
-   * JavaScript code to redact the specified class item.
-   * @param {string} classNames - The class name of the item to redact. 
-   */
-
-function redactItems(classNames) {
-  classNames.forEach(className => {
-    let items = document.getElementsByClassName(className);
-    if (items.length > 0) {
-      for (let i = 0; i < items.length; i++) {
-        
-        // set color to black
-        items[i].style.color = 'gray';
-        
-        //items[i].style.display = 'none';
-        items[i].classList.add('redacted');
-      }
-    } else {
-      // console.log(`No items with class name ${className} found`);
-    }
-
+  // give each post a correct position equal to its index
+  posts.forEach((post, index) => {
+    post["correct_position"] = index;
   });
 
+  shuffle_array(posts);
+
+  const sidebar_entries = deep_copy(
+    SCREEN_TYPE_INFO[screen_type].sidebar_entries
+  );
+
+  // loop over the sidebar entries that have an answer are of "post_bank"
+  sidebar_entries.forEach((entry) => {
+    if (entry.answer_area === "post_bank") {
+      entry["post_bank"] = posts;
+    }
+  });
+
+  const screen = {
+    screen_type: screen_type,
+    feature_count: 1,
+    instance_number: repeat_num,
+    is_practice: is_practice,
+    template_id: SCREEN_TYPE_INFO[screen_type].template_id,
+    weights: { concept_ranking: -1 },
+    feeds: [[]],
+    starting_num_posts: starting_num_posts,
+    num_posts_to_load: num_posts_to_load,
+    sidebar_entries: sidebar_entries,
+  };
+
+  return screen;
+}
+
+    /**
+ * Joins an array into a string with comma and space separators.
+ *
+ * @param {Array} array - The array to be converted to a string.
+ * @returns {string} The joined string.
+ */
+function array_to_string(array) {
+  return array.join(", ");
 }
 
 /**
- * Activates the next screen.
- * @param {Object} screen_info - The screen info object.
- * @param {string} screen_name - The name of the screen.
+ * Merges two objects into a new object.
+ *
+ * @param {Object} obj1 - The first object.
+ * @param {Object} obj2 - The second object.
+ * @returns {Object} The merged object.
  */
-
-function activate_screen(screen_info, screen_name) {
-  
-  start_times[screen_name] = new Date().getTime();
-  
-  // Find div with id screen-title and set its text to screen_name bootstrap
-  let screen_title = document.getElementById("screen-title");
-  let capitalizedType = screen_info.type.charAt(0).toUpperCase() + screen_info.type.slice(1);
-  screen_title.innerHTML = capitalizedType;
-
-  let top_bar = document.getElementById("top-bar");
-
-  if (screen_colors.hasOwnProperty(screen_info.type)) {
-    top_bar.style.backgroundColor = screen_colors[screen_info.type];
-  } else {
-    top_bar.style.backgroundColor = "#CCCCCC"; // Default color if screen type is not found
+function merge_objects(obj1, obj2) {
+  const result = {};
+  for (const key in obj1) {
+    result[key] = obj1[key];
   }
-
-  if (screen_info.type === "practice" || screen_info.type === "study") {
-    let question_progress = document.getElementById("question-progress");
-    question_progress.innerHTML = `Question ${screen_index + 1} of ${screen_order[section_index].length}`;
-  } else {
-    let question_progress = document.getElementById("question-progress");
-    question_progress.innerHTML = "";
+  for (const key in obj2) {
+    result[key] = obj2[key];
   }
-
-  if (screen_info === undefined) {
-    alert('Screen name ' + screen_name + ' is undefined');
-    return;
-  }
-
-  let template = screen_info['template'];
-
-  if (template === "left-feed-questions") {
-    populate_LFQ(screen_info, screen_name);
-  } else if (template === "single-post-question") {
-    populate_SPQ(screen_info, screen_name);
-  } else if (template === "submission") {
-    document.getElementById("next-btn").style.display = "none";
-  }
-
-  document.getElementById(template).style.display = 'block';
-  redactItems(redacted); 
-
-  window.scrollTo(0, 0);
+  return result;
 }
 
 /**
- * Submits the current screen.
+ * Gets a random element from an array.
+ *
+ * @param {Array} array - The array.
+ * @returns {*} A random element from the array.
  */
-function submit() {
-  log_submission();
-  proliferate.submit(output);
-}
-    let section_index, screen_index;
-let start_times = {};
-
-// random element from possible_num_features
-let num_features_for_study = possible_num_features[Math.floor(Math.random() * possible_num_features.length)];
-
-let screen_order = generate_study_array(studies,
-                                        json_posts["posts"],
-                                        [num_features_for_study], 
-                                        9,
-                                        "left-feed-questions", 
-                                        feature_keys, 
-                                        12,
-                                        6,
-                                        6,
-                                        false);
-
-const practice_repeat_tally = Object.fromEntries(studies.map(study => [study, 0]));
-const output = {}
-
-function init() {
-  if (redacted.length > 0) {
-    json_questions["exposure"][0]["text"] += " Text has been redacted because it is not relevant to the tasks.";
-  }
-
-  var image_source = "./templates/reference_post.png";
-
-  if (feature_keys.length === 3) {
-    image_source = "./templates/reduced_reference_post.png";
-  }
-
-  document.getElementById("post-image").src = image_source;
-
-  
-  start_time = new Date();
-  section_index = 0;
-  screen_index = 0;
-  activate_screen(screen_order[0][0], "introduction");
+function get_random_element(list) {
+  return list[Math.floor(Math.random() * list.length)];
 }
 
-init();
+/**
+ * Shuffles an array using the Fisher-Yates algorithm.
+ *
+ * @param {Array} array - The array to be shuffled.
+ */
+function shuffle_array(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
 
+/**
+ * Truncates a number to two decimal points.
+ *
+ * @param {number} number - The number to be truncated.
+ * @returns {number} The truncated number.
+ */
+function truncate(number) {
+  return Math.round(number * 10) / 10;
+}
+
+/**
+ * Deep copy of an object or an array.
+ *
+ * @param {Object|Array} obj - The object or array to be copied.
+ * @returns {Object|Array} The deep copy of the input.
+ */
+function deep_copy(obj) {
+  if (Array.isArray(obj)) {
+    return obj.map((item) => deep_copy(item));
+  } else if (typeof obj === "object" && obj !== null) {
+    return Object.fromEntries(
+      Object.entries(obj).map(([key, value]) => [key, deep_copy(value)])
+    );
+  }
+  return obj;
+}
+
+/**
+ * Generates random deep-copied samples from the provided data array, excluding specified posts.
+ *
+ * @param {Array} data - The array from which to select random samples.
+ * @param {number} sample_size - The number of random samples to generate.
+ * @param {Array} excluded_posts - Posts that should not be included in the new sample.
+ * @returns {Array} An array containing deep-copied random samples.
+ */
+function get_random_sample(data, sample_size, excluded_posts = []) {
+  if (data.length <= sample_size) {
+    return deep_copy(data);
+  }
+
+  const availablePosts = data.filter(
+    (post) =>
+      !excluded_posts.some((excludedPost) => isEqual(excludedPost, post))
+  );
+  const samples = new Set();
+
+  while (samples.size < sample_size && availablePosts.length > 0) {
+    const randomIndex = Math.floor(Math.random() * availablePosts.length);
+    const randomPost = availablePosts[randomIndex];
+
+    if (!samples.has(JSON.stringify(randomPost))) {
+      samples.add(JSON.stringify(randomPost));
+    }
+  }
+
+  return Array.from(samples).map((post) => JSON.parse(post));
+}
+
+// Helper function for deep equality check
+function isEqual(objA, objB) {
+  return JSON.stringify(objA) === JSON.stringify(objB);
+}
+
+/**
+ * Converts a string to an RGB color based on a hash function.
+ *
+ * @param {string} string - The input string.
+ * @returns {Array} An array containing the RGB values [r, g, b].
+ */
+function string_to_rgb(string) {
+  // Simple hash function to convert the string to a numeric value
+  function hash_string(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return hash;
+  }
+
+  // Convert the hash value to RGB values within the range [0, 255]
+  function int_to_rgb(i) {
+    const c = (i & 0x00ffffff).toString(16).toUpperCase();
+    return "00000".substring(0, 6 - c.length) + c;
+  }
+
+  // Generate a numeric hash value from the input string
+  const hash_value = hash_string(string);
+
+  // Convert the hash value to RGB values
+  const rgb_string = int_to_rgb(hash_value);
+
+  // Extract the RGB values and convert them to an array
+  const r = parseInt(rgb_string.slice(0, 2), 16);
+  const g = parseInt(rgb_string.slice(2, 4), 16);
+  const b = parseInt(rgb_string.slice(4, 6), 16);
+
+  return [r, g, b];
+}
+    // Global Variables
+let curr_section_index = 0;
+let curr_screen_index = 0;
+
+// const start_times = {};
+
+start_time = new Date(); // this variable isn't used, but seems to be expected by EasyTurk
+
+const output = {};
+output["global"] = [];
+
+const study_array = generate_screen_array(
+  question_screen_types,
+  source_posts,
+  [get_random_element(possible_num_features)],
+  num_same_features_and_question,
+  feature_keys,
+  num_posts_per_screen,
+  num_posts_at_load,
+  num_posts_to_load,
+  include_practice
+);
+
+study_array[0]["start_time"] = new Date().getTime();
+study_array[0].screens[0]["start_time"] = new Date().getTime();
+
+sanitize_posts(json_posts["posts"]);
+
+display_screen(
+  study_array[0].screens[0],
+  "introduction",
+  study_array[0].section_name
+);
   </script>
 
-  </div>
 </body>
 </html>
