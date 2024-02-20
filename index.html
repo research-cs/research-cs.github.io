@@ -308,7 +308,15 @@ ol li {
 	  <div class="question-container px-md-3 py-md-3" id="FS-sidebar">
 	  </div>
 	</div>
-  </div>
+</div>
+    <div class="row p-2" id="centered-content" style="display:none;">
+    <div class="col-12">
+      <div class="card pb-4">
+        <div id="CC-body" class="card-body">
+        </div>
+      </div>
+    </div>
+</div>;
     <div class="container-fluid mt-0" id="bottom-bar" style="display:block;">
   <div class="d-flex justify-content-end">
 	<button type="button" class="btn btn-primary" id="next-btn" onclick="next_screen()">Next</button>
@@ -401,7 +409,6 @@ const num_same_features_and_question = 3;
 const concept_index = Math.floor(
   Math.random() * json_concept_posts["posts"].length
 );
-
 const source_posts = json_concept_posts["posts"][concept_index][0];
 
 const num_posts_per_screen = 12;
@@ -422,12 +429,6 @@ const feature_dict = {
 const feature_keys = Object.keys(feature_dict);
 const feature_names = Object.values(feature_dict);
 
-// let image_source =
-//   feature_keys.length > 3
-//     ? "./templates/images/reference_post.png"
-//     : "./templates/images/reduced_reference_post.png";
-// document.getElementById("post-image").src = image_source;
-
 // these are feed items we want redacted based on class names in 'bulding_blocks.js'
 const redacted_classes = []; // ['post_text', 'author-name'];
 const any_redacted = redacted_classes.length > 0;
@@ -436,14 +437,21 @@ const include_confidence = true;
 
 const SCREEN_TYPE_INFO = {
   introduction: {
-    template_id: "static_markdown",
-    markdown: `
-In the upcoming screens, you'll be presented with some social media feeds and asked to answer some questions about them. The posts in these feeds will be sorted by some combination of the features highlighted in the diagram to the right.
+    template_id: "centered-content",
+    entries: [
+      {
+        markdown: `
+In the upcoming screens, you'll be presented with some social media feeds and asked to answer some 
+questions about them. The posts in these feeds will be sorted by some combination of the features 
+highlighted in the diagram to the right.
 
-You will receive **$0.15 for each correct answer**. After each question, you will also be asked to assess how confident you are in your answer. Correct self-assessment will be bonused up to $0.06.
+You will receive **$0.15 for each correct answer**. After each question, you will also be asked to 
+assess how confident you are in your answer. Correct self-assessment will be bonused up to $0.06.
 
 **Click next (or press enter) to start.**
     `,
+      },
+    ],
   },
 
   exposure: {
@@ -451,9 +459,11 @@ You will receive **$0.15 for each correct answer**. After each question, you wil
     sidebar_entries: [
       {
         markdown: `
-To the left is your feed today. Spend a few moments looking at how it was sorted, as you will use this information to answer the rest of the questions. ${
+To the left is your feed today. Spend a few moments looking at how it was sorted, as you will use this 
+information to answer the rest of the questions. ${
           any_redacted
-            ? "Some text has been redacted because it is not relevant to the tasks."
+            ? `*Some text has been redacted because 
+it is not relevant to the tasks.*`
             : ""
         }
         `,
@@ -466,7 +476,8 @@ To the left is your feed today. Spend a few moments looking at how it was sorted
     sidebar_entries: [
       {
         markdown: `
-Recall how the feed you saw at the beginning was ordered. Arrange the following posts to imitate that ordering.
+Recall how the feed you saw at the beginning was ordered. Arrange the following posts to imitate that 
+ordering.
 `,
         answer_area: "post_bank",
         includes_confidence: include_confidence,
@@ -492,7 +503,8 @@ Look at how your feed today was sorted. Then, place the post below in its correc
     sidebar_entries: [
       {
         markdown: `
-Look at how your feed today was sorted. If the given post changed as highlighted above, would its placement now be higher, unchanged, or lower?
+Look at how your feed today was sorted. If the given post changed as highlighted above, would its placement 
+now be higher, unchanged, or lower?
         `,
         answer_area: "multiple_choice",
         includes_confidence: include_confidence,
@@ -505,7 +517,8 @@ Look at how your feed today was sorted. If the given post changed as highlighted
     sidebar_entries: [
       {
         markdown: `
-The feed to the left is your feed today. To the right is a new feed you're presented with tomorrow. Is tomorrow's feed sorted differently from your feed today?
+The feed to the left is your feed today. To the right is a new feed you're presented with tomorrow. Is tomorrow's 
+feed sorted differently from your feed today?
         `,
         answer_area: "multiple_choice",
         includes_confidence: include_confidence,
@@ -514,10 +527,32 @@ The feed to the left is your feed today. To the right is a new feed you're prese
   },
 
   submission: {
-    template_id: "static_markdown",
-    markdown: `
+    template_id: "centered-content",
+    entries: [
+      {
+        markdown: `
 Thank you for completing our entire study! Please **click submit.** It may take a moment to redirect you.
     `,
+      },
+    ],
+  },
+
+  feedback: {
+    template_id: "centered-content",
+    entries: [
+      {
+        markdown: `
+How do you think the feed you saw at the beginning was ordered?
+        `,
+        answer_area: "text_input",
+      },
+      {
+        markdown: `
+Do you have any feedback on the study?
+        `,
+        answer_area: "text_input",
+      },
+    ],
   },
 };
     const SECTION_COLORS = {
@@ -526,6 +561,7 @@ Thank you for completing our entire study! Please **click submit.** It may take 
   exposure: "#FFD700", // Gold
   questions: "#32CD32", // Lime Green
   submission: "#FF6347", // Tomato Red
+  feedback: "#800080", // Purple
   default: "CCCCCC",
 };
 
@@ -607,14 +643,11 @@ function insert_post(post, feed_parent_list, locked) {
     </div>
   `;
 
-  // console.log(post.correct_position);
   post_list_item.setAttribute("data-number", post.correct_position ?? -1);
 
   feed_parent_list.appendChild(post_list_item);
 
   const posts = feed_parent_list.querySelectorAll("li");
-
-  // console.log(posts[posts.length - 1].getAttribute("data-number"));
 }
 
 /**
@@ -778,13 +811,12 @@ function insert_markdown(markdown, entry_div) {
  *
  * @param {Object} question - The multiple-choice question data.
  * @param {HTMLElement} container - The container where the question will be inserted.
- * @param {string} screen_name - The screen name.
- * @param {string} question_name - The name of the question.
+ * @param {string} question_id - The screen name.
  */
-function insert_mcq(question, container, screen_name, question_name) {
+function insert_mcq(question, container, question_id) {
   const question_div = document.createElement("div");
   question_div.className = "form-question mb-2 mr-3 rounded";
-  question_div.id = `${screen_name}-${question_name}`;
+  question_div.id = `${question_id}`;
 
   insert_markdown(question.text, question_div);
 
@@ -801,7 +833,7 @@ function insert_mcq(question, container, screen_name, question_name) {
     radio_label.style.marginLeft = "-25px";
 
     radio_input.type = "radio";
-    radio_input.name = `question_${container.id}_${question_name}`;
+    radio_input.name = `question_${question_id}`;
     radio_input.value = question["option-key"][i];
     radio_input.id = `${container.id}_${question.options[i]
       .replace(/\s+/g, "_")
@@ -827,14 +859,13 @@ function insert_mcq(question, container, screen_name, question_name) {
  * Inserts radio buttons for a question into a container.
  *
  * @param {Object} question - The question data.
- * @param {HTMLElement} container - The container where the question will be inserted.
- * @param {string} screen_name - The screen name.
- * @param {string} question_name - The name of the question.
+ * @param {HTMLElement} body_div - The container where the question will be inserted.
+ * @param {string} question_id - The screen name.
  */
-function insert_radio_buttons(question, container, screen_name, question_name) {
+function insert_radio_buttons(question, body_div, question_id) {
   const question_div = document.createElement("div");
   question_div.className = "form-question pl-2 mb-2 mr-3 rounded";
-  question_div.id = `${screen_name}-${question_name}`;
+  question_div.id = `${question_id}`;
 
   insert_markdown(question.text, question_div);
 
@@ -847,7 +878,7 @@ function insert_radio_buttons(question, container, screen_name, question_name) {
 
   let selectedButton = null;
 
-  const availableWidth = container.offsetWidth / question.options.length;
+  const available_width = body_div.offsetWidth / question.options.length;
 
   const min_length = question.options.reduce((min, current) => {
     return current.length < min ? current.length : min;
@@ -860,7 +891,7 @@ function insert_radio_buttons(question, container, screen_name, question_name) {
       "btn btn-outline-primary mr-1 pt-2 d-flex justify-content-center align-items-center";
     radio_button.type = "button";
 
-    const adjustedWidth = availableWidth * 0.9;
+    const adjustedWidth = available_width * 0.9;
     radio_button.style.width = `${adjustedWidth}px`;
 
     radio_button.style.width = `${90 / question.options.length}%`;
@@ -885,9 +916,9 @@ function insert_radio_buttons(question, container, screen_name, question_name) {
 
     const radio_input = document.createElement("input");
     radio_input.type = "radio";
-    radio_input.name = `question_${container.id}_${question_name}`;
+    radio_input.name = `question_${question_id}`;
     radio_input.value = question["option-key"][i];
-    radio_input.id = `${container.id}_${question.options[i]
+    radio_input.id = `${body_div.id}_${question.options[i]
       .replace(/\s+/g, "_")
       .toLowerCase()}`;
     radio_input.style.display = "none";
@@ -896,9 +927,9 @@ function insert_radio_buttons(question, container, screen_name, question_name) {
     radio_label.for = radio_input.id;
     radio_label.textContent = question.options[i];
 
-    const maxFontSize = (100 * Math.sqrt(questions_column_width)) / min_length;
+    const max_font_size = (100 * Math.sqrt(6)) / min_length;
 
-    radio_label.style.fontSize = `${maxFontSize}px`;
+    radio_label.style.fontSize = `${max_font_size}px`;
 
     radio_label.classList.add(
       "d-flex",
@@ -911,7 +942,7 @@ function insert_radio_buttons(question, container, screen_name, question_name) {
     radioButtonsRow.appendChild(radio_button);
   }
 
-  container.appendChild(question_div);
+  body_div.appendChild(question_div);
 }
 
 /**
@@ -919,13 +950,12 @@ function insert_radio_buttons(question, container, screen_name, question_name) {
  *
  * @param {Object} question - The question data.
  * @param {HTMLElement} container - The container where the question will be inserted.
- * @param {string} screen_name - The screen name.
- * @param {string} question_name - The name of the question.
+ * @param {string} question_id - The screen name.
  */
-function insert_checkbox(question, container, screen_name, question_name) {
+function insert_checkbox(question, container, question_id) {
   const question_div = document.createElement("div");
   question_div.className = "form-question mb-4 rounded";
-  question_div.id = `${screen_name}-${question_name}`;
+  question_div.id = `${question_id}`;
 
   insert_markdown(question.text, question_div);
 
@@ -961,17 +991,45 @@ function insert_checkbox(question, container, screen_name, question_name) {
  *
  * @param {Object} question - The question data.
  * @param {HTMLElement} container - The container where the question will be inserted.
- * @param {string} screen_name - The screen name.
- * @param {string} question_name - The name of the question.
+ * @param {string} question_id - The screen name.
  */
-function insert_post_bank(entry, entry_div, screen_name) {
+function insert_post_bank(entry, entry_div, question_id) {
   entry_div.className = "post-bank-question mb-3 mr-3 rounded";
-  entry_div.id = `${screen_name}`;
+  entry_div.id = `${question_id}`;
 
   insert_feed(entry.post_bank, entry_div, 12, entry.post_bank.length, 1, false);
 }
 
-function insert_sidebar_entry(entry, sidebar, screen_name) {
+/**
+ * Inserts a text input question into a container.
+ *
+ * @param {Object} entry - The question data.
+ * @param {HTMLElement} entry_div - The container where the question will be inserted.
+ * @param {string} question_id - The screen name.
+ */
+function insert_text_input(entry, entry_div, question_id) {
+  const question_div = document.createElement("div");
+  question_div.className = "text-question mb-2 mr-3 rounded";
+  question_div.id = `${question_id}`;
+
+  const text_input = document.createElement("textarea");
+  text_input.setAttribute("rows", "4");
+  text_input.style.width = "100%";
+
+  question_div.appendChild(text_input);
+
+  // insert at the bottom of the sidebar
+  entry_div.appendChild(question_div);
+}
+
+/**
+ * Inserts a question into a container.
+ *
+ * @param {Object} entry - The question data.
+ * @param {HTMLElement} body_div - The container where the question will be inserted.
+ * @param {string} question_id - The screen name.
+ */
+function insert_entry(entry, body_div, question_id) {
   const entry_div = document.createElement("div");
 
   if (entry.hasOwnProperty("markdown")) {
@@ -981,21 +1039,53 @@ function insert_sidebar_entry(entry, sidebar, screen_name) {
   if (entry.hasOwnProperty("answer_area")) {
     switch (entry.answer_area) {
       case "multiple_choice":
-        insert_mcq(entry_div, screen_name);
+        insert_mcq(entry_div, question_id);
         break;
       case "radio_buttons":
-        insert_radio_buttons(entry, sidebar, screen_name, entry.name);
+        insert_radio_buttons(entry, entry_div, question_id);
         break;
       case "checkbox":
-        insert_checkbox(entry, sidebar, screen_name, entry.name);
+        insert_checkbox(entry, entry_div, question_id);
         break;
       case "post_bank":
-        insert_post_bank(entry, entry_div, screen_name);
+        insert_post_bank(entry, entry_div, question_id);
         break;
+      case "text_input":
+        insert_text_input(entry, entry_div, question_id);
+        break;
+      default:
+        console.log(`Error: ${entry.answer_area} is not a valid answer area`);
     }
   }
 
-  sidebar.appendChild(entry_div);
+  body_div.appendChild(entry_div);
+
+  // if entry has confidence
+  if (entry.includes_confidence) {
+    const confidence_div = document.createElement("div");
+    insert_markdown(
+      `How confident are you in your answer to the above?`,
+      confidence_div
+    );
+    insert_radio_buttons(
+      {
+        text: "",
+        options: [
+          "Not at all confident",
+          "Slightly confident",
+          "Somewhat confident",
+          "Fairly confident",
+          "Completely confident",
+        ],
+        "option-key": [-2, -1, 0, 1, 2],
+      },
+      confidence_div,
+      question_id + "-CF",
+      "confidence"
+    );
+
+    body_div.appendChild(confidence_div);
+  }
 }
 
 /**
@@ -1005,9 +1095,13 @@ function insert_sidebar_entry(entry, sidebar, screen_name) {
  * @param {HTMLElement} container - The container for questions.
  * @param {string} screen_name - The screen name.
  */
-function populate_sidebar(entries, sidebar, screen_name) {
-  for (let entry of entries) {
-    insert_sidebar_entry(entry, sidebar, screen_name);
+function insert_entries(entries, body_div, screen_name) {
+  // loop over each entry and give it an id of '${screen_name}_${index}'
+  for (let i = 0; i < entries.length; i++) {
+    const entry = entries[i];
+    const question_id = `${screen_name}_${i}`;
+
+    insert_entry(entry, body_div, question_id);
   }
 
   redact_items(redacted_classes);
@@ -1054,6 +1148,8 @@ function display_screen(screen_info, section_name) {
     populate_FS_screen(screen_info, screen_name);
   } else if (template_id === "submission") {
     document.getElementById("next-btn").style.display = "none";
+  } else if (template_id === "centered-content") {
+    populate_CC_screen(screen_info);
   } else {
     let intro_post = json_concept_posts["posts"][1][0][3];
     intro_post["changed_feature"] = "text";
@@ -1073,9 +1169,6 @@ function display_screen(screen_info, section_name) {
   window.scrollTo(0, 0);
 }
     function populate_FS_screen(screen_info, screen_name) {
-  $("#FS-feeds").empty();
-  $("#FS-sidebar").empty();
-
   const screen_type = screen_info.screen_type;
   const sidebar_entries = screen_info.sidebar_entries;
 
@@ -1142,7 +1235,7 @@ function display_screen(screen_info, section_name) {
     sidebar_entries["Q1"]["option_key"] = option_key;
   }
 
-  populate_sidebar(
+  insert_entries(
     sidebar_entries,
     document.getElementById("FS-sidebar"),
     screen_name
@@ -1165,6 +1258,11 @@ function display_screen(screen_info, section_name) {
     appendTo: $(".feed").not(".locked"),
   });
 }
+    function populate_CC_screen(screen_info) {
+  let body_element = document.getElementById("CC-body");
+
+  insert_entries(screen_info.entries, body_element, "feedback");
+}
 
     /**
  * Processes a checked question and updates the screen output.
@@ -1172,13 +1270,13 @@ function display_screen(screen_info, section_name) {
  * @param {Object} screen_output - The screen output object.
  * @param {Array} unansweredQuestions - Array to track unanswered questions.
  */
-function process_check_question(
+function process_choice_question(
   questionDiv,
   screen_output,
   unanswered_questions,
   incorrect_questions
 ) {
-  const questionId = questionDiv.id;
+  const question_id = questionDiv.id;
   const inputs = questionDiv.querySelectorAll("input");
   const checked_inputs = questionDiv.querySelectorAll("input:checked");
   const unchecked_inputs = questionDiv.querySelectorAll("input:not(:checked)");
@@ -1195,7 +1293,7 @@ function process_check_question(
     sumOfValues += isNaN(optionValue) ? 0 : optionValue;
   }
 
-  if (questionId.slice(-2) !== "CF") {
+  if (question_id.slice(-2) !== "CF") {
     // loop over the inouts that are not checked
     for (let j = 0; j < unchecked_inputs.length; j++) {
       const uncheckedInput = unchecked_inputs[j];
@@ -1234,11 +1332,11 @@ function process_check_question(
     incorrect_questions[questionDiv.id] = question;
   }
 
-  if (questionId.slice(-2) === "CF") {
+  if (question_id.slice(-2) === "CF") {
     screen_output["chosen_confidence"] = checkedOptions[0];
     screen_output["confidence"] = sumOfValues;
   } else {
-    const questionNum = questionId.slice(-2);
+    const questionNum = question_id.slice(-2);
     screen_output["chosen_options_" + questionNum] = checkedOptions;
     screen_output["score_" + questionNum] = sumOfValues;
   }
@@ -1311,8 +1409,6 @@ function process_post_arrangement_question(
     const post = posts[i];
     const position = post.getAttribute("data-number");
 
-    // console.log("i", i);
-    // console.log("position", position);
     response_ordering.push(position);
 
     if (i !== position) {
@@ -1345,17 +1441,49 @@ function process_post_arrangement_question(
 }
 
 /**
+ * Processes a text input question and updates the screen output.
+ * @param {Element} question_div - The question div element.
+ * @param {Object} screen_output - The screen output object.
+ * @param {Array} unanswered_questions - Array to track unanswered questions.
+ */
+function process_text_input_question(
+  question_div,
+  screen_output,
+  unanswered_questions
+) {
+  const question_id = question_div.id;
+  const textarea = question_div.querySelector("textarea");
+  const user_input = textarea.value.trim();
+
+  const question = {
+    question_type: "text_input",
+    correct_answers: null, // No correct answers for text input questions
+    chosen_answers: user_input,
+  };
+
+  if (user_input === "") {
+    unanswered_questions[question_id] = question;
+  }
+
+  // Update screen output
+  screen_output["text_input_" + question_id] = user_input;
+}
+
+/**
  * Logs checked answers with sum and updates the screen output.
  * @param {string} screen_name - The screen name.
  * @returns {Array} - Array of unanswered question div elements.
  */
 function get_screen_results(screen_info, screen_name) {
-  const questions = document.getElementsByClassName("form-question");
+  const choice_questions = document.getElementsByClassName("form-question");
   const post_bank_questions =
     document.getElementsByClassName("post-bank-question");
+  const text_input_questions = Array.from(
+    document.getElementsByClassName("text-question")
+  );
 
-  const feedContainer = document.querySelector(".feed-container");
-  const feed_elements = feedContainer.querySelectorAll(".feed");
+  const feed_container = document.querySelector(".feed-container");
+  const feed_elements = feed_container.querySelectorAll(".feed");
 
   const screen_output = {
     screen_type: screen_info.screen_type,
@@ -1366,14 +1494,13 @@ function get_screen_results(screen_info, screen_name) {
 
   const unanswered_questions = {};
   const incorrect_questions = {};
-  const is_practice = screen_info.is_practice;
 
-  for (let i = 0; i < questions.length; i++) {
-    process_check_question(
-      questions[i],
+  for (let i = 0; i < choice_questions.length; i++) {
+    process_choice_question(
+      choice_questions[i],
       screen_output,
       unanswered_questions,
-      incorrect_questionsx
+      incorrect_questions
     );
   }
 
@@ -1397,39 +1524,22 @@ function get_screen_results(screen_info, screen_name) {
     }
   }
 
+  text_input_questions.forEach((question) => {
+    process_text_input_question(question, screen_output, unanswered_questions);
+  });
+
   if (Object.keys(unanswered_questions).length === 0) {
-    if (is_practice) {
-      screen_output["screen_name"] = screen_name + "-PRACTICE";
-      screen_output["practice"] = true;
+    // if a screen_output with the same screen name already exists, concatenate "REPEAT" to the screen name
+    let question_outputs = output["questions"] ?? [];
+    const screen_output_with_same_name = question_outputs.find(
+      (output) => output["screen_name"] === screen_name
+    );
 
-      const screenOutputWithSameName = output["practice"].find(
-        (output) => output["screen_name"] == screen_output["screen_name"]
-      );
-      if (screenOutputWithSameName) {
-        screen_output["tries"] = screenOutputWithSameName["tries"] + 1;
-      } else {
-        screen_output["tries"] = 1;
-      }
-
-      let practice_outputs = output["practice"] ?? [];
-      output["practice"] = practice_outputs.filter(
-        (output) => output["screen_name"] !== screen_output["screen_name"]
-      );
+    if (screen_output_with_same_name) {
+      screen_output["screen_name"] = screen_name + "-REPEAT";
+      screen_output["repeat"] = true;
     } else {
-      screen_output["practice"] = false;
-
-      // if a screen_output with the same screen name already exists, concatenate "REPEAT" to the screen name
-      let question_outputs = output["questions"] ?? [];
-      const screen_output_with_same_name = question_outputs.find(
-        (output) => output["screen_name"] === screen_name
-      );
-
-      if (screen_output_with_same_name) {
-        screen_output["screen_name"] = screen_name + "-REPEAT";
-        screen_output["repeat"] = true;
-      } else {
-        screen_output["repeat"] = false;
-      }
+      screen_output["repeat"] = false;
     }
 
     // output["questions"].push(screen_output);
@@ -1446,7 +1556,10 @@ function log_screen(section_index, screen_index) {
   let incorrect_questions = {};
   let screen_output = {};
 
-  if (question_screen_types.includes(screen_info.screen_type)) {
+  if (
+    question_screen_types.includes(screen_info.screen_type) ||
+    screen_info.screen_type == "feedback"
+  ) {
     [screen_output, unanswered_questions, incorrect_questions] =
       get_screen_results(screen_info, screen_name);
   }
@@ -1483,58 +1596,6 @@ function log_section(section_index) {
 
   output["global"].push(section_output);
 }
-
-// function log_introduction() {
-//   const section_name = "introduction";
-//   const introduction_output = {
-//     section_name: section_name,
-//     time_elapsed: (new Date().getTime() - start_times[section_name]) / 1000,
-//   };
-
-//   if (!output["global"]) {
-//     output["global"] = [];
-//   }
-
-//   output["global"].push(introduction_output);
-// }
-
-// function log_exposure() {
-//   const section_name = "exposure";
-//   const exposure_output = {
-//     section_name: section_name,
-//     time_elapsed: (new Date().getTime() - start_times[section_name]) / 1000,
-//   };
-
-//   if (!output["global"]) {
-//     output["global"] = [];
-//   }
-
-//   output["global"].push(exposure_output);
-// }
-
-// function log_submission() {
-//   const section_name = "submission";
-//   const submission_output = {
-//     section_name: section_name,
-//     time_elapsed: (new Date().getTime() - start_times[section_name]) / 1000,
-//   };
-
-//   if (!output["global"]) {
-//     output["global"] = [];
-//   }
-
-//   output["global"].push(submission_output);
-
-//   const questions_output = {
-//     section_name: "questions",
-//     // time elapsed for question is total time elapsed minus time elapsed for all other sections
-//     time_elapsed:
-//       (new Date().getTime() - start_times["introduction"]) / 1000 -
-//       output["global"].reduce((acc, val) => acc + val.time_elapsed, 0),
-//   };
-
-//   output["global"].push(questions_output);
-// }
     /**
  * Highlights unanswered and incorrect questions on the screen.
  * @param {Object} unanswered_questions - Questions that are unanswered.
@@ -1673,10 +1734,10 @@ function next_screen() {
     }
   }
 
-  deactivate_screen(curr_screen_info.template_id);
-
   // log the screen
   log_screen(curr_section_index, curr_screen_index);
+
+  deactivate_screen(curr_screen_info.template_id);
 
   // if last screen of section, log the section
   if (
@@ -1709,6 +1770,10 @@ function next_screen() {
  * @param {Object} screen_info - The screen info object.
  */
 function deactivate_screen(template_id) {
+  $("#CC-body").empty();
+  $("#FS-feeds").empty();
+  $("#FS-sidebar").empty();
+
   window.scrollTo(0, 0);
   document.getElementById(template_id).style.display = "none";
 }
@@ -2046,6 +2111,14 @@ function generate_screen_array(
     screens: scored_screens_array,
   });
 
+  // Feedback screen
+  const feedback_screen = generate_feedback_screen("feedback");
+
+  section_array.push({
+    section_name: "feedback",
+    screens: [feedback_screen],
+  });
+
   // Submission screen
   const submission_screen = {
     screen_type: "submission",
@@ -2297,10 +2370,12 @@ function generate_screen_name(screen_info) {
     screen_name = "introduction";
   } else if (screen_info.screen_type == "submission") {
     screen_name = "submission";
-  }
-  if (screen_info.screen_type == "exposure") {
+  } else if (screen_info.screen_type == "exposure") {
     screen_name = "exposure";
+  } else if (screen_info.screen_type == "feedback") {
+    screen_name = "feedback";
   }
+
   return screen_name;
 }
 
@@ -2657,6 +2732,14 @@ function generate_post_arrangement_screen(
     sidebar_entries: sidebar_entries,
   };
 
+  return screen;
+}
+    function generate_feedback_screen(screen_type) {
+  const screen = {
+    screen_type: screen_type,
+    template_id: SCREEN_TYPE_INFO[screen_type].template_id,
+    entries: deep_copy(SCREEN_TYPE_INFO[screen_type].entries),
+  };
   return screen;
 }
 
