@@ -548,7 +548,13 @@ How do you think the feed you saw at the beginning was ordered?
       },
       {
         markdown: `
-Do you have any feedback on the study?
+What was the most difficult part of this process? (e.g. figuring out how the feed was ordered, arranging new feeds, something else)
+        `,
+        answer_area: "text_input",
+      },
+      {
+        markdown: `
+Do you have any feedback on the study? (enter "none" if you have none)
         `,
         answer_area: "text_input",
       },
@@ -1605,7 +1611,9 @@ function highlight_unanswered_questions(
   unanswered_questions,
   incorrect_questions
 ) {
-  const question_divs = $(".form-question, .post-bank-question");
+  const question_divs = $(
+    ".form-question, .post-bank-question, .text-question"
+  );
 
   question_divs.each((i, question_div) => {
     if (unanswered_questions[question_div.id]) {
@@ -1713,7 +1721,10 @@ function next_screen() {
   let curr_screen_info =
     study_array[curr_section_index].screens[curr_screen_index];
 
-  if (question_screen_types.includes(curr_screen_info.screen_type)) {
+  if (
+    question_screen_types.includes(curr_screen_info.screen_type) ||
+    curr_screen_info.screen_type == "feedback"
+  ) {
     const is_practice = curr_screen_info.screen_type === "practice";
 
     let [_, unanswered_questions, incorrect_questions] = get_screen_results(
