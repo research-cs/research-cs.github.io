@@ -471,6 +471,17 @@ it is not relevant to the tasks.*`
     ],
   },
 
+  correct_response: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
+To the left is how the posts on the previous screen would've been correctly arranged.
+        `,
+      },
+    ],
+  },
+
   post_arrangement: {
     template_id: "feed-and-sidebar",
     sidebar_entries: [
@@ -1494,7 +1505,7 @@ function get_screen_results(screen_info, screen_name) {
   const screen_output = {
     screen_type: screen_info.screen_type,
     feature_count: screen_info.feature_count,
-    instance_number: screen_info.instance_number,
+    instance_number: screen_info.instance_number ?? 0,
     screen_name: screen_name,
   };
 
@@ -1922,7 +1933,7 @@ function sanitize_posts(posts) {
  * @param {boolean} is_practice - Whether this is a practice screen or not.
  * @returns {object|null} The generated screen object, or null if the screen type is not recognized.
  */
-function generate_screen_object(
+function generate_scored_screen_object(
   screen_type,
   base_posts,
   starting_num_posts,
@@ -2047,7 +2058,7 @@ function generate_screen_array(
       const weights = generate_weights(feature_keys, 1);
 
       for (let repeat_num = 1; repeat_num <= 2; repeat_num++) {
-        const screen = generate_screen_object(
+        const screen = generate_scored_screen_object(
           screen_type,
           base_posts,
           starting_num_posts,
@@ -2084,7 +2095,8 @@ function generate_screen_array(
     unsort_posts(posts, Object.keys(used_weights)[0], starting_num_posts - 1);
   }
 
-  const exposure_screen = generate_exposure_screen(
+  const exposure_screen = generate_feed_showcase_screen(
+    "exposure",
     base_posts,
     starting_num_posts,
     num_posts_to_load
@@ -2095,13 +2107,14 @@ function generate_screen_array(
     screens: [exposure_screen],
   });
 
-  for (const screen_type of shuffled_screen_types) {
+  for (let i = 0; i < shuffled_screen_types.length; i++) {
+    let screen_type = shuffled_screen_types[i];
     for (
       let repeat_num = 1;
       repeat_num <= num_same_features_and_question;
       repeat_num++
     ) {
-      const screen = generate_screen_object(
+      const screen = generate_scored_screen_object(
         screen_type,
         base_posts,
         starting_num_posts,
@@ -2113,6 +2126,17 @@ function generate_screen_array(
 
       if (screen) {
         scored_screens_array.push(screen);
+      }
+
+      const feedback_screen = generate_feed_showcase_screen(
+        "correct_response",
+        json_concept_posts["posts"][concept_index][repeat_num],
+        starting_num_posts,
+        0
+      );
+
+      if (feedback_screen) {
+        scored_screens_array.push(feedback_screen);
       }
     }
   }
@@ -2516,17 +2540,17 @@ function generate_counterfactual_placement_screen(
 }
     /**
  * Generates an Exposure screen object.
+ * @param {string} screen_type - The type of screen.
  * @param {object[]} base_posts - An array of base posts.
  * @param {number} starting_num_posts - The starting number of posts.
  * @param {number} num_posts_to_load - The number of posts to load with each "load more".
  */
-function generate_exposure_screen(
+function generate_feed_showcase_screen(
+  screen_type,
   base_posts,
   starting_num_posts,
   num_posts_to_load
 ) {
-  const screen_type = "exposure";
-
   const sidebar_entries = deep_copy(
     SCREEN_TYPE_INFO[screen_type].sidebar_entries
   );
@@ -2912,6 +2936,7 @@ start_time = new Date(); // this variable isn't used, but seems to be expected b
 
 const output = {};
 output["global"] = [];
+output["global"].push({ concept_index: concept_index });
 
 const study_array = generate_screen_array(
   question_screen_types,
