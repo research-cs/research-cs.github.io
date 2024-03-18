@@ -411,14 +411,9 @@ const num_same_features_and_question = 3;
 // );
 // const source_posts = json_concept_posts["posts"][concept_index][0];
 
-const study_weights = {
-  days_since_posted: Math.random() < 0.5 ? 5 : -5,
-  like_count: 1,
-};
-
 const source_posts = json_posts["posts"];
 
-const num_posts_per_screen = 6;
+const num_posts_per_screen = 4;
 const num_posts_at_load = 6;
 const num_posts_to_load = 6;
 
@@ -435,6 +430,8 @@ const feature_dict = {
 
 const feature_keys = Object.keys(feature_dict);
 const feature_names = Object.values(feature_dict);
+
+const study_weights = generate_weights(feature_keys, 2, true);
 
 // these are feed items we want redacted based on class names in 'bulding_blocks.js'
 const redacted_classes = []; // ['post_text', 'author-name'];
@@ -483,8 +480,9 @@ it is not relevant to the tasks.*`
     sidebar_entries: [
       {
         markdown: `
-To the left is how the posts on the previous screen would've been correctly arranged.
+Below is how the posts on the previous screen would've been correctly arranged.
         `,
+        answer_area: "post_bank",
       },
     ],
   },
@@ -633,7 +631,7 @@ function insert_post(post, feed_parent_list, locked) {
   post_list_item.innerHTML = `
     <div class="d-flex flex-row justify-content-between align-items-center p-1 border-bottom">
       <div class="d-flex flex-row align-items-center feed-text px-2">
-        <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgb(${
+        <div style="width: 30px; height: 30px; border-radius: 50%; background-color: rgb(${
           rgb[0]
         }, ${rgb[1]}, ${rgb[2]});"></div>
         <div class="d-flex flex-column flex-wrap ml-2">
@@ -725,7 +723,7 @@ function insert_feed(
 function populate_feed_container(
   feeds,
   container,
-  labeled,
+  labels,
   starting_num_posts,
   num_posts_to_load
 ) {
@@ -739,10 +737,8 @@ function populate_feed_container(
   const feed_row = document.createElement("div");
   feed_row.className = "row feed-scroll visible-scrollbar";
 
-  const labels = ["Your Feed Today", "Your Feed Tomorrow"];
-
   for (let i = 0; i < feeds.length; i++) {
-    if (labeled) {
+    if (labels.length > 0) {
       let label_text = labels[i]; // String.fromCharCode(65 + i);
       insert_label(label_text, label_row, label_width);
     }
@@ -1203,17 +1199,19 @@ function display_screen(screen_info, section_name) {
   const feed_column_width = Math.floor(unit_width * feeds.length);
   const sidebar_column_width = Math.ceil(unit_width);
 
-  $("#FS-feed-container")
-    .removeClass(function (index, className) {
-      return (className.match(/\bcol-md-\S+/g) || []).join(" ");
-    })
-    .addClass(`col-md-${feed_column_width}`);
+  if (feeds.length > 0) {
+    $("#FS-feed-container")
+      .removeClass(function (index, className) {
+        return (className.match(/\bcol-md-\S+/g) || []).join(" ");
+      })
+      .addClass(`col-md-${feed_column_width}`);
 
-  $("#FS-sidebar")
-    .removeClass(function (index, className) {
-      return (className.match(/\bcol-md-\S+/g) || []).join(" ");
-    })
-    .addClass(`col-md-${sidebar_column_width}`);
+    $("#FS-sidebar")
+      .removeClass(function (index, className) {
+        return (className.match(/\bcol-md-\S+/g) || []).join(" ");
+      })
+      .addClass(`col-md-${sidebar_column_width}`);
+  }
 
   let text = "";
   let labeled = true;
@@ -1265,22 +1263,29 @@ function display_screen(screen_info, section_name) {
     screen_name
   );
 
-  populate_feed_container(
-    feeds,
-    document.getElementById("FS-feeds"),
-    labeled,
-    screen_info["starting_num_posts"],
-    screen_info["num_posts_to_load"]
-  );
+  if (feeds.length > 0) {
+    populate_feed_container(
+      feeds,
+      document.getElementById("FS-feeds"),
+      screen_info["labels"] ?? [],
+      screen_info["starting_num_posts"],
+      screen_info["num_posts_to_load"]
+    );
+  }
 
-  $(".sortable").sortable({
-    connectWith: ".sortable",
-    items: "li:not(.unmoveable)",
-    cancel: ".static",
-    scroll: true,
-    zIndex: 9999,
-    appendTo: $(".feed").not(".locked"),
-  });
+  if (screen_type == "correct_response") {
+    $(".feed").addClass("locked");
+    $(".post").addClass("static");
+  } else {
+    $(".sortable").sortable({
+      connectWith: ".sortable",
+      items: "li:not(.unmoveable)",
+      cancel: ".static",
+      scroll: true,
+      zIndex: 9999,
+      appendTo: $(".feed").not(".locked"),
+    });
+  }
 }
     function populate_CC_screen(screen_info) {
   let body_element = document.getElementById("CC-body");
@@ -1766,8 +1771,6 @@ function next_screen() {
   // log the screen
   log_screen(curr_section_index, curr_screen_index);
 
-  deactivate_screen(curr_screen_info.template_id);
-
   // if last screen of section, log the section
   if (
     curr_screen_index ===
@@ -1778,6 +1781,12 @@ function next_screen() {
 
   // increment indexes
   increment_screen_index();
+
+  let is_next_screen_correction =
+    study_array[curr_section_index].screens[curr_screen_index].screen_type ==
+    "correct_response";
+
+  deactivate_screen(curr_screen_info.template_id, !is_next_screen_correction);
 
   // if first screen of new section, log the start time of the new section
   if (curr_screen_index === 0) {
@@ -1798,9 +1807,13 @@ function next_screen() {
  * Deactivates the current screen.
  * @param {Object} screen_info - The screen info object.
  */
-function deactivate_screen(template_id) {
+function deactivate_screen(template_id, empty_feed) {
   $("#CC-body").empty();
-  $("#FS-feeds").empty();
+
+  if (empty_feed) {
+    $("#FS-feeds").empty();
+  }
+
   $("#FS-sidebar").empty();
 
   window.scrollTo(0, 0);
@@ -1867,8 +1880,6 @@ function randn_bm(min, max, skew) {
 }
 
 function sanitize_posts(posts) {
-  console.log(posts);
-
   for (let i = 0; i < posts.length; i++) {
     // make all text lorem ipsum
     const original_text =
@@ -1876,7 +1887,7 @@ function sanitize_posts(posts) {
 
     const words = original_text.split(" ");
     const random_word_count =
-      Math.floor(Math.random() * (words.length - 10)) + 10;
+      Math.floor(Math.random() * (words.length - 20)) + 10;
     const truncated_text = words.slice(0, random_word_count).join(" ");
 
     posts[i].text = truncated_text;
@@ -1928,13 +1939,13 @@ function sanitize_posts(posts) {
 
     // Assign days_since_posted
     // Assign days_since_posted
-    posts[i].days_since_posted = Math.floor(Math.random() * 101); // Generates random integers from 0 to 200 inclusive
+    posts[i].days_since_posted = Math.floor(Math.random() * 100); // Generates random integers from 0 to 200 inclusive
 
     // Assign view_count, like_count, and comment_count
-    posts[i].view_count = Math.floor(Math.random() * 1001); // Generates random integers from 0 to 2000 inclusive
-    posts[i].like_count = Math.floor(Math.random() * 1001); // Generates random integers from 0 to 2000 inclusive
+    posts[i].view_count = 100 + Math.floor(Math.random() * 100); // Generates random integers from 0 to 2000 inclusive
+    posts[i].like_count = 50 + Math.floor(Math.random() * 100); // Generates random integers from 0 to 2000 inclusive
 
-    posts[i].comment_count = randn_bm(0, 2000, 3);
+    posts[i].comment_count = 25 + Math.floor(Math.random() * 100);
 
     posts[i].repost_count = randn_bm(
       posts[i].like_count / 10,
@@ -2107,7 +2118,7 @@ function generate_screen_array(
 
   // Generate screen objects
   const weights = study_weights; // generate_weights(feature_keys, feature_counts[0]);
-  let base_posts = get_random_sample(posts, num_posts);
+  let base_posts = get_random_sample(posts, 6);
   linear_combination_sort(base_posts, weights);
 
   let used_weights = Object.keys(deep_copy(weights)).reduce((result, key) => {
@@ -2121,7 +2132,7 @@ function generate_screen_array(
     unsort_posts(posts, Object.keys(used_weights)[0], starting_num_posts - 1);
   }
 
-  const exposure_screen = generate_feed_showcase_screen(
+  const exposure_screen = generate_exposure_screen(
     "exposure",
     base_posts,
     starting_num_posts,
@@ -2157,7 +2168,7 @@ function generate_screen_array(
         scored_screens_array.push(screen);
       }
 
-      const feedback_screen = generate_feed_showcase_screen(
+      const feedback_screen = generate_correct_response_screen(
         "correct_response",
         screen["correct_posts"],
         starting_num_posts,
@@ -2299,10 +2310,11 @@ function unsort_posts(posts, feature_to_ignore, first_num_posts_to_change) {
 /**
  * Generates a random weight dictionary for the given features.
  * @param {Array} features - The array of feature names.
- * @param {number} num_features - The number of features to have weight > 0.
+ * @param {number} num_features - The number of features to have weight != 0.
+ * @param {boolean} magnitude_one - Whether all weights should of magnitude 1.
  * @returns {Object} - The randomly generated weights dictionary.
  */
-function generate_weights(features, num_features) {
+function generate_weights(features, num_features, magnitude_one = false) {
   if (num_features > features.length) {
     throw new Error(
       "The number of features cannot be greater than the number of features."
@@ -2314,9 +2326,13 @@ function generate_weights(features, num_features) {
   while (num_features_set < num_features) {
     let random_feature = features[Math.floor(Math.random() * features.length)];
     if (weights[random_feature] === undefined) {
-      do {
-        weights[random_feature] = truncate(Math.random() * 2 - 1);
-      } while (Math.abs(weights[random_feature]) <= 0.1);
+      if (magnitude_one) {
+        weights[random_feature] = Math.random() < 0.5 ? -1 : 1;
+      } else {
+        do {
+          weights[random_feature] = truncate(Math.random() * 2 - 1);
+        } while (Math.abs(weights[random_feature]) <= 0.1);
+      }
       num_features_set++;
     }
   }
@@ -2574,7 +2590,7 @@ function generate_counterfactual_placement_screen(
  * @param {number} starting_num_posts - The starting number of posts.
  * @param {number} num_posts_to_load - The number of posts to load with each "load more".
  */
-function generate_feed_showcase_screen(
+function generate_exposure_screen(
   screen_type,
   base_posts,
   starting_num_posts,
@@ -2591,6 +2607,44 @@ function generate_feed_showcase_screen(
     starting_num_posts: starting_num_posts,
     num_posts_to_load: num_posts_to_load,
     sidebar_entries: sidebar_entries,
+    labels: ["Your Feed Today"],
+  };
+
+  return screen;
+}
+    /**
+ * Generates an Exposure screen object.
+ * @param {string} screen_type - The type of screen.
+ * @param {object[]} base_posts - An array of base posts.
+ * @param {number} starting_num_posts - The starting number of posts.
+ * @param {number} num_posts_to_load - The number of posts to load with each "load more".
+ */
+function generate_correct_response_screen(
+  screen_type,
+  base_posts,
+  starting_num_posts,
+  num_posts_to_load
+) {
+  base_posts = deep_copy(base_posts);
+
+  const sidebar_entries = deep_copy(
+    SCREEN_TYPE_INFO[screen_type].sidebar_entries
+  );
+
+  sidebar_entries.forEach((entry) => {
+    if (entry.answer_area === "post_bank") {
+      entry["post_bank"] = base_posts;
+    }
+  });
+
+  const screen = {
+    screen_type: screen_type,
+    template_id: SCREEN_TYPE_INFO.exposure.template_id,
+    starting_num_posts: starting_num_posts,
+    feeds: [],
+    num_posts_to_load: num_posts_to_load,
+    sidebar_entries: sidebar_entries,
+    labels: ["Your Ordering"],
   };
 
   return screen;
@@ -2666,6 +2720,7 @@ function generate_feed_comparison_screen(
     num_posts_to_load: num_posts_to_load,
     permuted: permuted,
     permuted_weights: permuted_weights,
+    labels: ["Your Feed Today", "Your Feed Tomorrow"],
   };
 
   return screen;
@@ -2744,6 +2799,7 @@ function generate_post_placement_screen(
     starting_num_posts: starting_num_posts,
     num_posts_to_load: num_posts_to_load,
     sidebar_entries: sidebar_entries,
+    labels: ["Your Ordering"],
   };
 
   return screen;
@@ -2800,6 +2856,7 @@ function generate_post_arrangement_screen(
     num_posts_to_load: num_posts_to_load,
     sidebar_entries: sidebar_entries,
     correct_posts: correct_posts,
+    labels: ["Your Ordering"],
   };
 
   return screen;
@@ -2975,7 +3032,7 @@ output["global"] = [];
 
 output["global"].push({ weights: study_weights });
 
-sanitize_posts(json_posts["posts"]);
+sanitize_posts(source_posts);
 
 const study_array = generate_screen_array(
   question_screen_types,
