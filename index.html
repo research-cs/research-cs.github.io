@@ -14,25 +14,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.3.0/math.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-  <!-- MathJax may be used for displaying math equations. -->
-  <!-- <script type="text/javascript" id="MathJax-script" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.3/tex-mml-chtml.js">
-  </script>
-  <script>
-    MathJax = {
-      loader: {load: ["input/tex", "output/chtml"]},
-      tex: {
-        inlineMath: [['$$', '$$']],
-      },
-      "HTML-CSS": {
-                  
-      } 
-    };
-  </script> -->
-
   <style>
-
-html, body {margin: 0; height: 100%;}
+html, body {
+  margin: 0;
+  height: 100%;
+}
 
 body {
   padding-top: 6.9vh;
@@ -44,67 +30,66 @@ body {
 }
 
 .screen {
-   height: 100vh;
+  height: 100vh;
 }
 
 #bottom-bar {
-   height: 0px;
+  height: 0;
 }
 
 .feed-container {
-   border:rgba(0, 0, 0, .5);
+  border: rgba(0, 0, 0, .5);
 }
 
 .feed-label {
-   z-index: 1;
-   width: 100%;
-   margin: 0 auto;
-   border-radius: 5px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
+  z-index: 1;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .label-container {
-   background-color: #eee;
+  background-color: #eee;
 }
 
 label {
-   cursor: pointer;
+  cursor: pointer;
 }
 
 input {
-   cursor: pointer;
+  cursor: pointer;
 }
 
 img {
-   max-height: 50vh;
-   width: auto;
+  max-height: 50vh;
+  width: auto;
 }
- 
+
 #next-btn {
-   height: 40px;
-   width: 60px;
-   margin-top: -9vh;
-   margin-right: 2vh;
-   z-index: 50;
- }
+  height: 40px;
+  width: 60px;
+  margin-top: -9vh;
+  margin-right: 2vh;
+  z-index: 50;
+}
 
- .selected-label {
-   color: white;
- }
- 
+.selected-label {
+  color: white;
+}
 
- .visible-scrollbar::-webkit-scrollbar {
-   -webkit-appearance: none;
-   width: 9px;
- }
+.visible-scrollbar::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 9px;
+}
 
 .visible-scrollbar::-webkit-scrollbar-thumb {
-   border-radius: 4px;
-   background-color: rgba(0, 0, 0, .5);
-   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
- }
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
 
 .feed-scroll {
   border: 2px solid #ccc;
@@ -116,137 +101,122 @@ img {
 }
 
 .question-container {
-   max-height: 700px; 
-   width: 230px; 
-   word-wrap: break-word; 
+  max-height: 700px;
+  width: 230px;
+  word-wrap: break-word;
 }
- 
- .time {
-   font-size: 3px !important;
- }
- 
- .post {
-   padding: 8px;
-   margin: 5px 0;
-   border: 1px solid #ccc;
-   border-radius: 6px;
- }
 
- .author-info {
-   display: flex;
-   align-items: center;
- }
+.time {
+  font-size: 3px !important;
+}
 
- .author-info img {
-   width: 35px;
-   height: 35px;
-   border-radius: 50%;
-   margin-right: 10px;
- }
+.post {
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
 
- .post .font-weight-bold {
-   font-size: 14px;
- }
+.author-info {
+  display: flex;
+  align-items: center;
+}
 
- .post .small-text {
-   font-size: 14px;
-   color: #888;
- }
+.author-info img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
 
-  .small-text {
-    font-size: 17px;
-  }
+.post .font-weight-bold {
+  font-size: 14px;
+}
 
- .post .xs-text {
-   font-size: 10px;
-   color: #888;
- }
+.post .small-text {
+  font-size: 14px;
+  color: #888;
+}
 
- .post .socials {
-   justify-content: flex-end;
-   gap: 10px;
- }
+.small-text {
+  font-size: 17px;
+}
 
- .post .social-item {
-   display: flex;
-   align-items: center;
-   gap: 3px;
-   font-size: 12px;
-   color: #888;
- }
+.post .xs-text {
+  font-size: 10px;
+  color: #888;
+}
 
- .count {
-    font-size: 14px !important;
-    color: #888;
- }
+.post .socials {
+  justify-content: flex-end;
+  gap: 10px;
+}
 
-/* Add styling to elements with the "highlighted" class */
+.post .social-item {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  color: #888;
+}
+
+.count {
+  font-size: 14px !important;
+  color: #888;
+}
+
 .highlighted {
-  font-weight: bold; /* Make the text bold */
-  color: red !important; /* Add a red text color */
-  background-color: rgba(255, 0, 0, 0.2); /* Translucent red background */
-  padding: 2px; /* Optional: Add padding to the highlighted elements */
-  border-radius: 4px; /* Optional: Add rounded corners to the outline */
+  font-weight: bold;
+  color: red !important;
+  background-color: rgba(255, 0, 0, 0.2);
+  padding: 2px;
+  border-radius: 4px;
 }
 
 .highlighted-text {
-  /* translucent yellow background */
   background-color: rgba(255, 255, 0, 0.67);
 }
 
- 
- /* Add styles for the static posts */
- .static {
-   border: 2px solid rgb(182, 182, 182) !important; 
-   opacity: 0.9;
- }
+.static {
+  border: 2px solid rgb(182, 182, 182) !important;
+  opacity: 0.9;
+}
 
- .unmoveable {
-  border: 2px solid lightgray !important; 
+.unmoveable {
+  border: 2px solid lightgray !important;
   opacity: 0.7;
 }
 
- /* Add styles for the draggable posts */
- .post:not(.static) {
-   z-index: 9999;
-   border: 3px solid rgb(182, 211, 229) !important;
-   cursor: grab;
- }
- 
- /* When dragging, change the cursor to grabbing */
- .post:not(.static).ui-sortable-helper {
-   cursor: grabbing;
- }
+.post:not(.static) {
+  z-index: 9999;
+  border: 3px solid rgb(182, 211, 229) !important;
+  cursor: grab;
+}
 
- ul li,
-ol li {
+.post:not(.static).ui-sortable-helper {
+  cursor: grabbing;
+}
+
+ul li, ol li {
   list-style: none;
   margin: 0;
   padding: 0;
 }
- 
- /* Style for the feed list bank */
- .feed-list-bank {
-   background-color: #f9f9f9;
-   border: 1px solid #ccc;
 
-   padding-top: 2px;
-   padding-left: 10px;
-   padding-bottom: 10px;
-   padding-right: 10px;
+.feed-list-bank {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 2px;
+  border-radius: 5px;
+  min-height: 100px;
+}
 
-   margin: 2;
-
-   border-radius: 5px;
-   min-height: 100px;
- }
-
-  /* Style for the redacted items */
-  .redacted {
-    background-color: gray;  /* You can customize the redaction appearance */
-    color: gray
-  }
-</style>   
+.redacted {
+  background-color: gray;
+  color: gray;
+}
+</style>  
 </head>
 
 <body>
@@ -278,8 +248,7 @@ ol li {
 						<p> <b>Click next (or press enter) to start.</b></p>
                     </div>
                     <div class="col-6" id="post-container" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 50px;">
-                        <!-- <img id="post-image" src="" style="width: 90%; height: auto; max-width: 100%;"> -->
-                        <div id="post-image" style="width: 90%; height: auto; max-width: 100%;"></div>
+                        <div id="intro-post" style="width: 90%; height: auto; max-width: 100%;"></div>
                         <p><i>Example post with highlighted features.</i></p>
                     </div>
                 </div>
@@ -316,23 +285,20 @@ ol li {
         </div>
       </div>
     </div>
-</div>;
+</div>
     <div class="container-fluid mt-0" id="bottom-bar" style="display:block;">
   <div class="d-flex justify-content-end">
 	<button type="button" class="btn btn-primary" id="next-btn" onclick="next_screen()">Next</button>
   </div>
   <script>
-    // Get the button element by its id
-    var nextButton = document.getElementById("next-btn");
+    var next_button = document.getElementById("next-btn");
 
-    // Function to simulate button click when Enter key is pressed
+    // function to simulate button click when enter key is pressed
     function activateNextButton(event) {
         if (event.key === "Enter") {
-            nextButton.click();
+            next_button.click();
         }
     }
-
-    // Add an event listener to the document to capture key presses
     document.addEventListener("keydown", activateNextButton);
 </script>
 
@@ -394,44 +360,96 @@ ol li {
   })();
 </script>
   
-  <script type="text/javascript" src="templates/data/feed_data.json"></script>
-  <script type="text/javascript" src="templates/data/concept_feed_data.json"></script>
+  <script type="text/javascript" src="templates/feed_data/generic_posts.js"></script>
+  <script type="text/javascript" src="templates/feed_data/concept_feeds.js"></script>
+   <script type="text/javascript" src="templates/feed_data/dummy_alg_posts_2.js"></script>
 
   <script type="text/javascript">
     const question_screen_types = [
-  /*"feed_comparison" , "post_placement" /*"counterfactual_placement",*/ "post_arrangement",
+  /*"feed_comparison" , "post_arrangement" /*"counterfactual_placement",*/ "post_placement",
 ];
 
 const possible_num_features = [1];
+const num_features =
+  possible_num_features[
+    Math.floor(Math.random() * possible_num_features.length)
+  ];
 
 const num_same_features_and_question = 3;
 
+// const possible_conditions = ["likes"]
+
+const possible_conditions = [/*"chronological"*/ "likes", 
+"engagement_soup", "first_person_pronouns", 
+"bad_positivity", "value_regression", 
+"other_persons_preference", "parts_of_speech", 
+"hashes"]
+
+
+
+const condition = possible_conditions[
+  Math.floor(Math.random() * possible_conditions.length)
+];
+
 // const concept_index = Math.floor(
-//   Math.random() * json_concept_posts["posts"].length
+//   Math.random() * concept_feeds.length
 // );
-// const source_posts = json_concept_posts["posts"][concept_index][0];
+// const source_posts = concept_feeds[concept_index][0];
 
-const source_posts = json_posts["posts"];
 
-const num_posts_per_screen = 4;
+const num_posts_per_screen = 1;
 const num_posts_at_load = 6;
 const num_posts_to_load = 6;
+const max_num_posts_possible = 50;
+const num_buckets = 4;
+const bucketing = true;
+const algorithms_already_created = true;
+
+let source_posts;
+if (bucketing) {
+  alg_posts.sort((a,b) => a[condition] - b[condition]);
+  source_posts = generate_posts_from_buckets(alg_posts, num_buckets, max_num_posts_possible);//alg_posts, generic_posts;
+}
+else {
+  source_posts = generic_posts;
+}
+
 
 const include_practice = false;
 
-const feature_dict = {
-  days_since_posted: "Hours Since Posted",
-  like_count: "Like Count",
-  // "view_count": "View Count",
-  comment_count: "Comment Count",
-  // "character_count": "Character Count",
-  // "repost_count": "Repost Count",
-};
+// TODO: update these to reflect twitter
+var feature_dict = {};
+var feature_keys = []
+var feature_names = []
+if (!algorithms_already_created){
+  feature_dict = {
+    days_since_posted: "Hours Since Posted",
+    like_count: "Like Count",
+    // "view_count": "View Count",
+    comment_count: "Comment Count",
+    // "character_count": "Character Count",
+    // "repost_count": "Repost Count",
+  };
+  feature_keys = Object.keys(feature_dict);
+  feature_names = Object.values(feature_dict);
+} else {
+  // feature_dict = Object.keys(alg_posts[0])
+  feature_keys = Object.keys(alg_posts[0]);
+  feature_names = Object.keys(alg_posts[0]);
+  feature_dict = {
+    likes: "likes",
+    replies: "replies",
+    retweets: "retweets",
+    views: "views",
+    time_since: "ago"
+  }
+  // feature_dict = feature_keys.reduce((obj, k, i) => ({...obj, [k]: feature_names[i] }), {})
+}
 
-const feature_keys = Object.keys(feature_dict);
-const feature_names = Object.values(feature_dict);
+// TODO: need to set it to 1 for the correct algorithm, and 0 for the rest
+// const study_weights = generate_weights(feature_keys, num_features, true);
+const study_weights = generate_weights(feature_keys, num_features, true, algorithms_already_created, condition);
 
-const study_weights = generate_weights(feature_keys, 2, true);
 
 // these are feed items we want redacted based on class names in 'bulding_blocks.js'
 const redacted_classes = []; // ['post_text', 'author-name'];
@@ -587,17 +605,23 @@ Do you have any feedback on the study? (enter "none" if you have none)
   default: "CCCCCC",
 };
 
-const feature_icon_dict = {
+const FEATURE_ICON_DICT = {
   days_since_posted: "fa fa-clock-o",
+  time_posted: "fa fa-clock-o",
+  time_since: "fa fa-clock-o",
   like_count: "fa fa-thumbs-up",
+  likes: "fa fa-thumbs-up",
   view_count: "fa fa-eye",
+  views: "fa fa-eye",
   comment_count: "fa fa-comments-o",
+  replies: "fa fa-comments-o",
   character_count: "fa fa-font",
   repost_count: "fa fa-retweet",
+  retweets: "fa fa-retweet"
 };
 
     /**
- * Inserts a label into a container.
+ * Inserts a feed label into the labels container.
  *
  * @param {string} label_text - The text of the label.
  * @param {HTMLElement} label_container - The container where the label will be inserted.
@@ -605,71 +629,70 @@ const feature_icon_dict = {
  */
 function insert_label(label_text, label_container, label_width) {
   const label_div = document.createElement("div");
-  label_div.className = `col-${label_width} d-flex align-items-center justify-content-center`; // Added justify-content-center
+  label_div.className = `col-${label_width} d-flex align-items-center justify-content-center`;
   label_div.innerHTML = `<div class="feed-label pt-2">
-    <span class="h2">${label_text}</span>
-  </div>`;
+  <span class="h2">${label_text}</span>
+</div>`;
   label_container.appendChild(label_div);
 }
 
 /**
- * Inserts a post into a list.
+ * Inserts a post into a feed.
  *
  * @param {Object} post - The post data.
  * @param {HTMLElement} feed_parent_list - The parent list where the post will be inserted.
- * @param {boolean} locked - Indicates whether the post is locked.
+ * @param {boolean} locked - Indicates whether the post is locked / should not be moved.
  */
 function insert_post(post, feed_parent_list, locked) {
   const post_list_item = document.createElement("li");
   post_list_item.className = `bg-white border mt-2 post${
     locked ? " static" : ""
   } rounded`;
+
   let rgb = string_to_rgb(post.author_name);
 
-  let highlighted_feature = post.changed_feature;
+  let highlighted_feature = post.highlighted_feature;
 
   post_list_item.innerHTML = `
-    <div class="d-flex flex-row justify-content-between align-items-center p-1 border-bottom">
-      <div class="d-flex flex-row align-items-center feed-text px-2">
-        <div style="width: 30px; height: 30px; border-radius: 50%; background-color: rgb(${
-          rgb[0]
-        }, ${rgb[1]}, ${rgb[2]});"></div>
-        <div class="d-flex flex-column flex-wrap ml-2">
-          <span class="font-weight-bold author-name">${post.author_name}</span>
-        </div>
+  <div class="d-flex flex-row justify-content-between align-items-center p-1 border-bottom">
+    <div class="d-flex flex-row align-items-center feed-text px-2">
+      <div style="width: 30px; height: 30px; border-radius: 50%; background-color: rgb(${
+        rgb[0]
+      }, ${rgb[1]}, ${rgb[2]});"></div>
+      <div class="d-flex flex-column flex-wrap ml-2">
+        <span class="font-weight-bold author-name">${post.author_name}</span>
       </div>
-      <div class="feed-icon px-2"><i class="fa fa-ellipsis-v text-black-50"></i></div>
     </div>
-    <div class="p-1 px-1">
-      <span class="small-text post_text
-      ${highlighted_feature === "text" ? " highlighted-text" : ""}">${
+    <div class="feed-icon px-2"><i class="fa fa-ellipsis-v text-black-50"></i></div>
+  </div>
+  <div class="p-1 px-1">
+    <span class="small-text post_text
+    ${highlighted_feature === "text" ? " highlighted-text" : ""}">${
     post.text
   }</span>
-    </div>
-    <div class="d-flex justify-content-between p-1 py-1">
-      ${Object.keys(feature_dict)
-        .map(
-          (key) => `
-        <div class="${key} p-1 px-1">
-          <i class="${feature_icon_dict[key]}"></i>
-          ${
-            post[key]
-              ? `<span class="count${
-                  highlighted_feature === key ? " highlighted" : ""
-                }">${post[key]} ${feature_dict[key]}</span>`
-              : "--"
-          }
-        </div>`
-        )
-        .join("")}
-    </div>
-  `;
-
+  </div>
+  <div class="d-flex justify-content-between p-1 py-1">
+    ${Object.keys(feature_dict)
+      .map(
+        (key) => `
+      <div class="${key} p-1 px-1">
+        <i class="${FEATURE_ICON_DICT[key]}"></i>
+        ${
+          (post[key] != null)
+            ? `<span class="count${
+                highlighted_feature === key ? " highlighted" : ""
+              }">${post[key]} ${feature_dict[key]}</span>`
+            : "--"
+        }
+      </div>`
+      )
+      .join("")}
+  </div>
+`;
+  console.log(post);
   post_list_item.setAttribute("data-number", post.correct_position ?? -1);
 
   feed_parent_list.appendChild(post_list_item);
-
-  const posts = feed_parent_list.querySelectorAll("li");
 }
 
 /**
@@ -679,7 +702,6 @@ function insert_post(post, feed_parent_list, locked) {
  * @param {HTMLElement} container - The container where the feed will be inserted.
  * @param {number} feed_width - The width of the feed container.
  * @param {number} starting_num_posts - The number of initial posts to display.
- * @param {number} num_posts_to_load - The number of posts to toggle visibility for on each "Load More" click.
  * @param {boolean} is_locked - Indicates whether the feed is locked in place.
  */
 function insert_feed(
@@ -687,8 +709,8 @@ function insert_feed(
   container,
   feed_width,
   starting_num_posts,
-  num_posts_to_load,
-  is_locked
+  is_locked, 
+  exposure = false
 ) {
   const feed_bank_container = document.createElement("div");
   feed_bank_container.className = `col-md-${feed_width} p-md-1`;
@@ -698,12 +720,23 @@ function insert_feed(
     is_locked ? " locked" : ""
   } feed-list-bank list-unstyled`;
 
+  let indicies;
+  if (bucketing) {
+    indicies = get_random_sample_indices_from_chunks(feed_data, starting_num_posts)
+  }
+  console.log(container.id)
   for (let i = 0; i < feed_data.length; i++) {
     insert_post(feed_data[i], feed_parent_ul, is_locked);
-
-    if (i >= starting_num_posts) {
-      feed_parent_ul.lastChild.style.display = "none";
-      feed_parent_ul.lastElementChild.classList.add("unmoveable");
+    if (bucketing) {
+      if (indicies.indexOf(i) == -1 && container.id != "intro-post" && exposure) {
+        feed_parent_ul.lastChild.style.display = "none";
+        feed_parent_ul.lastElementChild.classList.add("unmoveable");
+      }
+    } else {
+      if (i >= starting_num_posts) {
+        feed_parent_ul.lastChild.style.display = "none";
+        feed_parent_ul.lastElementChild.classList.add("unmoveable");
+      }
     }
   }
 
@@ -712,7 +745,7 @@ function insert_feed(
 }
 
 /**
- * Populates a feed container with feeds and a single "Load More" button.
+ * Populates a feed container with feeds and a functioning "Load More" button at the bottom.
  *
  * @param {Array} feeds - The feeds to be inserted.
  * @param {HTMLElement} container - The container for feeds and the "Load More" button.
@@ -725,7 +758,8 @@ function populate_feed_container(
   container,
   labels,
   starting_num_posts,
-  num_posts_to_load
+  num_posts_to_load, 
+  exposure = false
 ) {
   const feed_width = Math.floor(12 / feeds.length);
   const label_width = feed_width;
@@ -739,25 +773,23 @@ function populate_feed_container(
 
   for (let i = 0; i < feeds.length; i++) {
     if (labels.length > 0) {
-      let label_text = labels[i]; // String.fromCharCode(65 + i);
+      let label_text = labels[i];
       insert_label(label_text, label_row, label_width);
     }
 
-    const feedData = feeds[i];
-    insert_feed(
-      feedData,
-      feed_row,
-      feed_width,
-      starting_num_posts,
-      num_posts_to_load,
-      true
-    );
+    const feed_data = feeds[i];
+    insert_feed(feed_data, feed_row, feed_width, starting_num_posts, true, exposure);
   }
 
   container.appendChild(feed_row);
 
   const load_more_button = document.createElement("button");
-  load_more_button.innerText = "Load More";
+  if (bucketing) {
+    load_more_button.innerText = "Insert More Posts into Current Feed";
+  }
+  else {
+    load_more_button.innerText = "Add More Posts to Feed";
+  }
   load_more_button.className = "load-more-button btn btn-light btn-block mt-1";
   load_more_button.style.backgroundColor = "#f0f8ff";
 
@@ -768,41 +800,60 @@ function populate_feed_container(
   feed_row.appendChild(load_more_button);
 
   load_more_button.addEventListener("click", () => {
-    const feedContainers = feed_row.querySelectorAll(".feed-list-bank");
+    const feed_containers = feed_row.querySelectorAll(".feed-list-bank");
     let button_hidden = true;
 
-    for (let i = 0; i < feedContainers.length; i++) {
-      const feedContainer = feedContainers[i];
-      const all_posts = feedContainer.children;
-      let postsToShow = num_posts_to_load;
+    for (let i = 0; i < feed_containers.length; i++) {
+      const feed_container = feed_containers[i];
+      const all_posts = feed_container.children;
+      if (bucketing) {
 
-      // Find the first hidden post
-      let startIndex = 0;
-      for (let j = 0; j < all_posts.length; j++) {
-        if (all_posts[j].style.display === "none") {
-          startIndex = j;
-          break;
+        let indicies = get_random_sample_indices_from_chunks(feeds[i], num_posts_to_load)
+        for (let i = 0; i < all_posts.length; i++) {
+          if (indicies.indexOf(i) != -1) {
+            all_posts[i].style.display = "block";
+          }
+        }
+
+        let count = 0;
+        for (let i = 0; i < all_posts.length; i++) {
+          if (all_posts[i].style.display == "block") {
+            count++;
+          }
+        }
+        if (count == all_posts.length) {
+          button_hidden = true;
+        } else {
+          button_hidden = false;
         }
       }
+      else {
+        let posts_to_show = num_posts_to_load;
 
-      // Show the next posts to reveal
-      for (let j = startIndex; j < all_posts.length; j++) {
-        if (postsToShow > 0 && all_posts[j].style.display === "none") {
-          all_posts[j].style.display = "block";
-          postsToShow--;
+        let start_index = 0;
+        for (let j = 0; j < all_posts.length; j++) {
+          if (all_posts[j].style.display === "none") {
+            start_index = j;
+            break;
+          }
         }
-      }
+        // Helena to fix this part with the bucketing posts approach...
+        for (let j = start_index; j < all_posts.length; j++) {
+          if (posts_to_show > 0 && all_posts[j].style.display === "none") {
+            all_posts[j].style.display = "block";
+            posts_to_show--;
+          }
+        }
 
-      // Check if the last post is revealed
-      if (
-        all_posts.length > 0 &&
-        all_posts[all_posts.length - 1].style.display === "none"
-      ) {
-        button_hidden = false;
+        if (
+          all_posts.length > 0 &&
+          all_posts[all_posts.length - 1].style.display === "none"
+        ) {
+          button_hidden = false;
+        }
       }
     }
 
-    // Hide the "Load More" button if the last post is revealed
     if (button_hidden) {
       load_more_button.style.display = "none";
     }
@@ -810,7 +861,7 @@ function populate_feed_container(
 }
 
 /**
- * Inserts text into a container.
+ * Inserts markdown text into a container.
  *
  * @param {string} markdown - The text to be inserted.
  * @param {HTMLElement} entry_div - The container where the text will be inserted.
@@ -889,14 +940,14 @@ function insert_radio_buttons(question, body_div, question_id) {
 
   insert_markdown(question.text, question_div);
 
-  const radioButtonsRow = document.createElement("div");
-  radioButtonsRow.className = "radio-buttons-row mt-2";
-  radioButtonsRow.style.display = "flex";
-  radioButtonsRow.style.justifyContent = "between";
+  const radio_buttons_row = document.createElement("div");
+  radio_buttons_row.className = "radio-buttons-row mt-2";
+  radio_buttons_row.style.display = "flex";
+  radio_buttons_row.style.justifyContent = "between";
 
-  question_div.appendChild(radioButtonsRow);
+  question_div.appendChild(radio_buttons_row);
 
-  let selectedButton = null;
+  let selected_button = null;
 
   const available_width = body_div.offsetWidth / question.options.length;
 
@@ -911,25 +962,25 @@ function insert_radio_buttons(question, body_div, question_id) {
       "btn btn-outline-primary mr-1 pt-2 d-flex justify-content-center align-items-center";
     radio_button.type = "button";
 
-    const adjustedWidth = available_width * 0.9;
-    radio_button.style.width = `${adjustedWidth}px`;
+    const adjusted_width = available_width * 0.9;
+    radio_button.style.width = `${adjusted_width}px`;
 
     radio_button.style.width = `${90 / question.options.length}%`;
 
     radio_button.addEventListener("click", () => {
-      const selectedRadio = radio_button.querySelector("input[type='radio']");
-      selectedRadio.checked = true;
+      const selected_radio = radio_button.querySelector("input[type='radio']");
+      selected_radio.checked = true;
 
-      if (selectedButton) {
-        selectedButton.classList.remove("btn-primary");
-        selectedButton
+      if (selected_button) {
+        selected_button.classList.remove("btn-primary");
+        selected_button
           .querySelector("label")
           .classList.remove("selected-label");
       }
 
       radio_button.classList.add("btn-primary");
-      selectedButton = radio_button;
-      selectedButton.querySelector("label").classList.add("selected-label");
+      selected_button = radio_button;
+      selected_button.querySelector("label").classList.add("selected-label");
 
       radio_button.blur();
     });
@@ -959,7 +1010,7 @@ function insert_radio_buttons(question, body_div, question_id) {
 
     radio_button.appendChild(radio_input);
     radio_button.appendChild(radio_label);
-    radioButtonsRow.appendChild(radio_button);
+    radio_buttons_row.appendChild(radio_button);
   }
 
   body_div.appendChild(question_div);
@@ -1017,7 +1068,7 @@ function insert_post_bank(entry, entry_div, question_id) {
   entry_div.className = "post-bank-question mb-3 mr-3 rounded";
   entry_div.id = `${question_id}`;
 
-  insert_feed(entry.post_bank, entry_div, 12, entry.post_bank.length, 1, false);
+  insert_feed(entry.post_bank, entry_div, 12, entry.post_bank.length, false);
 }
 
 /**
@@ -1037,8 +1088,6 @@ function insert_text_input(entry, entry_div, question_id) {
   text_input.style.width = "100%";
 
   question_div.appendChild(text_input);
-
-  // insert at the bottom of the sidebar
   entry_div.appendChild(question_div);
 }
 
@@ -1080,7 +1129,6 @@ function insert_entry(entry, body_div, question_id) {
 
   body_div.appendChild(entry_div);
 
-  // if entry has confidence
   if (entry.includes_confidence) {
     const confidence_div = document.createElement("div");
     insert_markdown(
@@ -1128,25 +1176,20 @@ function insert_entries(entries, body_div, screen_name) {
 }
     /**
  * Activates the next screen.
+ *
  * @param {Object} screen_info - The screen info object.
- * @param {string} screen_name - The name of the screen.
+ * @param {string} section_name - The name of the section.
  */
 function display_screen(screen_info, section_name) {
   let screen_name = generate_screen_name(screen_info);
 
-  // Set the screen title
   let screen_title = document.getElementById("screen-title");
   screen_title.innerHTML =
     section_name.charAt(0).toUpperCase() + section_name.slice(1);
 
-  // Set the top bar color
   let top_bar = document.getElementById("top-bar");
-
-  if (SECTION_COLORS.hasOwnProperty(section_name)) {
-    top_bar.style.backgroundColor = SECTION_COLORS[section_name];
-  } else {
-    top_bar.style.backgroundColor = SECTION_COLORS.default;
-  }
+  top_bar.style.backgroundColor =
+    SECTION_COLORS[section_name] || SECTION_COLORS.default;
 
   let question_progress = document.getElementById("question-progress");
   if (question_screen_types.includes(screen_info.screen_type)) {
@@ -1157,25 +1200,23 @@ function display_screen(screen_info, section_name) {
     question_progress.innerHTML = "";
   }
 
-  if (screen_info === undefined) {
+  if (!screen_info) {
     console.error("Screen name " + screen_name + " is undefined");
     return;
   }
 
   let template_id = screen_info.template_id;
-
   if (template_id === "feed-and-sidebar") {
-    populate_FS_screen(screen_info, screen_name);
+    populate_fs_screen(screen_info, screen_name);
   } else if (template_id === "submission") {
     document.getElementById("next-btn").style.display = "none";
   } else if (template_id === "centered-content") {
-    populate_CC_screen(screen_info);
+    populate_cc_screen(screen_info);
   } else {
-    let intro_post = json_posts["posts"][0]; // json_concept_posts["posts"][1][0][3];
-    // intro_post["changed_feature"] = "text";
+    let intro_post = source_posts[0];
     insert_feed(
       [intro_post],
-      document.getElementById("post-image"),
+      document.getElementById("intro-post"),
       12,
       1,
       1,
@@ -1185,19 +1226,22 @@ function display_screen(screen_info, section_name) {
 
   document.getElementById(template_id).style.display = "block";
   redact_items(redacted_classes);
-
   window.scrollTo(0, 0);
 }
-    function populate_FS_screen(screen_info, screen_name) {
+    /**
+ * Populates the screen with feeds and sidebar entries based on the provided screen information.
+ *
+ * @param {Object} screen_info - The screen information object.
+ * @param {string} screen_name - The name of the screen.
+ */
+function populate_fs_screen(screen_info, screen_name) {
   const screen_type = screen_info.screen_type;
   const sidebar_entries = screen_info.sidebar_entries;
-
   let feeds = deep_copy(screen_info["feeds"]);
-
-  const unit_width = Math.min(12 / (feeds.length + 1), feeds.length * 5);
-
-  const feed_column_width = Math.floor(unit_width * feeds.length);
-  const sidebar_column_width = Math.ceil(unit_width);
+  let num_feeds = feeds.length;
+  const display_unit_width = Math.min(12 / (num_feeds + 1), num_feeds * 5);
+  const feed_column_width = Math.floor(display_unit_width * feeds.length);
+  const sidebar_column_width = Math.ceil(display_unit_width);
 
   if (feeds.length > 0) {
     $("#FS-feed-container")
@@ -1213,14 +1257,11 @@ function display_screen(screen_info, section_name) {
       .addClass(`col-md-${sidebar_column_width}`);
   }
 
-  let text = "";
   let labeled = true;
-  let weights = screen_info["weights"];
 
   if (screen_type == "feed_selection") {
     labeled = true;
     let correct_feed_idx = screen_info["correct_feed_index"];
-
     sidebar_entries["Q1"]["options"] = Array.from(
       { length: feeds.length },
       (value, index) => "Feed " + String.fromCharCode(65 + index)
@@ -1233,28 +1274,6 @@ function display_screen(screen_info, section_name) {
     // labeled = false;
     // let question_feed = [screen_info["extracted_post"]];
     // sidebar_entries["Q1"]["feed"] = question_feed;
-  } else if (screen_type == "feed_comparison") {
-    labeled = true;
-
-    sidebar_entries["Q1"]["options"] = sidebar_entries["Q1"]["options"];
-    sidebar_entries["Q1"]["option_key"] = screen_info["permuted"]
-      ? [1, 0]
-      : [0, 1];
-  } else if (screen_type == "counterfactual_placement") {
-    insert_feed(
-      [screen_info["new_post"]],
-      document.getElementById("FS-sidebar"),
-      12,
-      1,
-      1,
-      true
-    );
-
-    sidebar_entries["Q1"]["options"] = ["Higher", "Unchanged", "Lower"];
-
-    let option_key = [0, 0, 0];
-    option_key[1 - screen_info["new_post_higher_same_lower"]] = 1;
-    sidebar_entries["Q1"]["option_key"] = option_key;
   }
 
   insert_entries(
@@ -1264,13 +1283,25 @@ function display_screen(screen_info, section_name) {
   );
 
   if (feeds.length > 0) {
-    populate_feed_container(
-      feeds,
-      document.getElementById("FS-feeds"),
-      screen_info["labels"] ?? [],
-      screen_info["starting_num_posts"],
-      screen_info["num_posts_to_load"]
-    );
+    if (screen_name == "exposure") {
+      populate_feed_container(
+        feeds,
+        document.getElementById("FS-feeds"),
+        screen_info["labels"] ?? [],
+        screen_info["starting_num_posts"],
+        screen_info["num_posts_to_load"], 
+        true
+      );
+
+    } else {
+      populate_feed_container(
+        feeds,
+        document.getElementById("FS-feeds"),
+        screen_info["labels"] ?? [],
+        screen_info["starting_num_posts"],
+        screen_info["num_posts_to_load"]
+      );
+    }
   }
 
   if (screen_type == "correct_response") {
@@ -1287,7 +1318,7 @@ function display_screen(screen_info, section_name) {
     });
   }
 }
-    function populate_CC_screen(screen_info) {
+    function populate_cc_screen(screen_info) {
   let body_element = document.getElementById("CC-body");
 
   insert_entries(screen_info.entries, body_element, "feedback");
@@ -1295,87 +1326,85 @@ function display_screen(screen_info, section_name) {
 
     /**
  * Processes a checked question and updates the screen output.
- * @param {Element} questionDiv - The question div element.
+ *
+ * @param {Element} question_div - The question div element.
  * @param {Object} screen_output - The screen output object.
- * @param {Array} unansweredQuestions - Array to track unanswered questions.
+ * @param {Object} unanswered_questions - Object to track unanswered questions.
+ * @param {Object} incorrect_questions - Object to track incorrect questions.
  */
 function process_choice_question(
-  questionDiv,
+  question_div,
   screen_output,
   unanswered_questions,
   incorrect_questions
 ) {
-  const question_id = questionDiv.id;
-  const inputs = questionDiv.querySelectorAll("input");
-  const checked_inputs = questionDiv.querySelectorAll("input:checked");
-  const unchecked_inputs = questionDiv.querySelectorAll("input:not(:checked)");
+  const question_id = question_div.id;
+  const inputs = question_div.querySelectorAll("input");
+  const checked_inputs = question_div.querySelectorAll("input:checked");
+  const unchecked_inputs = question_div.querySelectorAll("input:not(:checked)");
 
-  const checkedOptions = [];
+  const chosen_answers = [];
   const correct_answers = [];
-  let sumOfValues = 0;
+  let score = 0;
 
-  for (let j = 0; j < checked_inputs.length; j++) {
-    const checkedInput = checked_inputs[j];
-    const optionText = checkedInput.nextElementSibling.textContent;
-    checkedOptions.push(optionText);
-    const optionValue = parseFloat(checkedInput.value, 10);
-    sumOfValues += isNaN(optionValue) ? 0 : optionValue;
+  for (let i = 0; i < checked_inputs.length; i++) {
+    const checked_input = checked_inputs[i];
+    const option_text = checked_input.nextElementSibling.textContent;
+    chosen_answers.push(option_text);
+    const option_value = parseFloat(checked_input.value);
+    score += isNaN(option_value) ? 0 : option_value;
   }
 
   if (question_id.slice(-2) !== "CF") {
-    // loop over the inouts that are not checked
-    for (let j = 0; j < unchecked_inputs.length; j++) {
-      const uncheckedInput = unchecked_inputs[j];
-      const optionText = uncheckedInput.nextElementSibling.textContent;
-      const optionValue = parseFloat(uncheckedInput.value, 10);
-      sumOfValues += isNaN(optionValue)
-        ? 0
-        : optionValue < 0
-        ? -optionValue
-        : 0;
+    for (let i = 0; i < unchecked_inputs.length; i++) {
+      const unchecked_input = unchecked_inputs[i];
+      const option_value = parseFloat(unchecked_input.value);
+      score += isNaN(option_value) ? 0 : option_value < 0 ? -option_value : 0;
     }
   }
 
-  for (let j = 0; j < inputs.length; j++) {
-    const input = inputs[j];
-    const optionText = input.nextElementSibling.textContent;
-    const optionValue = parseFloat(input.value, 10);
+  for (let i = 0; i < inputs.length; i++) {
+    const input = inputs[i];
+    const option_text = input.nextElementSibling.textContent;
+    const option_value = parseFloat(input.value);
 
-    if (optionValue > 0) {
-      correct_answers.push(optionText);
+    if (option_value > 0) {
+      correct_answers.push(option_text);
     }
   }
 
   const question = {
     question_type: "multiple_choice",
     correct_answers: correct_answers,
-    chosen_answers: checkedOptions,
+    chosen_answers: chosen_answers,
   };
 
-  if (checkedOptions.length === 0) {
-    unanswered_questions[questionDiv.id] = question;
+  if (chosen_answers.length === 0) {
+    unanswered_questions[question_div.id] = question;
   } else if (
-    checkedOptions.length !== correct_answers.length ||
-    !checkedOptions.every((value, index) => value === correct_answers[index])
+    chosen_answers.length !== correct_answers.length ||
+    !chosen_answers.every((value, index) => value === correct_answers[index])
   ) {
-    incorrect_questions[questionDiv.id] = question;
+    incorrect_questions[question_div.id] = question;
   }
 
   if (question_id.slice(-2) === "CF") {
-    screen_output["chosen_confidence"] = checkedOptions[0];
-    screen_output["confidence"] = sumOfValues;
+    screen_output["chosen_confidence"] = chosen_answers[0];
+    screen_output["confidence"] = score;
   } else {
-    const questionNum = question_id.slice(-2);
-    screen_output["chosen_options_" + questionNum] = checkedOptions;
-    screen_output["score_" + questionNum] = sumOfValues;
+    const question_num = question_id.slice(-2);
+    screen_output["chosen_options_" + question_num] = chosen_answers;
+    screen_output["score_" + question_num] = score;
   }
 }
 
 /**
  * Processes a post placement question and updates the screen output.
+ *
  * @param {Element} question_div - The question div element.
  * @param {Object} screen_output - The screen output object.
- * @param {Array} unansweredQuestions - Array to track unanswered questions.
+ * @param {Object} unanswered_questions - Object to track unanswered questions.
+ * @param {Object} incorrect_questions - Object to track incorrect questions.
  * @param {Element} feed_ul - The feed element.
  */
 function process_post_placement_question(
@@ -1387,8 +1416,8 @@ function process_post_placement_question(
 ) {
   const posts = feed_ul.querySelectorAll("li");
 
-  let chosenIndex = -1;
-  let correctIndex = -1;
+  let chosen_index = -1;
+  let correct_index = -1;
   let distance = -1;
 
   for (let i = 0; i < posts.length; i++) {
@@ -1396,30 +1425,39 @@ function process_post_placement_question(
     const position = parseInt(post.dataset.number);
     if (position >= 0) {
       distance = Math.abs(i - position);
-      correctIndex = position;
-      chosenIndex = i;
+      correct_index = position;
+      chosen_index = i;
       break;
     }
   }
 
   const question = {
     question_type: "post_placement",
-    correct_answers: [correctIndex],
-    chosen_answers: [chosenIndex],
+    correct_answers: [correct_index],
+    chosen_answers: [chosen_index],
   };
 
-  if (chosenIndex === -1) {
+  if (chosen_index === -1) {
     unanswered_questions[question_div.id] = question;
   } else if (distance > 0) {
     incorrect_questions[question_div.id] = question;
   }
 
-  screen_output["chosen_index"] = chosenIndex;
-  screen_output["correct_index"] = correctIndex;
+  screen_output["chosen_index"] = chosen_index;
+  screen_output["correct_index"] = correct_index;
   screen_output["distance"] = distance;
   screen_output["score_Q1"] = distance === 0 ? 1 : 0;
 }
 
+/**
+ * Processes a post arrangement question and updates the screen output.
+ *
+ * @param {Element} question_div - The question div element.
+ * @param {Object} screen_output - The screen output object.
+ * @param {Object} unanswered_questions - Object to track unanswered questions.
+ * @param {Object} incorrect_questions - Object to track incorrect questions.
+ * @param {Element} feed_ul - The feed element.
+ */
 function process_post_arrangement_question(
   question_div,
   screen_output,
@@ -1427,11 +1465,9 @@ function process_post_arrangement_question(
   incorrect_questions,
   feed_ul
 ) {
-  // for each li in the feed_ul, get the data-number and append it to response_ordering
   const posts = feed_ul.querySelectorAll("li");
 
-  let response_ordering = [];
-
+  const response_ordering = [];
   let some_incorrect = false;
 
   for (let i = 0; i < posts.length; i++) {
@@ -1446,10 +1482,10 @@ function process_post_arrangement_question(
   }
 
   screen_output["response_ordering"] = response_ordering;
-  // if response ordering is in strictly increasing order
-  screen_output["score_Q1"] = response_ordering.every((val, i, arr) => {
-    return i === 0 || val > arr[i - 1];
-  })
+  // TODO: may need to redo logic to check if correct order
+  screen_output["score_Q1"] = response_ordering.every(
+    (val, i, arr) => i === 0 || val > arr[i - 1]
+  )
     ? 1
     : 0;
 
@@ -1459,7 +1495,6 @@ function process_post_arrangement_question(
     chosen_answers: response_ordering,
   };
 
-  // if there are any li anywhere within the question_div, then incomplete is true
   const incomplete_posts = question_div.querySelectorAll("li");
 
   if (incomplete_posts.length > 0) {
@@ -1471,9 +1506,10 @@ function process_post_arrangement_question(
 
 /**
  * Processes a text input question and updates the screen output.
+ *
  * @param {Element} question_div - The question div element.
  * @param {Object} screen_output - The screen output object.
- * @param {Array} unanswered_questions - Array to track unanswered questions.
+ * @param {Object} unanswered_questions - Object to track unanswered questions.
  */
 function process_text_input_question(
   question_div,
@@ -1486,7 +1522,7 @@ function process_text_input_question(
 
   const question = {
     question_type: "text_input",
-    correct_answers: null, // No correct answers for text input questions
+    correct_answers: null,
     chosen_answers: user_input,
   };
 
@@ -1494,14 +1530,15 @@ function process_text_input_question(
     unanswered_questions[question_id] = question;
   }
 
-  // Update screen output
   screen_output["text_input_" + question_id] = user_input;
 }
 
 /**
  * Logs checked answers with sum and updates the screen output.
+ *
+ * @param {Object} screen_info - The screen info object.
  * @param {string} screen_name - The screen name.
- * @returns {Array} - Array of unanswered question div elements.
+ * @returns {Array} - Array containing screen output, unanswered questions, and incorrect questions.
  */
 function get_screen_results(screen_info, screen_name) {
   const choice_questions = document.getElementsByClassName("form-question");
@@ -1558,8 +1595,7 @@ function get_screen_results(screen_info, screen_name) {
   });
 
   if (Object.keys(unanswered_questions).length === 0) {
-    // if a screen_output with the same screen name already exists, concatenate "REPEAT" to the screen name
-    let question_outputs = output["questions"] ?? [];
+    const question_outputs = output["questions"] ?? [];
     const screen_output_with_same_name = question_outputs.find(
       (output) => output["screen_name"] === screen_name
     );
@@ -1570,13 +1606,18 @@ function get_screen_results(screen_info, screen_name) {
     } else {
       screen_output["repeat"] = false;
     }
-
-    // output["questions"].push(screen_output);
   }
 
   return [screen_output, unanswered_questions, incorrect_questions];
 }
 
+/**
+ * Logs the screen results and returns unanswered and incorrect questions.
+ *
+ * @param {number} section_index - The index of the section.
+ * @param {number} screen_index - The index of the screen.
+ * @returns {Array} - Array containing unanswered questions and incorrect questions.
+ */
 function log_screen(section_index, screen_index) {
   const screen_info = study_array[section_index].screens[screen_index];
   const screen_name = generate_screen_name(screen_info);
@@ -1603,7 +1644,7 @@ function log_screen(section_index, screen_index) {
       screen_output["screen_name"] = screen_name;
     }
 
-    let section_name = study_array[section_index].section_name;
+    const section_name = study_array[section_index].section_name;
 
     if (!output[section_name]) {
       output[section_name] = [];
@@ -1615,6 +1656,11 @@ function log_screen(section_index, screen_index) {
   return [unanswered_questions, incorrect_questions];
 }
 
+/**
+ * Logs the section results.
+ *
+ * @param {number} section_index - The index of the section.
+ */
 function log_section(section_index) {
   const section_name = study_array[section_index].section_name;
   const section_output = {
@@ -1627,6 +1673,7 @@ function log_section(section_index) {
 }
     /**
  * Highlights unanswered and incorrect questions on the screen.
+ *
  * @param {Object} unanswered_questions - Questions that are unanswered.
  * @param {Object} incorrect_questions - Questions that are answered incorrectly.
  */
@@ -1665,8 +1712,9 @@ function highlight_unanswered_questions(
 
 /**
  * Generates a feedback message based on the answer type.
+ *
  * @param {Object} answer - The answer object.
- * @returns {string} - The feedback message.
+ * @returns {string} The feedback message.
  */
 function answer_to_feedback(answer) {
   if (answer.question_type === "multiple-choice") {
@@ -1675,7 +1723,7 @@ function answer_to_feedback(answer) {
     )}</strong>" was incorrect. The correct answer was "<strong>${array_to_string(
       answer.correct_answers
     )}</strong>". 
-            Please correct your answer and try a new version of this question in the next screen.`;
+          Please correct your answer and try a new version of this question in the next screen.`;
   }
 
   if (answer.question_type === "post_placement") {
@@ -1684,12 +1732,13 @@ function answer_to_feedback(answer) {
     }</strong> is incorrect. Its correct position is <strong>${
       answer.correct_answers[0] + 1
     }</strong>.
-            Please correct your answer and try a new version of this question in the next screen.`;
+          Please correct your answer and try a new version of this question in the next screen.`;
   }
 }
 
 /**
  * Displays a message on the screen.
+ *
  * @param {HTMLElement} question_div - The question div element.
  * @param {string} color - The color of the message.
  * @param {string} message - The message to display.
@@ -1708,6 +1757,7 @@ function display_message(question_div, color, message) {
 
 /**
  * Removes a message from the screen.
+ *
  * @param {HTMLElement} question_div - The question div element.
  */
 function remove_message(question_div) {
@@ -1741,12 +1791,12 @@ function increment_screen_index() {
  * Proceeds to the next screen.
  */
 function next_screen() {
-  let curr_screen_info =
+  const curr_screen_info =
     study_array[curr_section_index].screens[curr_screen_index];
 
   if (
     question_screen_types.includes(curr_screen_info.screen_type) ||
-    curr_screen_info.screen_type == "feedback"
+    curr_screen_info.screen_type === "feedback"
   ) {
     const is_practice = curr_screen_info.screen_type === "practice";
 
@@ -1768,10 +1818,8 @@ function next_screen() {
     }
   }
 
-  // log the screen
   log_screen(curr_section_index, curr_screen_index);
 
-  // if last screen of section, log the section
   if (
     curr_screen_index ===
     study_array[curr_section_index].screens.length - 1
@@ -1779,21 +1827,18 @@ function next_screen() {
     log_section(curr_section_index);
   }
 
-  // increment indexes
   increment_screen_index();
 
-  let is_next_screen_correction =
-    study_array[curr_section_index].screens[curr_screen_index].screen_type ==
+  const is_next_screen_correction =
+    study_array[curr_section_index].screens[curr_screen_index].screen_type ===
     "correct_response";
 
   deactivate_screen(curr_screen_info.template_id, !is_next_screen_correction);
 
-  // if first screen of new section, log the start time of the new section
   if (curr_screen_index === 0) {
     study_array[curr_section_index]["start_time"] = new Date().getTime();
   }
 
-  // log the start time of the new screen
   study_array[curr_section_index].screens[curr_screen_index]["start_time"] =
     new Date().getTime();
 
@@ -1805,7 +1850,9 @@ function next_screen() {
 
 /**
  * Deactivates the current screen.
- * @param {Object} screen_info - The screen info object.
+ *
+ * @param {string} template_id - The template ID of the screen.
+ * @param {boolean} empty_feed - Flag to indicate if the feed should be emptied.
  */
 function deactivate_screen(template_id, empty_feed) {
   $("#CC-body").empty();
@@ -1819,23 +1866,18 @@ function deactivate_screen(template_id, empty_feed) {
   window.scrollTo(0, 0);
   document.getElementById(template_id).style.display = "none";
 }
-/**
- * Redact the specified class item.
- * @param {string} classNames - The class name of the item to redact.
- */
-function redact_items(classNames) {
-  classNames.forEach((className) => {
-    let items = document.getElementsByClassName(className);
-    if (items.length > 0) {
-      for (let i = 0; i < items.length; i++) {
-        // set color to black
-        items[i].style.color = "gray";
 
-        //items[i].style.display = 'none';
-        items[i].classList.add("redacted");
-      }
-    } else {
-      // console.log(`No items with class name ${className} found`);
+/**
+ * Redacts the specified class items.
+ *
+ * @param {string[]} class_names - The class names of the items to redact.
+ */
+function redact_items(class_names) {
+  class_names.forEach((class_name) => {
+    const items = document.getElementsByClassName(class_name);
+    for (let i = 0; i < items.length; i++) {
+      items[i].style.color = "gray";
+      items[i].classList.add("redacted");
     }
   });
 }
@@ -1847,125 +1889,63 @@ function submit() {
   proliferate.submit(output);
 }
 
-    function removeEmojis(input) {
-  const emojiPattern =
-    /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}\u{1F191}-\u{1F251}\u{1F004}\u{1F0CF}\u{1F170}-\u{1F171}\u{1F17E}-\u{1F17F}\u{1F18E}\u{3030}\u{2B50}\u{2B55}\u{2B05}-\u{2B07}\u{2B1B}-\u{2B1C}\u{3297}\u{3299}\u{23F0}\u{23F3}\u{231A}-\u{231B}\u{25FD}-\u{25FE}\u{2B50}\u{23E9}-\u{23EC}\u{2B05}-\u{2B07}\u{2B1B}-\u{2B1C}\u{2934}-\u{2935}\u{2B05}-\u{2B07}\u{27A1}]/gu;
+    /**
+ * Sanitizes *generic* posts by modifying their text, author name, and other properties.
+ *
+ * @param {Object[]} generic_posts - The array of posts to sanitize.
+ */
+function sanitize_posts(generic_posts) {
+  const placeholder_text =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
 
-  return input.replace(emojiPattern, "");
-}
+  for (let i = 0; i < generic_posts.length; i++) {
+    const post = generic_posts[i];
 
-function removeHashtags(input) {
-  const hashtagPattern = /#[^\s#]+/g;
-
-  return input.replace(hashtagPattern, "");
-}
-
-// https://stackoverflow.com/questions/25582882/javascript-math-random-normal-distribution-gaussian-bell-curve
-function randn_bm(min, max, skew) {
-  let u = 0,
-    v = 0;
-  while (u === 0) u = Math.random(); //Converting [0,1) to (0,1)
-  while (v === 0) v = Math.random();
-  let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
-
-  num = num / 10.0 + 0.5; // Translate to 0 -> 1
-  if (num > 1 || num < 0)
-    num = randn_bm(min, max, skew); // resample between 0 and 1 if out of range
-  else {
-    num = Math.pow(num, skew); // Skew
-    num *= max - min; // Stretch to fill range
-    num += min; // offset to min
-  }
-  return Math.round(num);
-}
-
-function sanitize_posts(posts) {
-  for (let i = 0; i < posts.length; i++) {
-    // make all text lorem ipsum
-    const original_text =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
-
-    const words = original_text.split(" ");
+    // Truncate the post text to a random length
+    const words = placeholder_text.split(" ");
     const random_word_count =
       Math.floor(Math.random() * (words.length - 20)) + 10;
     const truncated_text = words.slice(0, random_word_count).join(" ");
+    post.text = truncated_text;
 
-    posts[i].text = truncated_text;
-
-    // if the first character is an emoji, remove it 65% of the time
-    // if (posts[i].text.charCodeAt(0) >= 0x1F600 && posts[i].text.charCodeAt(0) <= 0x1F64F) {
-    //   if (Math.random() < 0.65) {
-    //     posts[i].text = posts[i].text.slice(2);
-    //   }
-    // }
-
-    // // Randomly remove emojis, hashtags, exclamations, and uppercases
-    // if (Math.random() < 0.65) {
-    //   posts[i].text = removeEmojis(posts[i].text);
-    // }
-
-    // if (Math.random() < 0.65) {
-    //   posts[i].text = removeHashtags(posts[i].text);
-    // }
-
-    // if (Math.random() < 0.65) {
-    //   posts[i].text = posts[i].text.replace(/!/g, '.');
-    // }
-
-    // if (Math.random() < 0.35) {
-    //   posts[i].text = posts[i].text.toLowerCase();
-    // }
-
-    // if the author_name is too long, remove the last word
+    // Shorten the author name if it's too long
     while (
-      posts[i].author_name.length > 16 &&
-      posts[i].author_name.split(" ").length > 1
+      post.author_name.length > 16 &&
+      post.author_name.split(" ").length > 1
     ) {
-      posts[i].author_name = posts[i].author_name
-        .split(" ")
-        .slice(0, -1)
-        .join(" ");
+      post.author_name = post.author_name.split(" ").slice(0, -1).join(" ");
     }
 
-    // if the author_name is still too long, remove the last characters starting at the last capital letter
-    if (posts[i].author_name.length > 18) {
-      const lastCapitalIndex = posts[i].author_name
+    // Further shorten the author name if it's still too long
+    if (post.author_name.length > 18) {
+      const last_capital_index = post.author_name
         .split("")
         .reverse()
         .join("")
         .search(/[A-Z]/);
-      posts[i].author_name = posts[i].author_name.slice(0, -lastCapitalIndex);
+      post.author_name = post.author_name.slice(0, -last_capital_index);
     }
 
-    // Assign days_since_posted
-    // Assign days_since_posted
-    posts[i].days_since_posted = Math.floor(Math.random() * 100); // Generates random integers from 0 to 200 inclusive
-
-    // Assign view_count, like_count, and comment_count
-    posts[i].view_count = 100 + Math.floor(Math.random() * 100); // Generates random integers from 0 to 2000 inclusive
-    posts[i].like_count = 50 + Math.floor(Math.random() * 100); // Generates random integers from 0 to 2000 inclusive
-
-    posts[i].comment_count = 25 + Math.floor(Math.random() * 100);
-
-    posts[i].repost_count = randn_bm(
-      posts[i].like_count / 10,
-      1.8 * posts[i].like_count,
-      1.2
-    );
+    // Assign random values to other post properties
+    post.days_since_posted = Math.floor(Math.random() * 100);
+    post.view_count = 100 + Math.floor(Math.random() * 100);
+    post.like_count = 50 + Math.floor(Math.random() * 100);
+    post.comment_count = 25 + Math.floor(Math.random() * 100);
+    post.repost_count = 25 + Math.floor(Math.random() * 100);
   }
 }
     /**
- * Generate a screen object based on the specified screen type.
+ * Generates a screen object based on the specified screen type.
  *
  * @param {string} screen_type - The type of screen to generate.
- * @param {object[]} base_posts - An array of base posts.
+ * @param {Object[]} base_posts - An array of base posts.
  * @param {number} starting_num_posts - The number of posts to start in each feed.
  * @param {number} num_posts_to_load - The number of posts to load with each "load more".
- * @param {object} weights - Weights for screen parameters.
+ * @param {Object} weights - Weights for screen parameters.
  * @param {number} feature_count - The count of features.
- * @param {number} repeat_num - What repeat number of the same  question and feature count.
- * @param {boolean} is_practice - Whether this is a practice screen or not.
- * @returns {object|null} The generated screen object, or null if the screen type is not recognized.
+ * @param {number} repeat_num - The repeat number of the same question and feature count.
+ * @param {boolean} [is_practice=false] - Whether this is a practice screen or not.
+ * @returns {Object|null} The generated screen object, or null if the screen type is not recognized.
  */
 function generate_scored_screen_object(
   screen_type,
@@ -1992,7 +1972,6 @@ function generate_scored_screen_object(
         is_practice
       );
       break;
-
     case "post_placement":
       screen = generate_post_placement_screen(
         screen_type,
@@ -2005,7 +1984,6 @@ function generate_scored_screen_object(
         is_practice
       );
       break;
-
     case "counterfactual_placement":
       screen = generate_counterfactual_placement_screen(
         screen_type,
@@ -2018,9 +1996,7 @@ function generate_scored_screen_object(
         is_practice
       );
       break;
-
     case "post_arrangement":
-      // json_concept_posts["posts"][concept_index][repeat_num]
       screen = generate_post_arrangement_screen(
         screen_type,
         starting_num_posts,
@@ -2031,27 +2007,27 @@ function generate_scored_screen_object(
         is_practice
       );
       break;
-
     default:
-      console.error(`screen type ${screen_type} not recognized`);
+      console.error(`Screen type ${screen_type} not recognized`);
       break;
   }
 
-  return screen; // Return the screen object here
+  return screen;
 }
 
 /**
  * Generates a screen array based on input parameters.
- * @param {Array} question_screen_types - The array of screen types.
- * @param {Array} posts - The array of posts.
- * @param {Array} feature_counts - The array of feature counts.
- * @param {number} num_same_features_and_question - The number of screen repetitions with same feature count and question.
- * @param {Array} feature_keys - The array of feature keys.
+ *
+ * @param {string[]} question_screen_types - The array of screen types.
+ * @param {Object[]} posts - The array of posts.
+ * @param {number[]} feature_counts - The array of feature counts.
+ * @param {number} num_same_features_and_question - The number of screen repetitions with the same feature count and question.
+ * @param {string[]} feature_keys - The array of feature keys.
  * @param {number} num_posts - The number of posts in each screen.
  * @param {number} starting_num_posts - The number of posts to start in each feed.
  * @param {number} num_posts_to_load - The number of posts to load with each "load more".
  * @param {boolean} includes_practice - Indicates whether to include practice screens.
- * @returns {Array} - The generated screen array.
+ * @returns {Object[]} The generated screen array.
  */
 function generate_screen_array(
   question_screen_types,
@@ -2066,7 +2042,6 @@ function generate_screen_array(
 ) {
   const section_array = [];
 
-  // Introduction screen
   const introduction_screen = {
     screen_type: "introduction",
     template_id: "introduction",
@@ -2077,59 +2052,39 @@ function generate_screen_array(
     screens: [introduction_screen],
   });
 
-  // Shuffle screen types and posts
   const shuffled_screen_types = deep_copy(question_screen_types);
   shuffle_array(shuffled_screen_types);
 
   posts.forEach((post) => {
-    // Calculate and add the text_length attribute to each post
     post.character_count = post.text.length;
   });
 
-  let practice_array = [];
+  const scored_screens_array = [];
 
-  // Generate practice screen for each screen (with one feature)
-  if (includes_practice) {
-    for (const screen_type of shuffled_screen_types) {
-      const base_posts = get_random_sample(posts, 10);
-      const weights = generate_weights(feature_keys, 1);
+  const weights = study_weights;
 
-      for (let repeat_num = 1; repeat_num <= 2; repeat_num++) {
-        const screen = generate_scored_screen_object(
-          screen_type,
-          base_posts,
-          starting_num_posts,
-          num_posts_to_load,
-          weights,
-          1,
-          repeat_num,
-          true
-        );
-        if (screen) {
-          practice_array.push(screen);
-        }
-      }
-    }
-
-    section_array.push({ section_name: "practice", screens: practice_array });
+  let base_posts;
+  if (bucketing) {
+    base_posts = source_posts;
+  }
+  else {
+    base_posts = get_random_sample(posts, max_num_posts_possible);
   }
 
-  let scored_screens_array = [];
-
-  // Generate screen objects
-  const weights = study_weights; // generate_weights(feature_keys, feature_counts[0]);
-  let base_posts = get_random_sample(posts, 6);
   linear_combination_sort(base_posts, weights);
 
-  let used_weights = Object.keys(deep_copy(weights)).reduce((result, key) => {
+  // this clears out all of the zero weighted things
+  const used_weights = Object.keys(deep_copy(weights)).reduce((result, key) => {
     if (weights[key] !== 0) {
       result[key] = weights[key];
     }
     return result;
   }, {});
 
-  if (Object.keys(used_weights).length === 1) {
-    unsort_posts(posts, Object.keys(used_weights)[0], starting_num_posts - 1);
+  if (Object.keys(used_weights).length === 1 && !algorithms_already_created) {
+    unsort_posts(base_posts, Object.keys(used_weights)[0], starting_num_posts - 1);
+  } else {
+    // I don't think we need to do anything, just don't unsort 
   }
 
   const exposure_screen = generate_exposure_screen(
@@ -2145,14 +2100,22 @@ function generate_screen_array(
   });
 
   for (let i = 0; i < shuffled_screen_types.length; i++) {
-    let screen_type = shuffled_screen_types[i];
+    const screen_type = shuffled_screen_types[i];
     for (
       let repeat_num = 1;
       repeat_num <= num_same_features_and_question;
       repeat_num++
     ) {
-      const base_posts = get_random_sample(posts, num_posts);
-      linear_combination_sort(base_posts, weights);
+      let base_posts;
+      if (bucketing) {
+        base_posts = get_random_sample_from_chunks(posts, num_posts);
+      }
+      else {
+        base_posts = get_random_sample(posts, num_posts);
+        // base_posts = deep_copy(posts)
+      }
+
+      //(base_posts, weights);
 
       const screen = generate_scored_screen_object(
         screen_type,
@@ -2186,7 +2149,6 @@ function generate_screen_array(
     screens: scored_screens_array,
   });
 
-  // Feedback screen
   const feedback_screen = generate_feedback_screen("feedback");
 
   section_array.push({
@@ -2194,7 +2156,6 @@ function generate_screen_array(
     screens: [feedback_screen],
   });
 
-  // Submission screen
   const submission_screen = {
     screen_type: "submission",
     template_id: "submission",
@@ -2208,23 +2169,25 @@ function generate_screen_array(
   return section_array;
 }
     /**
- * Unsort posts based on remaining features.
- * @param {Array} posts - An array of post objects.
+ * Unsorts posts based on remaining features.
+ *
+ * @param {Object[]} posts - An array of post objects.
  * @param {string} feature_to_ignore - The feature to ignore while unsorting.
+ * @param {number} [first_num_posts_to_change=posts.length] - The number of posts to change starting from the first post.
+ * @throws {Error} If the input is invalid or the specified feature_to_ignore does not exist in the post objects.
  */
-function unsort_posts(posts, feature_to_ignore, first_num_posts_to_change) {
-  if (first_num_posts_to_change === undefined) {
-    first_num_posts_to_change = posts.length;
-  }
-
-  // Validate inputs
+function unsort_posts(
+  posts,
+  feature_to_ignore,
+  first_num_posts_to_change = posts.length
+) {
   if (!Array.isArray(posts) || typeof feature_to_ignore !== "string") {
     throw new Error(
       "Invalid input. Expecting an array of posts and a string for feature_to_ignore."
     );
   }
 
-  const feature_keys = Object.keys(posts[0]); // Assuming all posts have the same keys
+  const feature_keys = Object.keys(posts[0]);
   if (!feature_keys.includes(feature_to_ignore)) {
     throw new Error(
       "The specified feature_to_ignore does not exist in the post objects."
@@ -2235,7 +2198,7 @@ function unsort_posts(posts, feature_to_ignore, first_num_posts_to_change) {
     (key) => key !== feature_to_ignore
   );
 
-  function is_sorted_by_feature_increasing(feature) {
+  const is_sorted_by_feature_increasing = (feature) => {
     for (let i = 1; i < first_num_posts_to_change; i++) {
       if (
         posts[i].hasOwnProperty(feature) &&
@@ -2245,9 +2208,9 @@ function unsort_posts(posts, feature_to_ignore, first_num_posts_to_change) {
       }
     }
     return true;
-  }
+  };
 
-  function is_sorted_by_feature_decreasing(feature) {
+  const is_sorted_by_feature_decreasing = (feature) => {
     for (let i = 1; i < first_num_posts_to_change; i++) {
       if (
         posts[i].hasOwnProperty(feature) &&
@@ -2257,18 +2220,17 @@ function unsort_posts(posts, feature_to_ignore, first_num_posts_to_change) {
       }
     }
     return true;
-  }
+  };
 
-  const maxAttempts = 1000; // Set a maximum number of attempts
-  let attempts = 0;
+  const MAX_ATTEMPTS = 1000;
 
   for (const feature of remaining_feature_keys) {
-    attempts = 0; // Reset attempts for each feature
+    let attempts = 0;
 
     while (
       (is_sorted_by_feature_increasing(feature) ||
         is_sorted_by_feature_decreasing(feature)) &&
-      attempts < maxAttempts
+      attempts < MAX_ATTEMPTS
     ) {
       let index1, index2;
       do {
@@ -2276,7 +2238,6 @@ function unsort_posts(posts, feature_to_ignore, first_num_posts_to_change) {
         index2 = Math.floor(Math.random() * first_num_posts_to_change);
       } while (index1 === index2);
 
-      // Swap only if the feature exists in both posts
       if (
         posts[index1].hasOwnProperty(feature) &&
         posts[index2].hasOwnProperty(feature)
@@ -2290,59 +2251,69 @@ function unsort_posts(posts, feature_to_ignore, first_num_posts_to_change) {
           posts[index1].hasOwnProperty("text") &&
           posts[index2].hasOwnProperty("text")
         ) {
-          const textTemp = posts[index1]["text"];
+          const text_temp = posts[index1]["text"];
           posts[index1]["text"] = posts[index2]["text"];
-          posts[index2]["text"] = textTemp;
+          posts[index2]["text"] = text_temp;
         }
       }
 
-      attempts++; // Increment attempts
+      attempts++;
     }
 
-    if (attempts === maxAttempts) {
+    if (attempts === MAX_ATTEMPTS) {
       console.warn(
-        `Reached maximum number of attempts (${maxAttempts}) for unsorting posts by feature ${feature}.`
+        `Reached maximum number of attempts (${MAX_ATTEMPTS}) for unsorting posts by feature ${feature}.`
       );
     }
   }
 }
 
 /**
- * Generates a random weight dictionary for the given features.
- * @param {Array} features - The array of feature names.
- * @param {number} num_features - The number of features to have weight != 0.
- * @param {boolean} magnitude_one - Whether all weights should of magnitude 1.
- * @returns {Object} - The randomly generated weights dictionary.
+ * Generates random weights for the given features.
+ *
+ * @param {string[]} features - The array of feature names.
+ * @param {number} num_features - The number of features to have non-zero weight.
+ * @param {boolean} [magnitude_one=false] - Whether all weights should have a magnitude of 1.
+ * @param {boolean} [algorithms_already_created=false] - Whether algorithm has been precomputed and should have weight = 1.
+ * @param {string} [alg=null] - The name of the precomputed algorithm condition
+ * @returns {Object} The randomly generated weights object.
+ * @throws {Error} If the number of features is greater than the total number of features.
  */
-function generate_weights(features, num_features, magnitude_one = false) {
+function generate_weights(features, num_features, magnitude_one = false, algorithms_already_created = false, alg = null) {
   if (num_features > features.length) {
     throw new Error(
-      "The number of features cannot be greater than the number of features."
+      "The number of features cannot be greater than the total number of features."
     );
   }
 
-  let weights = {};
+  const weights = {};
   let num_features_set = 0;
-  while (num_features_set < num_features) {
-    let random_feature = features[Math.floor(Math.random() * features.length)];
-    if (weights[random_feature] === undefined) {
-      if (magnitude_one) {
-        weights[random_feature] = Math.random() < 0.5 ? -1 : 1;
-      } else {
-        do {
-          weights[random_feature] = truncate(Math.random() * 2 - 1);
-        } while (Math.abs(weights[random_feature]) <= 0.1);
+
+  if (algorithms_already_created){
+    weights[alg] = 1
+  } else {
+    while (num_features_set < num_features) {
+      const random_feature =
+        features[Math.floor(Math.random() * features.length)];
+      if (weights[random_feature] === undefined) {
+        if (magnitude_one) {
+          weights[random_feature] = Math.random() < 0.5 ? -1 : 1;
+        } else {
+          do {
+            weights[random_feature] = truncate(Math.random() * 2 - 1);
+          } while (Math.abs(weights[random_feature]) <= 0.1);
+        }
+        num_features_set++;
       }
-      num_features_set++;
+    }
+
+    if (Object.keys(weights).length === 1) {
+      const key = Object.keys(weights)[0];
+      weights[key] = weights[key] >= 0 ? 1 : -1;
     }
   }
 
-  if (Object.keys(weights).length === 1) {
-    let key = Object.keys(weights)[0];
-    weights[key] = weights[key] >= 0 ? 1 : -1;
-  }
-
-  for (let feature of features) {
+  for (const feature of features) {
     if (weights[feature] === undefined) {
       weights[feature] = 0;
     }
@@ -2352,19 +2323,20 @@ function generate_weights(features, num_features, magnitude_one = false) {
 }
 
 /**
- * Sorts a feed array of posts based on the provided weights dictionary.
- * @param {Array} feed - The feed array of posts to be sorted.
- * @param {Object} weights - The weights dictionary for features.
+ * Sorts a feed array of posts based on the provided weights.
+ *
+ * @param {Object[]} feed - The feed array of posts to be sorted.
+ * @param {Object} weights - The weights object for features.
  */
 function linear_combination_sort(feed, weights) {
-  feed.sort(function (a, b) {
+  feed.sort((a, b) => {
     let a_score = 0;
     let b_score = 0;
-    for (let key in weights) {
+    for (const key in weights) {
       if (key === "character_count") {
         a_score += weights[key] * a["text"].length;
         b_score += weights[key] * b["text"].length;
-      } else {
+      } else if (weights[key] != 0){
         a_score += weights[key] * a[key];
         b_score += weights[key] * b[key];
       }
@@ -2374,24 +2346,26 @@ function linear_combination_sort(feed, weights) {
 }
 
 /**
- * Modifies the weights dictionary with one of the weights changed.
- * @param {Object} weights - The weights dictionary to be modified.
- * @returns {string} - The name of the weight that was changed.
+ * Modifies the weights object by changing one of the weights.
+ *
+ * @param {Object} weights - The weights object to be modified.
+ * @returns {string} The name of the weight that was changed.
  */
 function permute_weights(weights) {
-  let keys = Object.keys(weights);
-  let random_key = keys[Math.floor(Math.random() * keys.length)];
+  const keys = Object.keys(weights);
+  const random_key = keys[Math.floor(Math.random() * keys.length)];
   weights[random_key] = truncate(Math.random() * 2 - 1);
   return random_key;
 }
 
 /**
- * Returns the name of a randomly selected nonzero weight from the weights dictionary.
- * @param {Object} weights - The weights dictionary.
- * @returns {string} - The name of the selected nonzero weight.
+ * Returns the name of a randomly selected non-zero weight from the weights object.
+ *
+ * @param {Object} weights - The weights object.
+ * @returns {string} The name of the selected non-zero weight.
  */
 function get_random_nonzero_weight(weights) {
-  let keys = Object.keys(weights);
+  const keys = Object.keys(weights);
   let random_key = keys[Math.floor(Math.random() * keys.length)];
   while (weights[random_key] === 0) {
     random_key = keys[Math.floor(Math.random() * keys.length)];
@@ -2400,13 +2374,14 @@ function get_random_nonzero_weight(weights) {
 }
 
 /**
- * Modifies the weights dictionary by changing the sign of one of the weights.
- * @param {Object} weights - The weights dictionary to be modified.
- * @returns {string} - The name of the weight that was changed.
+ * Modifies the weights object by changing the sign of one of the weights.
+ *
+ * @param {Object} weights - The weights object to be modified.
+ * @returns {string} The name of the weight that was changed.
  */
 function permute_weights_valence(weights) {
-  let keys = Object.keys(weights);
-  let random_key = keys[Math.floor(Math.random() * keys.length)];
+  const keys = Object.keys(weights);
+  const random_key = keys[Math.floor(Math.random() * keys.length)];
 
   if (weights[random_key] === 0) {
     do {
@@ -2421,8 +2396,9 @@ function permute_weights_valence(weights) {
 
 /**
  * Inserts a duplicate screen into the screen array.
- * @param {Array} screen_array - The screen array.
- * @param {number} num_repeats - The number of same feature count+questions repetitions.
+ *
+ * @param {Object[]} screen_array - The screen array.
+ * @param {number} num_repeats - The number of repetitions with the same feature count and questions.
  * @param {number} num_feature_counts - The number of feature counts.
  */
 function insert_duplicate_screen(
@@ -2441,33 +2417,155 @@ function insert_duplicate_screen(
 
 /**
  * Generates a screen name based on screen information.
+ *
  * @param {Object} screen_info - The screen information object.
- * @returns {string} - The generated screen name.
+ * @returns {string} The generated screen name.
  */
 function generate_screen_name(screen_info) {
   let screen_name = `study-${screen_info.screen_type}-features-${screen_info["feature_count"]}-${screen_info["instance_number"]}`;
-  if (screen_info.screen_type == "introduction") {
+
+  if (screen_info.screen_type === "introduction") {
     screen_name = "introduction";
-  } else if (screen_info.screen_type == "submission") {
+  } else if (screen_info.screen_type === "submission") {
     screen_name = "submission";
-  } else if (screen_info.screen_type == "exposure") {
+  } else if (screen_info.screen_type === "exposure") {
     screen_name = "exposure";
-  } else if (screen_info.screen_type == "feedback") {
+  } else if (screen_info.screen_type === "feedback") {
     screen_name = "feedback";
   }
 
   return screen_name;
 }
 
+function assign_extra_posts_to_buckets(posts_left_over, num_buckets){
+  var buckets_with_extra = []
+  for (let i = 0; i < posts_left_over; i+= 1) {
+    let random_bucket = Math.floor(Math.random() * num_buckets);
+    buckets_with_extra.push(random_bucket)
+  }
+  return buckets_with_extra
+}
+
+
+function generate_posts_from_buckets(data, num_buckets, max_num_posts_possible) {
+
+  var length_of_buckets = Math.floor(data.length / num_buckets)
+  var posts_per_bucket = Math.floor(max_num_posts_possible / num_buckets)
+  var posts_left_over = max_num_posts_possible - (posts_per_bucket * num_buckets)
+
+  var buckets_with_extra = assign_extra_posts_to_buckets(posts_left_over, num_buckets)
+
+  var chunks = []
+  var sampled_chunks = []
+
+  let count = 0
+  for (let i = 0; i < data.length; i += length_of_buckets) {
+    if (count == num_buckets - 1) {
+      var chunk = data.slice(i);
+    }
+    else {
+      var chunk = data.slice(i, i + length_of_buckets);
+    }
+    chunks.push(chunk)
+
+    if (buckets_with_extra.includes(count)) {
+      let num_to_add = buckets_with_extra.reduce((n, x) => n + (x === count), 0);
+      sampled_chunks.push(get_random_sample(chunk, posts_per_bucket + num_to_add))
+    }
+    else {
+      sampled_chunks.push(get_random_sample(chunk, posts_per_bucket))
+    }
+    if (count == num_buckets - 1) {
+      break;
+    }
+    count += 1;
+  }
+
+  var sampled_chunks_flattened = []
+  for (let i = 0; i < sampled_chunks.length; i += 1) {
+    for (let j = 0; j < sampled_chunks[i].length; j +=1) {
+      sampled_chunks[i][j]["Chunk"] = i
+      sampled_chunks_flattened.push(sampled_chunks[i][j])
+    }
+  }
+
+  for (let i = 0; i < sampled_chunks_flattened.length; i += 1) {
+    sampled_chunks_flattened[i]["Index"] = i
+  }
+  return sampled_chunks_flattened
+
+}
+
+function get_random_sample_from_chunks(data, num_posts, excluded_posts = []) {
+  chunked_data = create_chunked_data(data)
+  var num_buckets = chunked_data.length;
+  var posts_per_bucket = Math.floor(num_posts / num_buckets)
+  var posts_left_over = num_posts - (posts_per_bucket * num_buckets)
+
+  var buckets_with_extra = assign_extra_posts_to_buckets(posts_left_over, num_buckets)
+
+  var sampled_chunks = [] 
+
+  for (let i = 0; i < chunked_data.length; i++) {
+
+    if (buckets_with_extra.includes(i)) {
+      let num_to_add = buckets_with_extra.reduce((n, x) => n + (x === i), 0);
+      sampled_chunks.push(get_random_sample(chunked_data[i], posts_per_bucket + num_to_add, excluded_posts))
+    }
+    else {
+      sampled_chunks.push(get_random_sample(chunked_data[i], posts_per_bucket, excluded_posts))
+    }
+  }
+
+  var sampled_chunks_flattened = []
+  for (let i = 0; i < sampled_chunks.length; i += 1) {
+    for (let j = 0; j < sampled_chunks[i].length; j +=1) {
+      sampled_chunks_flattened.push(sampled_chunks[i][j])
+    }
+  }
+
+  return sampled_chunks_flattened
+}
+
+function create_chunked_data(data) {
+  new_dict = {}
+
+  for (let i = 0; i < data.length; i+=1) {
+    if (!(data[i]["Chunk"] in new_dict)) {
+      new_dict[data[i]["Chunk"]] = []
+    }
+    new_dict[data[i]["Chunk"]].push(data[i])
+  }
+  new_list = []
+  for (var key in new_dict) {
+    new_list.push(new_dict[key])
+  }
+  return new_list
+}
+
+
+function get_random_sample_indices_from_chunks(data, num_posts, excluded_posts = []) {
+    sampled_chunks_flattened = get_random_sample_from_chunks(data, num_posts, excluded_posts)
+    indicies = []
+    for (let i = 0; i < sampled_chunks_flattened.length; i += 1) {
+      indicies.push(sampled_chunks_flattened[i]["Index"])
+    }
+    return indicies
+}
+
+
     /**
  * Generates a Counterfactual Placement screen object.
+ *
  * @param {string} screen_type - The type of screen.
- * @param {object[]} base_posts - An array of base posts.
+ * @param {Object[]} base_posts - An array of base posts.
+ * @param {number} starting_num_posts - The starting number of posts.
+ * @param {number} num_posts_to_load - The number of posts to load.
  * @param {Object} weights - The weights for features.
  * @param {number} feature_count - The feature count.
  * @param {number} repeat_num - The repetition number.
- * @param {boolean} is_practice - Indicates if it's a practice screen.
- * @returns {Object} - The Counterfactual Placement screen object.
+ * @param {boolean} [is_practice=false] - Indicates if it's a practice screen.
+ * @returns {Object} The Counterfactual Placement screen object.
  */
 function generate_counterfactual_placement_screen(
   screen_type,
@@ -2479,32 +2577,29 @@ function generate_counterfactual_placement_screen(
   repeat_num,
   is_practice = false
 ) {
-  const maxIterations = 1000; // Set your desired maximum iteration limit
-  let iterationCount = 0;
+  const MAX_ITERATIONS = 1000;
+  let iteration_count = 0;
 
-  let posts = deep_copy(base_posts);
-
-  let post_index = Math.floor(Math.random() * (num_posts_to_load - 2)) + 1;
-  let post = deep_copy(posts[post_index]);
+  const posts = deep_copy(base_posts);
+  const post_index = Math.floor(Math.random() * (num_posts_to_load - 2)) + 1;
+  const post = deep_copy(posts[post_index]);
   let new_post;
   let dummy_feed;
 
   const higher_same_lower = [-1, 0, 1][Math.floor(Math.random() * 3)];
-
   let change_direction;
-  let changed_feature;
+  let highlighted_feature;
 
   do {
-    // Check if the maximum iteration limit is reached
-    if (iterationCount >= maxIterations) {
+    if (iteration_count >= MAX_ITERATIONS) {
       console.warn(
         "Maximum iteration limit reached. Consider checking your logic."
       );
-      break; // Exit the loop
+      break;
     }
 
     new_post = deep_copy(post);
-    changed_feature =
+    highlighted_feature =
       Object.keys(weights)[
         Math.floor(Math.random() * Object.keys(weights).length)
       ];
@@ -2512,7 +2607,7 @@ function generate_counterfactual_placement_screen(
     dummy_feed = deep_copy(posts);
     dummy_feed.splice(post_index, 1);
 
-    if (changed_feature === "character_count") {
+    if (highlighted_feature === "character_count") {
       const generic_texts = [
         "Hoc est admirabile, dignum admiratione!",
         "Incredibile! Omnes oculi convergent!",
@@ -2524,48 +2619,38 @@ function generate_counterfactual_placement_screen(
         "Per aspera ad astra. Virtus in difficultatibus crescit.",
       ];
 
-      // Change the length of the text, either by removing a random number of words,
-      // or adding generic text at the end
-      let text = new_post["text"];
+      const text = new_post["text"];
 
-      // Randomly decide whether to delete words or add generic text
       if (Math.random() < 0.5) {
-        // Calculate the number of words to remove (randomly)
         const words = text.split(" ");
-        const wordsToRemove = Math.floor(Math.random() * words.length);
-
-        // Remove the specified number of words from the end
-        const newText = words.slice(0, words.length - wordsToRemove).join(" ");
-
-        // Update the 'text' property in the 'new_post' object
-        new_post["text"] = newText;
+        const words_to_remove = Math.floor(Math.random() * words.length);
+        const new_text = words
+          .slice(0, words.length - words_to_remove)
+          .join(" ");
+        new_post["text"] = new_text;
       } else {
-        // Randomly select a generic text from the array
-        const randomIndex = Math.floor(Math.random() * generic_texts.length);
-        const selectedText = generic_texts[randomIndex];
-
-        // Add the selected generic text at the end
-        new_post["text"] = text + " " + selectedText;
+        const random_index = Math.floor(Math.random() * generic_texts.length);
+        const selected_text = generic_texts[random_index];
+        new_post["text"] = text + " " + selected_text;
       }
     } else {
-      // For other features, modify the value by multiplying it with a random factor
-      new_post[changed_feature] = Math.floor(
-        new_post[changed_feature] * Math.random() * 5
+      new_post[highlighted_feature] = Math.floor(
+        new_post[highlighted_feature] * Math.random() * 5
       );
     }
 
-    new_post["changed_feature"] = changed_feature;
+    new_post["highlighted_feature"] = highlighted_feature;
     dummy_feed.push(new_post);
     linear_combination_sort(dummy_feed, weights);
 
-    let change_in_index = post_index - dummy_feed.indexOf(new_post);
+    const change_in_index = post_index - dummy_feed.indexOf(new_post);
     change_direction =
       change_in_index === 0 ? 0 : change_in_index / Math.abs(change_in_index);
 
-    iterationCount++; // Increment the iteration count
+    iteration_count++;
   } while (change_direction !== higher_same_lower || new_post === post);
 
-  posts[post_index]["changed_feature"] = changed_feature;
+  posts[post_index]["highlighted_feature"] = highlighted_feature;
 
   const screen = {
     screen_type: screen_type,
@@ -2584,11 +2669,13 @@ function generate_counterfactual_placement_screen(
   return screen;
 }
     /**
- * Generates an Exposure screen object.
+ * Generates an algorithm exposure screen object.
+ *
  * @param {string} screen_type - The type of screen.
- * @param {object[]} base_posts - An array of base posts.
+ * @param {Object[]} base_posts - An array of base posts.
  * @param {number} starting_num_posts - The starting number of posts.
  * @param {number} num_posts_to_load - The number of posts to load with each "load more".
+ * @returns {Object} The Exposure screen object.
  */
 function generate_exposure_screen(
   screen_type,
@@ -2613,11 +2700,13 @@ function generate_exposure_screen(
   return screen;
 }
     /**
- * Generates an Exposure screen object.
+ * Generates a screen object for showing the user the correct response.
+ *
  * @param {string} screen_type - The type of screen.
- * @param {object[]} base_posts - An array of base posts.
+ * @param {Object[]} base_posts - An array of base posts.
  * @param {number} starting_num_posts - The starting number of posts.
  * @param {number} num_posts_to_load - The number of posts to load with each "load more".
+ * @returns {Object} The generated screen object.
  */
 function generate_correct_response_screen(
   screen_type,
@@ -2626,7 +2715,6 @@ function generate_correct_response_screen(
   num_posts_to_load
 ) {
   base_posts = deep_copy(base_posts);
-
   const sidebar_entries = deep_copy(
     SCREEN_TYPE_INFO[screen_type].sidebar_entries
   );
@@ -2650,14 +2738,17 @@ function generate_correct_response_screen(
   return screen;
 }
     /**
- * Generates a Feed Comparison screen object.
+ * Generates a feed comparison screen object.
+ *
  * @param {string} screen_type - The type of screen.
- * @param {number} num_posts - The number of posts.
+ * @param {Object[]} base_posts - An array of base posts.
+ * @param {number} starting_num_posts - The starting number of posts.
+ * @param {number} num_posts_to_load - The number of posts to load.
  * @param {Object} weights - The weights for features.
  * @param {number} feature_count - The feature count.
  * @param {number} repeat_num - The repetition number.
- * @param {boolean} is_practice - Indicates if it's a practice screen.
- * @returns {Object} - The Feed Comparison screen object.
+ * @param {boolean} [is_practice=false] - Indicates if it's a practice screen.
+ * @returns {Object} The Feed Comparison screen object.
  */
 function generate_feed_comparison_screen(
   screen_type,
@@ -2670,27 +2761,24 @@ function generate_feed_comparison_screen(
   is_practice = false
 ) {
   base_posts = deep_copy(base_posts);
-
-  let comparison_posts = get_random_sample(
-    json_posts["posts"],
+  const comparison_posts = get_random_sample(
+    source_posts,
     base_posts.length,
     base_posts
   );
-
   linear_combination_sort(comparison_posts, weights);
+  const same_sort_b = JSON.stringify(comparison_posts);
 
-  const same_sort_B = JSON.stringify(comparison_posts);
   let permuted = Math.random() > 0.5;
-  let permuted_weights = deep_copy(weights);
-
+  const permuted_weights = deep_copy(weights);
   if (permuted) {
     do {
       permute_weights_valence(permuted_weights);
       linear_combination_sort(comparison_posts, permuted_weights);
-    } while (JSON.stringify(comparison_posts) == same_sort_B);
+    } while (JSON.stringify(comparison_posts) === same_sort_b);
   }
 
-  let used_permuted_weights = Object.keys(deep_copy(permuted_weights)).reduce(
+  const used_permuted_weights = Object.keys(deep_copy(permuted_weights)).reduce(
     (result, key) => {
       if (permuted_weights[key] !== 0) {
         result[key] = permuted_weights[key];
@@ -2726,15 +2814,17 @@ function generate_feed_comparison_screen(
   return screen;
 }
     /**
- * Generates a Post Placement screen object.
+ * Generates a post placement screen object.
+ *
  * @param {string} screen_type - The type of screen.
- * @param {object[]} base_posts - An array of base posts.
- * @param {number} num_posts - The number of posts.
+ * @param {Object[]} base_posts - An array of base posts.
+ * @param {number} starting_num_posts - The starting number of posts.
+ * @param {number} num_posts_to_load - The number of posts to load.
  * @param {Object} weights - The weights for features.
  * @param {number} feature_count - The feature count.
  * @param {number} repeat_num - The repetition number.
- * @param {boolean} is_practice - Indicates if it's a practice screen.
- * @returns {Object} - The Post Placement screen object.
+ * @param {boolean} [is_practice=false] - Indicates if it's a practice screen.
+ * @returns {Object} The Post Placement screen object.
  */
 function generate_post_placement_screen(
   screen_type,
@@ -2747,41 +2837,34 @@ function generate_post_placement_screen(
   is_practice = false
 ) {
   base_posts = deep_copy(base_posts);
-
   let new_post_index = base_posts.length;
-  let new_post = get_random_sample(json_posts["posts"], 1, base_posts)[0];
-
-  // Combine base_posts and the new_post
+  let new_post = get_random_sample(source_posts, 1, base_posts)[0];
   let all_posts = [...base_posts, new_post];
 
-  while (new_post_index >= num_posts_to_load) {
-    // Clone and extract the new_post from json_posts['posts']
-    new_post = get_random_sample(json_posts["posts"], 1, base_posts)[0];
-
-    if (base_posts.indexOf(new_post) != -1) {
-      continue;
-    }
-
-    // Combine base_posts and the new_post
-    all_posts = [...base_posts, new_post];
-
-    // Linearly sort all_posts based on weights
+  if (bucketing) {
     linear_combination_sort(all_posts, weights);
-
-    // Find the index of the new_post in the sorted all_posts array
     new_post_index = all_posts.indexOf(new_post);
   }
+  else {
+    while (new_post_index >= num_posts_to_load) {
+      new_post = get_random_sample(source_posts, 1, base_posts)[0];
+      if (base_posts.indexOf(new_post) !== -1) {
+        continue;
+      }
+      all_posts = [...base_posts, new_post];
+      linear_combination_sort(all_posts, weights);
+      new_post_index = all_posts.indexOf(new_post);
+    }
+  }
 
-  // Create a new already sorted array that excludes the new_post
+  correct_posts = deep_copy(all_posts)
+
   const without_new_post = all_posts.filter((post) => post !== new_post);
-
   const sidebar_entries = deep_copy(
     SCREEN_TYPE_INFO[screen_type].sidebar_entries
   );
-
   new_post["correct_position"] = new_post_index;
 
-  // loop over the sidebar entries that have an answer are of "post_bank"
   sidebar_entries.forEach((entry) => {
     if (entry.answer_area === "post_bank") {
       entry["post_bank"] = [new_post];
@@ -2798,6 +2881,7 @@ function generate_post_placement_screen(
     feeds: [without_new_post],
     starting_num_posts: starting_num_posts,
     num_posts_to_load: num_posts_to_load,
+    correct_posts: correct_posts,
     sidebar_entries: sidebar_entries,
     labels: ["Your Ordering"],
   };
@@ -2806,13 +2890,15 @@ function generate_post_placement_screen(
 }
     /**
  * Generates a Post Placement screen object.
+ *
  * @param {string} screen_type - The type of screen.
  * @param {number} starting_num_posts - The starting number of posts.
  * @param {number} num_posts_to_load - The number of posts to load with each "load more".
  * @param {number} repeat_num - The repetition number.
- * @param posts
- * @param weights
- * @param {boolean} is_practice - Indicates if it's a practice screen.
+ * @param {Object[]} posts - The array of posts.
+ * @param {Object} weights - The weights for features.
+ * @param {boolean} [is_practice=false] - Indicates if it's a practice screen.
+ * @returns {Object} The Post Placement screen object.
  */
 function generate_post_arrangement_screen(
   screen_type,
@@ -2824,20 +2910,17 @@ function generate_post_arrangement_screen(
   is_practice = false
 ) {
   posts = deep_copy(posts);
-  let correct_posts = deep_copy(posts);
+  const correct_posts = deep_copy(posts);
 
-  // give each post a correct position equal to its index
   posts.forEach((post, index) => {
     post["correct_position"] = index;
   });
-
   shuffle_array(posts);
 
   const sidebar_entries = deep_copy(
     SCREEN_TYPE_INFO[screen_type].sidebar_entries
   );
 
-  // loop over the sidebar entries that have an answer are of "post_bank"
   sidebar_entries.forEach((entry) => {
     if (entry.answer_area === "post_bank") {
       entry["post_bank"] = posts;
@@ -2861,12 +2944,19 @@ function generate_post_arrangement_screen(
 
   return screen;
 }
-    function generate_feedback_screen(screen_type) {
+    /**
+ * Generates a user feedback screen object.
+ *
+ * @param {string} screen_type - The type of screen.
+ * @returns {Object} The Feedback screen object.
+ */
+function generate_feedback_screen(screen_type) {
   const screen = {
     screen_type: screen_type,
     template_id: SCREEN_TYPE_INFO[screen_type].template_id,
     entries: deep_copy(SCREEN_TYPE_INFO[screen_type].entries),
   };
+
   return screen;
 }
 
@@ -3022,17 +3112,15 @@ function string_to_rgb(string) {
 let curr_section_index = 0;
 let curr_screen_index = 0;
 
-// const start_times = {};
-
-start_time = new Date(); // this variable isn't used, but seems to be expected by EasyTurk
+start_time = new Date();
 
 const output = {};
-output["global"] = [];
-// output["global"].push({ concept_index: concept_index });
+output["global"] = []; // output["global"].push({ concept_index: concept_index });
+output["global"].push({condition: condition});
 
-output["global"].push({ weights: study_weights });
+// output["global"].push({ linear_combination_sort: study_weights });
 
-sanitize_posts(source_posts);
+// sanitize_posts(source_posts);
 
 const study_array = generate_screen_array(
   question_screen_types,
@@ -3045,6 +3133,8 @@ const study_array = generate_screen_array(
   num_posts_to_load,
   include_practice
 );
+
+console.log(study_array);
 
 study_array[0]["start_time"] = new Date().getTime();
 study_array[0].screens[0]["start_time"] = new Date().getTime();
