@@ -100,10 +100,15 @@ img {
   overflow: scroll;
 }
 
+.question-upper-container { 
+  margin: 20px;
+/*  position: sticky;
+*/ }
+
 .question-container {
-  max-height: 700px;
-  width: 230px;
-  word-wrap: break-word;
+/*  max-height: 700px;
+*//*  width: 230px;
+*/  word-wrap: break-word;
 }
 
 .time {
@@ -115,6 +120,10 @@ img {
   margin: 5px 0;
   border: 1px solid #ccc;
   border-radius: 6px;
+}
+
+.feeds {
+  width: 600px;
 }
 
 .author-info {
@@ -157,8 +166,8 @@ img {
   align-items: center;
   gap: 3px;
   font-size: 12px;
-  color: #888;
-}
+/*  color: #888;
+*/}
 
 .count {
   font-size: 14px !important;
@@ -182,18 +191,29 @@ img {
   opacity: 0.9;
 }
 
-.unmoveable {
-  border: 2px solid lightgray !important;
-  opacity: 0.7;
+.second-static {
+/*  border: 2px solid lightgray !important;
+*/  border: 2px solid rgb(182, 182, 182) !important;
+  /*opacity: 0.7;*/
+  opacity: 0.9;
+  background: #f0f9ff;
 }
 
-.post:not(.static) {
+.unmoveable {
+/*  border: 2px solid lightgray !important;
+*/  border: 2px solid rgb(182, 182, 182) !important;
+  /*opacity: 0.7;*/
+  opacity: 0.9;
+  background: #f0f9ff;
+}
+
+.post:not(.static, .second-static) {
   z-index: 9999;
   border: 3px solid rgb(182, 211, 229) !important;
   cursor: grab;
 }
 
-.post:not(.static).ui-sortable-helper {
+.post:not(.static, .second-static).ui-sortable-helper {
   cursor: grabbing;
 }
 
@@ -230,8 +250,8 @@ ul li, ol li {
     </div>
   </div>
 </div>
-    <div class='row p-2' id='introduction' style="display:none;">
-    <div class='col-12'>
+    <div class='row p-2 ' id='introduction' style="display:none;">
+    <div class='col-10'>
         <div class="card pb-4">
             <div class="card-body">
                 <div class="row">
@@ -246,10 +266,22 @@ ul li, ol li {
 						 </p>
 						
 						<p> <b>Click next (or press enter) to start.</b></p>
+                        <button type="button" class="btn btn-primary" id="intro-next-btn" onclick="next_screen()">Next</button>
+                          <script>
+                            var next_button = document.getElementById("intro-next-btn");
+
+                            // function to simulate button click when enter key is pressed
+                            function activateNextButton(event) {
+                                if (event.key === "Enter") {
+                                    next_button.click();
+                                }
+                            }
+                            document.addEventListener("keydown", activateNextButton);
+                        </script>
                     </div>
-                    <div class="col-6" id="post-container" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 50px;">
-                        <div id="intro-post" style="width: 90%; height: auto; max-width: 100%;"></div>
-                        <p><i>Example post with highlighted features.</i></p>
+                    <div class="col-6" id="post-container" style="padding: 10px; margin-bottom: 50px;">
+                        <div id="intro-post" style="width: 90%; height: auto; max-width: 100%; "></div>
+                        <p style="text-align: center;"><i>Example post with highlighted features.</i></p>
                     </div>
                 </div>
             </div>
@@ -270,13 +302,51 @@ ul li, ol li {
 </div>
     <div class="container-fluid p-0" id="feed-and-sidebar" class="screen" style="display:none;">
 	<div class="row justify-content-center">
+		<div class = "question-upper-container justify-content-center">
 	  <div class="feed-container" id="FS-feed-container">
-		<div class="col-md-12 p-0" id="FS-feeds">
+		<div class="feeds" id="FS-feeds">
+		</div>
+		</div>
+	</div>
+	  <div class='col-5'>
+	  	<div class = "question-upper-container card justify-content-center">
+	  	<div class = "question-container card-body">
+
+	  	<div id="FS-sidebar">
+	  	</div>
+
 		</div>
 	  </div>
-	  <div class="question-container px-md-3 py-md-3" id="FS-sidebar">
-	  </div>
+	<div id = "task-button" style ="padding-top: 60px; padding-left: 5px">
+	  		<div class='col-5'>
+
+	  			<div class="alert alert-success" style='display: none' role="alert" id = "right-btn-cntr">
+				 	Correct!&emsp;<a href="#" class="alert-link float-right" onclick="next_screen()" id = "right-btn">Continue</a>
+				</div>
+				<div class="alert alert-danger" style='display: none' role="alert" id = "wrong-btn-cntr">
+				 	Incorrect!&emsp;<a href="#" class="alert-link float-right" onclick="next_screen()" id = "wrong-btn">Continue</a>
+				</div>
+				<button type="button" class="btn btn-primary" id="next-btn" onclick="next_screen()" style='display: inline-block'>Next</button>
+<!-- 				<div class="alert alert-secondary" style='display: inline-block;' role="alert"> Click to continue<a href="#" class="alert-link float-right" id = "next-btn">Continue</a>
+ -->				</div>
+
+<!-- 	  	<button type="button" class="btn btn-primary" id="next-btn" onclick="next_screen()" style='display: inline-block'>Next</button>
+ -->			  
+ 			<!-- <script>
+			    var next_button = document.getElementById("next-btn");
+
+			    // function to simulate button click when enter key is pressed
+			    function activateNextButton(event) {
+			        if (event.key === "Enter") {
+			            next_button.click();
+			        }
+			    }
+			    document.addEventListener("keydown", activateNextButton);
+			</script> -->
+		</div>
 	</div>
+	</div>
+</div>
 </div>
     <div class="row p-2" id="centered-content" style="display:none;">
     <div class="col-12">
@@ -285,8 +355,22 @@ ul li, ol li {
         </div>
       </div>
     </div>
+        <button type="button" class="btn btn-primary" id="final-next-btn" onclick="next_screen()">Next</button>
+              <!-- <script>
+                var next_button = document.getElementById("final-next-btn");
+
+                // function to simulate button click when enter key is pressed
+                function activateNextButton(event) {
+                    if (event.key === "Enter") {
+                        next_button.click();
+                    }
+                }
+                document.addEventListener("keydown", activateNextButton);
+            </script> -->
 </div>
-    <div class="container-fluid mt-0" id="bottom-bar" style="display:block;">
+    <!-- Helena moved this to introduction.html, feed_and_sidebar.html, and centered_content.html on May 28-->
+
+<!-- <div class="container-fluid mt-0" id="bottom-bar" style="display:block;">
   <div class="d-flex justify-content-end">
 	<button type="button" class="btn btn-primary" id="next-btn" onclick="next_screen()">Next</button>
   </div>
@@ -303,7 +387,7 @@ ul li, ol li {
 </script>
 
 </div>
-  
+   -->
   </div>
 
   <script type='text/json' id='input'>
@@ -375,13 +459,13 @@ const num_features =
     Math.floor(Math.random() * possible_num_features.length)
   ];
 
-const num_same_features_and_question = 3;
+const num_same_features_and_question = 30;
 
 // const possible_conditions = ["likes"]
 
 const possible_conditions = [/*"chronological"*/ "likes", 
 "engagement_soup", "first_person_pronouns", 
-"bad_positivity", /*"value_regression",*/ 
+"bad_positivity", "value_regression",
 "random", "parts_of_speech", 
 "hashes"]
 
@@ -415,7 +499,7 @@ else {
 }
 
 
-const include_practice = false;
+const num_practice = 5;
 
 // TODO: update these to reflect twitter
 var feature_dict = {};
@@ -455,7 +539,9 @@ const study_weights = generate_weights(feature_keys, num_features, true, algorit
 const redacted_classes = []; // ['post_text', 'author-name'];
 const any_redacted = redacted_classes.length > 0;
 
-const include_confidence = true;
+const include_confidence = false;
+const practice_confidence_indices = [1]
+const question_confidence_indices = [35]
 
 const SCREEN_TYPE_INFO = {
   introduction: {
@@ -481,8 +567,11 @@ assess how confident you are in your answer. Correct self-assessment will be bon
     sidebar_entries: [
       {
         markdown: `
-To the left is your feed today. Spend a few moments looking at how it was sorted, as you will use this 
-information to answer the rest of the questions. ${
+Look at your feed (to the left) and try to determine how the posts are ordered.
+The following questions in this study rely on this information.
+You will start out with a practice phase which includes feedback. 
+<button id = "load-more-button"></button>
+${
           any_redacted
             ? `*Some text has been redacted because 
 it is not relevant to the tasks.*`
@@ -524,7 +613,7 @@ ordering.
     sidebar_entries: [
       {
         markdown: `
-Look at how your feed today was sorted. Then, place the post below in its correct position in the feed.
+Consider the following two posts. Order them according to how you think the earlier feed was ranked.
         `,
         answer_area: "post_bank",
         includes_confidence: include_confidence,
@@ -552,7 +641,7 @@ now be higher, unchanged, or lower?
       {
         markdown: `
 The feed to the left is your feed today. To the right is a new feed you're presented with tomorrow. Is tomorrow's 
-feed sorted differently from your feed today?
+feed sorted differently from your feed today? 
         `,
         answer_area: "multiple_choice",
         includes_confidence: include_confidence,
@@ -645,7 +734,7 @@ function insert_label(label_text, label_container, label_width) {
  */
 function insert_post(post, feed_parent_list, locked) {
   const post_list_item = document.createElement("li");
-  post_list_item.className = `bg-white border mt-2 post${
+  post_list_item.className = `border mt-2 post${
     locked ? " static" : ""
   } rounded`;
 
@@ -681,7 +770,7 @@ function insert_post(post, feed_parent_list, locked) {
           (post[key] != null)
             ? `<span class="count${
                 highlighted_feature === key ? " highlighted" : ""
-              }">${post[key]} ${feature_dict[key]}</span>`
+              }">${format_number_for_display(post[key])} ${feature_dict[key]}</span>`
             : "--"
         }
       </div>`
@@ -689,7 +778,7 @@ function insert_post(post, feed_parent_list, locked) {
       .join("")}
   </div>
 `;
-  console.log(post);
+  // console.log(post);
   post_list_item.setAttribute("data-number", post.correct_position ?? -1);
 
   feed_parent_list.appendChild(post_list_item);
@@ -724,18 +813,21 @@ function insert_feed(
   if (bucketing) {
     indicies = get_random_sample_indices_from_chunks(feed_data, starting_num_posts)
   }
-  console.log(container.id)
+  // console.log(container.id)
   for (let i = 0; i < feed_data.length; i++) {
     insert_post(feed_data[i], feed_parent_ul, is_locked);
     if (bucketing) {
       if (indicies.indexOf(i) == -1 && container.id != "intro-post" && exposure) {
         feed_parent_ul.lastChild.style.display = "none";
-        feed_parent_ul.lastElementChild.classList.add("unmoveable");
+        // This makes the posts that aren't displayed blue
+        feed_parent_ul.lastElementChild.classList.add("second-static");
+      } else if (exposure) {
+        feed_parent_ul.lastChild.style.display = "block";
       }
     } else {
       if (i >= starting_num_posts) {
         feed_parent_ul.lastChild.style.display = "none";
-        feed_parent_ul.lastElementChild.classList.add("unmoveable");
+        feed_parent_ul.lastElementChild.classList.add("static");
       }
     }
   }
@@ -771,6 +863,27 @@ function populate_feed_container(
   const feed_row = document.createElement("div");
   feed_row.className = "row feed-scroll visible-scrollbar";
 
+  const load_more_button = document.getElementById('load-more-button') //document.createElement("button");
+  if (load_more_button){
+    if (bucketing) {
+      load_more_button.innerText = "Insert More Posts into Current Feed";
+    }
+    else {
+      load_more_button.innerText = "Add More Posts to Feed";
+    }
+    load_more_button.className = "load-more-button btn btn-light btn-block mt-1";
+    load_more_button.style.backgroundColor = "#dcecfa";
+  
+    // AKA if this isn't exposure
+    if (starting_num_posts >= feeds[0].length) {
+      load_more_button.style.display = "none";
+    }
+  }
+  
+
+  // Change made on June 3rd by Helena -- Now the button is in the other sidebar 
+  // feed_row.appendChild(load_more_button);
+
   for (let i = 0; i < feeds.length; i++) {
     if (labels.length > 0) {
       let label_text = labels[i];
@@ -783,81 +896,85 @@ function populate_feed_container(
 
   container.appendChild(feed_row);
 
-  const load_more_button = document.createElement("button");
-  if (bucketing) {
-    load_more_button.innerText = "Insert More Posts into Current Feed";
-  }
-  else {
-    load_more_button.innerText = "Add More Posts to Feed";
-  }
-  load_more_button.className = "load-more-button btn btn-light btn-block mt-1";
-  load_more_button.style.backgroundColor = "#f0f8ff";
+  
+  if (load_more_button){
+    load_more_button.addEventListener("click", () => {
+      const feed_containers = feed_row.querySelectorAll(".feed-list-bank");
+      let button_hidden = true;
 
-  if (starting_num_posts >= feeds[0].length) {
-    load_more_button.style.display = "none";
-  }
+      for (let i = 0; i < feed_containers.length; i++) {
+        const feed_container = feed_containers[i];
+        const all_posts = feed_container.children;
 
-  feed_row.appendChild(load_more_button);
 
-  load_more_button.addEventListener("click", () => {
-    const feed_containers = feed_row.querySelectorAll(".feed-list-bank");
-    let button_hidden = true;
 
-    for (let i = 0; i < feed_containers.length; i++) {
-      const feed_container = feed_containers[i];
-      const all_posts = feed_container.children;
-      if (bucketing) {
+        if (bucketing) {
+          var current_posts = []
+          for (let i = 0; i < all_posts.length; i++) {
+            if (all_posts[i].style.display == "block") {
+              current_posts.push(i);
+              if (all_posts[i].classList.contains("second-static")) {
+                all_posts[i].classList.remove("second-static"); 
+                all_posts[i].classList.add("static"); 
+                }          
+            }
+            // TODO: maybe add second static here? or do it when they get added  
+          }
+          // NOTE: the posts in current posts are of a different type than those in the data/ available library of posts
+          let indicies_plus = get_random_sample_indices_from_chunks(feeds[i], num_posts_to_load + current_posts.length);
+          const indicies = indicies_plus.filter(
+            (index) =>
+              !current_posts.some((current_post) => isEqual(current_post, index))
+          ).slice(0, num_posts_to_load);
+          for (let i = 0; i < all_posts.length; i++) {
+            if (indicies.indexOf(i) != -1) {
+              all_posts[i].style.display = "block";
+            }
+          }
 
-        let indicies = get_random_sample_indices_from_chunks(feeds[i], num_posts_to_load)
-        for (let i = 0; i < all_posts.length; i++) {
-          if (indicies.indexOf(i) != -1) {
-            all_posts[i].style.display = "block";
+          let count = 0;
+          for (let i = 0; i < all_posts.length; i++) {
+            if (all_posts[i].style.display == "block") {
+              count++;
+            }
+          }
+          if (count == all_posts.length) {
+            button_hidden = true;
+          } else {
+            button_hidden = false;
           }
         }
+        else {
+          let posts_to_show = num_posts_to_load;
 
-        let count = 0;
-        for (let i = 0; i < all_posts.length; i++) {
-          if (all_posts[i].style.display == "block") {
-            count++;
+          let start_index = 0;
+          for (let j = 0; j < all_posts.length; j++) {
+            if (all_posts[j].style.display === "none") {
+              start_index = j;
+              break;
+            }
           }
-        }
-        if (count == all_posts.length) {
-          button_hidden = true;
-        } else {
-          button_hidden = false;
+          for (let j = start_index; j < all_posts.length; j++) {
+            if (posts_to_show > 0 && all_posts[j].style.display === "none") {
+              all_posts[j].style.display = "block";
+              posts_to_show--;
+            }
+          }
+
+          if (
+            all_posts.length > 0 &&
+            all_posts[all_posts.length - 1].style.display === "none"
+          ) {
+            button_hidden = false;
+          }
         }
       }
-      else {
-        let posts_to_show = num_posts_to_load;
 
-        let start_index = 0;
-        for (let j = 0; j < all_posts.length; j++) {
-          if (all_posts[j].style.display === "none") {
-            start_index = j;
-            break;
-          }
-        }
-        // Helena to fix this part with the bucketing posts approach...
-        for (let j = start_index; j < all_posts.length; j++) {
-          if (posts_to_show > 0 && all_posts[j].style.display === "none") {
-            all_posts[j].style.display = "block";
-            posts_to_show--;
-          }
-        }
-
-        if (
-          all_posts.length > 0 &&
-          all_posts[all_posts.length - 1].style.display === "none"
-        ) {
-          button_hidden = false;
-        }
+      if (button_hidden) {
+        load_more_button.style.display = "none";
       }
-    }
-
-    if (button_hidden) {
-      load_more_button.style.display = "none";
-    }
-  });
+    });
+  }
 }
 
 /**
@@ -1243,19 +1360,24 @@ function populate_fs_screen(screen_info, screen_name) {
   const feed_column_width = Math.floor(display_unit_width * feeds.length);
   const sidebar_column_width = Math.ceil(display_unit_width);
 
-  if (feeds.length > 0) {
-    $("#FS-feed-container")
-      .removeClass(function (index, className) {
-        return (className.match(/\bcol-md-\S+/g) || []).join(" ");
-      })
-      .addClass(`col-md-${feed_column_width}`);
+  //Helena commented this out on May 28,2024
+  // This code was making it such that the HTML wasn't working and removing all the classes
+  // if (feeds.length > 0) {
+  //   $("#FS-feed-container")
+  //     .removeClass(function (index, className) {
+  //       return (className.match(/\bcol-md-\S+/g) || []).join(" ");
+  //     })
+  //     .addClass(`col-md-${feed_column_width}`);
 
-    $("#FS-sidebar")
-      .removeClass(function (index, className) {
-        return (className.match(/\bcol-md-\S+/g) || []).join(" ");
-      })
-      .addClass(`col-md-${sidebar_column_width}`);
-  }
+  //   $("#FS-sidebar")
+  //     .removeClass(function (index, className) {
+  //       return (className.match(/\bcol-md-\S+/g) || []).join(" ");
+  //     })
+  //     .addClass(`col-md-${sidebar_column_width}`);
+  // }
+  $('#right-btn-cntr').css('display', 'none')
+  $('#wrong-btn-cntr').css('display', 'none')
+  $('#next-btn').css('display', 'inline-block')
 
   let labeled = true;
 
@@ -1311,7 +1433,7 @@ function populate_fs_screen(screen_info, screen_name) {
     $(".sortable").sortable({
       connectWith: ".sortable",
       items: "li:not(.unmoveable)",
-      cancel: ".static",
+      cancel: ".static, .second-static",
       scroll: true,
       zIndex: 9999,
       appendTo: $(".feed").not(".locked"),
@@ -1320,7 +1442,6 @@ function populate_fs_screen(screen_info, screen_name) {
 }
     function populate_cc_screen(screen_info) {
   let body_element = document.getElementById("CC-body");
-
   insert_entries(screen_info.entries, body_element, "feedback");
 }
 
@@ -1406,15 +1527,23 @@ function process_choice_question(
  * @param {Object} unanswered_questions - Object to track unanswered questions.
  * @param {Object} incorrect_questions - Object to track incorrect questions.
  * @param {Element} feed_ul - The feed element.
+ * @param {Object} screen_info - screen info object
  */
 function process_post_placement_question(
   question_div,
   screen_output,
   unanswered_questions,
   incorrect_questions,
-  feed_ul
+  feed_ul,
+  screen_info
 ) {
   const posts = feed_ul.querySelectorAll("li");
+
+  const index_1 = screen_info.correct_posts[0]["Index"];
+  const index_2 = screen_info.correct_posts[1]["Index"];
+  const chunk_1 = screen_info.correct_posts[0]["Chunk"];
+  const chunk_2 = screen_info.correct_posts[1]["Chunk"];
+
 
   let chosen_index = -1;
   let correct_index = -1;
@@ -1447,6 +1576,10 @@ function process_post_placement_question(
   screen_output["correct_index"] = correct_index;
   screen_output["distance"] = distance;
   screen_output["score_Q1"] = distance === 0 ? 1 : 0;
+  screen_output["index_1"] = index_1;
+  screen_output["index_2"] = index_2;
+  screen_output["chunk_1"] = chunk_1;
+  screen_output["chunk_2"] = chunk_2;
 }
 
 /**
@@ -1577,7 +1710,8 @@ function get_screen_results(screen_info, screen_name) {
         screen_output,
         unanswered_questions,
         incorrect_questions,
-        feed_elements[i]
+        feed_elements[i], 
+        screen_info
       );
     } else {
       process_post_arrangement_question(
@@ -1620,6 +1754,7 @@ function get_screen_results(screen_info, screen_name) {
  */
 function log_screen(section_index, screen_index) {
   const screen_info = study_array[section_index].screens[screen_index];
+  // console.log(screen_info);
   const screen_name = generate_screen_name(screen_info);
 
   let unanswered_questions = {};
@@ -1787,6 +1922,15 @@ function increment_screen_index() {
   }
 }
 
+function give_feedback(curr_screen_info) {
+  $('#next-btn').css('display', 'none');
+  if (output["practice"][curr_screen_index]["correct_index"] === output["practice"][curr_screen_index]["chosen_index"]){
+    $('#right-btn-cntr').css('display', 'inline-block')
+  } else {
+    $('#wrong-btn-cntr').css('display', 'inline-block')
+  }
+}
+
 /**
  * Proceeds to the next screen.
  */
@@ -1817,8 +1961,18 @@ function next_screen() {
       return;
     }
   }
+  if (curr_screen_info.screen_type === "post_placement" && curr_screen_info.is_practice && $("#next-btn").css("display") != "none"){
+    log_screen(curr_section_index, curr_screen_index);
+    give_feedback(curr_screen_info)
 
-  log_screen(curr_section_index, curr_screen_index);
+    return;
+    } 
+  else if (curr_screen_info.screen_type === "post_placement" && curr_screen_info.is_practice && $("#next-btn").css("display") == "none") {
+    // Nothing
+  }
+  else {
+    log_screen(curr_section_index, curr_screen_index);
+  }
 
   if (
     curr_screen_index ===
@@ -1826,6 +1980,7 @@ function next_screen() {
   ) {
     log_section(curr_section_index);
   }
+
 
   increment_screen_index();
 
@@ -1955,7 +2110,8 @@ function generate_scored_screen_object(
   weights,
   feature_count,
   repeat_num,
-  is_practice = false
+  is_practice = false,
+  includes_confidence = false
 ) {
   let screen = null;
 
@@ -1981,7 +2137,8 @@ function generate_scored_screen_object(
         weights,
         feature_count,
         repeat_num,
-        is_practice
+        is_practice,
+        includes_confidence
       );
       break;
     case "counterfactual_placement":
@@ -2026,7 +2183,10 @@ function generate_scored_screen_object(
  * @param {number} num_posts - The number of posts in each screen.
  * @param {number} starting_num_posts - The number of posts to start in each feed.
  * @param {number} num_posts_to_load - The number of posts to load with each "load more".
- * @param {boolean} includes_practice - Indicates whether to include practice screens.
+ * @param {number} num_practice - Indicates whether to include practice screens.
+ * @param {number[]} practice_confidence_indices - The array of indices for practice questions that include confidence.
+ * @param {number[]} question_confidence_indices - The array of indices for real questions that include confidence.
+ * 
  * @returns {Object[]} The generated screen array.
  */
 function generate_screen_array(
@@ -2038,7 +2198,9 @@ function generate_screen_array(
   num_posts,
   starting_num_posts,
   num_posts_to_load,
-  includes_practice
+  num_practice,
+  practice_confidence_indices, 
+  question_confidence_indices
 ) {
   const section_array = [];
 
@@ -2059,6 +2221,7 @@ function generate_screen_array(
     post.character_count = post.text.length;
   });
 
+  const practice_array = [];
   const scored_screens_array = [];
 
   const weights = study_weights;
@@ -2099,6 +2262,61 @@ function generate_screen_array(
     screens: [exposure_screen],
   });
 
+  // generate the practice
+  for (let i = 0; i < shuffled_screen_types.length; i++) {
+    const screen_type = shuffled_screen_types[i];
+    for (
+      let repeat_num = 1;
+      repeat_num <= num_practice;
+      repeat_num++
+    ) {
+      let base_posts;
+      if (bucketing) {
+        base_posts = get_random_sample_from_chunks(posts, num_posts);
+      }
+      else {
+        base_posts = get_random_sample(posts, num_posts);
+        // base_posts = deep_copy(posts)
+      }
+
+      //(base_posts, weights);
+      var includes_confidence = (practice_confidence_indices.includes(repeat_num));
+      const screen = generate_scored_screen_object(
+        screen_type,
+        base_posts,
+        starting_num_posts,
+        num_posts_to_load,
+        weights,
+        feature_counts[0],
+        repeat_num,
+        true,
+        includes_confidence=includes_confidence
+      );
+
+      if (screen) {
+        practice_array.push(screen);
+      }
+
+      // const feedback_screen = generate_correct_response_screen(
+      //   "correct_response",
+      //   screen["correct_posts"],
+      //   starting_num_posts,
+      //   0
+      // );
+
+      // if (feedback_screen) {
+      //   practice_array.push(feedback_screen);
+      // }
+    }
+  }
+
+  section_array.push({
+    section_name: "practice",
+    screens: practice_array,
+  });
+
+  // in here, generate scored screen object for real screens
+
   for (let i = 0; i < shuffled_screen_types.length; i++) {
     const screen_type = shuffled_screen_types[i];
     for (
@@ -2115,6 +2333,7 @@ function generate_screen_array(
         // base_posts = deep_copy(posts)
       }
 
+      var includes_confidence = (question_confidence_indices.includes(repeat_num));
       //(base_posts, weights);
 
       const screen = generate_scored_screen_object(
@@ -2124,23 +2343,27 @@ function generate_screen_array(
         num_posts_to_load,
         weights,
         feature_counts[0],
-        repeat_num
+        repeat_num,
+        false,
+        includes_confidence=includes_confidence
       );
 
       if (screen) {
         scored_screens_array.push(screen);
       }
+      // Changed by Helena on May 28, 2024
+      // No specific feedback screen
+      
+      // const feedback_screen = generate_correct_response_screen(
+      //   "correct_response",
+      //   screen["correct_posts"],
+      //   starting_num_posts,
+      //   0
+      // );
 
-      const feedback_screen = generate_correct_response_screen(
-        "correct_response",
-        screen["correct_posts"],
-        starting_num_posts,
-        0
-      );
-
-      if (feedback_screen) {
-        scored_screens_array.push(feedback_screen);
-      }
+      // if (feedback_screen) {
+      //   scored_screens_array.push(feedback_screen);
+      // }
     }
   }
 
@@ -2575,7 +2798,8 @@ function generate_counterfactual_placement_screen(
   weights,
   feature_count,
   repeat_num,
-  is_practice = false
+  is_practice = false,
+  includes_confidence = false
 ) {
   const MAX_ITERATIONS = 1000;
   let iteration_count = 0;
@@ -2694,7 +2918,7 @@ function generate_exposure_screen(
     starting_num_posts: starting_num_posts,
     num_posts_to_load: num_posts_to_load,
     sidebar_entries: sidebar_entries,
-    labels: ["Your Feed Today"],
+    labels: ["Your Feed"],
   };
 
   return screen;
@@ -2758,7 +2982,8 @@ function generate_feed_comparison_screen(
   weights,
   feature_count,
   repeat_num,
-  is_practice = false
+  is_practice = false,
+  includes_confidence = false
 ) {
   base_posts = deep_copy(base_posts);
   const comparison_posts = get_random_sample(
@@ -2834,7 +3059,8 @@ function generate_post_placement_screen(
   weights,
   feature_count,
   repeat_num,
-  is_practice = false
+  is_practice = false,
+  includes_confidence = false,
 ) {
   base_posts = deep_copy(base_posts);
   let new_post_index = base_posts.length;
@@ -2860,9 +3086,11 @@ function generate_post_placement_screen(
   correct_posts = deep_copy(all_posts)
 
   const without_new_post = all_posts.filter((post) => post !== new_post);
-  const sidebar_entries = deep_copy(
+  var sidebar_entries = deep_copy(
     SCREEN_TYPE_INFO[screen_type].sidebar_entries
   );
+  sidebar_entries[0]["includes_confidence"] = includes_confidence;
+
   new_post["correct_position"] = new_post_index;
 
   sidebar_entries.forEach((entry) => {
@@ -2907,7 +3135,8 @@ function generate_post_arrangement_screen(
   repeat_num,
   posts,
   weights,
-  is_practice = false
+  is_practice = false,
+  includes_confidence = false
 ) {
   posts = deep_copy(posts);
   const correct_posts = deep_copy(posts);
@@ -3073,6 +3302,24 @@ function isEqual(objA, objB) {
   return JSON.stringify(objA) === JSON.stringify(objB);
 }
 
+function format_number_for_display(feature) {
+  if (!isNaN(parseFloat(feature)) && isFinite(feature)){
+    var symbol = ["", "K", "M", "B", "T"];
+    var tier = Math.log10(Math.abs(feature)) / 3 | 0;
+    // if zero, we don't need a suffix
+    if(tier == 0) return feature;
+    // get suffix and determine scale
+    var suffix = symbol[tier];
+    var scale = Math.pow(10, tier * 3);
+    // scale the number
+    var scaled = feature / scale;
+    // format number and add suffix
+    return scaled.toFixed(1) + suffix;
+  } else {
+    return feature
+  }
+}
+
 /**
  * Converts a string to an RGB color based on a hash function.
  *
@@ -3131,10 +3378,12 @@ const study_array = generate_screen_array(
   num_posts_per_screen,
   num_posts_at_load,
   num_posts_to_load,
-  include_practice
+  num_practice,
+  practice_confidence_indices,
+  question_confidence_indices
 );
 
-console.log(study_array);
+// console.log(study_array);
 
 study_array[0]["start_time"] = new Date().getTime();
 study_array[0].screens[0]["start_time"] = new Date().getTime();
