@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width">
 
   <title>Study</title>
-  <script src="https://proliferate.alps.science/static/js/proliferate.js" type="text/javascript"></script>
+  <!-- <script src="https://proliferate.alps.science/static/js/proliferate.js" type="text/javascript"></script> -->
+  <!-- <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe"></script> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -207,13 +208,18 @@ img {
   background: #f0f9ff;
 }
 
-.post:not(.static, .second-static) {
+.exposure-posts {
+  opacity: 0.9;
+border: 2px solid rgb(182, 182, 182) !important;
+}
+
+.post:not(.static, .second-static, .exposure-posts) {
   z-index: 9999;
   border: 3px solid rgb(182, 211, 229) !important;
   cursor: grab;
 }
 
-.post:not(.static, .second-static).ui-sortable-helper {
+.post:not(.static, .second-static, .exposure-posts).ui-sortable-helper {
   cursor: grabbing;
 }
 
@@ -306,6 +312,9 @@ ul li, ol li {
 	  <div class="feed-container" id="FS-feed-container">
 		<div class="feeds" id="FS-feeds">
 		</div>
+		<div class="feeds" id= "exposure-bar">
+	  	</div>
+
 		</div>
 	</div>
 	  <div class='col-5'>
@@ -326,6 +335,9 @@ ul li, ol li {
 				<div class="alert alert-danger" style='display: none' role="alert" id = "wrong-btn-cntr">
 				 	Incorrect!&emsp;<a href="#" class="alert-link float-right" onclick="next_screen()" id = "wrong-btn">Continue</a>
 				</div>
+				<!-- <button type="button" class="btn btn-primary" id="exposure-btn" onclick="see_feed_again()" style='display: none'>See Feed Again</button>
+				<br><br> -->
+
 				<button type="button" class="btn btn-primary" id="next-btn" onclick="next_screen()" style='display: inline-block'>Next</button>
 <!-- 				<div class="alert alert-secondary" style='display: inline-block;' role="alert"> Click to continue<a href="#" class="alert-link float-right" id = "next-btn">Continue</a>
  -->				</div>
@@ -832,8 +844,20 @@ function insert_feed(
     }
   }
 
-  feed_bank_container.appendChild(feed_parent_ul);
-  container.appendChild(feed_bank_container);
+  if (exposure) {
+    console.log("exposure");
+    var exposureDiv = document.getElementById('exposure-bar');
+    feed_parent_ul.setAttribute('id', 'feed-parent-ul');
+    feed_bank_container.appendChild(feed_parent_ul);
+    exposureDiv.appendChild(feed_bank_container)
+    // container.appendChild(feed_bank_container);
+  }
+  else {
+    feed_bank_container.appendChild(feed_parent_ul);
+    container.appendChild(feed_bank_container);
+  }
+  
+
 }
 
 /**
@@ -893,20 +917,21 @@ function populate_feed_container(
     const feed_data = feeds[i];
     insert_feed(feed_data, feed_row, feed_width, starting_num_posts, true, exposure);
   }
-
-  container.appendChild(feed_row);
+  if (!exposure) {
+    container.appendChild(feed_row);
+  }
+  
 
   
   if (load_more_button){
     load_more_button.addEventListener("click", () => {
-      const feed_containers = feed_row.querySelectorAll(".feed-list-bank");
+      const feed_row_exposure = document.getElementById('exposure-bar');
+      const feed_containers = feed_row_exposure.querySelectorAll(".feed-list-bank");
       let button_hidden = true;
 
       for (let i = 0; i < feed_containers.length; i++) {
         const feed_container = feed_containers[i];
         const all_posts = feed_container.children;
-
-
 
         if (bucketing) {
           var current_posts = []
@@ -992,6 +1017,13 @@ function insert_markdown(markdown, entry_div) {
   text_div.style.fontSize = "1.2em";
 
   entry_div.appendChild(text_div);
+}
+
+function insert_exposure_btn(entry_div) {
+  const btn_div = document.createElement("div");
+  btn_div.innerHTML = `<button type="button" class="btn btn-primary" id="exposure-btn" onclick="see_feed_again()" style='display: block'>See Feed Again</button>
+  `;
+  entry_div.appendChild(btn_div);
 }
 
 /**
@@ -1181,9 +1213,15 @@ function insert_checkbox(question, container, question_id) {
  * @param {HTMLElement} container - The container where the question will be inserted.
  * @param {string} question_id - The screen name.
  */
-function insert_post_bank(entry, entry_div, question_id) {
+function insert_post_bank(entry, entry_div, question_id, is_practice=false) {
   entry_div.className = "post-bank-question mb-3 mr-3 rounded";
   entry_div.id = `${question_id}`;
+  // const label_div = document.createElement("div");
+  // label_div.className = `col-${label_width} d-flex align-items-center justify-content-center`;
+  // label_div.innerHTML = `<button type="button" class="btn btn-primary" id="exposure-btn" onclick="see_feed_again()" style='display: none'>See Feed Again</button>
+  // <br><br>`;
+  // label_container.appendChild(label_div);
+
 
   insert_feed(entry.post_bank, entry_div, 12, entry.post_bank.length, false);
 }
@@ -1220,6 +1258,9 @@ function insert_entry(entry, body_div, question_id) {
 
   if (entry.hasOwnProperty("markdown")) {
     insert_markdown(entry.markdown, entry_div);
+  } 
+  if (entry.hasOwnProperty("exposure_btn")) {
+    insert_exposure_btn(entry_div);
   }
 
   if (entry.hasOwnProperty("answer_area")) {
@@ -1234,6 +1275,7 @@ function insert_entry(entry, body_div, question_id) {
         insert_checkbox(entry, entry_div, question_id);
         break;
       case "post_bank":
+        console.log("yell");
         insert_post_bank(entry, entry_div, question_id);
         break;
       case "text_input":
@@ -1321,6 +1363,11 @@ function display_screen(screen_info, section_name) {
     console.error("Screen name " + screen_name + " is undefined");
     return;
   }
+  if (screen_info.is_practice) {
+    $('#exposure-btn').css('display', 'inline-block')
+  } else {
+    $('#exposure-btn').css('display', 'none')
+  }
 
   let template_id = screen_info.template_id;
   if (template_id === "feed-and-sidebar") {
@@ -1337,7 +1384,7 @@ function display_screen(screen_info, section_name) {
       12,
       1,
       1,
-      true
+      false
     );
   }
 
@@ -1353,7 +1400,7 @@ function display_screen(screen_info, section_name) {
  */
 function populate_fs_screen(screen_info, screen_name) {
   const screen_type = screen_info.screen_type;
-  const sidebar_entries = screen_info.sidebar_entries;
+  var sidebar_entries = screen_info.sidebar_entries;
   let feeds = deep_copy(screen_info["feeds"]);
   let num_feeds = feeds.length;
   const display_unit_width = Math.min(12 / (num_feeds + 1), num_feeds * 5);
@@ -1393,6 +1440,9 @@ function populate_fs_screen(screen_info, screen_name) {
       (value, index) => (index === correct_feed_idx ? 1 : 0)
     );
   } else if (screen_type == "post_placement") {
+    if (screen_info.is_practice) {
+      sidebar_entries[0]["exposure_btn"] = true;
+    }
     // labeled = false;
     // let question_feed = [screen_info["extracted_post"]];
     // sidebar_entries["Q1"]["feed"] = question_feed;
@@ -1408,7 +1458,7 @@ function populate_fs_screen(screen_info, screen_name) {
     if (screen_name == "exposure") {
       populate_feed_container(
         feeds,
-        document.getElementById("FS-feeds"),
+        document.getElementById("exposure-bar"),
         screen_info["labels"] ?? [],
         screen_info["starting_num_posts"],
         screen_info["num_posts_to_load"], 
@@ -1430,9 +1480,10 @@ function populate_fs_screen(screen_info, screen_name) {
     $(".feed").addClass("locked");
     $(".post").addClass("static");
   } else {
+    $('#feed-parent-ul').removeClass('sortable')
     $(".sortable").sortable({
       connectWith: ".sortable",
-      items: "li:not(.unmoveable)",
+      items: "li:not(.unmoveable, .exposure-posts)",
       cancel: ".static, .second-static",
       scroll: true,
       zIndex: 9999,
@@ -2010,6 +2061,34 @@ function next_screen() {
  * @param {boolean} empty_feed - Flag to indicate if the feed should be emptied.
  */
 function deactivate_screen(template_id, empty_feed) {
+
+  const curr_screen_info =
+    study_array[curr_section_index].screens[curr_screen_index];
+
+  var current_screen = curr_screen_info.screen_type
+
+  if (current_screen != "exposure") {
+    $('#exposure-bar').css('display', 'none')
+
+    const feed_row_exposure = document.getElementById('exposure-bar');
+    const feed_containers = feed_row_exposure.querySelectorAll(".feed-list-bank");
+    for (let i = 0; i < feed_containers.length; i++) {
+      const feed_container = feed_containers[i];
+      const all_posts = feed_container.children;
+
+      for (let i = 0; i < all_posts.length; i++) {
+        if (all_posts[i].style.display == "block") {
+          if (all_posts[i].classList.contains("static") || 
+            all_posts[i].classList.contains("second-static")) {
+            all_posts[i].classList.remove("static"); 
+            all_posts[i].classList.remove("second-static"); 
+            all_posts[i].classList.add("exposure-posts"); 
+          }          
+        }
+      }
+    }
+  }
+
   $("#CC-body").empty();
 
   if (empty_feed) {
@@ -2041,7 +2120,37 @@ function redact_items(class_names) {
  * Submits the current screen.
  */
 function submit() {
-  proliferate.submit(output);
+  var filename = output["global"][2]["pid"] + ".json";
+  console.log("filename");
+  console.log(filename);
+  let string_output = JSON.stringify(output);
+  fetch("https://pipe.jspsych.org/api/data/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "*/*",
+    },
+    body: JSON.stringify({
+      experimentID: "0tZ6x592PyCo",
+      filename: filename,
+      data: string_output,
+    }),
+  }).then(response => {
+    window.location.href = 'https://app.prolific.com/submissions/complete?cc=CG717WJX';
+  })
+  // window.location.href = 'https://app.prolific.com/submissions/complete?cc=CG717WJX';
+  // proliferate.submit(output);
+}
+
+function see_feed_again() {
+  if ($('#exposure-bar').css('display') == 'none') {
+    $('#exposure-bar').css('display', 'inline-block')
+    $('#feed-parent-ul').on('drop', function(event){
+      return false;
+    })
+  } else {
+    $('#exposure-bar').css('display', 'none')
+  }
 }
 
     /**
@@ -3364,6 +3473,15 @@ start_time = new Date();
 const output = {};
 output["global"] = []; // output["global"].push({ concept_index: concept_index });
 output["global"].push({condition: condition});
+output["global"].push({url: window.location.href});
+
+const params = new URLSearchParams(window.location.search);
+const PID = params.get("PROLIFIC_PID");
+const STUDY_ID = params.get("STUDY_ID");
+const SESSION_ID = params.get("SESSION_ID");
+output["global"].push({pid: PID});
+output["global"].push({study_id: STUDY_ID});
+output["global"].push({session_id: SESSION_ID});
 
 // output["global"].push({ linear_combination_sort: study_weights });
 
