@@ -268,7 +268,7 @@ ul li, ol li {
                         as shown in the diagram to the right.
 						</p>
 						<p style="font-size: 18px;">
-                            This should take 20 minutes, and will receive $4 compensation. Answers can receive a bonus of up to $0.10 per question, depending on the level of correctness.
+                            This should take 15 minutes, and will receive $3 compensation. Answers can receive a bonus of up to $0.20 per question, depending on the level of correctness.
 						 </p>
 						
 						<p> <b>Click next (or press enter) to start.</b></p>
@@ -471,15 +471,15 @@ const num_features =
     Math.floor(Math.random() * possible_num_features.length)
   ];
 
-const num_same_features_and_question = 30;
+const num_same_features_and_question = 20;
 
-// const possible_conditions = ["likes"]
+// const possible_conditions = ["engagement_soup"]
 
-const possible_conditions = [/*"chronological"*/ "likes", 
+const possible_conditions = ["chronological", "likes", 
 "engagement_soup", "first_person_pronouns", 
 "bad_positivity", "value_regression",
-"random", "parts_of_speech", 
-"hashes"]
+"random", "parts_of_speech", "Caring",
+"hashes", "conservative_values"]
 
 
 
@@ -511,7 +511,7 @@ else {
 }
 
 
-const num_practice = 5;
+const num_practice = 10;
 
 // TODO: update these to reflect twitter
 var feature_dict = {};
@@ -553,7 +553,7 @@ const any_redacted = redacted_classes.length > 0;
 
 const include_confidence = false;
 const practice_confidence_indices = [1]
-const question_confidence_indices = [35]
+const question_confidence_indices = [30]
 
 const SCREEN_TYPE_INFO = {
   introduction: {
@@ -2131,7 +2131,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "0tZ6x592PyCo",
+      experimentID: "WRg3fSwkY9RO",
       filename: filename,
       data: string_output,
     }),
