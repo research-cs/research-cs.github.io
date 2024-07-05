@@ -264,11 +264,11 @@ ul li, ol li {
                     <div class="col-6">
                         <p style="font-size: 18px;">
 						In the upcoming screens, you'll be presented with some social media feeds and asked to answer some
-                        questions about them. The posts in these feeds will be sorted by some combination of their features
-                        as shown in the diagram to the right.
+                        questions about them. The posts in these feeds will be sorted by some some algorithm, which may make
+                        use of their displayed features such as the text, forms of engagement, or time posted.
 						</p>
 						<p style="font-size: 18px;">
-                            This should take 12 minutes, and will receive $2.50 compensation. Answers can receive a bonus of up to $0.20 per question, depending on the level of correctness.
+                            This should take 10 minutes, and will receive $2.50 compensation. Answers can receive a bonus of up to $0.05 per correct question.
 						 </p>
 						
 						<p> <b>Click next (or press enter) to start.</b></p>
@@ -287,7 +287,7 @@ ul li, ol li {
                     </div>
                     <div class="col-6" id="post-container" style="padding: 10px; margin-bottom: 50px;">
                         <div id="intro-post" style="width: 90%; height: auto; max-width: 100%; "></div>
-                        <p style="text-align: center;"><i>Example post with highlighted features.</i></p>
+                        <p style="text-align: center;"><i>Example post</i></p>
                     </div>
                 </div>
             </div>
@@ -461,25 +461,32 @@ ul li, ol li {
    <script type="text/javascript" src="templates/feed_data/dummy_alg_posts_2.js"></script>
 
   <script type="text/javascript">
-    const question_screen_types = [
-  /*"feed_comparison" , "post_arrangement" /*"counterfactual_placement",*/ "post_placement",
+    const question_screens = [
+  /*"feed_comparison" , "post_arrangement" /*"counterfactual_placement",*/ "post_placement", "post_placement_check_1", "post_placement_check_2"
 ];
 
+const question_screen_types = ["post_placement"]
 const possible_num_features = [1];
 const num_features =
   possible_num_features[
     Math.floor(Math.random() * possible_num_features.length)
   ];
 
-const num_same_features_and_question = 20;
+const num_same_features_and_question = 30;
 
-// const possible_conditions = ["engagement_soup"]
+const possible_conditions = ["nontoxic"]
 
-const possible_conditions = ["chronological", "likes", 
-"engagement_soup", "first_person_pronouns", 
-"bad_positivity", "value_regression",
-"random", "parts_of_speech", "Caring",
-"hashes", "conservative_values"]
+// const possible_conditions = ["chronological", "likes", 
+// "engagement_soup", "first_person_pronouns", 
+// "bad_positivity", "value_regression",
+// "random",
+// "hashes"]
+
+// const possible_conditions = ["chronological", "likes", 
+// "engagement_soup", "first_person_pronouns", 
+// "bad_positivity", "value_regression",
+// "random", "parts_of_speech", "Caring",
+// "hashes", "conservative_values"]
 
 
 
@@ -579,8 +586,11 @@ assess how confident you are in your answer. Correct self-assessment will be bon
     sidebar_entries: [
       {
         markdown: `
-Look at your feed (to the left) and try to determine how the posts are ordered.
-The following questions in this study rely on this information.
+From now on, you will not be explictly told how to arrange the posts, but will instead be trying to immitate the ordering you see here.
+
+Look at your feed (to the left) and try to determine what the posts are ranked by.
+
+All following questions in the study will ask you to rank posts based on this feed.
 You will start out with a practice phase which includes feedback. 
 <button id = "load-more-button"></button>
 ${
@@ -626,6 +636,32 @@ ordering.
       {
         markdown: `
 Consider the following two posts. Order them according to how you think the earlier feed was ranked.
+        `,
+        answer_area: "post_bank",
+        includes_confidence: include_confidence,
+      },
+    ],
+  },
+
+  post_placement_check_1: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
+We will start off with a practice of the ordering task. Consider the following two posts. Put the one with a smaller number above the one with a larger number.
+        `,
+        answer_area: "post_bank",
+        includes_confidence: include_confidence,
+      },
+    ],
+  },
+
+  post_placement_check_2: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
+Consider the following two posts. Put the one that is a darker color above the one that is a lighter color.
         `,
         answer_area: "post_bank",
         includes_confidence: include_confidence,
@@ -745,12 +781,29 @@ function insert_label(label_text, label_container, label_width) {
  * @param {boolean} locked - Indicates whether the post is locked / should not be moved.
  */
 function insert_post(post, feed_parent_list, locked) {
+  // TODO: need to signal which post is higher here, so that we can color them differently
   const post_list_item = document.createElement("li");
   post_list_item.className = `border mt-2 post${
     locked ? " static" : ""
   } rounded`;
-
   let rgb = string_to_rgb(post.author_name);
+
+  if (post.attn_1 || post.attn_2) {
+    post.text = "";
+    post.author_name = "";
+    rgb = [0,0,0];
+    for (const key in feature_dict) {
+      post[key] = null;
+    }
+  } 
+  if (post.attn_2) {
+    var color = post["correct_position"] * 150 + 50
+    post_list_item.style =  `background-color: rgb(${color}, ${color}, ${color})`;
+  } 
+  if (post.attn_1) {
+    post.text = post["correct_position"];
+  }
+  
 
   let highlighted_feature = post.highlighted_feature;
 
@@ -791,7 +844,7 @@ function insert_post(post, feed_parent_list, locked) {
   </div>
 `;
   // console.log(post);
-  post_list_item.setAttribute("data-number", post.correct_position ?? -1);
+  post_list_item.setAttribute("data-number", post.correct_index ?? -1);
 
   feed_parent_list.appendChild(post_list_item);
 }
@@ -813,6 +866,7 @@ function insert_feed(
   is_locked, 
   exposure = false
 ) {
+
   const feed_bank_container = document.createElement("div");
   feed_bank_container.className = `col-md-${feed_width} p-md-1`;
 
@@ -845,8 +899,8 @@ function insert_feed(
   }
 
   if (exposure) {
-    console.log("exposure");
     var exposureDiv = document.getElementById('exposure-bar');
+    exposureDiv.style.display = "block";
     feed_parent_ul.setAttribute('id', 'feed-parent-ul');
     feed_bank_container.appendChild(feed_parent_ul);
     exposureDiv.appendChild(feed_bank_container)
@@ -879,6 +933,7 @@ function populate_feed_container(
 ) {
   const feed_width = Math.floor(12 / feeds.length);
   const label_width = feed_width;
+
 
   const label_row = document.createElement("div");
   label_row.className = "row label-container align-items-start pl-1 pr-3 pb-1";
@@ -1275,7 +1330,6 @@ function insert_entry(entry, body_div, question_id) {
         insert_checkbox(entry, entry_div, question_id);
         break;
       case "post_bank":
-        console.log("yell");
         insert_post_bank(entry, entry_div, question_id);
         break;
       case "text_input":
@@ -1351,7 +1405,7 @@ function display_screen(screen_info, section_name) {
     SECTION_COLORS[section_name] || SECTION_COLORS.default;
 
   let question_progress = document.getElementById("question-progress");
-  if (question_screen_types.includes(screen_info.screen_type)) {
+  if (question_screens.includes(screen_info.screen_type)) {
     question_progress.innerHTML = `Question ${curr_screen_index + 1} of ${
       study_array[curr_section_index].screens.length
     }`;
@@ -1399,6 +1453,7 @@ function display_screen(screen_info, section_name) {
  * @param {string} screen_name - The name of the screen.
  */
 function populate_fs_screen(screen_info, screen_name) {
+  console.log(screen_info);
   const screen_type = screen_info.screen_type;
   var sidebar_entries = screen_info.sidebar_entries;
   let feeds = deep_copy(screen_info["feeds"]);
@@ -1456,6 +1511,7 @@ function populate_fs_screen(screen_info, screen_name) {
 
   if (feeds.length > 0) {
     if (screen_name == "exposure") {
+      console.log("slay");
       populate_feed_container(
         feeds,
         document.getElementById("exposure-bar"),
@@ -1589,6 +1645,7 @@ function process_post_placement_question(
   screen_info
 ) {
   const posts = feed_ul.querySelectorAll("li");
+  console.log(posts);
 
   const index_1 = screen_info.correct_posts[0]["Index"];
   const index_2 = screen_info.correct_posts[1]["Index"];
@@ -1600,9 +1657,11 @@ function process_post_placement_question(
   let correct_index = -1;
   let distance = -1;
 
+  // Lindsay: I'm not convinced that this works for a question where multiple posts are placed
   for (let i = 0; i < posts.length; i++) {
     const post = posts[i];
     const position = parseInt(post.dataset.number);
+    console.log(post.dataset);
     if (position >= 0) {
       distance = Math.abs(i - position);
       correct_index = position;
@@ -1617,6 +1676,8 @@ function process_post_placement_question(
     chosen_answers: [chosen_index],
   };
 
+  console.log("chosen index");
+  console.log(chosen_index);
   if (chosen_index === -1) {
     unanswered_questions[question_div.id] = question;
   } else if (distance > 0) {
@@ -1755,7 +1816,7 @@ function get_screen_results(screen_info, screen_name) {
   }
 
   for (let i = 0; i < post_bank_questions.length; i++) {
-    if (screen_info.screen_type === "post_placement") {
+    if (screen_info.screen_type.includes("post_placement")) {
       process_post_placement_question(
         post_bank_questions[i],
         screen_output,
@@ -1813,7 +1874,7 @@ function log_screen(section_index, screen_index) {
   let screen_output = {};
 
   if (
-    question_screen_types.includes(screen_info.screen_type) ||
+    question_screens.includes(screen_info.screen_type) ||
     screen_info.screen_type == "feedback"
   ) {
     [screen_output, unanswered_questions, incorrect_questions] =
@@ -1975,11 +2036,21 @@ function increment_screen_index() {
 
 function give_feedback(curr_screen_info) {
   $('#next-btn').css('display', 'none');
-  if (output["practice"][curr_screen_index]["correct_index"] === output["practice"][curr_screen_index]["chosen_index"]){
-    $('#right-btn-cntr').css('display', 'inline-block')
-  } else {
-    $('#wrong-btn-cntr').css('display', 'inline-block')
+  if (output.hasOwnProperty("practice")) {
+    if (output["practice"][curr_screen_index]["correct_index"] === output["practice"][curr_screen_index]["chosen_index"]){
+      $('#right-btn-cntr').css('display', 'inline-block')
+    } else {
+      $('#wrong-btn-cntr').css('display', 'inline-block')
+    }
+  } else if (output.hasOwnProperty("training")){
+    console.log("yippee");
+    if (output["training"][curr_screen_index]["correct_index"] === output["training"][curr_screen_index]["chosen_index"]){
+      $('#right-btn-cntr').css('display', 'inline-block')
+    } else {
+      $('#wrong-btn-cntr').css('display', 'inline-block')
+    }
   }
+  
 }
 
 /**
@@ -1990,7 +2061,7 @@ function next_screen() {
     study_array[curr_section_index].screens[curr_screen_index];
 
   if (
-    question_screen_types.includes(curr_screen_info.screen_type) ||
+    question_screens.includes(curr_screen_info.screen_type) ||
     curr_screen_info.screen_type === "feedback"
   ) {
     const is_practice = curr_screen_info.screen_type === "practice";
@@ -2012,13 +2083,15 @@ function next_screen() {
       return;
     }
   }
-  if (curr_screen_info.screen_type === "post_placement" && curr_screen_info.is_practice && $("#next-btn").css("display") != "none"){
+  console.log(curr_screen_info.screen_type);
+  console.log(curr_screen_info.screen_type.includes("post_placement"));
+  if (curr_screen_info.screen_type.includes("post_placement") && curr_screen_info.is_practice && $("#next-btn").css("display") != "none"){
     log_screen(curr_section_index, curr_screen_index);
     give_feedback(curr_screen_info)
 
     return;
     } 
-  else if (curr_screen_info.screen_type === "post_placement" && curr_screen_info.is_practice && $("#next-btn").css("display") == "none") {
+  else if (curr_screen_info.screen_type.includes("post_placement") && curr_screen_info.is_practice && $("#next-btn").css("display") == "none") {
     // Nothing
   }
   else {
@@ -2131,7 +2204,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "WRg3fSwkY9RO",
+      experimentID: "ZUFifQ41xzbs",
       filename: filename,
       data: string_output,
     }),
@@ -2250,6 +2323,32 @@ function generate_scored_screen_object(
         includes_confidence
       );
       break;
+    case "post_placement_check_1":
+      screen = generate_post_placement_screen(
+        screen_type,
+        base_posts,
+        starting_num_posts,
+        num_posts_to_load,
+        weights,
+        feature_count,
+        repeat_num,
+        is_practice,
+        includes_confidence
+      );
+      break;
+    case "post_placement_check_2":
+      screen = generate_post_placement_screen(
+        screen_type,
+        base_posts,
+        starting_num_posts,
+        num_posts_to_load,
+        weights,
+        feature_count,
+        repeat_num,
+        is_practice,
+        includes_confidence
+      );
+      break;
     case "counterfactual_placement":
       screen = generate_counterfactual_placement_screen(
         screen_type,
@@ -2326,9 +2425,9 @@ function generate_screen_array(
   const shuffled_screen_types = deep_copy(question_screen_types);
   shuffle_array(shuffled_screen_types);
 
-  posts.forEach((post) => {
-    post.character_count = post.text.length;
-  });
+  // posts.forEach((post) => {
+  //   post.character_count = post.text.length;
+  // });
 
   const practice_array = [];
   const scored_screens_array = [];
@@ -2359,6 +2458,45 @@ function generate_screen_array(
     // I don't think we need to do anything, just don't unsort 
   }
 
+  var check_posts = get_random_sample_from_chunks(alg_posts, 4);
+  var check_posts_1 = check_posts.slice(0,2);
+  var check_posts_2 = check_posts.slice(2);
+  check_posts_1.forEach((post) => {
+    post.attn_1 = true;
+  });
+  check_posts_2.forEach((post) => {
+    post.attn_2 = true;
+  });
+
+  const check1 = generate_scored_screen_object(
+    "post_placement_check_1",
+    check_posts_1,
+    starting_num_posts,
+    0,
+    weights,
+    feature_counts[0],
+    0,
+    true,
+    includes_confidence=false
+  );
+  const check2 = generate_scored_screen_object(
+    "post_placement_check_2",
+    check_posts_2,
+    starting_num_posts,
+    0,
+    weights,
+    feature_counts[0],
+    1,
+    true,
+    includes_confidence=false
+  );
+  
+  section_array.push({
+    section_name: "training",
+    screens: [check1, check2],
+  });
+
+
   const exposure_screen = generate_exposure_screen(
     "exposure",
     base_posts,
@@ -2371,6 +2509,8 @@ function generate_screen_array(
     screens: [exposure_screen],
   });
 
+
+  
   // generate the practice
   for (let i = 0; i < shuffled_screen_types.length; i++) {
     const screen_type = shuffled_screen_types[i];
@@ -2381,10 +2521,10 @@ function generate_screen_array(
     ) {
       let base_posts;
       if (bucketing) {
-        base_posts = get_random_sample_from_chunks(posts, num_posts);
+        base_posts = get_random_sample_from_chunks(alg_posts, num_posts+1);
       }
       else {
-        base_posts = get_random_sample(posts, num_posts);
+        base_posts = get_random_sample(posts, num_posts+1);
         // base_posts = deep_copy(posts)
       }
 
@@ -2394,7 +2534,7 @@ function generate_screen_array(
         screen_type,
         base_posts,
         starting_num_posts,
-        num_posts_to_load,
+        0,
         weights,
         feature_counts[0],
         repeat_num,
@@ -2405,17 +2545,6 @@ function generate_screen_array(
       if (screen) {
         practice_array.push(screen);
       }
-
-      // const feedback_screen = generate_correct_response_screen(
-      //   "correct_response",
-      //   screen["correct_posts"],
-      //   starting_num_posts,
-      //   0
-      // );
-
-      // if (feedback_screen) {
-      //   practice_array.push(feedback_screen);
-      // }
     }
   }
 
@@ -2426,6 +2555,11 @@ function generate_screen_array(
 
   // in here, generate scored screen object for real screens
 
+  // var attn_1 = Math.floor(Math.random() * num_same_features_and_question);
+  // var attn_2 = Math.floor(Math.random() * num_same_features_and_question);
+  var attn_1 = -1
+  var attn_2 = -1
+
   for (let i = 0; i < shuffled_screen_types.length; i++) {
     const screen_type = shuffled_screen_types[i];
     for (
@@ -2434,22 +2568,36 @@ function generate_screen_array(
       repeat_num++
     ) {
       let base_posts;
+      let temp_screen_type = screen_type;
       if (bucketing) {
-        base_posts = get_random_sample_from_chunks(posts, num_posts);
+        base_posts = get_random_sample_from_chunks(alg_posts, num_posts+1);
       }
       else {
-        base_posts = get_random_sample(posts, num_posts);
+        base_posts = get_random_sample(posts, num_posts+1);
         // base_posts = deep_copy(posts)
+      }
+
+
+      if (repeat_num == attn_1) {
+        temp_screen_type = "post_placement_check_1";
+        base_posts.forEach((post) => {
+          post.attn_1 = true;
+        });
+      } else if (repeat_num == attn_2) {
+        temp_screen_type = "post_placement_check_2";
+        base_posts.forEach((post) => {
+          post.attn_2 = true;
+        });
       }
 
       var includes_confidence = (question_confidence_indices.includes(repeat_num));
       //(base_posts, weights);
 
       const screen = generate_scored_screen_object(
-        screen_type,
+        temp_screen_type,
         base_posts,
         starting_num_posts,
-        num_posts_to_load,
+        0,
         weights,
         feature_counts[0],
         repeat_num,
@@ -2460,26 +2608,15 @@ function generate_screen_array(
       if (screen) {
         scored_screens_array.push(screen);
       }
-      // Changed by Helena on May 28, 2024
-      // No specific feedback screen
-      
-      // const feedback_screen = generate_correct_response_screen(
-      //   "correct_response",
-      //   screen["correct_posts"],
-      //   starting_num_posts,
-      //   0
-      // );
-
-      // if (feedback_screen) {
-      //   scored_screens_array.push(feedback_screen);
-      // }
     }
   }
+
 
   section_array.push({
     section_name: "questions",
     screens: scored_screens_array,
   });
+
 
   const feedback_screen = generate_feedback_screen("feedback");
 
@@ -3151,7 +3288,7 @@ function generate_feed_comparison_screen(
  * Generates a post placement screen object.
  *
  * @param {string} screen_type - The type of screen.
- * @param {Object[]} base_posts - An array of base posts.
+ * @param {Object[]} all_posts - An array of posts including the base and one to place.
  * @param {number} starting_num_posts - The starting number of posts.
  * @param {number} num_posts_to_load - The number of posts to load.
  * @param {Object} weights - The weights for features.
@@ -3162,7 +3299,7 @@ function generate_feed_comparison_screen(
  */
 function generate_post_placement_screen(
   screen_type,
-  base_posts,
+  all_posts,
   starting_num_posts,
   num_posts_to_load,
   weights,
@@ -3171,14 +3308,22 @@ function generate_post_placement_screen(
   is_practice = false,
   includes_confidence = false,
 ) {
-  base_posts = deep_copy(base_posts);
-  let new_post_index = base_posts.length;
-  let new_post = get_random_sample(source_posts, 1, base_posts)[0];
-  let all_posts = [...base_posts, new_post];
+  // base_posts = deep_copy(base_posts);
+  // let new_post_index = base_posts.length;
+  // let new_post = get_random_sample(source_posts, 1, base_posts)[0];
+  // let all_posts = [...base_posts, new_post];
+
+  all_posts = deep_copy(all_posts);
+  let new_post_index = all_posts.length - 1;
+  let ref_post_index = 0
+  let new_post = all_posts[all_posts.length - 1];
+  let base_posts = all_posts.slice(0, -1);
 
   if (bucketing) {
     linear_combination_sort(all_posts, weights);
     new_post_index = all_posts.indexOf(new_post);
+    // opposite of new post
+    ref_post_index = (new_post_index) ? 0 : 1;
   }
   else {
     while (new_post_index >= num_posts_to_load) {
@@ -3200,7 +3345,9 @@ function generate_post_placement_screen(
   );
   sidebar_entries[0]["includes_confidence"] = includes_confidence;
 
+  new_post["correct_index"] = new_post_index
   new_post["correct_position"] = new_post_index;
+  without_new_post[0]["correct_position"] = ref_post_index;
 
   sidebar_entries.forEach((entry) => {
     if (entry.answer_area === "post_bank") {
