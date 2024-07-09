@@ -268,7 +268,7 @@ ul li, ol li {
                         use of their displayed features such as the text, forms of engagement, or time posted.
 						</p>
 						<p style="font-size: 18px;">
-                            This should take 10 minutes, and will receive $2 compensation. Answers can receive a bonus of up to $0.05 per correct question.
+                            This should take 5 minutes, and will receive $1 compensation. Answers can receive a bonus of up to $0.05 per correct question.
 						 </p>
 						
 						<p> <b>Click next (or press enter) to start.</b></p>
@@ -458,7 +458,8 @@ ul li, ol li {
   
   <script type="text/javascript" src="templates/feed_data/generic_posts.js"></script>
   <script type="text/javascript" src="templates/feed_data/concept_feeds.js"></script>
-   <script type="text/javascript" src="templates/feed_data/dummy_alg_posts_2.js"></script>
+  <script type="text/javascript" src="templates/feed_data/extra_dummy_posts.js"></script>
+   <!-- <script type="text/javascript" src="templates/feed_data/dummy_alg_posts_2.js"></script> -->
 
   <script type="text/javascript">
     const question_screens = [
@@ -472,9 +473,11 @@ const num_features =
     Math.floor(Math.random() * possible_num_features.length)
   ];
 
-const num_same_features_and_question = 30;
+const num_same_features_and_question = 10;
 
-const possible_conditions = ["chronological", "random", "kind", "engagement_soup"]
+const possible_conditions = ["A"];
+
+// const possible_conditions = ["chronological", "kind", "engagement_soup"]
 
 // const possible_conditions = ["chronological", "likes", 
 // "engagement_soup", "first_person_pronouns", 
@@ -501,7 +504,7 @@ const condition = possible_conditions[
 
 
 const num_posts_per_screen = 1;
-const num_posts_at_load = 6;
+const num_posts_at_load = 12;
 const num_posts_to_load = 6;
 const max_num_posts_possible = 50;
 const num_buckets = 4;
@@ -511,14 +514,15 @@ const algorithms_already_created = true;
 let source_posts;
 if (bucketing) {
   alg_posts.sort((a,b) => a[condition] - b[condition]);
-  source_posts = generate_posts_from_buckets(alg_posts, num_buckets, max_num_posts_possible);//alg_posts, generic_posts;
+  source_posts = generate_posts_from_buckets(alg_posts, num_buckets, alg_posts.length);//alg_posts, generic_posts;
+  console.log(source_posts);
 }
 else {
   source_posts = generic_posts;
 }
 
 
-const num_practice = 10;
+const num_practice = 2;
 
 // TODO: update these to reflect twitter
 var feature_dict = {};
@@ -586,9 +590,12 @@ assess how confident you are in your answer. Correct self-assessment will be bon
     sidebar_entries: [
       {
         markdown: `
-From now on, you will not be explictly told how to arrange the posts, but will instead be trying to immitate the ordering you see here.
+From now on, you will not be explictly told how to arrange the posts.
 
-Look at your feed (to the left) and try to determine what the posts are ranked by.
+**Instead, try to immitate the ordering you see here.**
+
+Look at your feed (to the left) and try to determine what the posts are ranked by. The ranking could involve many different things, including both aspects of the text and interactions like the number of replies.
+**Anything you see could be part of the ranking.**
 
 All following questions in the study will ask you to rank posts based on this feed.
 You will start out with a practice phase which includes feedback. 
@@ -635,7 +642,7 @@ ordering.
     sidebar_entries: [
       {
         markdown: `
-Consider the following two posts. Order them according to how you think the earlier feed was ranked.
+Consider the following two posts. Order them according to how you think the earlier feed was ranked, with the post more likely to be shown at the top.
         `,
         answer_area: "post_bank",
         includes_confidence: include_confidence,
@@ -780,8 +787,34 @@ function insert_label(label_text, label_container, label_width) {
  * @param {HTMLElement} feed_parent_list - The parent list where the post will be inserted.
  * @param {boolean} locked - Indicates whether the post is locked / should not be moved.
  */
-function insert_post(post, feed_parent_list, locked) {
-  // TODO: need to signal which post is higher here, so that we can color them differently
+function insert_feed_divider(text, feed_parent_list, locked) {
+  const post_list_item = document.createElement("li");
+  post_list_item.className = `border mt-2 post${
+    locked ? " static" : ""
+  } rounded`;
+  post_list_item.style =  `background-color: rgb(${0}, ${0}, ${0})`;
+  post_list_item.innerHTML = `
+  <div class="d-flex flex-row justify-content-between align-items-center p-1">
+    <div class="d-flex flex-row align-items-center feed-text px-2">
+      <div class="d-flex flex-column flex-wrap ml-2">
+        <span class="font-weight-bold" style="color: #FFFFFF">${text}</span>
+      </div>
+    </div>
+  </div>
+`;
+  // console.log(post);
+
+  feed_parent_list.appendChild(post_list_item);
+}
+
+/**
+ * Inserts a post into a feed.
+ *
+ * @param {Object} post - The post data.
+ * @param {HTMLElement} feed_parent_list - The parent list where the post will be inserted.
+ * @param {boolean} locked - Indicates whether the post is locked / should not be moved.
+ */
+function insert_post(post, feed_parent_list, locked, divide=false) {
   const post_list_item = document.createElement("li");
   post_list_item.className = `border mt-2 post${
     locked ? " static" : ""
@@ -804,6 +837,9 @@ function insert_post(post, feed_parent_list, locked) {
     post.text = post["correct_position"];
   }
   
+  if(divide) {
+    insert_feed_divider("POSTS BELOW THIS POINT ARE RANKED SO LOW THEY WOULD NOT BE SEEN", feed_parent_list, locked);
+  }
 
   let highlighted_feature = post.highlighted_feature;
 
@@ -877,13 +913,24 @@ function insert_feed(
 
   let indicies;
   if (bucketing) {
-    indicies = get_random_sample_indices_from_chunks(feed_data, starting_num_posts)
+    indicies = get_random_sample_indices_from_chunks(feed_data, starting_num_posts);
+
   }
+
   // console.log(container.id)
+  let halfway = Math.floor(feed_data.length / 2)
+
+
   for (let i = 0; i < feed_data.length; i++) {
-    insert_post(feed_data[i], feed_parent_ul, is_locked);
+    var divide = false;
+    if (exposure && i == halfway) {
+      divide = true;
+    }
+    insert_post(feed_data[i], feed_parent_ul, is_locked, divide);
+
+    // TODO: okay so we need to check if the "Index" of the post is in indicies or not
     if (bucketing) {
-      if (indicies.indexOf(i) == -1 && container.id != "intro-post" && exposure) {
+      if (indicies.indexOf(feed_data[i]["Index"]) == -1 && container.id != "intro-post" && exposure) {
         feed_parent_ul.lastChild.style.display = "none";
         // This makes the posts that aren't displayed blue
         feed_parent_ul.lastElementChild.classList.add("second-static");
@@ -1005,7 +1052,7 @@ function populate_feed_container(
           const indicies = indicies_plus.filter(
             (index) =>
               !current_posts.some((current_post) => isEqual(current_post, index))
-          ).slice(0, num_posts_to_load);
+          ).sort(() => .5 - Math.random()).slice(0, num_posts_to_load);
           for (let i = 0; i < all_posts.length; i++) {
             if (indicies.indexOf(i) != -1) {
               all_posts[i].style.display = "block";
@@ -1453,7 +1500,6 @@ function display_screen(screen_info, section_name) {
  * @param {string} screen_name - The name of the screen.
  */
 function populate_fs_screen(screen_info, screen_name) {
-  console.log(screen_info);
   const screen_type = screen_info.screen_type;
   var sidebar_entries = screen_info.sidebar_entries;
   let feeds = deep_copy(screen_info["feeds"]);
@@ -1511,7 +1557,6 @@ function populate_fs_screen(screen_info, screen_name) {
 
   if (feeds.length > 0) {
     if (screen_name == "exposure") {
-      console.log("slay");
       populate_feed_container(
         feeds,
         document.getElementById("exposure-bar"),
@@ -1645,8 +1690,6 @@ function process_post_placement_question(
   screen_info
 ) {
   const posts = feed_ul.querySelectorAll("li");
-  console.log(posts);
-
   const index_1 = screen_info.correct_posts[0]["Index"];
   const index_2 = screen_info.correct_posts[1]["Index"];
   const chunk_1 = screen_info.correct_posts[0]["Chunk"];
@@ -1661,7 +1704,6 @@ function process_post_placement_question(
   for (let i = 0; i < posts.length; i++) {
     const post = posts[i];
     const position = parseInt(post.dataset.number);
-    console.log(post.dataset);
     if (position >= 0) {
       distance = Math.abs(i - position);
       correct_index = position;
@@ -1675,9 +1717,6 @@ function process_post_placement_question(
     correct_answers: [correct_index],
     chosen_answers: [chosen_index],
   };
-
-  console.log("chosen index");
-  console.log(chosen_index);
   if (chosen_index === -1) {
     unanswered_questions[question_div.id] = question;
   } else if (distance > 0) {
@@ -2043,7 +2082,6 @@ function give_feedback(curr_screen_info) {
       $('#wrong-btn-cntr').css('display', 'inline-block')
     }
   } else if (output.hasOwnProperty("training")){
-    console.log("yippee");
     if (output["training"][curr_screen_index]["correct_index"] === output["training"][curr_screen_index]["chosen_index"]){
       $('#right-btn-cntr').css('display', 'inline-block')
     } else {
@@ -2083,8 +2121,6 @@ function next_screen() {
       return;
     }
   }
-  console.log(curr_screen_info.screen_type);
-  console.log(curr_screen_info.screen_type.includes("post_placement"));
   if (curr_screen_info.screen_type.includes("post_placement") && curr_screen_info.is_practice && $("#next-btn").css("display") != "none"){
     log_screen(curr_section_index, curr_screen_index);
     give_feedback(curr_screen_info)
@@ -2194,8 +2230,6 @@ function redact_items(class_names) {
  */
 function submit() {
   var filename = output["global"][2]["pid"] + ".json";
-  console.log("filename");
-  console.log(filename);
   let string_output = JSON.stringify(output);
   fetch("https://pipe.jspsych.org/api/data/", {
     method: "POST",
@@ -2204,7 +2238,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "ZUFifQ41xzbs",
+      experimentID: "QCZiCbSy98Mu",
       filename: filename,
       data: string_output,
     }),
@@ -2435,8 +2469,11 @@ function generate_screen_array(
   const weights = study_weights;
 
   let base_posts;
+  let q_posts;
   if (bucketing) {
-    base_posts = source_posts;
+    let base_posts_indices = get_random_sample_indices_from_chunks(posts, Math.floor(posts.length/2));
+    base_posts = base_posts_indices.map(idx => posts[idx]);
+    q_posts = posts.filter((post, index) => !base_posts_indices.includes(index));
   }
   else {
     base_posts = get_random_sample(posts, max_num_posts_possible);
@@ -2458,7 +2495,7 @@ function generate_screen_array(
     // I don't think we need to do anything, just don't unsort 
   }
 
-  var check_posts = get_random_sample_from_chunks(alg_posts, 4);
+  var check_posts = get_random_sample_from_chunks(q_posts, 4);
   var check_posts_1 = check_posts.slice(0,2);
   var check_posts_2 = check_posts.slice(2);
   check_posts_1.forEach((post) => {
@@ -2521,7 +2558,7 @@ function generate_screen_array(
     ) {
       let base_posts;
       if (bucketing) {
-        base_posts = get_random_sample_from_chunks(alg_posts, num_posts+1);
+        base_posts = get_random_sample_from_chunks(posts, num_posts+1);
       }
       else {
         base_posts = get_random_sample(posts, num_posts+1);
@@ -2570,7 +2607,7 @@ function generate_screen_array(
       let base_posts;
       let temp_screen_type = screen_type;
       if (bucketing) {
-        base_posts = get_random_sample_from_chunks(alg_posts, num_posts+1);
+        base_posts = get_random_sample_from_chunks(posts, num_posts+1);
       }
       else {
         base_posts = get_random_sample(posts, num_posts+1);
@@ -2908,9 +2945,14 @@ function generate_screen_name(screen_info) {
 
 function assign_extra_posts_to_buckets(posts_left_over, num_buckets){
   var buckets_with_extra = []
+  var buckets = [];
+  for (var i=0;i<num_buckets;i++) {
+    buckets.push(i);
+}
   for (let i = 0; i < posts_left_over; i+= 1) {
-    let random_bucket = Math.floor(Math.random() * num_buckets);
-    buckets_with_extra.push(random_bucket)
+    let random_bucket = Math.floor(Math.random() * buckets.length);
+    buckets_with_extra.push(buckets[random_bucket]);
+    buckets.splice(random_bucket, 1)
   }
   return buckets_with_extra
 }
@@ -2961,6 +3003,8 @@ function generate_posts_from_buckets(data, num_buckets, max_num_posts_possible) 
   for (let i = 0; i < sampled_chunks_flattened.length; i += 1) {
     sampled_chunks_flattened[i]["Index"] = i
   }
+
+  
   return sampled_chunks_flattened
 
 }
@@ -3314,16 +3358,17 @@ function generate_post_placement_screen(
   // let all_posts = [...base_posts, new_post];
 
   all_posts = deep_copy(all_posts);
-  let new_post_index = all_posts.length - 1;
-  let ref_post_index = 0
-  let new_post = all_posts[all_posts.length - 1];
-  let base_posts = all_posts.slice(0, -1);
+  let new_post_index = Math.floor(Math.random()*all_posts.length)
+  let ref_post_index = (new_post_index==1) ? 0 : 1;
+  let new_post = all_posts[new_post_index];
+  let base_posts = (new_post_index==1) ? all_posts.slice(0, -1) : all_posts.slice(1);
+
 
   if (bucketing) {
     linear_combination_sort(all_posts, weights);
     new_post_index = all_posts.indexOf(new_post);
     // opposite of new post
-    ref_post_index = (new_post_index) ? 0 : 1;
+    ref_post_index = (new_post_index==1) ? 0 : 1;
   }
   else {
     while (new_post_index >= num_posts_to_load) {
@@ -3339,7 +3384,7 @@ function generate_post_placement_screen(
 
   correct_posts = deep_copy(all_posts)
 
-  const without_new_post = all_posts.filter((post) => post !== new_post);
+  const without_new_post = (new_post_index==1) ? correct_posts.slice(0, -1) : correct_posts.slice(1);
   var sidebar_entries = deep_copy(
     SCREEN_TYPE_INFO[screen_type].sidebar_entries
   );
