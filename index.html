@@ -655,7 +655,7 @@ Consider the following two posts. Order them according to how you think the earl
     sidebar_entries: [
       {
         markdown: `
-We will start off with a practice of the ordering task. Consider the following two posts. Put the one with a smaller number above the one with a larger number.
+We will start off with a practice of the ordering task. Consider the following two posts. Arrange them so that they one more likely to be true is above the one more likely to be false.
         `,
         answer_area: "post_bank",
         includes_confidence: include_confidence,
@@ -668,7 +668,7 @@ We will start off with a practice of the ordering task. Consider the following t
     sidebar_entries: [
       {
         markdown: `
-Consider the following two posts. Put the one that is a darker color above the one that is a lighter color.
+Consider the following two posts. Arrange them so that the one that is a darker color is above the one that is a lighter color.
         `,
         answer_area: "post_bank",
         includes_confidence: include_confidence,
@@ -834,11 +834,16 @@ function insert_post(post, feed_parent_list, locked, divide=false) {
     post_list_item.style =  `background-color: rgb(${color}, ${color}, ${color})`;
   } 
   if (post.attn_1) {
-    post.text = post["correct_position"];
+    var incorrect = post["correct_position"];
+    if (!incorrect) {
+      post.text = "The sky is blue because it is sunny today."
+    } else {
+      post.text = "The sky is red because it is sunny today."
+    }
   }
   
   if(divide) {
-    insert_feed_divider("POSTS BELOW THIS POINT ARE RANKED SO LOW THEY WOULD NOT BE SEEN", feed_parent_list, locked);
+    insert_feed_divider("Posts below this point would be ranked so low that, in a typical social media feed, it is unlikely they would ever be seen", feed_parent_list, locked);
   }
 
   let highlighted_feature = post.highlighted_feature;
@@ -2529,7 +2534,10 @@ function generate_screen_array(
     includes_confidence=false
   );
   
-
+  section_array.push({
+    section_name: "training",
+    screens: [check1, check2],
+  });
 
 
   const exposure_screen = generate_exposure_screen(
@@ -2544,10 +2552,7 @@ function generate_screen_array(
     screens: [exposure_screen],
   });
 
-    section_array.push({
-    section_name: "training",
-    screens: [check1, check2],
-  });
+
 
   
   // generate the practice
