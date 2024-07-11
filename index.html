@@ -458,8 +458,8 @@ ul li, ol li {
   
   <script type="text/javascript" src="templates/feed_data/generic_posts.js"></script>
   <script type="text/javascript" src="templates/feed_data/concept_feeds.js"></script>
-  <script type="text/javascript" src="templates/feed_data/extra_dummy_posts.js"></script>
-   <!-- <script type="text/javascript" src="templates/feed_data/dummy_alg_posts_2.js"></script> -->
+  <!-- <script type="text/javascript" src="templates/feed_data/extra_dummy_posts.js"></script> -->
+  <script type="text/javascript" src="templates/feed_data/dummy_alg_posts_2.js"></script>
 
   <script type="text/javascript">
     const question_screens = [
@@ -473,11 +473,12 @@ const num_features =
     Math.floor(Math.random() * possible_num_features.length)
   ];
 
-const num_same_features_and_question = 10;
+const num_same_features_and_question = 30;
 
-const possible_conditions = ["A"];
+// const possible_conditions = ["A"];
 
-// const possible_conditions = ["chronological", "kind", "engagement_soup"]
+const possible_conditions = ["positive"]
+// const possible_conditions = ["reasoning"]
 
 // const possible_conditions = ["chronological", "likes", 
 // "engagement_soup", "first_person_pronouns", 
@@ -514,15 +515,14 @@ const algorithms_already_created = true;
 let source_posts;
 if (bucketing) {
   alg_posts.sort((a,b) => a[condition] - b[condition]);
-  source_posts = generate_posts_from_buckets(alg_posts, num_buckets, alg_posts.length);//alg_posts, generic_posts;
-  console.log(source_posts);
+  source_posts = generate_posts_from_buckets(alg_posts, num_buckets, alg_posts.length, extreme=true);//alg_posts, generic_posts;
 }
 else {
   source_posts = generic_posts;
 }
 
 
-const num_practice = 2;
+const num_practice = 10;
 
 // TODO: update these to reflect twitter
 var feature_dict = {};
@@ -1053,19 +1053,20 @@ function populate_feed_container(
             (index) =>
               !current_posts.some((current_post) => isEqual(current_post, index))
           ).sort(() => .5 - Math.random()).slice(0, num_posts_to_load);
-          for (let i = 0; i < all_posts.length; i++) {
-            if (indicies.indexOf(i) != -1) {
-              all_posts[i].style.display = "block";
+          for (let j = 0; j < all_posts.length; j++) {
+            //TODO: this may have an issue in the case that the very last index is called
+            if (indicies.indexOf(feeds[i][j]["Index"]) != -1) {
+              all_posts[j].style.display = "block";
             }
           }
 
           let count = 0;
-          for (let i = 0; i < all_posts.length; i++) {
-            if (all_posts[i].style.display == "block") {
+          for (let j = 0; j < all_posts.length; j++) {
+            if (all_posts[j].style.display == "block") {
               count++;
             }
           }
-          if (count == all_posts.length) {
+          if (count > all_posts.length - 2) {
             button_hidden = true;
           } else {
             button_hidden = false;
@@ -2238,7 +2239,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "QCZiCbSy98Mu",
+      experimentID: "w6yoYUhkSBjU",
       filename: filename,
       data: string_output,
     }),
@@ -2528,10 +2529,7 @@ function generate_screen_array(
     includes_confidence=false
   );
   
-  section_array.push({
-    section_name: "training",
-    screens: [check1, check2],
-  });
+
 
 
   const exposure_screen = generate_exposure_screen(
@@ -2546,6 +2544,10 @@ function generate_screen_array(
     screens: [exposure_screen],
   });
 
+    section_array.push({
+    section_name: "training",
+    screens: [check1, check2],
+  });
 
   
   // generate the practice
@@ -2949,6 +2951,7 @@ function assign_extra_posts_to_buckets(posts_left_over, num_buckets){
   for (var i=0;i<num_buckets;i++) {
     buckets.push(i);
 }
+  
   for (let i = 0; i < posts_left_over; i+= 1) {
     let random_bucket = Math.floor(Math.random() * buckets.length);
     buckets_with_extra.push(buckets[random_bucket]);
@@ -2958,7 +2961,7 @@ function assign_extra_posts_to_buckets(posts_left_over, num_buckets){
 }
 
 
-function generate_posts_from_buckets(data, num_buckets, max_num_posts_possible) {
+function generate_posts_from_buckets(data, num_buckets, max_num_posts_possible, extreme=false) {
 
   var length_of_buckets = Math.floor(data.length / num_buckets)
   var posts_per_bucket = Math.floor(max_num_posts_possible / num_buckets)
@@ -2996,6 +2999,7 @@ function generate_posts_from_buckets(data, num_buckets, max_num_posts_possible) 
   for (let i = 0; i < sampled_chunks.length; i += 1) {
     for (let j = 0; j < sampled_chunks[i].length; j +=1) {
       sampled_chunks[i][j]["Chunk"] = i
+      if (!extreme || i==0 || i==sampled_chunks.length-1)
       sampled_chunks_flattened.push(sampled_chunks[i][j])
     }
   }
@@ -3009,56 +3013,59 @@ function generate_posts_from_buckets(data, num_buckets, max_num_posts_possible) 
 
 }
 
-function get_random_sample_from_chunks(data, num_posts, excluded_posts = []) {
-  chunked_data = create_chunked_data(data)
+function get_random_sample_from_chunks(data, num_posts, excluded_posts = [], extreme=false) {
+  chunked_data = create_chunked_data(data, extreme)
   var num_buckets = chunked_data.length;
   var posts_per_bucket = Math.floor(num_posts / num_buckets)
   var posts_left_over = num_posts - (posts_per_bucket * num_buckets)
 
-  var buckets_with_extra = assign_extra_posts_to_buckets(posts_left_over, num_buckets)
+  var buckets_with_extra = assign_extra_posts_to_buckets(posts_left_over, num_buckets);
 
-  var sampled_chunks = [] 
+  var sampled_chunks = [];
 
   for (let i = 0; i < chunked_data.length; i++) {
 
     if (buckets_with_extra.includes(i)) {
       let num_to_add = buckets_with_extra.reduce((n, x) => n + (x === i), 0);
-      sampled_chunks.push(get_random_sample(chunked_data[i], posts_per_bucket + num_to_add, excluded_posts))
+      sampled_chunks.push(get_random_sample(chunked_data[i], posts_per_bucket + num_to_add, excluded_posts));
     }
     else {
-      sampled_chunks.push(get_random_sample(chunked_data[i], posts_per_bucket, excluded_posts))
+      sampled_chunks.push(get_random_sample(chunked_data[i], posts_per_bucket, excluded_posts));
     }
   }
 
   var sampled_chunks_flattened = []
   for (let i = 0; i < sampled_chunks.length; i += 1) {
     for (let j = 0; j < sampled_chunks[i].length; j +=1) {
-      sampled_chunks_flattened.push(sampled_chunks[i][j])
+      sampled_chunks_flattened.push(sampled_chunks[i][j]);
     }
   }
 
   return sampled_chunks_flattened
 }
 
-function create_chunked_data(data) {
+function create_chunked_data(data, extreme=false) {
   new_dict = {}
 
   for (let i = 0; i < data.length; i+=1) {
     if (!(data[i]["Chunk"] in new_dict)) {
-      new_dict[data[i]["Chunk"]] = []
+      new_dict[data[i]["Chunk"]] = [];
     }
-    new_dict[data[i]["Chunk"]].push(data[i])
+    new_dict[data[i]["Chunk"]].push(data[i]);
   }
   new_list = []
   for (var key in new_dict) {
-    new_list.push(new_dict[key])
+    new_list.push(new_dict[key]);
+  }
+  if (extreme) {
+    new_list = [new_list[0], new_list[new_list.length -1]];
   }
   return new_list
 }
 
 
-function get_random_sample_indices_from_chunks(data, num_posts, excluded_posts = []) {
-    sampled_chunks_flattened = get_random_sample_from_chunks(data, num_posts, excluded_posts)
+function get_random_sample_indices_from_chunks(data, num_posts, excluded_posts = [], extreme=false) {
+    sampled_chunks_flattened = get_random_sample_from_chunks(data, num_posts, excluded_posts, extreme)
     indicies = []
     for (let i = 0; i < sampled_chunks_flattened.length; i += 1) {
       indicies.push(sampled_chunks_flattened[i]["Index"])
