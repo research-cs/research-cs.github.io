@@ -477,7 +477,7 @@ const num_same_features_and_question = 30;
 
 // const possible_conditions = ["A"];
 
-const possible_conditions = ["positive"]
+const possible_conditions = ["positive", "toxicity"]
 // const possible_conditions = ["reasoning"]
 
 // const possible_conditions = ["chronological", "likes", 
@@ -2114,6 +2114,11 @@ function next_screen() {
       curr_screen_info,
       generate_screen_name(curr_screen_info)
     );
+
+    if (curr_screen_info.screen_type === "exposure") {
+      // DO SOMETHING
+      pass
+    }
 
     if (!is_practice) {
       incorrect_questions = {};
