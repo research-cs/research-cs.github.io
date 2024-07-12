@@ -477,7 +477,7 @@ const num_same_features_and_question = 30;
 
 // const possible_conditions = ["A"];
 
-const possible_conditions = ["positive", "toxicity"]
+const possible_conditions = ["quality", "positive", "severe_toxicity"]
 // const possible_conditions = ["reasoning"]
 
 // const possible_conditions = ["chronological", "likes", 
@@ -592,7 +592,7 @@ assess how confident you are in your answer. Correct self-assessment will be bon
         markdown: `
 From now on, you will not be explictly told how to arrange the posts.
 
-**Instead, try to immitate the ordering you see here.**
+**Instead, try to immitate the ordering you see here, based the text of the tweet.**
 
 Please spend **several minutes** looking at your feed (to the left) and trying to determine what the posts are ranked by. The ranking could involve many different things, including both aspects of the text and interactions like the number of replies.
 
@@ -2103,6 +2103,12 @@ function next_screen() {
   const curr_screen_info =
     study_array[curr_section_index].screens[curr_screen_index];
 
+  var time_onscreen = (new Date().getTime() - curr_screen_info["start_time"]) /1000;
+  if (curr_screen_info.screen_type === "exposure" && time_onscreen < 60) {
+    alert(`Please look at the feed for at least 60 seconds. You have only spent ${time_onscreen} seconds so far`);
+    return;
+  }
+
   if (
     question_screens.includes(curr_screen_info.screen_type) ||
     curr_screen_info.screen_type === "feedback"
@@ -2113,11 +2119,6 @@ function next_screen() {
       curr_screen_info,
       generate_screen_name(curr_screen_info)
     );
-
-    if (curr_screen_info.screen_type === "exposure") {
-      // DO SOMETHING
-      pass
-    }
 
     if (!is_practice) {
       incorrect_questions = {};
