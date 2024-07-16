@@ -268,7 +268,7 @@ ul li, ol li {
                         use of their displayed features such as the text, forms of engagement, or time posted.
 						</p>
 						<p style="font-size: 18px;">
-                            This should take 5 minutes, and will receive $1 compensation. Answers can receive a bonus of up to $0.05 per correct question.
+                            This should take 16 minutes, and will receive $3.20 compensation. Answers can receive a bonus of up to $0.05 per correct question.
 						 </p>
 						
 						<p> <b>Click next (or press enter) to start.</b></p>
@@ -477,7 +477,7 @@ const num_same_features_and_question = 30;
 
 // const possible_conditions = ["A"];
 
-const possible_conditions = ["positive"]
+const possible_conditions = ["gpt_partisan", "gpt_quality", "severe_toxicity"];
 // const possible_conditions = ["reasoning"]
 
 // const possible_conditions = ["chronological", "likes", 
@@ -592,7 +592,7 @@ assess how confident you are in your answer. Correct self-assessment will be bon
         markdown: `
 From now on, you will not be explictly told how to arrange the posts.
 
-**Instead, try to immitate the ordering you see here, based the text of the tweet.**
+**Instead, try to immitate the ordering you see here.**
 
 Please spend **several minutes** looking at your feed (to the left) and trying to determine what the posts are ranked by.
 The ranking could involve many different things, including both aspects of the text and interactions like the number of replies.
@@ -727,7 +727,7 @@ How do you think the feed you saw at the beginning was ordered?
       },
       {
         markdown: `
-What was the most difficult part of this process? (e.g. figuring out how the feed was ordered, arranging new feeds, something else)
+What evidence helped you figure out how the feed was ordered? What was your process for developing your theory and did it change?
         `,
         answer_area: "text_input",
       },
@@ -2106,8 +2106,8 @@ function next_screen() {
     study_array[curr_section_index].screens[curr_screen_index];
 
   var time_onscreen = (new Date().getTime() - curr_screen_info["start_time"]) /1000;
-  if (curr_screen_info.screen_type === "exposure" && time_onscreen < 60) {
-    alert(`Please look at the feed for at least 60 seconds. You have only spent ${time_onscreen} seconds so far`);
+  if (curr_screen_info.screen_type === "exposure" && time_onscreen < 120) {
+    alert(`Please look at the feed for at least 120 seconds. You have only spent ${time_onscreen} seconds so far`);
     return;
   }
 
@@ -2251,7 +2251,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "HLYBbqHoPtYn",
+      experimentID: "YLWHTnotxsBQ",
       filename: filename,
       data: string_output,
     }),
