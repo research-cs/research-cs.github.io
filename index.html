@@ -619,9 +619,9 @@ it is not relevant to the tasks.*`
         markdown: `
 From now on, you will not be explictly told how to arrange the posts.
 
-**Instead, try to immitate the ordering you see here.**
+**Instead, try to immitate the ordering you see among the political tweets in Your Feed.**
 
-Please spend **several minutes** looking at your feed (to the left) and trying to determine what the posts are ranked by.
+Please spend **several minutes** looking at Your Feed (to the left) and trying to determine what the posts are ranked by.
 The ranking could involve many different things, including both aspects of the text and interactions like the number of replies.
 *Keep in mind that AI can make mistakes*.
 
@@ -1041,7 +1041,7 @@ function populate_feed_container(
   const feed_row = document.createElement("div");
   feed_row.className = "row feed-scroll visible-scrollbar";
 
-  const load_more_button = document.getElementById('load-more-button') //document.createElement("button");
+  const load_more_button = document.getElementById('load-more-button'); //document.createElement("button");
   if (load_more_button){
     if (bucketing) {
       load_more_button.innerText = "Insert More Posts into Current Feed";
@@ -3479,7 +3479,7 @@ function generate_post_placement_screen(
     num_posts_to_load: num_posts_to_load,
     correct_posts: correct_posts,
     sidebar_entries: sidebar_entries,
-    labels: ["Your Ordering"],
+    labels: ["Your Feed"],
   };
 
   // const screen = {
