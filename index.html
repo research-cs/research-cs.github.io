@@ -477,7 +477,7 @@ const num_same_features_and_question = 30;
 
 // const possible_conditions = ["A"];
 
-const possible_conditions = ["severe_toxicity", "gpt_quality"];
+const possible_conditions = ["severe_toxicity", "chronological"];
 // const possible_conditions = ["reasoning"]
 
 // const possible_conditions = ["chronological", "likes", 
@@ -497,7 +497,6 @@ const possible_conditions = ["severe_toxicity", "gpt_quality"];
 const condition = possible_conditions[
   Math.floor(Math.random() * possible_conditions.length)
 ];
-
 // const concept_index = Math.floor(
 //   Math.random() * concept_feeds.length
 // );
@@ -590,6 +589,34 @@ assess how confident you are in your answer. Correct self-assessment will be bon
     sidebar_entries: [
       {
         markdown: `
+From now on, you will not be explictly told the criteria behind which post to choose.
+
+**Instead, you should choose the post most like those in this feed.**
+Posts in Your Feed are chosen because they are ranked the most highly according to some condition.
+
+Please spend several minutes looking at your feed (to the left) and trying to determine what these posts were chosen for.
+The ranking could involve many different things, including both aspects of the text and interactions like the number of replies.
+*Keep in mind that AI can make mistakes*.
+
+All following questions in the study will ask you to select posts based on this feed.
+You will start out with a practice phase which includes feedback. You will be able to refer back to this feed during the practice phase, but not during the scored section.
+<button id = "load-more-button"></button>
+${
+          any_redacted
+            ? `*Some text has been redacted because 
+it is not relevant to the tasks.*`
+            : ""
+        }
+        `,
+      },
+    ],
+  },
+
+  exposure_old: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
 From now on, you will not be explictly told how to arrange the posts.
 
 **Instead, try to immitate the ordering you see here.**
@@ -638,7 +665,7 @@ ordering.
     ],
   },
 
-  post_placement: {
+  post_placement_old: {
     template_id: "feed-and-sidebar",
     sidebar_entries: [
       {
@@ -651,12 +678,25 @@ Consider the following two posts. Order them according to how you think the earl
     ],
   },
 
+  post_placement: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
+Consider the following two posts. Choose the most more likely to be included in Your Feed, and move it to the box on the left.
+        `,
+        answer_area: "post_bank",
+        includes_confidence: include_confidence,
+      },
+    ],
+  },
+
   post_placement_check_1: {
     template_id: "feed-and-sidebar",
     sidebar_entries: [
       {
         markdown: `
-We will start off with a practice of the ordering task. Consider the following two posts. Arrange them so that they one more likely to be true is above the one more likely to be false.
+We will start off with a practice of the selection task. Consider the following two posts. Choose the one you think is more likely to be true, and move it over into the box to the left.
         `,
         answer_area: "post_bank",
         includes_confidence: include_confidence,
@@ -669,7 +709,7 @@ We will start off with a practice of the ordering task. Consider the following t
     sidebar_entries: [
       {
         markdown: `
-Consider the following two posts. Arrange them so that the one that is a darker color is above the one that is a lighter color.
+Consider the following two posts. Choose the one with a larger number, and move it over into the box to the left
         `,
         answer_area: "post_bank",
         includes_confidence: include_confidence,
@@ -831,9 +871,16 @@ function insert_post(post, feed_parent_list, locked, divide=false) {
     }
   } 
   if (post.attn_2) {
-    var color = post["correct_position"] * 150 + 50
-    post_list_item.style =  `background-color: rgb(${color}, ${color}, ${color})`;
-  } 
+    // var color = post["correct_position"] * 150 + 50
+    // post_list_item.style =  `background-color: rgb(${color}, ${color}, ${color})`;
+    var incorrect = post["correct_position"];
+    if (!incorrect) {
+      post.text = "15"
+    } else {
+      post.text = "14"
+    }
+  }
+ 
   if (post.attn_1) {
     var incorrect = post["correct_position"];
     if (!incorrect) {
@@ -844,7 +891,7 @@ function insert_post(post, feed_parent_list, locked, divide=false) {
   }
   
   if(divide) {
-    insert_feed_divider("Posts below this point would be ranked so low that, in a typical social media feed, it is unlikely they would ever be seen", feed_parent_list, locked);
+    //insert_feed_divider("Posts below this point would be ranked so low that, in a typical social media feed, it is unlikely they would ever be seen", feed_parent_list, locked);
   }
 
   let highlighted_feature = post.highlighted_feature;
@@ -886,7 +933,7 @@ function insert_post(post, feed_parent_list, locked, divide=false) {
   </div>
 `;
   // console.log(post);
-  post_list_item.setAttribute("data-number", post.correct_index ?? -1);
+  post_list_item.setAttribute("data-number", post.correct_position ?? -1);
 
   feed_parent_list.appendChild(post_list_item);
 }
@@ -987,7 +1034,6 @@ function populate_feed_container(
   const feed_width = Math.floor(12 / feeds.length);
   const label_width = feed_width;
 
-
   const label_row = document.createElement("div");
   label_row.className = "row label-container align-items-start pl-1 pr-3 pb-1";
   container.appendChild(label_row);
@@ -1061,7 +1107,7 @@ function populate_feed_container(
           ).sort(() => .5 - Math.random()).slice(0, num_posts_to_load);
           for (let j = 0; j < all_posts.length; j++) {
             //TODO: this may have an issue in the case that the very last index is called
-            if (indicies.indexOf(feeds[i][j]["Index"]) != -1) {
+            if (typeof feeds[i][j] !== 'undefined' && indicies.indexOf(feeds[i][j]["Index"]) != -1) {
               all_posts[j].style.display = "block";
             }
           }
@@ -1330,7 +1376,6 @@ function insert_post_bank(entry, entry_div, question_id, is_practice=false) {
   // label_div.innerHTML = `<button type="button" class="btn btn-primary" id="exposure-btn" onclick="see_feed_again()" style='display: none'>See Feed Again</button>
   // <br><br>`;
   // label_container.appendChild(label_div);
-
 
   insert_feed(entry.post_bank, entry_div, 12, entry.post_bank.length, false);
 }
@@ -2251,7 +2296,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "YLWHTnotxsBQ",
+      experimentID: "ofqNFLn8EaCx",
       filename: filename,
       data: string_output,
     }),
@@ -2487,6 +2532,8 @@ function generate_screen_array(
     let base_posts_indices = get_random_sample_indices_from_chunks(posts, Math.floor(posts.length/2));
     base_posts = base_posts_indices.map(idx => posts[idx]);
     q_posts = posts.filter((post, index) => !base_posts_indices.includes(index));
+
+    base_posts = base_posts.filter((post) => post["Chunk"] !== 0);
   }
   else {
     base_posts = get_random_sample(posts, max_num_posts_possible);
@@ -3024,7 +3071,7 @@ function generate_posts_from_buckets(data, num_buckets, max_num_posts_possible, 
   return sampled_chunks_flattened
 
 }
-
+// get a random sample of posts from flattened chunked data
 function get_random_sample_from_chunks(data, num_posts, excluded_posts = [], extreme=false) {
   chunked_data = create_chunked_data(data, extreme)
   var num_buckets = chunked_data.length;
@@ -3055,7 +3102,7 @@ function get_random_sample_from_chunks(data, num_posts, excluded_posts = [], ext
 
   return sampled_chunks_flattened
 }
-
+// from flattened bucketed data, put into chunks
 function create_chunked_data(data, extreme=false) {
   new_dict = {}
 
@@ -3075,9 +3122,9 @@ function create_chunked_data(data, extreme=false) {
   return new_list
 }
 
-
-function get_random_sample_indices_from_chunks(data, num_posts, excluded_posts = [], extreme=false) {
-    sampled_chunks_flattened = get_random_sample_from_chunks(data, num_posts, excluded_posts, extreme)
+// given flattened, pre-computed chunked data, return a set of indices randomly sampled across chunks
+function get_random_sample_indices_from_chunks(data, num_posts, excluded_posts = []) {
+    sampled_chunks_flattened = get_random_sample_from_chunks(data, num_posts, excluded_posts)
     indicies = []
     for (let i = 0; i < sampled_chunks_flattened.length; i += 1) {
       indicies.push(sampled_chunks_flattened[i]["Index"])
@@ -3415,9 +3462,10 @@ function generate_post_placement_screen(
 
   sidebar_entries.forEach((entry) => {
     if (entry.answer_area === "post_bank") {
-      entry["post_bank"] = [new_post];
+      entry["post_bank"] = [new_post].concat(without_new_post);
     }
   });
+
 
   const screen = {
     screen_type: screen_type,
@@ -3426,13 +3474,28 @@ function generate_post_placement_screen(
     is_practice: is_practice,
     template_id: SCREEN_TYPE_INFO[screen_type].template_id,
     weights: weights,
-    feeds: [without_new_post],
+    feeds: [[]],
     starting_num_posts: starting_num_posts,
     num_posts_to_load: num_posts_to_load,
     correct_posts: correct_posts,
     sidebar_entries: sidebar_entries,
     labels: ["Your Ordering"],
   };
+
+  // const screen = {
+  //   screen_type: screen_type,
+  //   feature_count: feature_count,
+  //   instance_number: repeat_num,
+  //   is_practice: is_practice,
+  //   template_id: SCREEN_TYPE_INFO[screen_type].template_id,
+  //   weights: weights,
+  //   feeds: [without_new_post],
+  //   starting_num_posts: starting_num_posts,
+  //   num_posts_to_load: num_posts_to_load,
+  //   correct_posts: correct_posts,
+  //   sidebar_entries: sidebar_entries,
+  //   labels: ["Your Ordering"],
+  // };
 
   return screen;
 }
