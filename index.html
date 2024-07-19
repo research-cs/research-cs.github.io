@@ -1987,7 +1987,7 @@ function log_screen(section_index, screen_index) {
 
   if (
     question_screens.includes(screen_info.screen_type) ||
-    screen_info.screen_type == "feedback"
+    screen_info.screen_type == "feedback" || screen_info.screen_type == "post_exposure"
   ) {
     [screen_output, unanswered_questions, incorrect_questions] =
       get_screen_results(screen_info, screen_name);
