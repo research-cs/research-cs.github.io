@@ -584,7 +584,7 @@ assess how confident you are in your answer. Correct self-assessment will be bon
     ],
   },
 
-  exposure_other: {
+  exposure: {
     template_id: "feed-and-sidebar",
     sidebar_entries: [
       {
@@ -633,7 +633,7 @@ it is not relevant to the tasks.*`
     ],
   },
 
-  exposure: {
+  exposure_other: {
     template_id: "feed-and-sidebar",
     sidebar_entries: [
       {
@@ -686,7 +686,7 @@ ordering.
     ],
   },
 
-  post_placement: {
+  post_placement_other: {
     template_id: "feed-and-sidebar",
     sidebar_entries: [
       {
@@ -699,7 +699,7 @@ Consider the following two posts. Order them according to how you think the earl
     ],
   },
 
-  post_placement_other: {
+  post_placement: {
     template_id: "feed-and-sidebar",
     sidebar_entries: [
       {
@@ -912,7 +912,7 @@ function insert_post(post, feed_parent_list, locked, divide=false) {
   }
   
   if(divide) {
-    insert_feed_divider("Posts below this point would be ranked so low that, in a typical social media feed, it is unlikely they would ever be seen", feed_parent_list, locked);
+    // insert_feed_divider("Posts below this point would be ranked so low that, in a typical social media feed, it is unlikely they would ever be seen", feed_parent_list, locked);
   }
 
   let highlighted_feature = post.highlighted_feature;
@@ -954,7 +954,7 @@ function insert_post(post, feed_parent_list, locked, divide=false) {
   </div>
 `;
   // console.log(post);
-  post_list_item.setAttribute("data-number", post.correct_index ?? -1);
+  post_list_item.setAttribute("data-number", post.correct_position ?? -1);
 
   feed_parent_list.appendChild(post_list_item);
 }
@@ -2560,7 +2560,7 @@ function generate_screen_array(
     base_posts = base_posts_indices.map(idx => posts[idx]);
     q_posts = posts.filter((post, index) => !base_posts_indices.includes(index));
     random_posts = get_random_sample(posts, 100);
-    // base_posts = base_posts.filter((post) => post["Chunk"] !== 0);
+    base_posts = base_posts.filter((post) => post["Chunk"] !== 0);
   }
   else {
     base_posts = get_random_sample(posts, max_num_posts_possible);
@@ -3532,7 +3532,7 @@ function generate_post_placement_screen(
 
   sidebar_entries.forEach((entry) => {
     if (entry.answer_area === "post_bank") {
-      entry["post_bank"] = [new_post];
+      entry["post_bank"] = [new_post].concat(without_new_post);
     }
   });
 
@@ -3543,13 +3543,28 @@ function generate_post_placement_screen(
     is_practice: is_practice,
     template_id: SCREEN_TYPE_INFO[screen_type].template_id,
     weights: weights,
-    feeds: [without_new_post],
+    feeds: [[]],
     starting_num_posts: starting_num_posts,
     num_posts_to_load: num_posts_to_load,
     correct_posts: correct_posts,
     sidebar_entries: sidebar_entries,
     labels: ["Your Ordering"],
   };
+
+  // const screen = {
+  //   screen_type: screen_type,
+  //   feature_count: feature_count,
+  //   instance_number: repeat_num,
+  //   is_practice: is_practice,
+  //   template_id: SCREEN_TYPE_INFO[screen_type].template_id,
+  //   weights: weights,
+  //   feeds: [without_new_post],
+  //   starting_num_posts: starting_num_posts,
+  //   num_posts_to_load: num_posts_to_load,
+  //   correct_posts: correct_posts,
+  //   sidebar_entries: sidebar_entries,
+  //   labels: ["Your Ordering"],
+  // };
 
   return screen;
 }
