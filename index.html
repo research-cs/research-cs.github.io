@@ -584,7 +584,7 @@ assess how confident you are in your answer. Correct self-assessment will be bon
     ],
   },
 
-  exposure: {
+  exposure_other: {
     template_id: "feed-and-sidebar",
     sidebar_entries: [
       {
@@ -613,7 +613,27 @@ it is not relevant to the tasks.*`
     ],
   },
 
-  exposure_old: {
+  post_exposure: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
+This feed represents a sample of the posts you might see throughout this task, in no particular order.
+Please spend a minute scrolling through the posts to get an idea of what types of posts you could be shown.
+Use the text box below to briefly describe the commonalities of these posts, as well as some of the ways that they differ.
+${
+          any_redacted
+            ? `*Some text has been redacted because 
+it is not relevant to the tasks.*`
+            : ""
+        }
+        `,
+        answer_area: "text_input",
+      },
+    ],
+  },
+
+  exposure: {
     template_id: "feed-and-sidebar",
     sidebar_entries: [
       {
@@ -666,7 +686,7 @@ ordering.
     ],
   },
 
-  post_placement_old: {
+  post_placement: {
     template_id: "feed-and-sidebar",
     sidebar_entries: [
       {
@@ -679,7 +699,7 @@ Consider the following two posts. Order them according to how you think the earl
     ],
   },
 
-  post_placement: {
+  post_placement_other: {
     template_id: "feed-and-sidebar",
     sidebar_entries: [
       {
@@ -892,7 +912,7 @@ function insert_post(post, feed_parent_list, locked, divide=false) {
   }
   
   if(divide) {
-    //insert_feed_divider("Posts below this point would be ranked so low that, in a typical social media feed, it is unlikely they would ever be seen", feed_parent_list, locked);
+    insert_feed_divider("Posts below this point would be ranked so low that, in a typical social media feed, it is unlikely they would ever be seen", feed_parent_list, locked);
   }
 
   let highlighted_feature = post.highlighted_feature;
@@ -934,7 +954,7 @@ function insert_post(post, feed_parent_list, locked, divide=false) {
   </div>
 `;
   // console.log(post);
-  post_list_item.setAttribute("data-number", post.correct_position ?? -1);
+  post_list_item.setAttribute("data-number", post.correct_index ?? -1);
 
   feed_parent_list.appendChild(post_list_item);
 }
@@ -1042,7 +1062,7 @@ function populate_feed_container(
   const feed_row = document.createElement("div");
   feed_row.className = "row feed-scroll visible-scrollbar";
 
-  const load_more_button = document.getElementById('load-more-button'); //document.createElement("button");
+  const load_more_button = document.getElementById('load-more-button') //document.createElement("button");
   if (load_more_button){
     if (bucketing) {
       load_more_button.innerText = "Insert More Posts into Current Feed";
@@ -1498,7 +1518,7 @@ function display_screen(screen_info, section_name) {
 
   let screen_title = document.getElementById("screen-title");
   screen_title.innerHTML =
-    section_name.charAt(0).toUpperCase() + section_name.slice(1);
+    section_name.charAt(0).toUpperCase() + section_name.replace(/_/g, ' ').slice(1);
 
   let top_bar = document.getElementById("top-bar");
   top_bar.style.backgroundColor =
@@ -2157,9 +2177,14 @@ function next_screen() {
     return;
   }
 
+  if (curr_screen_info.screen_type === "post_exposure" && time_onscreen < 60) {
+    alert(`Please look at the feed for at least 60 seconds. You have only spent ${time_onscreen} seconds so far`);
+    return;
+  }
+
   if (
     question_screens.includes(curr_screen_info.screen_type) ||
-    curr_screen_info.screen_type === "feedback"
+    curr_screen_info.screen_type === "feedback" || curr_screen_info.screen_type === "post_exposure"
   ) {
     const is_practice = curr_screen_info.screen_type === "practice";
 
@@ -2297,7 +2322,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "ofqNFLn8EaCx",
+      experimentID: "BiFWL7xWcjZ3",
       filename: filename,
       data: string_output,
     }),
@@ -2529,12 +2554,13 @@ function generate_screen_array(
 
   let base_posts;
   let q_posts;
+  let random_posts;
   if (bucketing) {
     let base_posts_indices = get_random_sample_indices_from_chunks(posts, Math.floor(posts.length/2));
     base_posts = base_posts_indices.map(idx => posts[idx]);
     q_posts = posts.filter((post, index) => !base_posts_indices.includes(index));
-
-    base_posts = base_posts.filter((post) => post["Chunk"] !== 0);
+    random_posts = get_random_sample(posts, 100);
+    // base_posts = base_posts.filter((post) => post["Chunk"] !== 0);
   }
   else {
     base_posts = get_random_sample(posts, max_num_posts_possible);
@@ -2592,6 +2618,17 @@ function generate_screen_array(
   section_array.push({
     section_name: "training",
     screens: [check1, check2],
+  });
+
+  const post_exposure_screen = generate_post_exposure_screen("post_exposure",
+    random_posts,
+    starting_num_posts,
+    num_posts_to_load
+  );
+
+  section_array.push({
+    section_name: "post_exposure",
+    screens: [post_exposure_screen],
   });
 
 
@@ -3281,6 +3318,38 @@ function generate_exposure_screen(
   return screen;
 }
     /**
+ * Generates an post exposure screen object.
+ *
+ * @param {string} screen_type - The type of screen.
+ * @param {Object[]} base_posts - An array of base posts.
+ * @param {number} starting_num_posts - The starting number of posts.
+ * @param {number} num_posts_to_load - The number of posts to load with each "load more".
+ * @returns {Object} The Exposure screen object.
+ */
+function generate_post_exposure_screen(
+    screen_type,
+    base_posts,
+    starting_num_posts,
+    num_posts_to_load
+  ) {
+    const sidebar_entries = deep_copy(
+      SCREEN_TYPE_INFO[screen_type].sidebar_entries
+    );
+  
+    const screen = {
+      screen_type: screen_type,
+      template_id: SCREEN_TYPE_INFO.exposure.template_id,
+      feeds: [base_posts],
+      starting_num_posts: starting_num_posts,
+      num_posts_to_load: num_posts_to_load,
+      sidebar_entries: sidebar_entries,
+      labels: ["Sample Posts"],
+    };
+  
+    return screen;
+  }
+  
+    /**
  * Generates a screen object for showing the user the correct response.
  *
  * @param {string} screen_type - The type of screen.
@@ -3463,10 +3532,9 @@ function generate_post_placement_screen(
 
   sidebar_entries.forEach((entry) => {
     if (entry.answer_area === "post_bank") {
-      entry["post_bank"] = [new_post].concat(without_new_post);
+      entry["post_bank"] = [new_post];
     }
   });
-
 
   const screen = {
     screen_type: screen_type,
@@ -3475,28 +3543,13 @@ function generate_post_placement_screen(
     is_practice: is_practice,
     template_id: SCREEN_TYPE_INFO[screen_type].template_id,
     weights: weights,
-    feeds: [[]],
+    feeds: [without_new_post],
     starting_num_posts: starting_num_posts,
     num_posts_to_load: num_posts_to_load,
     correct_posts: correct_posts,
     sidebar_entries: sidebar_entries,
-    labels: ["Your Feed"],
+    labels: ["Your Ordering"],
   };
-
-  // const screen = {
-  //   screen_type: screen_type,
-  //   feature_count: feature_count,
-  //   instance_number: repeat_num,
-  //   is_practice: is_practice,
-  //   template_id: SCREEN_TYPE_INFO[screen_type].template_id,
-  //   weights: weights,
-  //   feeds: [without_new_post],
-  //   starting_num_posts: starting_num_posts,
-  //   num_posts_to_load: num_posts_to_load,
-  //   correct_posts: correct_posts,
-  //   sidebar_entries: sidebar_entries,
-  //   labels: ["Your Ordering"],
-  // };
 
   return screen;
 }
