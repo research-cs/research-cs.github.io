@@ -477,7 +477,7 @@ const num_same_features_and_question = 30;
 
 // const possible_conditions = ["A"];
 
-const possible_conditions = ["economic", "chronological", "severe_toxicity"];
+const possible_conditions = ["gender", "economic", "severe_toxicity", "factual"];
 // const possible_conditions = ["reasoning"]
 
 // const possible_conditions = ["chronological", "likes", 
@@ -507,7 +507,7 @@ const num_posts_per_screen = 1;
 const num_posts_at_load = 12;
 const num_posts_to_load = 6;
 const max_num_posts_possible = 50;
-const num_buckets = 6;
+const num_buckets = 10;
 const bucketing = true;
 const algorithms_already_created = true;
 
@@ -643,7 +643,7 @@ From now on, you will not be explictly told how to arrange the posts.
 **Instead, try to immitate the ordering you see among the tweets in Your Feed.**
 
 Please spend **several minutes** looking at Your Feed (to the left) and trying to determine what the posts are ranked by.
-The ranking could involve many different things, including both aspects of the text and interactions like the number of replies.
+The ranking could involve many different things, including both the post content and interactions like the number of replies.
 *Keep in mind that AI can make mistakes*.
 
 All following questions in the study will ask you to rank posts based on this feed.
@@ -2322,7 +2322,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "s9h9vCswJ9r8",
+      experimentID: "SIIHRJ4rzdvc",
       filename: filename,
       data: string_output,
     }),
