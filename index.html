@@ -584,34 +584,34 @@ assess how confident you are in your answer. Correct self-assessment will be bon
     ],
   },
 
-  exposure: {
-    template_id: "feed-and-sidebar",
-    sidebar_entries: [
-      {
-        markdown: `
-From now on, you will not be explictly told the criteria behind which post to choose.
+//   exposure: {
+//     template_id: "feed-and-sidebar",
+//     sidebar_entries: [
+//       {
+//         markdown: `
+// From now on, you will not be explictly told the criteria behind which post to choose.
 
-**Instead, you should choose the post most like those in this feed.**
-Posts in Your Feed are chosen out of all political posts possible because they are ranked the most highly according to some condition.
-**Note that all posts are political, but this is not their defining similarity.**
+// **Instead, you should choose the post most like those in this feed.**
+// Posts in Your Feed are chosen out of all political posts possible because they are ranked the most highly according to some condition.
+// **Note that all posts are political, but this is not their defining similarity.**
 
-Please spend several minutes looking at your feed (to the left) and trying to determine what these posts were chosen for.
-The ranking could involve many different things, including both aspects of the text and interactions like the number of replies.
-*Keep in mind that AI can make mistakes*.
+// Please spend several minutes looking at your feed (to the left) and trying to determine what these posts were chosen for.
+// The ranking could involve many different things, including both aspects of the text and interactions like the number of replies.
+// *Keep in mind that AI can make mistakes*.
 
-All following questions in the study will ask you to select posts based on this feed.
-You will start out with a practice phase which includes feedback. You will be able to refer back to this feed during the practice phase, but not during the scored section.
-<button id = "load-more-button"></button>
-${
-          any_redacted
-            ? `*Some text has been redacted because 
-it is not relevant to the tasks.*`
-            : ""
-        }
-        `,
-      },
-    ],
-  },
+// All following questions in the study will ask you to select posts based on this feed.
+// You will start out with a practice phase which includes feedback. You will be able to refer back to this feed during the practice phase, but not during the scored section.
+// <button id = "load-more-button"></button>
+// ${
+//           any_redacted
+//             ? `*Some text has been redacted because 
+// it is not relevant to the tasks.*`
+//             : ""
+//         }
+//         `,
+//       },
+//     ],
+//   },
 
   post_exposure: {
     template_id: "feed-and-sidebar",
@@ -633,7 +633,7 @@ it is not relevant to the tasks.*`
     ],
   },
 
-  exposure_other: {
+  exposure: {
     template_id: "feed-and-sidebar",
     sidebar_entries: [
       {
@@ -686,7 +686,7 @@ ordering.
     ],
   },
 
-  post_placement_other: {
+  post_placement: {
     template_id: "feed-and-sidebar",
     sidebar_entries: [
       {
@@ -699,18 +699,18 @@ Consider the following two posts. Order them according to how you think the earl
     ],
   },
 
-  post_placement: {
-    template_id: "feed-and-sidebar",
-    sidebar_entries: [
-      {
-        markdown: `
-Consider the following two posts. Choose the most more likely to be included in Your Feed, and move it to the box on the left.
-        `,
-        answer_area: "post_bank",
-        includes_confidence: include_confidence,
-      },
-    ],
-  },
+//   post_placement: {
+//     template_id: "feed-and-sidebar",
+//     sidebar_entries: [
+//       {
+//         markdown: `
+// Consider the following two posts. Choose the most more likely to be included in Your Feed, and move it to the box on the left.
+//         `,
+//         answer_area: "post_bank",
+//         includes_confidence: include_confidence,
+//       },
+//     ],
+//   },
 
   post_placement_check_1: {
     template_id: "feed-and-sidebar",
@@ -912,7 +912,7 @@ function insert_post(post, feed_parent_list, locked, divide=false) {
   }
   
   if(divide) {
-    // insert_feed_divider("Posts below this point would be ranked so low that, in a typical social media feed, it is unlikely they would ever be seen", feed_parent_list, locked);
+    insert_feed_divider("Posts below this point would be ranked so low that, in a typical social media feed, it is unlikely they would ever be seen", feed_parent_list, locked);
   }
 
   let highlighted_feature = post.highlighted_feature;
@@ -954,7 +954,7 @@ function insert_post(post, feed_parent_list, locked, divide=false) {
   </div>
 `;
   // console.log(post);
-  post_list_item.setAttribute("data-number", post.correct_position ?? -1);
+  post_list_item.setAttribute("data-number", post.correct_index ?? -1);
 
   feed_parent_list.appendChild(post_list_item);
 }
@@ -2322,7 +2322,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "BiFWL7xWcjZ3",
+      experimentID: "s9h9vCswJ9r8",
       filename: filename,
       data: string_output,
     }),
@@ -2559,8 +2559,8 @@ function generate_screen_array(
     let base_posts_indices = get_random_sample_indices_from_chunks(posts, Math.floor(posts.length/2));
     base_posts = base_posts_indices.map(idx => posts[idx]);
     q_posts = posts.filter((post, index) => !base_posts_indices.includes(index));
-    random_posts = get_random_sample(posts, 100);
-    base_posts = base_posts.filter((post) => post["Chunk"] !== 0);
+    // random_posts = get_random_sample(posts, 100);
+    // base_posts = base_posts.filter((post) => post["Chunk"] !== 0);
   }
   else {
     base_posts = get_random_sample(posts, max_num_posts_possible);
@@ -2620,16 +2620,16 @@ function generate_screen_array(
     screens: [check1, check2],
   });
 
-  const post_exposure_screen = generate_post_exposure_screen("post_exposure",
-    random_posts,
-    starting_num_posts,
-    num_posts_to_load
-  );
+  // const post_exposure_screen = generate_post_exposure_screen("post_exposure",
+  //   random_posts,
+  //   starting_num_posts,
+  //   num_posts_to_load
+  // );
 
-  section_array.push({
-    section_name: "post_exposure",
-    screens: [post_exposure_screen],
-  });
+  // section_array.push({
+  //   section_name: "post_exposure",
+  //   screens: [post_exposure_screen],
+  // });
 
 
   const exposure_screen = generate_exposure_screen(
@@ -3532,7 +3532,8 @@ function generate_post_placement_screen(
 
   sidebar_entries.forEach((entry) => {
     if (entry.answer_area === "post_bank") {
-      entry["post_bank"] = [new_post].concat(without_new_post);
+      // entry["post_bank"] = [new_post].concat(without_new_post);
+      entry["post_bank"] = [new_post]
     }
   });
 
@@ -3543,7 +3544,8 @@ function generate_post_placement_screen(
     is_practice: is_practice,
     template_id: SCREEN_TYPE_INFO[screen_type].template_id,
     weights: weights,
-    feeds: [[]],
+    feeds: [without_new_post],
+    // feeds: [[]],
     starting_num_posts: starting_num_posts,
     num_posts_to_load: num_posts_to_load,
     correct_posts: correct_posts,
