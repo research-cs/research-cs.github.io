@@ -477,7 +477,7 @@ const num_same_features_and_question = 30;
 
 // const possible_conditions = ["A"];
 
-const possible_conditions = ["gender", "economic", "severe_toxicity", "factual"];
+const possible_conditions = ["economic", "factual"];
 // const possible_conditions = ["reasoning"]
 
 // const possible_conditions = ["chronological", "likes", 
@@ -640,10 +640,8 @@ it is not relevant to the tasks.*`
         markdown: `
 From now on, you will not be explictly told how to arrange the posts.
 
-**Instead, try to immitate the ordering you see among the tweets in Your Feed.**
+**Instead, try to immitate the ordering you see among the tweets in Your Feed. It could involve the actual words or the displayed features like number of views.**
 
-Please spend **several minutes** looking at Your Feed (to the left) and trying to determine what the posts are ranked by.
-The ranking could involve many different things, including both the post content and interactions like the number of replies.
 *Keep in mind that AI can make mistakes*.
 
 All following questions in the study will ask you to rank posts based on this feed.
