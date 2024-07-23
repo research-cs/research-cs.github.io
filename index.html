@@ -268,7 +268,7 @@ ul li, ol li {
                         use of their displayed features such as the text, forms of engagement, or time posted.
 						</p>
 						<p style="font-size: 18px;">
-                            This should take 16 minutes, and will receive $3.20 compensation. Answers can receive a bonus of up to $0.05 per correct question.
+                            This should take 16 minutes, and will receive $3.20 compensation. Answers can receive a bonus of up to $0.10 per additional question right above half.
 						 </p>
 						
 						<p> <b>Click next (or press enter) to start.</b></p>
@@ -288,6 +288,48 @@ ul li, ol li {
                     <div class="col-6" id="post-container" style="padding: 10px; margin-bottom: 50px;">
                         <div id="intro-post" style="width: 90%; height: auto; max-width: 100%; "></div>
                         <p style="text-align: center;"><i>Example post</i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class='row p-2 ' id='practice_intro' style="display:none;">
+    <div class='col-10'>
+        <div class="card pb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p style="font-size: 18px;">
+						You have now begun the practice section.
+						</p>
+						<p style="font-size: 18px;">
+                            There will be 10 practice questions with feedback. 
+                            You can select "See Feed Again" to revisit the feed exposure that you saw before.
+						 </p>
+						<p> <b>Click next to progress to the practice questions.</b></p>
+                        <button type="button" class="btn btn-primary" id="intro-next-btn" onclick="next_screen()">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class='row p-2 ' id='questions_intro' style="display:none;">
+    <div class='col-10'>
+        <div class="card pb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p style="font-size: 18px;">
+                            You have now begun the main questions section.
+						</p>
+						<p style="font-size: 18px;">
+                            There will be 30 questions in total, now without feedback.
+                            These questions are scored, with correct answers being bonused.
+						 </p>
+						<p> <b>Click next to progress to the questions.</b></p>
+                        <button type="button" class="btn btn-primary" id="intro-next-btn" onclick="next_screen()">Next</button>
                     </div>
                 </div>
             </div>
@@ -477,7 +519,7 @@ const num_same_features_and_question = 30;
 
 // const possible_conditions = ["A"];
 
-const possible_conditions = ["economic", "factual"];
+const possible_conditions = ["economic", "factual", "severe_toxicity"];
 // const possible_conditions = ["reasoning"]
 
 // const possible_conditions = ["chronological", "likes", 
@@ -634,6 +676,32 @@ it is not relevant to the tasks.*`
   },
 
   exposure: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
+From now on, you will not be explictly told how to arrange the posts.
+
+**Instead, you will need to immitate the ordering you see among the political tweets in Your Politics Feed.**
+
+Try to figure out what the ordering is! **It could involve the tweet content (words, hashtags) or the displayed features like number of views.**
+
+*Keep in mind that AI can make mistakes*.
+
+All following questions in the study will ask you to rank posts based on this feed.
+<button id = "load-more-button"></button>
+${
+          any_redacted
+            ? `*Some text has been redacted because 
+it is not relevant to the tasks.*`
+            : ""
+        }
+        `,
+      },
+    ],
+  },
+
+  second_exposure: {
     template_id: "feed-and-sidebar",
     sidebar_entries: [
       {
@@ -1559,7 +1627,6 @@ function display_screen(screen_info, section_name) {
       false
     );
   }
-
   document.getElementById(template_id).style.display = "block";
   redact_items(redacted_classes);
   window.scrollTo(0, 0);
@@ -2320,7 +2387,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "SIIHRJ4rzdvc",
+      experimentID: "4RSlmtjwU6NP",
       filename: filename,
       data: string_output,
     }),
@@ -2538,6 +2605,7 @@ function generate_screen_array(
     screens: [introduction_screen],
   });
 
+
   const shuffled_screen_types = deep_copy(question_screen_types);
   shuffle_array(shuffled_screen_types);
 
@@ -2642,7 +2710,15 @@ function generate_screen_array(
     screens: [exposure_screen],
   });
 
+  // const practice_intro_screen = {
+  //   screen_type: "practice_intro",
+  //   template_id: "practice_intro",
+  // };
 
+  // section_array.push({
+  //   section_name: "introduction",
+  //   screens: [introduction_screen],
+  // });
 
   
   // generate the practice
@@ -2682,10 +2758,20 @@ function generate_screen_array(
     }
   }
 
+  const practice_intro_screen = {
+    screen_type: "practice_intro",
+    template_id: "practice_intro",
+  };
+
+
   section_array.push({
     section_name: "practice",
-    screens: practice_array,
+    screens: [practice_intro_screen].concat(practice_array),
   });
+
+
+
+
 
   // in here, generate scored screen object for real screens
 
@@ -2745,11 +2831,17 @@ function generate_screen_array(
     }
   }
 
+  const questions_intro_screen = {
+    screen_type: "questions_intro",
+    template_id: "questions_intro",
+  };
+
 
   section_array.push({
     section_name: "questions",
-    screens: scored_screens_array,
+    screens: [questions_intro_screen].concat(scored_screens_array),
   });
+
 
 
   const feedback_screen = generate_feedback_screen("feedback");
@@ -3310,7 +3402,7 @@ function generate_exposure_screen(
     starting_num_posts: starting_num_posts,
     num_posts_to_load: num_posts_to_load,
     sidebar_entries: sidebar_entries,
-    labels: ["Your Feed"],
+    labels: ["Your Politics Feed"],
   };
 
   return screen;
