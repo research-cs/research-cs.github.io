@@ -519,7 +519,7 @@ const num_same_features_and_question = 30;
 
 // const possible_conditions = ["A"];
 
-const possible_conditions = ["economic", "factual", "severe_toxicity"];
+const possible_conditions = ["political"];
 // const possible_conditions = ["reasoning"]
 
 // const possible_conditions = ["chronological", "likes", 
@@ -682,7 +682,7 @@ it is not relevant to the tasks.*`
         markdown: `
 From now on, you will not be explictly told how to arrange the posts.
 
-**Instead, you will need to immitate the ordering you see among the political tweets in Your Politics Feed.**
+**Instead, you will need to immitate the ordering you see among the tweets in Your Feed.**
 
 Try to figure out what the ordering is! This is not based on the actual Twitter algorithm. **It involves the tweet content: topics, tone, and more.**
 
@@ -2387,7 +2387,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "zkXClfH99xZ1",
+      experimentID: "tN4EuQww5dR1",
       filename: filename,
       data: string_output,
     }),
@@ -3402,7 +3402,8 @@ function generate_exposure_screen(
     starting_num_posts: starting_num_posts,
     num_posts_to_load: num_posts_to_load,
     sidebar_entries: sidebar_entries,
-    labels: ["Your Politics Feed"],
+    // labels: ["Your Politics Feed"],
+    labels: ["Your Feed"],
   };
 
   return screen;
