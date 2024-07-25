@@ -519,7 +519,7 @@ const num_same_features_and_question = 30;
 
 // const possible_conditions = ["A"];
 
-const possible_conditions = ["political"];
+const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "random", "chronological"];
 // const possible_conditions = ["reasoning"]
 
 // const possible_conditions = ["chronological", "likes", 
@@ -549,14 +549,14 @@ const num_posts_per_screen = 1;
 const num_posts_at_load = 12;
 const num_posts_to_load = 6;
 const max_num_posts_possible = 50;
-const num_buckets = 10;
+const num_buckets = 3;
 const bucketing = true;
 const algorithms_already_created = true;
 
 let source_posts;
 if (bucketing) {
   alg_posts.sort((a,b) => a[condition] - b[condition]);
-  source_posts = generate_posts_from_buckets(alg_posts, num_buckets, alg_posts.length, extreme=true);//alg_posts, generic_posts;
+  source_posts = generate_posts_from_buckets(alg_posts, num_buckets, alg_posts.length, extreme=false);//alg_posts, generic_posts;
 }
 else {
   source_posts = generic_posts;
@@ -684,7 +684,7 @@ From now on, you will not be explictly told how to arrange the posts.
 
 **Instead, you will need to immitate the ordering you see among the tweets in Your Feed.**
 
-Try to figure out what the ordering is! This is not based on the actual Twitter algorithm. **It involves the tweet content: topics, tone, and more.**
+Try to figure out what the ordering is! This is not based on the actual Twitter algorithm. **The ordering is not restricted to features displayed numerically such as likes--the post content may also play a role.**
 
 *Keep in mind that AI can make mistakes*.
 
@@ -1058,12 +1058,12 @@ function insert_feed(
   }
 
   // console.log(container.id)
-  let halfway = Math.floor(feed_data.length / 2)
+  let barrier = Math.floor(feed_data.length / 2)
 
 
   for (let i = 0; i < feed_data.length; i++) {
     var divide = false;
-    if (exposure && i == halfway) {
+    if (exposure && i == barrier) {
       divide = true;
     }
     insert_post(feed_data[i], feed_parent_ul, is_locked, divide);
@@ -2387,7 +2387,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "tN4EuQww5dR1",
+      experimentID: "T9XhztqguL43",
       filename: filename,
       data: string_output,
     }),
@@ -2622,7 +2622,7 @@ function generate_screen_array(
   let q_posts;
   let random_posts;
   if (bucketing) {
-    let base_posts_indices = get_random_sample_indices_from_chunks(posts, Math.floor(posts.length/2));
+    let base_posts_indices = get_random_sample_indices_from_chunks(posts, Math.floor(posts.length/2), extreme=true);
     base_posts = base_posts_indices.map(idx => posts[idx]);
     q_posts = posts.filter((post, index) => !base_posts_indices.includes(index));
     // random_posts = get_random_sample(posts, 100);
@@ -2731,7 +2731,7 @@ function generate_screen_array(
     ) {
       let base_posts;
       if (bucketing) {
-        base_posts = get_random_sample_from_chunks(posts, num_posts+1);
+        base_posts = get_random_sample_from_chunks(q_posts, num_posts+1);
       }
       else {
         base_posts = get_random_sample(posts, num_posts+1);
@@ -2790,7 +2790,7 @@ function generate_screen_array(
       let base_posts;
       let temp_screen_type = screen_type;
       if (bucketing) {
-        base_posts = get_random_sample_from_chunks(posts, num_posts+1);
+        base_posts = get_random_sample_from_chunks(q_posts, num_posts+1);
       }
       else {
         base_posts = get_random_sample(posts, num_posts+1);
@@ -3214,10 +3214,10 @@ function get_random_sample_from_chunks(data, num_posts, excluded_posts = [], ext
 
     if (buckets_with_extra.includes(i)) {
       let num_to_add = buckets_with_extra.reduce((n, x) => n + (x === i), 0);
-      sampled_chunks.push(get_random_sample(chunked_data[i], posts_per_bucket + num_to_add, excluded_posts));
+      sampled_chunks.push(get_random_sample(chunked_data[i], posts_per_bucket + num_to_add));
     }
     else {
-      sampled_chunks.push(get_random_sample(chunked_data[i], posts_per_bucket, excluded_posts));
+      sampled_chunks.push(get_random_sample(chunked_data[i], posts_per_bucket));
     }
   }
 
@@ -3251,8 +3251,8 @@ function create_chunked_data(data, extreme=false) {
 }
 
 // given flattened, pre-computed chunked data, return a set of indices randomly sampled across chunks
-function get_random_sample_indices_from_chunks(data, num_posts, excluded_posts = []) {
-    sampled_chunks_flattened = get_random_sample_from_chunks(data, num_posts, excluded_posts)
+function get_random_sample_indices_from_chunks(data, num_posts, excluded_posts = [], extreme = false) {
+    sampled_chunks_flattened = get_random_sample_from_chunks(data, num_posts, excluded_posts=excluded_posts, extreme=extreme)
     indicies = []
     for (let i = 0; i < sampled_chunks_flattened.length; i += 1) {
       indicies.push(sampled_chunks_flattened[i]["Index"])
