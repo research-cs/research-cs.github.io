@@ -519,7 +519,8 @@ const num_same_features_and_question = 30;
 
 // const possible_conditions = ["A"];
 
-const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "random", "chronological", "quality_engaged", ];
+// const possible_conditions = ["severe_toxicity"]
+const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "random", "chronological", "quality_engaged"];
 // const possible_conditions = ["reasoning"]
 
 // const possible_conditions = ["chronological", "likes", 
@@ -549,7 +550,7 @@ const num_posts_per_screen = 1;
 const num_posts_at_load = 12;
 const num_posts_to_load = 6;
 const max_num_posts_possible = 50;
-const num_buckets = 3;
+const num_buckets = 6;
 const bucketing = true;
 const algorithms_already_created = true;
 
@@ -684,7 +685,7 @@ From now on, you will not be explictly told how to arrange the posts.
 
 **Instead, you will need to immitate the ordering you see among the tweets in Your Politics Feed.**
 
-Try to figure out what the ordering is! This is not based on the actual Twitter algorithm. **The ordering is not restricted to features displayed numerically such as likes--the post content may also play a role.**
+Try to figure out what the ordering is! This is not based on the actual Twitter algorithm. **The ordering is not restricted to features displayed numerically such as likes--the post content may also play a role.** You should look at the text and the displayed features.
 
 *Keep in mind that AI can make mistakes*.
 
@@ -2387,7 +2388,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "T9XhztqguL43",
+      experimentID: "O9SuhEsdxPCw",
       filename: filename,
       data: string_output,
     }),
@@ -2722,6 +2723,7 @@ function generate_screen_array(
 
   
   // generate the practice
+
   for (let i = 0; i < shuffled_screen_types.length; i++) {
     const screen_type = shuffled_screen_types[i];
     for (
@@ -2731,7 +2733,7 @@ function generate_screen_array(
     ) {
       let base_posts;
       if (bucketing) {
-        base_posts = get_random_sample_from_chunks(q_posts, num_posts+1);
+        base_posts = get_random_sample_from_chunks(q_posts, num_posts+1, extreme=false, required_diff=3);
       }
       else {
         base_posts = get_random_sample(posts, num_posts+1);
@@ -2790,7 +2792,7 @@ function generate_screen_array(
       let base_posts;
       let temp_screen_type = screen_type;
       if (bucketing) {
-        base_posts = get_random_sample_from_chunks(q_posts, num_posts+1);
+        base_posts = get_random_sample_from_chunks(q_posts, num_posts+1, extreme=false, required_diff=3);
       }
       else {
         base_posts = get_random_sample(posts, num_posts+1);
@@ -3132,19 +3134,31 @@ function generate_screen_name(screen_info) {
   return screen_name;
 }
 
-function assign_extra_posts_to_buckets(posts_left_over, num_buckets){
+function assign_extra_posts_to_buckets(posts_left_over, num_buckets, required_diff=1){
   var buckets_with_extra = []
   var buckets = [];
   for (var i=0;i<num_buckets;i++) {
     buckets.push(i);
 }
-  
-  for (let i = 0; i < posts_left_over; i+= 1) {
-    let random_bucket = Math.floor(Math.random() * buckets.length);
-    buckets_with_extra.push(buckets[random_bucket]);
-    buckets.splice(random_bucket, 1)
+  var count = 0;
+  var difference = 0;
+  while (required_diff>difference && count < 5){
+    count++;
+    var buckets_util = buckets.slice();
+    buckets_with_extra = [];
+    for (let i = 0; i < posts_left_over; i+= 1) {
+      let random_bucket = Math.floor(Math.random() * buckets_util.length);
+      buckets_with_extra.push(buckets_util[random_bucket]);
+      buckets_util.splice(random_bucket, 1);
+    }
+    if (posts_left_over==2) {
+      difference = Math.abs(buckets_with_extra[0]-buckets_with_extra[1]);
+    } else {
+      difference = required_diff+1;
+    }
   }
-  return buckets_with_extra
+  console.log(buckets_with_extra);
+  return buckets_with_extra;
 }
 
 
@@ -3200,13 +3214,14 @@ function generate_posts_from_buckets(data, num_buckets, max_num_posts_possible, 
 
 }
 // get a random sample of posts from flattened chunked data
-function get_random_sample_from_chunks(data, num_posts, excluded_posts = [], extreme=false) {
+function get_random_sample_from_chunks(data, num_posts, extreme=false, required_diff=1) {
   chunked_data = create_chunked_data(data, extreme)
   var num_buckets = chunked_data.length;
   var posts_per_bucket = Math.floor(num_posts / num_buckets)
   var posts_left_over = num_posts - (posts_per_bucket * num_buckets)
 
-  var buckets_with_extra = assign_extra_posts_to_buckets(posts_left_over, num_buckets);
+  console.log(required_diff);
+  var buckets_with_extra = assign_extra_posts_to_buckets(posts_left_over, num_buckets, required_diff=required_diff);
 
   var sampled_chunks = [];
 
@@ -3251,8 +3266,8 @@ function create_chunked_data(data, extreme=false) {
 }
 
 // given flattened, pre-computed chunked data, return a set of indices randomly sampled across chunks
-function get_random_sample_indices_from_chunks(data, num_posts, excluded_posts = [], extreme = false) {
-    sampled_chunks_flattened = get_random_sample_from_chunks(data, num_posts, excluded_posts=excluded_posts, extreme=extreme)
+function get_random_sample_indices_from_chunks(data, num_posts, extreme = false) {
+    sampled_chunks_flattened = get_random_sample_from_chunks(data, num_posts, extreme=extreme)
     indicies = []
     for (let i = 0; i < sampled_chunks_flattened.length; i += 1) {
       indicies.push(sampled_chunks_flattened[i]["Index"])
@@ -3616,7 +3631,6 @@ function generate_post_placement_screen(
     SCREEN_TYPE_INFO[screen_type].sidebar_entries
   );
   sidebar_entries[0]["includes_confidence"] = includes_confidence;
-
   new_post["correct_index"] = new_post_index
   new_post["correct_position"] = new_post_index;
   without_new_post[0]["correct_position"] = ref_post_index;
