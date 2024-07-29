@@ -520,7 +520,7 @@ const num_same_features_and_question = 30;
 // const possible_conditions = ["A"];
 
 // const possible_conditions = ["severe_toxicity"]
-const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "random", "chronological", "quality_engaged"];
+const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "chronological", "quality_engaged"];
 // const possible_conditions = ["reasoning"]
 
 // const possible_conditions = ["chronological", "likes", 
@@ -550,7 +550,7 @@ const num_posts_per_screen = 1;
 const num_posts_at_load = 12;
 const num_posts_to_load = 6;
 const max_num_posts_possible = 50;
-const num_buckets = 6;
+const num_buckets = 8;
 const bucketing = true;
 const algorithms_already_created = true;
 
@@ -2388,7 +2388,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "O9SuhEsdxPCw",
+      experimentID: "uJlz9KoMrxvA",
       filename: filename,
       data: string_output,
     }),
@@ -2733,7 +2733,7 @@ function generate_screen_array(
     ) {
       let base_posts;
       if (bucketing) {
-        base_posts = get_random_sample_from_chunks(q_posts, num_posts+1, extreme=false, required_diff=3);
+        base_posts = get_random_sample_from_chunks(q_posts, num_posts+1, extreme=false, required_diff=4);
       }
       else {
         base_posts = get_random_sample(posts, num_posts+1);
@@ -2792,7 +2792,7 @@ function generate_screen_array(
       let base_posts;
       let temp_screen_type = screen_type;
       if (bucketing) {
-        base_posts = get_random_sample_from_chunks(q_posts, num_posts+1, extreme=false, required_diff=3);
+        base_posts = get_random_sample_from_chunks(q_posts, num_posts+1, extreme=false, required_diff=4);
       }
       else {
         base_posts = get_random_sample(posts, num_posts+1);
@@ -3142,7 +3142,7 @@ function assign_extra_posts_to_buckets(posts_left_over, num_buckets, required_di
 }
   var count = 0;
   var difference = 0;
-  while (required_diff>difference && count < 5){
+  while (required_diff>difference && count < 10){
     count++;
     var buckets_util = buckets.slice();
     buckets_with_extra = [];
