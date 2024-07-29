@@ -268,7 +268,7 @@ ul li, ol li {
                         use of their displayed features such as the text, forms of engagement, or time posted.
 						</p>
 						<p style="font-size: 18px;">
-                            This should take 16 minutes, and will receive $3.20 compensation. Answers can receive a bonus of up to $0.10 per additional question right above half.
+                            This should take 20 minutes, and will receive $4 compensation. Answers can receive a bonus of up to $0.10 per additional question right above half.
 						 </p>
 						
 						<p> <b>Click next (or press enter) to start.</b></p>
@@ -519,7 +519,7 @@ const num_same_features_and_question = 30;
 
 // const possible_conditions = ["A"];
 
-// const possible_conditions = ["severe_toxicity"]
+// const possible_conditions = ["chronological"]
 const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "chronological", "quality_engaged"];
 // const possible_conditions = ["reasoning"]
 
@@ -557,7 +557,7 @@ const algorithms_already_created = true;
 let source_posts;
 if (bucketing) {
   alg_posts.sort((a,b) => a[condition] - b[condition]);
-  source_posts = generate_posts_from_buckets(alg_posts, num_buckets, alg_posts.length, extreme=false);//alg_posts, generic_posts;
+  source_posts = generate_posts_from_buckets(alg_posts, num_buckets, alg_posts.length, extreme=true);//alg_posts, generic_posts;
 }
 else {
   source_posts = generic_posts;
@@ -682,10 +682,11 @@ it is not relevant to the tasks.*`
       {
         markdown: `
 From now on, you will not be explictly told how to arrange the posts.
-
 Instead, you will need to immitate the ordering you see among the tweets in Your Politics Feed.
 
-Try to figure out what the ordering is! This is not based on the actual Twitter algorithm. **The ordering is not restricted to features displayed numerically such as likes--the post content may also play a role.** You should look at the text AND the displayed features like engagement and time posted.
+Try to figure out what the ordering is! This is not based on the actual Twitter algorithm. 
+
+**The ordering is not restricted to features displayed numerically such as likes--the post content may also play a role.** You should look at the text AND the displayed features like engagement and time posted.
 
 *Keep in mind that AI can make mistakes*.
 
@@ -2388,7 +2389,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "uJlz9KoMrxvA",
+      experimentID: "RjL9Pnb10b4z",
       filename: filename,
       data: string_output,
     }),
@@ -2623,7 +2624,7 @@ function generate_screen_array(
   let q_posts;
   let random_posts;
   if (bucketing) {
-    let base_posts_indices = get_random_sample_indices_from_chunks(posts, Math.floor(posts.length/2), extreme=true);
+    let base_posts_indices = get_random_sample_indices_from_chunks(posts, Math.floor(posts.length/2), extreme=false);
     base_posts = base_posts_indices.map(idx => posts[idx]);
     q_posts = posts.filter((post, index) => !base_posts_indices.includes(index));
     // random_posts = get_random_sample(posts, 100);
@@ -2733,7 +2734,7 @@ function generate_screen_array(
     ) {
       let base_posts;
       if (bucketing) {
-        base_posts = get_random_sample_from_chunks(q_posts, num_posts+1, extreme=false, required_diff=4);
+        base_posts = get_random_sample_from_chunks(q_posts, num_posts+1, extreme=false, required_diff=1);
       }
       else {
         base_posts = get_random_sample(posts, num_posts+1);
@@ -2792,7 +2793,7 @@ function generate_screen_array(
       let base_posts;
       let temp_screen_type = screen_type;
       if (bucketing) {
-        base_posts = get_random_sample_from_chunks(q_posts, num_posts+1, extreme=false, required_diff=4);
+        base_posts = get_random_sample_from_chunks(q_posts, num_posts+1, extreme=false, required_diff=1);
       }
       else {
         base_posts = get_random_sample(posts, num_posts+1);
@@ -3157,7 +3158,6 @@ function assign_extra_posts_to_buckets(posts_left_over, num_buckets, required_di
       difference = required_diff+1;
     }
   }
-  console.log(buckets_with_extra);
   return buckets_with_extra;
 }
 
