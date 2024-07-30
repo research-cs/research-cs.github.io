@@ -368,7 +368,7 @@ ul li, ol li {
 
 		</div>
 	  </div>
-	<div id = "task-button" style ="padding-top: 60px; padding-left: 5px">
+	<div id = "task-button" style ="padding-top: 120px; padding-left: 5px">
 	  		<div class='col-5'>
 
 	  			<div class="alert alert-success" style='display: none' role="alert" id = "right-btn-cntr">
@@ -505,7 +505,7 @@ ul li, ol li {
 
   <script type="text/javascript">
     const question_screens = [
-  /*"feed_comparison" , "post_arrangement" /*"counterfactual_placement",*/ "post_placement", "post_placement_check_1", "post_placement_check_2"
+  /*"feed_comparison" , "post_arrangement" /*"counterfactual_placement",*/ "post_placement", "post_placement_check_1", "post_placement_check_2", "exposure_intro_1", "exposure_intro_2", "exposure_intro_3"
 ];
 
 const question_screen_types = ["post_placement"]
@@ -676,6 +676,89 @@ it is not relevant to the tasks.*`
     ],
   },
 
+
+  exposure_intro_1: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
+You will now start the main part of the study, where you will not be explictly told how to arrange the posts.
+
+Instead, you will be shown a feed of political posts. Your job is to figure out what their ordering is. It is not based on the actual Twitter algorithm
+
+**The ordering is not restricted to features displayed numerically such as likes--the post content may also play a role.** You should look at the text AND the displayed features like engagement and time posted.
+
+*Keep in mind that AI can make mistakes*.
+
+All following questions in the study will ask you to rank posts based on this feed.
+        `,
+      },
+      {
+        markdown: `
+Can the feed be ordered using numeric information about the post like engagement and time posted?
+        `,
+        answer_area: "multiple_choice",
+        options: ["Yes", "No"],
+        option_key: [1,0],
+      },
+
+    ],
+  },
+
+  exposure_intro_2: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
+You will now start the main part of the study, where you will not be explictly told how to arrange the posts.
+
+Instead, you will be shown a feed of political posts. Your job is to figure out what their ordering is. It is not based on the actual Twitter algorithm
+
+**The ordering is not restricted to features displayed numerically such as likes--the post content may also play a role.** You should look at the text AND the displayed features like engagement and time posted.
+
+*Keep in mind that AI can make mistakes*.
+
+All following questions in the study will ask you to rank posts based on this feed.
+        `,
+      },
+      {
+        markdown: `
+Can the feed be ordered using the text content of the post?
+        `,
+        answer_area: "multiple_choice",
+        options: ["Yes", "No"],
+        option_key: [1,0],
+      },
+    ],
+  },
+
+  exposure_intro_3: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
+You will now start the main part of the study, where you will not be explictly told how to arrange the posts.
+
+Instead, you will be shown a feed of political posts. Your job is to figure out what their ordering is. It is not based on the actual Twitter algorithm
+
+**The ordering is not restricted to features displayed numerically such as likes--the post content may also play a role.** You should look at the text AND the displayed features like engagement and time posted.
+
+*Keep in mind that AI can make mistakes*.
+
+All following questions in the study will ask you to rank posts based on this feed.
+        `,
+      },
+      {
+        markdown: `
+Can the feed be ordered using the color of the profile image?
+        `,
+        answer_area: "multiple_choice",
+        options: ["Yes", "No"],
+        option_key: [0,1],
+      },
+    ],
+  },
+
   exposure: {
     template_id: "feed-and-sidebar",
     sidebar_entries: [
@@ -691,31 +774,6 @@ Try to figure out what the ordering is! This is not based on the actual Twitter 
 *Keep in mind that AI can make mistakes*.
 
 All following questions in the study will ask you to rank posts based on this feed.
-<button id = "load-more-button"></button>
-${
-          any_redacted
-            ? `*Some text has been redacted because 
-it is not relevant to the tasks.*`
-            : ""
-        }
-        `,
-      },
-    ],
-  },
-
-  second_exposure: {
-    template_id: "feed-and-sidebar",
-    sidebar_entries: [
-      {
-        markdown: `
-From now on, you will not be explictly told how to arrange the posts.
-
-**Instead, try to immitate the ordering you see among the tweets in Your Feed. It could involve the actual words or the displayed features like number of views.**
-
-*Keep in mind that AI can make mistakes*.
-
-All following questions in the study will ask you to rank posts based on this feed.
-You will start out with a practice phase which includes feedback. 
 <button id = "load-more-button"></button>
 ${
           any_redacted
@@ -1282,7 +1340,6 @@ function insert_mcq(question, container, question_id) {
   question_div.className = "form-question mb-2 mr-3 rounded";
   question_div.id = `${question_id}`;
 
-  insert_markdown(question.text, question_div);
 
   for (let i = 0; i < question.options.length; i++) {
     const radio_div = document.createElement("div");
@@ -1298,13 +1355,14 @@ function insert_mcq(question, container, question_id) {
 
     radio_input.type = "radio";
     radio_input.name = `question_${question_id}`;
-    radio_input.value = question["option-key"][i];
+    radio_input.value = question.option_key[i];
     radio_input.id = `${container.id}_${question.options[i]
       .replace(/\s+/g, "_")
       .toLowerCase()}`;
 
     radio_label.for = radio_input.id;
     radio_label.textContent = question.options[i];
+
 
     radio_div.appendChild(radio_input);
     radio_div.appendChild(radio_label);
@@ -1509,7 +1567,7 @@ function insert_entry(entry, body_div, question_id) {
   if (entry.hasOwnProperty("answer_area")) {
     switch (entry.answer_area) {
       case "multiple_choice":
-        insert_mcq(entry_div, question_id);
+        insert_mcq(entry, entry_div, question_id);
         break;
       case "radio_buttons":
         insert_radio_buttons(entry, entry_div, question_id);
@@ -1805,9 +1863,9 @@ function process_choice_question(
     screen_output["chosen_confidence"] = chosen_answers[0];
     screen_output["confidence"] = score;
   } else {
-    const question_num = question_id.slice(-2);
+    const question_num = question_id.slice(-1);
     screen_output["chosen_options_" + question_num] = chosen_answers;
-    screen_output["score_" + question_num] = score;
+    screen_output["score_Q" + question_num] = score;
   }
 }
 
@@ -2045,7 +2103,7 @@ function get_screen_results(screen_info, screen_name) {
  */
 function log_screen(section_index, screen_index) {
   const screen_info = study_array[section_index].screens[screen_index];
-  // console.log(screen_info);
+
   const screen_name = generate_screen_name(screen_info);
 
   let unanswered_questions = {};
@@ -2222,12 +2280,22 @@ function give_feedback(curr_screen_info) {
       $('#wrong-btn-cntr').css('display', 'inline-block')
     }
   } else if (output.hasOwnProperty("training")){
-    if (output["training"][curr_screen_index]["correct_index"] === output["training"][curr_screen_index]["chosen_index"]){
-      $('#right-btn-cntr').css('display', 'inline-block')
+    if (output["training"][curr_screen_index]["screen_name"].includes("placement")) {
+      if (output["training"][curr_screen_index]["correct_index"] === output["training"][curr_screen_index]["chosen_index"]){
+        $('#right-btn-cntr').css('display', 'inline-block')
+      } else {
+        $('#wrong-btn-cntr').css('display', 'inline-block')
+      }
     } else {
-      $('#wrong-btn-cntr').css('display', 'inline-block')
+      console.log(output);
+      if (output["training"][curr_screen_index]["score_Q1"] == 1) {
+        $('#right-btn-cntr').css('display', 'inline-block')
+      } else {
+        $('#wrong-btn-cntr').css('display', 'inline-block')
+      }
     }
-  }
+    
+  } 
   
 }
 
@@ -2272,13 +2340,15 @@ function next_screen() {
       return;
     }
   }
-  if (curr_screen_info.screen_type.includes("post_placement") && curr_screen_info.is_practice && $("#next-btn").css("display") != "none"){
+
+  if ((curr_screen_info.screen_type.includes("post_placement") || curr_screen_info.screen_type.includes("exposure_intro")) && curr_screen_info.is_practice && $("#next-btn").css("display") != "none"){
+    console.log(output);
     log_screen(curr_section_index, curr_screen_index);
-    give_feedback(curr_screen_info)
+    give_feedback(curr_screen_info);
 
     return;
     } 
-  else if (curr_screen_info.screen_type.includes("post_placement") && curr_screen_info.is_practice && $("#next-btn").css("display") == "none") {
+  else if ((curr_screen_info.screen_type.includes("post_placement") || curr_screen_info.screen_type.includes("exposure_intro")) && curr_screen_info.is_practice && $("#next-btn").css("display") == "none") {
     // Nothing
   }
   else {
@@ -2291,7 +2361,6 @@ function next_screen() {
   ) {
     log_section(curr_section_index);
   }
-
 
   increment_screen_index();
 
@@ -2389,7 +2458,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "RjL9Pnb10b4z",
+      experimentID: "rIvN2eLWihU1",
       filename: filename,
       data: string_output,
     }),
@@ -2682,10 +2751,14 @@ function generate_screen_array(
     true,
     includes_confidence=false
   );
+
+  const exposure_intro_1 = generate_exposure_intro("exposure_intro_1");
+  const exposure_intro_2 = generate_exposure_intro("exposure_intro_2");
+  const exposure_intro_3 = generate_exposure_intro("exposure_intro_3");
   
   section_array.push({
     section_name: "training",
-    screens: [check1, check2],
+    screens: [check1, check2, exposure_intro_1, exposure_intro_2, exposure_intro_3],
   });
 
   // const post_exposure_screen = generate_post_exposure_screen("post_exposure",
@@ -3423,6 +3496,23 @@ function generate_exposure_screen(
 
   return screen;
 }
+    /**
+ * Generates a user feedback screen object.
+ *
+ * @param {string} screen_type - The type of screen.
+ * @returns {Object} The Feedback screen object.
+ */
+function generate_exposure_intro(screen_type) {
+    const screen = {
+      screen_type: screen_type,
+      template_id: SCREEN_TYPE_INFO[screen_type].template_id,
+      sidebar_entries: deep_copy(SCREEN_TYPE_INFO[screen_type].sidebar_entries),
+      is_practice: true,
+      feeds: [],
+    };
+    return screen;
+  }
+  
     /**
  * Generates an post exposure screen object.
  *
