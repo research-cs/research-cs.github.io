@@ -520,7 +520,9 @@ const num_same_features_and_question = 30;
 // const possible_conditions = ["A"];
 
 // const possible_conditions = ["likes_ratio"]
-const possible_conditions = ["Caring", "conservative_values"];
+const possible_conditions = ["chronological"];
+// const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "chronological", "likes", "likes_ratio", 
+//   "random", "Caring", "first_person_pronouns", "hashes", "conservative_values", "parts_of_speech"];
 
 // const possible_conditions = ["chronological", "likes", 
 // "engagement_soup", "first_person_pronouns", 
@@ -604,8 +606,19 @@ const redacted_classes = []; // ['post_text', 'author-name'];
 const any_redacted = redacted_classes.length > 0;
 
 const include_confidence = false;
-const practice_confidence_indices = [1]
-const question_confidence_indices = [30]
+const num_confidence = 4
+var practice_confidence_indices = [1]
+var question_confidence_indices = []
+var questions = [];
+for (var i=0;i<num_same_features_and_question;i++) {
+  questions.push(i);
+}
+for (let i = 0; i<num_confidence; i++) {
+  let random_question = Math.floor(Math.random() * questions.length);
+  question_confidence_indices.push(questions[random_question]);
+  questions.splice(random_question, 1);
+}
+
 
 const SCREEN_TYPE_INFO = {
   introduction: {
@@ -683,18 +696,16 @@ it is not relevant to the tasks.*`
         markdown: `
 You will now start the main part of the study, where you will not be explictly told how to arrange the posts.
 
-Instead, you will be shown a feed of political posts. Your job is to figure out what their ordering is. It is not based on the actual Twitter algorithm
+Next, you will see a feed of political social media posts. They are sorted by an algorithm, but not by the algorithm that is usually used on social media. Your job is to figure out what the algorithm is doing.
 
-**The ordering is not restricted to features displayed numerically such as likes--the post content may also play a role.** You should look at the text AND the displayed features like engagement and time posted.
+You should look at the text AND the displayed features like engagement and time posted.
 
-*Keep in mind that AI can make mistakes*.
-
-All following questions in the study will ask you to rank posts based on this feed.
+All following questions in the study will ask you to rank posts based on this algorithm.
         `,
       },
       {
         markdown: `
-Can the feed be ordered using numeric information about the post like engagement and time posted?
+Can the feed be ordered using numeric information about the post such as engagement and time posted?
         `,
         answer_area: "multiple_choice",
         options: ["Yes", "No"],
@@ -711,13 +722,11 @@ Can the feed be ordered using numeric information about the post like engagement
         markdown: `
 You will now start the main part of the study, where you will not be explictly told how to arrange the posts.
 
-Instead, you will be shown a feed of political posts. Your job is to figure out what their ordering is. It is not based on the actual Twitter algorithm
+Next, you will see a feed of political social media posts. They are sorted by an algorithm, but not by the algorithm that is usually used on social media. Your job is to figure out what the algorithm is doing.
 
-**The ordering is not restricted to features displayed numerically such as likes--the post content may also play a role.** You should look at the text AND the displayed features like engagement and time posted.
+You should look at the text AND the displayed features like engagement and time posted.
 
-*Keep in mind that AI can make mistakes*.
-
-All following questions in the study will ask you to rank posts based on this feed.
+All following questions in the study will ask you to rank posts based on this algorithm.
         `,
       },
       {
@@ -738,13 +747,11 @@ Can the feed be ordered using the text content of the post?
         markdown: `
 You will now start the main part of the study, where you will not be explictly told how to arrange the posts.
 
-Instead, you will be shown a feed of political posts. Your job is to figure out what their ordering is. It is not based on the actual Twitter algorithm
+Next, you will see a feed of political social media posts. They are sorted by an algorithm, but not by the algorithm that is usually used on social media. Your job is to figure out what the algorithm is doing.
 
-**The ordering is not restricted to features displayed numerically such as likes--the post content may also play a role.** You should look at the text AND the displayed features like engagement and time posted.
+You should look at the text AND the displayed features like engagement and time posted.
 
-*Keep in mind that AI can make mistakes*.
-
-All following questions in the study will ask you to rank posts based on this feed.
+All following questions in the study will ask you to rank posts based on this algorithm.
         `,
       },
       {
@@ -758,22 +765,35 @@ Can the feed be ordered using the color of the profile image?
     ],
   },
 
+  exposure_original: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
+This is Your Politics Feed: a feed of political social media posts. They are sorted by an algorithm, but not by the algorithm that is usually used on social media. 
+
+Try to figure out what the algorithm is doing by looking at the text AND the displayed features like engagement and time posted, all of which COULD be involved.
+
+All following questions in the study will ask you to rank posts based on this algorithm.
+
+${
+          any_redacted
+            ? `*Some text has been redacted because 
+it is not relevant to the tasks.*`
+            : ""
+        }
+        `,
+      },
+    ],
+  },
+
   exposure: {
     template_id: "feed-and-sidebar",
     sidebar_entries: [
       {
         markdown: `
-From now on, you will not be explictly told how to arrange the posts.
-Instead, you will need to immitate the ordering you see among the tweets in Your Politics Feed.
+This is Your Politics Feed, which organized by HOW RECENT the post was. For all following questions, you should rank the most recent post first.
 
-Try to figure out what the ordering is! This is not based on the actual Twitter algorithm. 
-
-**The ordering is not restricted to features displayed numerically such as likes--the post content may also play a role.** You should look at the text AND the displayed features like engagement and time posted.
-
-*Keep in mind that AI can make mistakes*.
-
-All following questions in the study will ask you to rank posts based on this feed.
-<button id = "load-more-button"></button>
 ${
           any_redacted
             ? `*Some text has been redacted because 
@@ -842,7 +862,7 @@ Consider the following two posts. Order them according to how you think the earl
     sidebar_entries: [
       {
         markdown: `
-We will start off with a practice of the selection task. Consider the following two posts. Choose the one you think is more likely to be true, and move it over into the box to the left.
+We will start off with a practice of the selection task. Consider the following two posts. Arrange the posts so the one you think is more likely to be true is on top.
         `,
         answer_area: "post_bank",
         includes_confidence: include_confidence,
@@ -855,7 +875,7 @@ We will start off with a practice of the selection task. Consider the following 
     sidebar_entries: [
       {
         markdown: `
-Consider the following two posts. Choose the one with a larger number, and move it over into the box to the left
+Consider the following two posts. Arrange the posts so that the one on top is the one with a larger number.
         `,
         answer_area: "post_bank",
         includes_confidence: include_confidence,
@@ -2286,7 +2306,6 @@ function give_feedback(curr_screen_info) {
         $('#wrong-btn-cntr').css('display', 'inline-block')
       }
     } else {
-      console.log(output);
       if (output["training"][curr_screen_index]["score_Q1"] == 1) {
         $('#right-btn-cntr').css('display', 'inline-block')
       } else {
@@ -2306,7 +2325,7 @@ function next_screen() {
     study_array[curr_section_index].screens[curr_screen_index];
 
   var time_onscreen = (new Date().getTime() - curr_screen_info["start_time"]) /1000;
-  if (curr_screen_info.screen_type === "exposure" && time_onscreen < 120) {
+  if (curr_screen_info.screen_type === "exposure" && time_onscreen < 1) {
     alert(`Please look at the feed for at least 120 seconds. You have only spent ${time_onscreen} seconds so far`);
     return;
   }
@@ -2341,7 +2360,6 @@ function next_screen() {
   }
 
   if ((curr_screen_info.screen_type.includes("post_placement") || curr_screen_info.screen_type.includes("exposure_intro")) && curr_screen_info.is_practice && $("#next-btn").css("display") != "none"){
-    console.log(output);
     log_screen(curr_section_index, curr_screen_index);
     give_feedback(curr_screen_info);
 
@@ -2457,7 +2475,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "rIvN2eLWihU1",
+      experimentID: "Jg5HcRjOhevF",
       filename: filename,
       data: string_output,
     }),
@@ -3292,7 +3310,6 @@ function get_random_sample_from_chunks(data, num_posts, extreme=false, required_
   var posts_per_bucket = Math.floor(num_posts / num_buckets)
   var posts_left_over = num_posts - (posts_per_bucket * num_buckets)
 
-  console.log(required_diff);
   var buckets_with_extra = assign_extra_posts_to_buckets(posts_left_over, num_buckets, required_diff=required_diff);
 
   var sampled_chunks = [];
