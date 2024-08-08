@@ -33,6 +33,9 @@ body {
 .screen {
   height: 100vh;
 }
+.caption {
+  display: block; 
+} 
 
 #bottom-bar {
   height: 0;
@@ -62,6 +65,10 @@ label {
 
 input {
   cursor: pointer;
+}
+
+input[type="range"] {
+  width:400px;
 }
 
 img {
@@ -263,15 +270,43 @@ ul li, ol li {
                 <div class="row">
                     <div class="col-6">
                         <p style="font-size: 18px;">
-						In the upcoming screens, you'll be presented with some social media feeds and asked to answer some
-                        questions about them. The posts in these feeds will be sorted by some some algorithm, which may make
-                        use of their displayed features such as the text, forms of engagement, or time posted.
+                            You are invited to participate in a research study on user understanding of algorithms and models. 
+                            You will be asked to answer multiple choice and free response questions about different provided algorithms and their expected behavior. 
+                            You will not be recorded via audio or video.
 						</p>
 						<p style="font-size: 18px;">
-                            This should take 15 minutes, and will receive $3 compensation. Answers can receive a bonus of up to $0.10 per additional question right above half.
+                            TIME INVOLVEMENT: Your participation will take approximately 25 minutes.
 						 </p>
+                         <p style="font-size: 18px;">
+                            PAYMENTS: You will receive $6.25 via the survey platform upon completion of the study, and you will receive additional compensation of $0.10 per correct answer afterwards, as payment for your participation. A total of up to $1.50 in bonuses is available.
+						 </p>
+                         <p style="font-size: 18px;">
+                            RISKS AND BENEFITS: The risks associated with this study are minimal. 
+                            A potential data breach or breach of confidentiality should not adversely affect employment or reputation. 
+                            Study data will be stored securely, in compliance with Stanford University standards, minimizing the risk of confidentiality breach. 
+                            You may be exposed to content that is upsetting, as this study involves a wide array of social media posts, some of which contain harmful text. 
+                            The benefits which may reasonably be expected to result from this study are none. 
+                            We cannot and do not guarantee or promise that you will receive any benefits from this study. 
+						 </p>
+                         <p style="font-size: 18px;">
+                            PARTICIPANT’S RIGHTS: If you have read this form and have decided to participate in this project, please understand your participation is voluntary and you have the right to withdraw your consent or discontinue participation at any time without penalty or loss of benefits to which you are otherwise entitled. 
+                            The alternative is not to participate. 
+                            You have the right to refuse to answer particular questions. 
+                            The results of this research study may be presented at scientific or professional meetings or published in scientific journals. 
+                            Your individual privacy will be maintained in all published and written data resulting from the study. 
+
+						 </p>
+                         <p style="font-size: 18px;">
+                            CONTACT INFORMATION: If you have any questions, concerns or complaints about this research, its procedures, risks and benefits, contact the Protocol Director, Lindsay Popowski, at popowski@stanford.edu or 541-224-4303. 
+                            
+						 </p>
+                         <p style="font-size: 18px;">
+                            Independent Contact: If you are not satisfied with how this study is being conducted, or if you have any concerns, complaints, or general questions about the research or your rights as a participant, please contact the Stanford Institutional Review Board (IRB) to speak to someone independent of the research team at 650-723-2480 or toll free at 1-866-680-2906, or email at irbnonmed@stanford.edu. You can also write to the Stanford IRB, Stanford University, 1705 El Camino Real, Palo Alto, CA 94306.
+
+						 </p>
+
 						
-						<p> <b>Click next (or press enter) to start.</b></p>
+						<p> <b>To indicate your consent to participate in this study, select the Next button below to continue on to the study.</b></p>
                         <button type="button" class="btn btn-primary" id="intro-next-btn" onclick="next_screen()">Next</button>
                           <script>
                             var next_button = document.getElementById("intro-next-btn");
@@ -347,6 +382,23 @@ ul li, ol li {
 			</div>
 		</div>
 	</div>
+</div>
+    <div class='row p-2 ' id='return_screen' style="display:none;">
+    <div class='col-10'>
+        <div class="card pb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p style="font-size: 18px;">
+                            You have failed too many of the attention checks to proceed. 
+                            
+                            Please return this study by closing the survey and clicking 'Stop Without Completing' on Prolific.
+						</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
     <div class="container-fluid p-0" id="feed-and-sidebar" class="screen" style="display:none;">
 	<div class="row justify-content-center">
@@ -502,10 +554,11 @@ ul li, ol li {
   <script type="text/javascript" src="templates/feed_data/concept_feeds.js"></script>
   <!-- <script type="text/javascript" src="templates/feed_data/extra_dummy_posts.js"></script> -->
   <script type="text/javascript" src="templates/feed_data/dummy_alg_posts_2.js"></script>
+  <script type="text/javascript" src="templates/feed_data/algorithm_info.js"></script>
 
   <script type="text/javascript">
     const question_screens = [
-  /*"feed_comparison" , "post_arrangement" /*"counterfactual_placement",*/ "post_placement", "post_placement_check_1", "post_placement_check_2", "exposure_intro_1", "exposure_intro_2", "exposure_intro_3"
+  /*"feed_comparison" , "post_arrangement" /*"counterfactual_placement",*/ "post_placement", "post_placement_check_1", "post_placement_check_2", "exposure_intro_1", "exposure_intro_2", "exposure_intro_3", "exposure_intro_4"
 ];
 
 const question_screen_types = ["post_placement"]
@@ -520,9 +573,9 @@ const num_same_features_and_question = 30;
 // const possible_conditions = ["A"];
 
 // const possible_conditions = ["likes_ratio"]
-const possible_conditions = ["chronological"];
-// const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "chronological", "likes", "likes_ratio", 
-//   "random", "Caring", "first_person_pronouns", "hashes", "conservative_values", "parts_of_speech"];
+// const possible_conditions = ["chronological"];
+const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "chronological", "likes", "likes_ratio", 
+  "random", "Caring", "first_person_pronouns", "hashes", "conservative_values", "parts_of_speech"];
 
 // const possible_conditions = ["chronological", "likes", 
 // "engagement_soup", "first_person_pronouns", 
@@ -608,16 +661,16 @@ const any_redacted = redacted_classes.length > 0;
 const include_confidence = false;
 const num_confidence = 4
 var practice_confidence_indices = [1]
-var question_confidence_indices = []
+var question_confidence_indices = [1,10,20,30]
 var questions = [];
-for (var i=0;i<num_same_features_and_question;i++) {
-  questions.push(i);
-}
-for (let i = 0; i<num_confidence; i++) {
-  let random_question = Math.floor(Math.random() * questions.length);
-  question_confidence_indices.push(questions[random_question]);
-  questions.splice(random_question, 1);
-}
+// for (var i=0;i<num_same_features_and_question;i++) {
+//   questions.push(i);
+// }
+// for (let i = 0; i<num_confidence; i++) {
+//   let random_question = Math.floor(Math.random() * questions.length);
+//   question_confidence_indices.push(questions[random_question]);
+//   questions.splice(random_question, 1);
+// }
 
 
 const SCREEN_TYPE_INFO = {
@@ -765,24 +818,27 @@ Can the feed be ordered using the color of the profile image?
     ],
   },
 
-  exposure_original: {
+  exposure_intro_4: {
     template_id: "feed-and-sidebar",
     sidebar_entries: [
       {
         markdown: `
-This is Your Politics Feed: a feed of political social media posts. They are sorted by an algorithm, but not by the algorithm that is usually used on social media. 
+You will now start the main part of the study, where you will not be explictly told how to arrange the posts.
 
-Try to figure out what the algorithm is doing by looking at the text AND the displayed features like engagement and time posted, all of which COULD be involved.
+Next, you will see a feed of political social media posts. They are sorted by an algorithm, but not by the algorithm that is usually used on social media. Your job is to figure out what the algorithm is doing.
+
+You should look at the text AND the displayed features like engagement and time posted.
 
 All following questions in the study will ask you to rank posts based on this algorithm.
-
-${
-          any_redacted
-            ? `*Some text has been redacted because 
-it is not relevant to the tasks.*`
-            : ""
-        }
         `,
+      },
+      {
+        markdown: `
+Does the feed contain only political posts, or can they be about any topic?
+        `,
+        answer_area: "multiple_choice",
+        options: ["Only Politics", "All Topics"],
+        option_key: [1,0],
       },
     ],
   },
@@ -792,8 +848,12 @@ it is not relevant to the tasks.*`
     sidebar_entries: [
       {
         markdown: `
-This is Your Politics Feed, which organized by HOW RECENT the post was. For all following questions, you should rank the most recent post first.
+This is Your Politics Feed: a feed of political social media posts. They are sorted by an algorithm, but not by the algorithm that is usually used on social media. 
 
+Try to figure out what the algorithm is doing by looking at the text AND the displayed features like engagement and time posted, all of which COULD be involved.
+
+All following questions in the study will ask you to rank posts based on this algorithm.
+<button id = "load-more-button"></button>
 ${
           any_redacted
             ? `*Some text has been redacted because 
@@ -916,7 +976,7 @@ feed sorted differently from your feed today?
     entries: [
       {
         markdown: `
-Thank you for completing our entire study! Please **click submit.** It may take a moment to redirect you.
+Thank you for completing the analytic portion of our study! Please **click submit.** It may take a moment to redirect you to the final part on Qualtrics.
     `,
       },
     ],
@@ -927,13 +987,50 @@ Thank you for completing our entire study! Please **click submit.** It may take 
     entries: [
       {
         markdown: `
-How do you think the feed you saw at the beginning was ordered?
+How do you think the algorithm worked for the feed ranking you saw? Descibe what you think would make one post be ranked above another.
+Examples: "it was ranked by most replies" OR "it was ranked by being more about the economy" NOT "it was ordered by an algorithm"
         `,
         answer_area: "text_input",
       },
       {
         markdown: `
-What evidence helped you figure out how the feed was ordered? What was your process for developing your theory and did it change?
+What evidence helped you figure out how the feed was ordered? What was your process for developing your theory and did it change? Describe what parts of the study helped you (seeing the feed, practice).
+        `,
+        answer_area: "text_input",
+      },
+      {
+        markdown: `
+How long did it take you to solidify how you thought the algorithm worked? Was there a certain number of posts or practice questions that it took?
+        `,
+        answer_area: "text_input",
+      },
+      {
+        markdown: `
+Were there any particular questions that you struggled with? What made them difficult?
+        `,
+        answer_area: "text_input",
+      },
+      {
+        markdown: `
+How many questions (out of 30) do you think you got right? How many did you guess on?
+        `,
+        answer_area: "text_input",
+      },
+    ],
+  },
+
+  feedback_2: {
+    template_id: "centered-content",
+    entries: [
+      {
+        markdown: `
+Your feed was ranked by ${alg_descriptions[condition]}. How close do you think your idea was to the real algorithm?
+        `,
+        answer_area: "text_input",
+      },
+      {
+        markdown: `
+Given that information, how many questions (out of 30) do you think you got right?
         `,
         answer_area: "text_input",
       },
@@ -942,6 +1039,130 @@ What evidence helped you figure out how the feed was ordered? What was your proc
 Do you have any feedback on the study? (enter "none" if you have none)
         `,
         answer_area: "text_input",
+      },
+    ],
+  },
+
+  feedback_3: {
+    template_id: "centered-content",
+    entries: [
+      {
+        markdown: `
+For the following questions, "the task" refers to the process of both figuring out what the algorithm is, and applying it to different posts.
+        `,
+      },
+      {
+        markdown: `
+How mentally demanding was the task? 
+        `,
+        answer_area: "slider",
+        options: ["Very low", "Very high"],
+      },
+      {
+        markdown: `
+How hurried or rushed was the pace of the task?? 
+        `,
+        answer_area: "slider",
+        options: ["Very low", "Very high"],
+      },
+      {
+        markdown: `
+How successful were you in accomplishing what you were asked to do? 
+        `,
+        answer_area: "slider",
+        options: ["Perfect", "Failure"],
+      },
+      {
+        markdown: `
+How hard did you have to work to accomplish your level of performance?  
+        `,
+        answer_area: "slider",
+        options: ["Very low", "Very high"],
+      },
+      {
+        markdown: `
+How insecure, discouraged, irritated, stressed, and annoyed were you? 
+        `,
+        answer_area: "slider",
+        options: ["Very low", "Very high"],
+      },
+    ],
+  },
+
+  feedback_4: {
+    template_id: "centered-content",
+    entries: [
+      {
+        markdown: `
+To what extent do you agree with the following statements?
+        `,
+      },
+      {
+        markdown: `
+I would prefer complex to simple problems.
+        `,
+        answer_area: "multiple_choice",
+        options: ["Strongly disagree", "Somewhat disagree", "Neither agree nor disagree", "Somewhat agree", "Strongly agree"],
+        option_key: [-2, -1, 0, 1, 2],
+      },
+      {
+        markdown: `
+I like to have the responsibility of handling a situation that requires a lot of thinking.
+        `,
+        answer_area: "multiple_choice",
+        options: ["Strongly disagree", "Somewhat disagree", "Neither agree nor disagree", "Somewhat agree", "Strongly agree"],
+        option_key: [-2, -1, 0, 1, 2],
+      },
+      {
+        markdown: `
+Thinking is not my idea of fun.
+        `,
+        answer_area: "multiple_choice",
+        options: ["Strongly disagree", "Somewhat disagree", "Neither agree nor disagree", "Somewhat agree", "Strongly agree"],
+        option_key: [-2, -1, 0, 1, 2],
+      },
+      {
+        markdown: `
+I would rather do something that requires little thought than something that is sure to challenge my thinking abilities.
+        `,
+        answer_area: "multiple_choice",
+        options: ["Strongly disagree", "Somewhat disagree", "Neither agree nor disagree", "Somewhat agree", "Strongly agree"],
+        option_key: [-2, -1, 0, 1, 2],
+      },
+      {
+        markdown: `
+I really enjoy a task that involves coming up with new solutions to problems.
+        `,
+        answer_area: "multiple_choice",
+        options: ["Strongly disagree", "Somewhat disagree", "Neither agree nor disagree", "Somewhat agree", "Strongly agree"],
+        option_key: [-2, -1, 0, 1, 2],
+      },
+      {
+        markdown: `
+I would prefer a task that is intellectual, difficult, and important to one that is somewhat important but does not require much thought.        `,
+        answer_area: "multiple_choice",
+        options: ["Strongly disagree", "Somewhat disagree", "Neither agree nor disagree", "Somewhat agree", "Strongly agree"],
+        option_key: [-2, -1, 0, 1, 2],
+      },
+    ],
+  },
+
+  feedback_5: {
+    template_id: "centered-content",
+    entries: [
+      {
+        markdown: `
+In the past year, how often have you used social media (e.g. Twitter, Facebook, Instagram)?        `,
+        answer_area: "multiple_choice",
+        options: ["Not at all", "Less than once a month", "At least once a month", "At least once a week", "Two to three times a week", "Daily"],
+        option_key: [1, 2, 3, 4, 5, 6],
+      },
+      {
+        markdown: `
+In the past year, how often have you read articles or heard discussion about social media algorithms?        `,
+        answer_area: "multiple_choice",
+        options: ["Not at all", "Less than once a month", "At least once a month", "At least once a week", "Two to three times a week", "Daily"],
+        option_key: [1, 2, 3, 4, 5, 6],
       },
     ],
   },
@@ -1396,6 +1617,48 @@ function insert_mcq(question, container, question_id) {
   container.appendChild(question_div);
 }
 
+function insert_slider(question, container, question_id) {
+  const question_div = document.createElement("div");
+  question_div.className = "slide-question";
+  question_div.id = `${question_id}`;
+
+  var val = 50;
+
+  const slider_id = `slider_${question_id}`;
+  const value_id = `rangeValue_${question_id}`
+  const fn = `rangeValue_feedback_1.innerText = this.value`;
+  // const fn = "console.log(this.value)";
+
+  // const slider_label_l = document.createElement("label");
+  // slider_label_l.for = "left-side";
+  // slider_label_l.className = `float-left mr-5`
+  // slider_label_l.innerText = question.options[0];
+  // const slider_input = document.createElement("input");
+  // slider_input.id = `slider-${question_id}`;
+  // slider_input.type = "range";
+  // slider_input.className = "slider mt-10";
+  // const slider_label_r = document.createElement("label");
+  // slider_label_r.for = "right-side";
+  // slider_label_r.className = `ml-5`
+  // slider_label_r.innerText = question.options[1];
+  // const slider_value = document.createElement("p");
+  // slider_value.id = `rangeValue-${question_id}`;
+  // slider_value.innerText
+  // slider_input.oninput = `console.log(this.value)`
+
+
+  // const slider_div = document.createElement("form");
+  question_div.innerHTML = `
+  <label for="left-side" class="float-left mr-5">${question.options[0]}</label>
+  <input id=${slider_id} class="slider mt-10" type="range" min="0" max="100" value="50" step="5"
+        oninput="this.nextElementSibling.nextElementSibling.innerText = this.value">
+  <label for="right-side" class="ml-5">${question.options[1]}</label>
+        <p id=${value_id}>50%</p>  
+  `
+
+  container.appendChild(question_div);
+}
+
 /**
  * Inserts radio buttons for a question into a container.
  *
@@ -1588,6 +1851,9 @@ function insert_entry(entry, body_div, question_id) {
       case "multiple_choice":
         insert_mcq(entry, entry_div, question_id);
         break;
+      case "slider":
+        insert_slider(entry, entry_div, question_id);
+        break;
       case "radio_buttons":
         insert_radio_buttons(entry, entry_div, question_id);
         break;
@@ -1671,11 +1937,13 @@ function display_screen(screen_info, section_name) {
 
   let question_progress = document.getElementById("question-progress");
   if (question_screens.includes(screen_info.screen_type)) {
-    question_progress.innerHTML = `Question ${curr_screen_index + 1} of ${
+    question_progress.innerHTML = `Section Question ${curr_screen_index + 1} of ${
       study_array[curr_section_index].screens.length
     }`;
   } else {
-    question_progress.innerHTML = "";
+    question_progress.innerHTML = `Section Page ${curr_screen_index + 1} of ${
+      study_array[curr_section_index].screens.length
+    }`;
   }
 
   if (!screen_info) {
@@ -1842,16 +2110,16 @@ function process_choice_question(
     const option_text = checked_input.nextElementSibling.textContent;
     chosen_answers.push(option_text);
     const option_value = parseFloat(checked_input.value);
-    score += isNaN(option_value) ? 0 : option_value;
+    score += option_value;
   }
 
-  if (question_id.slice(-2) !== "CF") {
-    for (let i = 0; i < unchecked_inputs.length; i++) {
-      const unchecked_input = unchecked_inputs[i];
-      const option_value = parseFloat(unchecked_input.value);
-      score += isNaN(option_value) ? 0 : option_value < 0 ? -option_value : 0;
-    }
-  }
+  // if (question_id.slice(-2) !== "CF") {
+  //   for (let i = 0; i < unchecked_inputs.length; i++) {
+  //     const unchecked_input = unchecked_inputs[i];
+  //     const option_value = parseFloat(unchecked_input.value);
+  //     score += isNaN(option_value) ? 0 : option_value < 0 ? -option_value : 0;
+  //   }
+  // }
 
   for (let i = 0; i < inputs.length; i++) {
     const input = inputs[i];
@@ -1886,6 +2154,37 @@ function process_choice_question(
     screen_output["chosen_options_" + question_num] = chosen_answers;
     screen_output["score_Q" + question_num] = score;
   }
+}
+
+/**
+ * Processes a slider question and updates the screen output.
+ *
+ * @param {Element} question_div - The question div element.
+ * @param {Object} screen_output - The screen output object.
+ * @param {Object} unanswered_questions - Object to track unanswered questions.
+ * @param {Object} incorrect_questions - Object to track incorrect questions.
+ */
+function process_slide_question(
+  question_div,
+  screen_output,
+  unanswered_questions,
+  incorrect_questions
+) {
+  const question_id = question_div.id;
+  const slider_value = question_div.querySelector(`#rangeValue_${question_id}`).innerText;
+  const user_input = Number(slider_value)
+
+  const question = {
+    question_type: "slide_input",
+    correct_answers: null,
+    chosen_answers: user_input,
+  };
+
+  if (slider_value === "50%") {
+    unanswered_questions[question_id] = question;
+  }
+
+  screen_output["slider_input_" + question_id] = user_input;
 }
 
 /**
@@ -2043,6 +2342,7 @@ function process_text_input_question(
  */
 function get_screen_results(screen_info, screen_name) {
   const choice_questions = document.getElementsByClassName("form-question");
+  const slide_questions = document.getElementsByClassName("slide-question");
   const post_bank_questions =
     document.getElementsByClassName("post-bank-question");
   const text_input_questions = Array.from(
@@ -2065,6 +2365,15 @@ function get_screen_results(screen_info, screen_name) {
   for (let i = 0; i < choice_questions.length; i++) {
     process_choice_question(
       choice_questions[i],
+      screen_output,
+      unanswered_questions,
+      incorrect_questions
+    );
+  }
+
+  for (let i = 0; i < slide_questions.length; i++) {
+    process_slide_question(
+      slide_questions[i],
       screen_output,
       unanswered_questions,
       incorrect_questions
@@ -2131,7 +2440,7 @@ function log_screen(section_index, screen_index) {
 
   if (
     question_screens.includes(screen_info.screen_type) ||
-    screen_info.screen_type == "feedback" || screen_info.screen_type == "post_exposure"
+    screen_info.screen_type.includes("feedback") || screen_info.screen_type == "post_exposure"
   ) {
     [screen_output, unanswered_questions, incorrect_questions] =
       get_screen_results(screen_info, screen_name);
@@ -2185,7 +2494,7 @@ function highlight_unanswered_questions(
   incorrect_questions
 ) {
   const question_divs = $(
-    ".form-question, .post-bank-question, .text-question"
+    ".form-question, .post-bank-question, .text-question, .slide-question"
   );
 
   question_divs.each((i, question_div) => {
@@ -2325,7 +2634,7 @@ function next_screen() {
     study_array[curr_section_index].screens[curr_screen_index];
 
   var time_onscreen = (new Date().getTime() - curr_screen_info["start_time"]) /1000;
-  if (curr_screen_info.screen_type === "exposure" && time_onscreen < 1) {
+  if (curr_screen_info.screen_type === "exposure" && time_onscreen < 120) {
     alert(`Please look at the feed for at least 120 seconds. You have only spent ${time_onscreen} seconds so far`);
     return;
   }
@@ -2337,7 +2646,7 @@ function next_screen() {
 
   if (
     question_screens.includes(curr_screen_info.screen_type) ||
-    curr_screen_info.screen_type === "feedback" || curr_screen_info.screen_type === "post_exposure"
+    curr_screen_info.screen_type.includes("feedback") || curr_screen_info.screen_type === "post_exposure"
   ) {
     const is_practice = curr_screen_info.screen_type === "practice";
 
@@ -2379,7 +2688,18 @@ function next_screen() {
     log_section(curr_section_index);
   }
 
+  if (curr_screen_info.screen_type == "post_placement_check_2") {
+    const sum = output["training"][0]["score_Q1"] + output["training"][1]["score_Q1"];
+    if (sum == 0) {
+      // do nothing
+    } else {
+      increment_screen_index();
+      output["training"][curr_screen_index] = {};
+    }
+  }
   increment_screen_index();
+
+
 
   const is_next_screen_correction =
     study_array[curr_section_index].screens[curr_screen_index].screen_type ===
@@ -2745,6 +3065,7 @@ function generate_screen_array(
   check_posts_2.forEach((post) => {
     post.attn_2 = true;
   });
+  
 
   const check1 = generate_scored_screen_object(
     "post_placement_check_1",
@@ -2769,13 +3090,19 @@ function generate_screen_array(
     includes_confidence=false
   );
 
+  const return_screen = {
+    screen_type: "return_screen",
+    template_id: "return_screen",
+  };
+
   const exposure_intro_1 = generate_exposure_intro("exposure_intro_1");
   const exposure_intro_2 = generate_exposure_intro("exposure_intro_2");
   const exposure_intro_3 = generate_exposure_intro("exposure_intro_3");
+  const exposure_intro_4 = generate_exposure_intro("exposure_intro_4");
   
   section_array.push({
     section_name: "training",
-    screens: [check1, check2, exposure_intro_1, exposure_intro_2, exposure_intro_3],
+    screens: [check1, check2, return_screen, exposure_intro_1, exposure_intro_2, exposure_intro_3, exposure_intro_4],
   });
 
   // const post_exposure_screen = generate_post_exposure_screen("post_exposure",
@@ -2938,10 +3265,14 @@ function generate_screen_array(
 
 
   const feedback_screen = generate_feedback_screen("feedback");
+  const feedback_screen2 = generate_feedback_screen("feedback_2");
+  const feedback_screen3 = generate_feedback_screen("feedback_3");
+  const feedback_screen4 = generate_feedback_screen("feedback_4");
+  const feedback_screen5 = generate_feedback_screen("feedback_5");
 
   section_array.push({
     section_name: "feedback",
-    screens: [feedback_screen],
+    screens: [feedback_screen, feedback_screen2, feedback_screen3, feedback_screen4, feedback_screen5],
   });
 
   const submission_screen = {
