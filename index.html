@@ -550,8 +550,8 @@ ul li, ol li {
   })();
 </script>
   
-  <script type="text/javascript" src="templates/feed_data/generic_posts.js"></script>
-  <script type="text/javascript" src="templates/feed_data/concept_feeds.js"></script>
+  <!-- <script type="text/javascript" src="templates/feed_data/generic_posts.js"></script>
+  <script type="text/javascript" src="templates/feed_data/concept_feeds.js"></script> -->
   <!-- <script type="text/javascript" src="templates/feed_data/extra_dummy_posts.js"></script> -->
   <script type="text/javascript" src="templates/feed_data/dummy_alg_posts_2.js"></script>
   <script type="text/javascript" src="templates/feed_data/algorithm_info.js"></script>
@@ -1161,7 +1161,7 @@ In the past year, how often have you used social media (e.g. Twitter, Facebook, 
         markdown: `
 In the past year, how often have you read articles or heard discussion about social media algorithms?        `,
         answer_area: "multiple_choice",
-        options: ["Not at all", "Less than once a month", "At least once a month", "At least once a week", "Two to three times a week", "Daily"],
+        options: ["Not at all", "Less than once a month", "Once a month", "Once a week", "Several times a week", "Daily"],
         option_key: [1, 2, 3, 4, 5, 6],
       },
     ],
@@ -2206,8 +2206,8 @@ function process_post_placement_question(
   screen_info
 ) {
   const posts = feed_ul.querySelectorAll("li");
-  const index_1 = screen_info.correct_posts[0]["Index"];
-  const index_2 = screen_info.correct_posts[1]["Index"];
+  const index_1 = screen_info.correct_posts[0]["full_index"];
+  const index_2 = screen_info.correct_posts[1]["full_index"];
   const chunk_1 = screen_info.correct_posts[0]["Chunk"];
   const chunk_2 = screen_info.correct_posts[1]["Chunk"];
 
@@ -2464,7 +2464,7 @@ function log_screen(section_index, screen_index) {
 
     output[section_name].push(screen_output);
   }
-
+  console.log(output);
   return [unanswered_questions, incorrect_questions];
 }
 
@@ -2795,7 +2795,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "Jg5HcRjOhevF",
+      experimentID: "uTqvymcbTvCx",
       filename: filename,
       data: string_output,
     }),
@@ -3617,20 +3617,25 @@ function generate_posts_from_buckets(data, num_buckets, max_num_posts_possible, 
     count += 1;
   }
 
+  var post_count = 0;
   var sampled_chunks_flattened = []
   for (let i = 0; i < sampled_chunks.length; i += 1) {
     for (let j = 0; j < sampled_chunks[i].length; j +=1) {
       sampled_chunks[i][j]["Chunk"] = i
-      if (!extreme || i==0 || i==sampled_chunks.length-1)
-      sampled_chunks_flattened.push(sampled_chunks[i][j])
+      if (!extreme || i==0 || i==sampled_chunks.length-1) {
+        sampled_chunks[i][j]["full_index"] = post_count;
+        sampled_chunks_flattened.push(sampled_chunks[i][j])
+      } else {
+      }
+      post_count += 1
     }
   }
 
   for (let i = 0; i < sampled_chunks_flattened.length; i += 1) {
-    sampled_chunks_flattened[i]["Index"] = i
+    sampled_chunks_flattened[i]["Index"] = i;
   }
 
-  
+  console.log(sampled_chunks_flattened);
   return sampled_chunks_flattened
 
 }
@@ -3641,6 +3646,7 @@ function get_random_sample_from_chunks(data, num_posts, extreme=false, required_
   var posts_per_bucket = Math.floor(num_posts / num_buckets)
   var posts_left_over = num_posts - (posts_per_bucket * num_buckets)
 
+  console.log(required_diff);
   var buckets_with_extra = assign_extra_posts_to_buckets(posts_left_over, num_buckets, required_diff=required_diff);
 
   var sampled_chunks = [];
