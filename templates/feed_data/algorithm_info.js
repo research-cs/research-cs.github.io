@@ -1,0 +1,4 @@
+alg_descriptions = {"gpt_quality": "highest quality writing", "severe_toxicity": "most toxic", "factual": "most factual", "chronological": "most recent", 
+    "likes": "most likes", "likes_ratio": "most likes per views", "random": "random", "Caring": "most caring", "first_person_pronouns": "highest number of first person pronouns (I, me, my...)", 
+    "hashes": "highest value of an equation that calculates a number from the text of the tweet", "conservative_values": "most of a combination of values: tradition, achievement, personal security, and conformity to rules", 
+    "parts_of_speech": "a combination of grammatical features: 10 times the ratio of second person to first person pronouns, plus the average word length, plus the number of punctuation marks"}
