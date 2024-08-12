@@ -1937,11 +1937,11 @@ function display_screen(screen_info, section_name) {
 
   let question_progress = document.getElementById("question-progress");
   if (question_screens.includes(screen_info.screen_type)) {
-    question_progress.innerHTML = `Section Question ${curr_screen_index + 1} of ${
+    question_progress.innerHTML = `Question ${curr_screen_index + 1} of ${
       study_array[curr_section_index].screens.length
     }`;
   } else {
-    question_progress.innerHTML = `Section Page ${curr_screen_index + 1} of ${
+    question_progress.innerHTML = `Page ${curr_screen_index + 1} of ${
       study_array[curr_section_index].screens.length
     }`;
   }
