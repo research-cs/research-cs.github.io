@@ -4369,7 +4369,7 @@ output["global"].push({condition: condition});
 output["global"].push({url: window.location.href});
 
 const params = new URLSearchParams(window.location.search);
-const PID = params.get("PROLIFIC_PID");
+const PID = params.get("PARTICIPANT_ID");
 const STUDY_ID = params.get("STUDY_ID");
 const SESSION_ID = params.get("SESSION_ID");
 output["global"].push({pid: PID});
