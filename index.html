@@ -275,16 +275,16 @@ ul li, ol li {
                             You will not be recorded via audio or video.
 						</p>
 						<p style="font-size: 18px;">
-                            TIME INVOLVEMENT: Your participation will take approximately 25 minutes.
+                            TIME INVOLVEMENT: Your participation will take approximately 30 minutes.
 						 </p>
                          <p style="font-size: 18px;">
-                            PAYMENTS: You will receive $6.25 via the survey platform upon completion of the study, and you will receive additional compensation of $0.10 per correct answer afterwards, as payment for your participation. A total of up to $1.50 in bonuses is available.
+                            PAYMENTS: You will receive $7.50 via the survey platform upon completion of the study, and you will receive additional compensation of $0.10 per correct answer afterwards, as payment for your participation. A total of up to $1.50 in bonuses is available.
 						 </p>
                          <p style="font-size: 18px;">
                             RISKS AND BENEFITS: The risks associated with this study are minimal. 
                             A potential data breach or breach of confidentiality should not adversely affect employment or reputation. 
                             Study data will be stored securely, in compliance with Stanford University standards, minimizing the risk of confidentiality breach. 
-                            You may be exposed to content that is upsetting, as this study involves a wide array of social media posts, some of which contain harmful text. 
+                            You may be exposed to content that is upsetting, as this study involves a wide array of social media posts, some of which contain harmful text (e.g., profanity, slurs, expressions of bigotry like racism/sexism/homophobia/religious intolerance, discussion of violence, jokes about tragedies). 
                             The benefits which may reasonably be expected to result from this study are none. 
                             We cannot and do not guarantee or promise that you will receive any benefits from this study. 
 						 </p>
@@ -2464,7 +2464,6 @@ function log_screen(section_index, screen_index) {
 
     output[section_name].push(screen_output);
   }
-  console.log(output);
   return [unanswered_questions, incorrect_questions];
 }
 
@@ -2801,6 +2800,7 @@ function submit() {
     }),
   }).then(response => {
     window.location.href = 'https://app.prolific.com/submissions/complete?cc=CG717WJX';
+    // window.location.href= "https://connect.cloudresearch.com/participant/project/F5FE3D364D/complete";
   })
   // window.location.href = 'https://app.prolific.com/submissions/complete?cc=CG717WJX';
   // proliferate.submit(output);
@@ -3635,7 +3635,6 @@ function generate_posts_from_buckets(data, num_buckets, max_num_posts_possible, 
     sampled_chunks_flattened[i]["Index"] = i;
   }
 
-  console.log(sampled_chunks_flattened);
   return sampled_chunks_flattened
 
 }
@@ -3646,7 +3645,6 @@ function get_random_sample_from_chunks(data, num_posts, extreme=false, required_
   var posts_per_bucket = Math.floor(num_posts / num_buckets)
   var posts_left_over = num_posts - (posts_per_bucket * num_buckets)
 
-  console.log(required_diff);
   var buckets_with_extra = assign_extra_posts_to_buckets(posts_left_over, num_buckets, required_diff=required_diff);
 
   var sampled_chunks = [];
