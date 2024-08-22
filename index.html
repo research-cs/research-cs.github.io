@@ -558,7 +558,7 @@ ul li, ol li {
 
   <script type="text/javascript">
     const question_screens = [
-  /*"feed_comparison" , "post_arrangement" /*"counterfactual_placement",*/ "post_placement", "post_placement_check_1", "post_placement_check_2", "exposure_intro_1", "exposure_intro_2", "exposure_intro_3", "exposure_intro_4"
+  /*"feed_comparison" , "post_arrangement" /*"counterfactual_placement",*/ "post_placement", "post_placement_check_1", "post_placement_check_2", "post_placement_check_3", "post_placement_check_4", "post_placement_check_5", "exposure_intro_1", "exposure_intro_2", "exposure_intro_3", "exposure_intro_4"
 ];
 
 const question_screen_types = ["post_placement"]
@@ -572,10 +572,10 @@ const num_same_features_and_question = 30;
 
 // const possible_conditions = ["A"];
 
-// const possible_conditions = ["likes_ratio"]
+const possible_conditions = ["first_person_pronouns"]
 // const possible_conditions = ["chronological"];
-const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "chronological", "likes", "likes_ratio", 
-  "random", "Caring", "first_person_pronouns", "hashes", "conservative_values", "parts_of_speech"];
+// const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "chronological", "likes", "likes_ratio", 
+  // "random", "Caring", "first_person_pronouns", "hashes", "conservative_values", "parts_of_speech"];
 
 // const possible_conditions = ["chronological", "likes", 
 // "engagement_soup", "first_person_pronouns", 
@@ -916,8 +916,20 @@ Consider the following two posts. Order them according to how you think the earl
 //       },
 //     ],
 //   },
+post_placement_check_1: {
+  template_id: "feed-and-sidebar",
+  sidebar_entries: [
+    {
+      markdown: `
+Consider the following two posts. Arrange the posts so that the one on top is the one with a larger number.
+      `,
+      answer_area: "post_bank",
+      includes_confidence: include_confidence,
+    },
+  ],
+},
 
-  post_placement_check_1: {
+  post_placement_check_2: {
     template_id: "feed-and-sidebar",
     sidebar_entries: [
       {
@@ -930,18 +942,46 @@ We will start off with a practice of the selection task. Consider the following 
     ],
   },
 
-  post_placement_check_2: {
+
+  post_placement_check_3: {
     template_id: "feed-and-sidebar",
     sidebar_entries: [
       {
         markdown: `
-Consider the following two posts. Arrange the posts so that the one on top is the one with a larger number.
+We will start off with a practice of the selection task. Consider the following two posts. Arrange the posts so the one with more adjectives is on top.
         `,
         answer_area: "post_bank",
         includes_confidence: include_confidence,
       },
     ],
   },
+
+  post_placement_check_4: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
+We will start off with a practice of the selection task. Consider the following two posts. Arrange the posts so the one where the word "she" appears more is on top.
+        `,
+        answer_area: "post_bank",
+        includes_confidence: include_confidence,
+      },
+    ],
+  },
+
+  post_placement_check_5: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
+We will start off with a practice of the selection task. Consider the following two posts. Arrange the posts so the one with more second person pronouns (you, your, yours) is on top.
+        `,
+        answer_area: "post_bank",
+        includes_confidence: include_confidence,
+      },
+    ],
+  },
+
 
   counterfactual_placement: {
     template_id: "feed-and-sidebar",
@@ -1249,7 +1289,7 @@ function insert_post(post, feed_parent_list, locked, divide=false) {
   } rounded`;
   let rgb = string_to_rgb(post.author_name);
 
-  if (post.attn_1 || post.attn_2) {
+  if (post.attn_1 || post.attn_2|| post.attn_3||post.attn_4 ||post.attn_5) {
     post.text = "";
     post.author_name = "";
     rgb = [0,0,0];
@@ -1257,7 +1297,7 @@ function insert_post(post, feed_parent_list, locked, divide=false) {
       post[key] = null;
     }
   } 
-  if (post.attn_2) {
+  if (post.attn_1) {
     // var color = post["correct_position"] * 150 + 50
     // post_list_item.style =  `background-color: rgb(${color}, ${color}, ${color})`;
     var incorrect = post["correct_position"];
@@ -1268,12 +1308,39 @@ function insert_post(post, feed_parent_list, locked, divide=false) {
     }
   }
  
-  if (post.attn_1) {
+  if (post.attn_2) {
     var incorrect = post["correct_position"];
     if (!incorrect) {
       post.text = "The sky is blue because it is sunny today."
     } else {
       post.text = "The sky is red because it is sunny today."
+    }
+  }
+
+  if (post.attn_3) {
+    var incorrect = post["correct_position"];
+    if (!incorrect) {
+      post.text = "My friend just bought me a gorgeous new dress. It's so summery and flouncy, perfect for wearing in hot weather!"
+    } else {
+      post.text = "I want to go home already."
+    }
+  }
+
+  if (post.attn_4) {
+    var incorrect = post["correct_position"];
+    if (!incorrect) {
+      post.text = "Happy mothers day! I really appreciate my mother for all she did for me. I owe her a lot and hope she knows it"
+    } else {
+      post.text = "I called my sister today and she hung up on me immediately."
+    }
+  }
+
+  if (post.attn_5) {
+    var incorrect = post["correct_position"];
+    if (!incorrect) {
+      post.text = "When trying a new recipe, you should start by reading it all the way through. Then, you should get out all the ingredients and measure them out ahead of time. Then, make sure your surroundings are clean."
+    } else {
+      post.text = "My life is better for having known you!"
     }
   }
   
@@ -1354,6 +1421,7 @@ function insert_feed(
   let indicies;
   if (bucketing) {
     indicies = get_random_sample_indices_from_chunks(feed_data, starting_num_posts);
+    // TODO: this is where we should take two
 
   }
 
@@ -2687,7 +2755,7 @@ function next_screen() {
     log_section(curr_section_index);
   }
 
-  if (curr_screen_info.screen_type == "post_placement_check_2") {
+  if (curr_screen_info.screen_type == "post_placement_check_5") {
     const sum = output["training"][0]["score_Q1"] + output["training"][1]["score_Q1"];
     if (sum == 0) {
       // do nothing
@@ -2794,7 +2862,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "ze2P4D6OoNkC",
+      experimentID: "HxFHzz8gTsk9",
       filename: filename,
       data: string_output,
     }),
@@ -2940,6 +3008,45 @@ function generate_scored_screen_object(
         includes_confidence
       );
       break;
+      case "post_placement_check_3":
+      screen = generate_post_placement_screen(
+        screen_type,
+        base_posts,
+        starting_num_posts,
+        num_posts_to_load,
+        weights,
+        feature_count,
+        repeat_num,
+        is_practice,
+        includes_confidence
+      );
+      break;
+      case "post_placement_check_4":
+      screen = generate_post_placement_screen(
+        screen_type,
+        base_posts,
+        starting_num_posts,
+        num_posts_to_load,
+        weights,
+        feature_count,
+        repeat_num,
+        is_practice,
+        includes_confidence
+      );
+      break;
+      case "post_placement_check_5":
+      screen = generate_post_placement_screen(
+        screen_type,
+        base_posts,
+        starting_num_posts,
+        num_posts_to_load,
+        weights,
+        feature_count,
+        repeat_num,
+        is_practice,
+        includes_confidence
+      );
+      break;
     case "counterfactual_placement":
       screen = generate_counterfactual_placement_screen(
         screen_type,
@@ -3056,14 +3163,26 @@ function generate_screen_array(
     // I don't think we need to do anything, just don't unsort 
   }
 
-  var check_posts = get_random_sample_from_chunks(q_posts, 4);
+  var check_posts = get_random_sample_from_chunks(q_posts, 10);
   var check_posts_1 = check_posts.slice(0,2);
-  var check_posts_2 = check_posts.slice(2);
+  var check_posts_2 = check_posts.slice(2,4);
+  var check_posts_3 = check_posts.slice(4,6);
+  var check_posts_4 = check_posts.slice(6,8);
+  var check_posts_5 = check_posts.slice(8);
   check_posts_1.forEach((post) => {
     post.attn_1 = true;
   });
   check_posts_2.forEach((post) => {
     post.attn_2 = true;
+  });
+  check_posts_3.forEach((post) => {
+    post.attn_3 = true;
+  });
+  check_posts_4.forEach((post) => {
+    post.attn_4 = true;
+  });
+  check_posts_5.forEach((post) => {
+    post.attn_5 = true;
   });
   
 
@@ -3089,6 +3208,39 @@ function generate_screen_array(
     true,
     includes_confidence=false
   );
+  const check3 = generate_scored_screen_object(
+    "post_placement_check_3",
+    check_posts_3,
+    starting_num_posts,
+    0,
+    weights,
+    feature_counts[0],
+    1,
+    true,
+    includes_confidence=false
+  );
+  const check4 = generate_scored_screen_object(
+    "post_placement_check_4",
+    check_posts_4,
+    starting_num_posts,
+    0,
+    weights,
+    feature_counts[0],
+    1,
+    true,
+    includes_confidence=false
+  );
+  const check5 = generate_scored_screen_object(
+    "post_placement_check_5",
+    check_posts_5,
+    starting_num_posts,
+    0,
+    weights,
+    feature_counts[0],
+    1,
+    true,
+    includes_confidence=false
+  );
 
   const return_screen = {
     screen_type: "return_screen",
@@ -3102,7 +3254,7 @@ function generate_screen_array(
   
   section_array.push({
     section_name: "training",
-    screens: [check1, check2, return_screen, exposure_intro_1, exposure_intro_2, exposure_intro_3, exposure_intro_4],
+    screens: [check1, check2, check3, check4, check5, return_screen, exposure_intro_1, exposure_intro_2, exposure_intro_3, exposure_intro_4],
   });
 
   // const post_exposure_screen = generate_post_exposure_screen("post_exposure",
