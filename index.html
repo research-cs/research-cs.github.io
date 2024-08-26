@@ -572,10 +572,10 @@ const num_same_features_and_question = 30;
 
 // const possible_conditions = ["A"];
 
-const possible_conditions = ["severe_toxicity_noise_0.5", "severe_toxicity_noise_0.8", "first_person_pronouns"]
+// const possible_conditions = ["severe_toxicity_noise_0.5", "severe_toxicity_noise_0.8", "first_person_pronouns"]
 // const possible_conditions = ["chronological"];
-// const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "chronological", "likes", "likes_ratio", 
-  // "random", "Caring", "first_person_pronouns", "hashes", "conservative_values", "parts_of_speech"];
+const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "chronological", "likes", "likes_ratio", 
+  "random", "Caring", "first_person_pronouns", "hashes", "conservative_values", "parts_of_speech"];
 
 // const possible_conditions = ["chronological", "likes", 
 // "engagement_soup", "first_person_pronouns", 
@@ -917,39 +917,12 @@ Consider the following two posts. Order them according to how you think the earl
 //     ],
 //   },
 
-post_placement_check_1: {
-  template_id: "feed-and-sidebar",
-  sidebar_entries: [
-    {
-      markdown: `
-We will start off with a practice of the selection task. Consider the following two posts. Arrange the posts so that the one that starts with "My" is on top.
-      `,
-      answer_area: "post_bank",
-      includes_confidence: include_confidence,
-    },
-  ],
-},
-
-  post_placement_check_2: {
-    template_id: "feed-and-sidebar",
-    sidebar_entries: [
-      {
-        markdown: `
-Consider the following two posts. Arrange the posts so the one with more words is on top.
-        `,
-        answer_area: "post_bank",
-        includes_confidence: include_confidence,
-      },
-    ],
-  },
-
-
 // post_placement_check_1: {
 //   template_id: "feed-and-sidebar",
 //   sidebar_entries: [
 //     {
 //       markdown: `
-// We will start off with a practice of the selection task. Consider the following two posts. Arrange the posts so that the one on top is the one with a larger number.
+// We will start off with a practice of the selection task. Consider the following two posts. Arrange the posts so that the one that starts with "My" is on top.
 //       `,
 //       answer_area: "post_bank",
 //       includes_confidence: include_confidence,
@@ -962,13 +935,40 @@ Consider the following two posts. Arrange the posts so the one with more words i
 //     sidebar_entries: [
 //       {
 //         markdown: `
-// Consider the following two posts. Arrange the posts so the one you think is more likely to be true is on top.
+// Consider the following two posts. Arrange the posts so the one with more words is on top.
 //         `,
 //         answer_area: "post_bank",
 //         includes_confidence: include_confidence,
 //       },
 //     ],
 //   },
+
+
+post_placement_check_1: {
+  template_id: "feed-and-sidebar",
+  sidebar_entries: [
+    {
+      markdown: `
+We will start off with a practice of the selection task. Consider the following two posts. Arrange the posts so that the one on top is the one with a larger number.
+      `,
+      answer_area: "post_bank",
+      includes_confidence: include_confidence,
+    },
+  ],
+},
+
+  post_placement_check_2: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
+Consider the following two posts. Arrange the posts so the one you think is more likely to be true is on top.
+        `,
+        answer_area: "post_bank",
+        includes_confidence: include_confidence,
+      },
+    ],
+  },
 
 
   post_placement_check_3: {
@@ -1325,45 +1325,45 @@ function insert_post(post, feed_parent_list, locked, divide=false) {
       post[key] = null;
     }
   } 
-  // if (post.attn_1) {
-  //   // var color = post["correct_position"] * 150 + 50
-  //   // post_list_item.style =  `background-color: rgb(${color}, ${color}, ${color})`;
-  //   var incorrect = post["correct_position"];
-  //   if (!incorrect) {
-  //     post.text = "15"
-  //   } else {
-  //     post.text = "14"
-  //   }
-  // }
- 
-  // if (post.attn_2) {
-  //   var incorrect = post["correct_position"];
-  //   if (!incorrect) {
-  //     post.text = "The sky is blue because it is sunny today."
-  //   } else {
-  //     post.text = "The sky is red because it is sunny today."
-  //   }
-  // }
-
   if (post.attn_1) {
     // var color = post["correct_position"] * 150 + 50
     // post_list_item.style =  `background-color: rgb(${color}, ${color}, ${color})`;
     var incorrect = post["correct_position"];
     if (!incorrect) {
-      post.text = "My favorite politician is RFK Jr. "
+      post.text = "15"
     } else {
-      post.text = "I'm watching the RNC right now"
+      post.text = "14"
     }
   }
  
   if (post.attn_2) {
     var incorrect = post["correct_position"];
     if (!incorrect) {
-      post.text = "I think the USA needs a female president. We've had 45 guys so I think it's high time for a woman. Let's go Kamala! I'm voting for her."
+      post.text = "The sky is blue because it is sunny today."
     } else {
-      post.text = "This country is falling apart and the two party system is to blame."
+      post.text = "The sky is red because it is sunny today."
     }
   }
+
+  // if (post.attn_1) {
+  //   // var color = post["correct_position"] * 150 + 50
+  //   // post_list_item.style =  `background-color: rgb(${color}, ${color}, ${color})`;
+  //   var incorrect = post["correct_position"];
+  //   if (!incorrect) {
+  //     post.text = "My favorite politician is RFK Jr. "
+  //   } else {
+  //     post.text = "I'm watching the RNC right now"
+  //   }
+  // }
+ 
+  // if (post.attn_2) {
+  //   var incorrect = post["correct_position"];
+  //   if (!incorrect) {
+  //     post.text = "I think the USA needs a female president. We've had 45 guys so I think it's high time for a woman. Let's go Kamala! I'm voting for her."
+  //   } else {
+  //     post.text = "This country is falling apart and the two party system is to blame."
+  //   }
+  // }
 
   if (post.attn_3) {
     var incorrect = post["correct_position"];
@@ -2803,8 +2803,8 @@ function next_screen() {
     log_section(curr_section_index);
   }
 
-  if (curr_screen_info.screen_type == "post_placement_check_5") {
-    const sum = output["training"][0]["score_Q1"] + output["training"][1]["score_Q1"] + output["training"][2]["score_Q1"] + output["training"][3]["score_Q1"] + output["training"][4]["score_Q1"];
+  if (curr_screen_info.screen_type == "post_placement_check_2") {
+    const sum = output["training"][0]["score_Q1"] + output["training"][1]["score_Q1"]; //+ output["training"][2]["score_Q1"] + output["training"][3]["score_Q1"] + output["training"][4]["score_Q1"];
     if (sum == 0) {
       // do nothing
     } else {
@@ -2910,7 +2910,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "HxFHzz8gTsk9",
+      experimentID: "ze2P4D6OoNkC",
       filename: filename,
       data: string_output,
     }),
@@ -3302,7 +3302,8 @@ function generate_screen_array(
   
   section_array.push({
     section_name: "training",
-    screens: [check1, check2, check3, check4, check5, return_screen, exposure_intro_1, exposure_intro_2, exposure_intro_3, exposure_intro_4],
+    // screens: [check1, check2, check3, check4, check5, return_screen, exposure_intro_1, exposure_intro_2, exposure_intro_3, exposure_intro_4],
+    screens: [check1, check2, return_screen, exposure_intro_1, exposure_intro_2, exposure_intro_3, exposure_intro_4],
   });
 
   // const post_exposure_screen = generate_post_exposure_screen("post_exposure",
