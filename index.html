@@ -554,6 +554,7 @@ ul li, ol li {
   <script type="text/javascript" src="templates/feed_data/concept_feeds.js"></script> -->
   <!-- <script type="text/javascript" src="templates/feed_data/extra_dummy_posts.js"></script> -->
   <script type="text/javascript" src="templates/feed_data/dummy_alg_posts_2.js"></script>
+  <script type="text/javascript" src="templates/feed_data/safe_indices.js"></script>
   <script type="text/javascript" src="templates/feed_data/algorithm_info.js"></script>
 
   <script type="text/javascript">
@@ -570,12 +571,20 @@ const num_features =
 
 const num_same_features_and_question = 30;
 
+const set_posts = true
+var study_indices = null;
+if (set_posts) {
+  study_indices = safe_indices[
+    Math.floor(Math.random() * safe_indices.length)
+  ];
+}
+
 // const possible_conditions = ["A"];
 
 // const possible_conditions = ["severe_toxicity_noise_0.5", "severe_toxicity_noise_0.8", "first_person_pronouns"]
-// const possible_conditions = ["chronological"];
-const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "chronological", "likes", "likes_ratio", 
-  "random", "Caring", "first_person_pronouns", "hashes", "conservative_values", "parts_of_speech"];
+const possible_conditions = ["likes_ratio"];
+// const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "chronological", "likes", "likes_ratio", 
+//   "random", "Caring", "first_person_pronouns", "hashes", "conservative_values", "parts_of_speech"];
 
 // const possible_conditions = ["chronological", "likes", 
 // "engagement_soup", "first_person_pronouns", 
@@ -608,10 +617,14 @@ const num_buckets = 8;
 const bucketing = true;
 const algorithms_already_created = true;
 
+
 let source_posts;
-if (bucketing) {
+if (bucketing && !set_posts) {
   alg_posts.sort((a,b) => a[condition] - b[condition]);
   source_posts = generate_posts_from_buckets(alg_posts, num_buckets, alg_posts.length, extreme=true);//alg_posts, generic_posts;
+} else if (set_posts) {
+  alg_posts.sort((a,b) => a[condition] - b[condition]);
+  source_posts = generate_posts_from_buckets(alg_posts, num_buckets, alg_posts.length, extreme=false);//alg_posts, generic_posts;
 }
 else {
   source_posts = generic_posts;
@@ -1610,7 +1623,7 @@ function populate_feed_container(
           ).sort(() => .5 - Math.random()).slice(0, num_posts_to_load);
           for (let j = 0; j < all_posts.length; j++) {
             //TODO: this may have an issue in the case that the very last index is called
-            if (typeof feeds[i][j] !== 'undefined' && indicies.indexOf(feeds[i][j]["Index"]) != -1) {
+            if (typeof feeds[i][j] !== 'undefined' && (indicies.indexOf(feeds[i][j]["Index"]) != -1 || set_posts)) {
               all_posts[j].style.display = "block";
             }
           }
@@ -2749,7 +2762,7 @@ function next_screen() {
     study_array[curr_section_index].screens[curr_screen_index];
 
   var time_onscreen = (new Date().getTime() - curr_screen_info["start_time"]) /1000;
-  if (curr_screen_info.screen_type === "exposure" && time_onscreen < 120) {
+  if (curr_screen_info.screen_type === "exposure" && time_onscreen < 12) {
     alert(`Please look at the feed for at least 120 seconds. You have only spent ${time_onscreen} seconds so far`);
     return;
   }
@@ -2910,7 +2923,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "ze2P4D6OoNkC",
+      experimentID: "hOH6Q0ks8s2R",
       filename: filename,
       data: string_output,
     }),
@@ -3184,14 +3197,17 @@ function generate_screen_array(
   let base_posts;
   let q_posts;
   let random_posts;
-  if (bucketing) {
+  if (bucketing && !set_posts) {
     let base_posts_indices = get_random_sample_indices_from_chunks(posts, Math.floor(posts.length/2), extreme=false);
     base_posts = base_posts_indices.map(idx => posts[idx]);
     q_posts = posts.filter((post, index) => !base_posts_indices.includes(index));
     // random_posts = get_random_sample(posts, 100);
     // base_posts = base_posts.filter((post) => post["Chunk"] !== 0);
   }
-  else {
+  else if (set_posts){
+    base_posts = study_indices.slice(0,10).concat(study_indices.slice(50,60)).map(idx => posts[idx]);
+    q_posts = study_indices.slice(10,50).concat(study_indices.slice(60,100)).map(idx => posts[idx]);
+  } else {
     base_posts = get_random_sample(posts, max_num_posts_possible);
   }
 
@@ -3351,8 +3367,15 @@ function generate_screen_array(
       repeat_num++
     ) {
       let base_posts;
-      if (bucketing) {
+      if (bucketing&& !set_posts) {
         base_posts = get_random_sample_from_chunks(q_posts, num_posts+1, extreme=false, required_diff=1);
+      } else if (set_posts) {
+          var chance = Math.random()
+          if (chance > 0.5) {
+            base_posts = q_posts.slice(0+repeat_num-1,0+repeat_num).concat(q_posts.slice(40+repeat_num-1,40+repeat_num));
+          } else {
+            base_posts = q_posts.slice(40+repeat_num-1,40+repeat_num).concat(q_posts.slice(0+repeat_num-1,0+repeat_num));
+          }
       }
       else {
         base_posts = get_random_sample(posts, num_posts+1);
@@ -3410,14 +3433,20 @@ function generate_screen_array(
     ) {
       let base_posts;
       let temp_screen_type = screen_type;
-      if (bucketing) {
+      if (bucketing&& !set_posts) {
         base_posts = get_random_sample_from_chunks(q_posts, num_posts+1, extreme=false, required_diff=1);
+      } else if (set_posts) {
+          var chance = Math.random()
+          if (chance > 0.5) {
+            base_posts = q_posts.slice(10+repeat_num-1,10+repeat_num).concat(q_posts.slice(50+repeat_num-1,50+repeat_num));
+          } else {
+            base_posts = q_posts.slice(50+repeat_num-1,50+repeat_num).concat(q_posts.slice(10+repeat_num-1,10+repeat_num));
+          }
       }
       else {
         base_posts = get_random_sample(posts, num_posts+1);
         // base_posts = deep_copy(posts)
       }
-
 
       if (repeat_num == attn_1) {
         temp_screen_type = "post_placement_check_1";
@@ -3792,31 +3821,41 @@ function generate_posts_from_buckets(data, num_buckets, max_num_posts_possible, 
 
   var buckets_with_extra = assign_extra_posts_to_buckets(posts_left_over, num_buckets)
 
+
   var chunks = []
   var sampled_chunks = []
 
-  let count = 0
-  for (let i = 0; i < data.length; i += length_of_buckets) {
-    if (count == num_buckets - 1) {
-      var chunk = data.slice(i);
-    }
-    else {
-      var chunk = data.slice(i, i + length_of_buckets);
-    }
-    chunks.push(chunk)
-
-    if (buckets_with_extra.includes(count)) {
-      let num_to_add = buckets_with_extra.reduce((n, x) => n + (x === count), 0);
-      sampled_chunks.push(get_random_sample(chunk, posts_per_bucket + num_to_add))
-    }
-    else {
-      sampled_chunks.push(get_random_sample(chunk, posts_per_bucket))
-    }
-    if (count == num_buckets - 1) {
-      break;
-    }
-    count += 1;
+  let index = 0
+  for (let b=0; b < num_buckets; b+=1) {
+    var extra = (b in buckets_with_extra) ? 1 : 0;
+    var chunk = data.slice(index, index + posts_per_bucket + extra);
+    sampled_chunks.push(chunk);
+    index+= chunk.length;
   }
+  // for (let i = 0; i < data.length; i += length_of_buckets) {
+  //   if (count == num_buckets - 1) {
+  //     var chunk = data.slice(i);
+  //   }
+  //   else {
+  //     var extra = ()
+  //     var chunk = data.slice(i, i + length_of_buckets);
+  //   }
+  //   sampled_chunks.push(chunk)
+
+  //   if (buckets_with_extra.includes(count)) {
+  //     let num_to_add = buckets_with_extra.reduce((n, x) => n + (x === count), 0);
+  //     console.log(num_to_add);
+  //     sampled_chunks.push(get_random_sample(chunk, posts_per_bucket + num_to_add))
+  //   }
+  //   else {
+  //     sampled_chunks.push(get_random_sample(chunk, posts_per_bucket))
+  //   }
+  //   if (count == num_buckets - 1) {
+  //     break;
+  //   }
+  //   count += 1;
+  // }
+
 
   var post_count = 0;
   var sampled_chunks_flattened = []
@@ -4273,7 +4312,7 @@ function generate_post_placement_screen(
     SCREEN_TYPE_INFO[screen_type].sidebar_entries
   );
   sidebar_entries[0]["includes_confidence"] = includes_confidence;
-  new_post["correct_index"] = new_post_index
+  new_post["correct_index"] = new_post_index;
   new_post["correct_position"] = new_post_index;
   without_new_post[0]["correct_position"] = ref_post_index;
 
@@ -4574,6 +4613,7 @@ const SESSION_ID = params.get("SESSION_ID");
 output["global"].push({pid: PID});
 output["global"].push({study_id: STUDY_ID});
 output["global"].push({session_id: SESSION_ID});
+output["global"].push({posts: study_indices});
 
 // output["global"].push({ linear_combination_sort: study_weights });
 
