@@ -2762,7 +2762,7 @@ function next_screen() {
     study_array[curr_section_index].screens[curr_screen_index];
 
   var time_onscreen = (new Date().getTime() - curr_screen_info["start_time"]) /1000;
-  if (curr_screen_info.screen_type === "exposure" && time_onscreen < 12) {
+  if (curr_screen_info.screen_type === "exposure" && time_onscreen < 120) {
     alert(`Please look at the feed for at least 120 seconds. You have only spent ${time_onscreen} seconds so far`);
     return;
   }
@@ -2923,7 +2923,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "hOH6Q0ks8s2R",
+      experimentID: "XPCWFaUpeMbs",
       filename: filename,
       data: string_output,
     }),
