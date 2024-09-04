@@ -571,18 +571,13 @@ const num_features =
 
 const num_same_features_and_question = 30;
 
-const set_posts = true
+const set_posts = true;
 var study_indices = null;
-if (set_posts) {
-  study_indices = safe_indices[
-    Math.floor(Math.random() * safe_indices.length)
-  ];
-}
 
 // const possible_conditions = ["A"];
 
 // const possible_conditions = ["severe_toxicity_noise_0.5", "severe_toxicity_noise_0.8", "first_person_pronouns"]
-const possible_conditions = ["likes_ratio"];
+const possible_conditions = ["likes_ratio_strict", "odder_engagement", "likes_ratio"];
 // const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "chronological", "likes", "likes_ratio", 
 //   "random", "Caring", "first_person_pronouns", "hashes", "conservative_values", "parts_of_speech"];
 
@@ -598,11 +593,29 @@ const possible_conditions = ["likes_ratio"];
 // "random", "parts_of_speech", "Caring",
 // "hashes", "conservative_values"]
 
-
-
-const condition = possible_conditions[
+var safe_indices = [];
+var condition = "likes_ratio";
+const condition_chosen = possible_conditions[
   Math.floor(Math.random() * possible_conditions.length)
 ];
+if (condition_chosen == "likes_ratio_strict") {
+  safe_indices = safe_indices_LR;
+  condition = "likes_ratio"
+} else if (condition_chosen == "likes_ratio") {
+  safe_indices = rand_indices_LR;
+  condition = "likes_ratio";
+} else if (condition_chosen == "odder_engagement") {
+  safe_indices = rand_indices_OE;
+  condition == "odder_engagement";
+}
+
+if (set_posts) {
+  study_indices = safe_indices[
+    Math.floor(Math.random() * safe_indices.length)
+  ];
+}
+
+
 // const concept_index = Math.floor(
 //   Math.random() * concept_feeds.length
 // );
@@ -4614,6 +4627,7 @@ output["global"].push({pid: PID});
 output["global"].push({study_id: STUDY_ID});
 output["global"].push({session_id: SESSION_ID});
 output["global"].push({posts: study_indices});
+output["global"].push({study_conditionß: condition_chosen});
 
 // output["global"].push({ linear_combination_sort: study_weights });
 
