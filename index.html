@@ -606,7 +606,7 @@ if (condition_chosen == "likes_ratio_strict") {
   condition = "likes_ratio";
 } else if (condition_chosen == "odder_engagement") {
   safe_indices = rand_indices_OE;
-  condition == "odder_engagement";
+  condition = "odder_engagement";
 }
 
 if (set_posts) {
@@ -4627,7 +4627,7 @@ output["global"].push({pid: PID});
 output["global"].push({study_id: STUDY_ID});
 output["global"].push({session_id: SESSION_ID});
 output["global"].push({posts: study_indices});
-output["global"].push({study_conditionß: condition_chosen});
+output["global"].push({study_condition: condition_chosen});
 
 // output["global"].push({ linear_combination_sort: study_weights });
 
