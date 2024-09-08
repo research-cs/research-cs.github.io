@@ -577,7 +577,7 @@ var study_indices = null;
 // const possible_conditions = ["A"];
 
 // const possible_conditions = ["severe_toxicity_noise_0.5", "severe_toxicity_noise_0.8", "first_person_pronouns"]
-const possible_conditions = ["likes_ratio_stricter"];
+const possible_conditions = ["likes_ratio_fix"] //, "likes_ratio", "odder_engagement"];
 // const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "chronological", "likes", "likes_ratio", 
 //   "random", "Caring", "first_person_pronouns", "hashes", "conservative_values", "parts_of_speech"];
 
@@ -601,7 +601,9 @@ const condition_chosen = possible_conditions[
 if (condition_chosen == "likes_ratio_stricter") {
   safe_indices = safe_indices_LR;
   condition = "likes_ratio"
-} else if (condition_chosen == "likes_ratio") {
+} else if(condition_chosen == "likes_ratio_fix"){
+  safe_indices = safe_indices_fix;
+}else if (condition_chosen == "likes_ratio") {
   safe_indices = rand_indices_LR;
   condition = "likes_ratio";
 } else if (condition_chosen == "odder_engagement") {
@@ -614,6 +616,8 @@ if (set_posts) {
     Math.floor(Math.random() * safe_indices.length)
   ];
 }
+// study_indices = [619,560,334,282,120,208,263,429,469,661,494,369,407,371,59,464,210,79,49,660,322,677,227,18,672,639,202,548,160,238,301,587,613,306,207,121,412,387,601,546,482,164,152,673,451,168,376,292,2,588,5364,5424,5480,4922,5449,5230,5404,5288,5141,5111,5034,5515,5119,5510,4965,4975,5440,4996,5273,4866,5031,5113,5164,5189,5242,5104,5122,5017,5022,5016,4944,5419,5195,5024,5028,5399,5376,4865,5106,4911,5418,5015,5467,5401,5186,5264,5221,5248,5370,5029];
+
 
 
 // const concept_index = Math.floor(
@@ -3508,14 +3512,14 @@ function generate_screen_array(
 
 
   const feedback_screen = generate_feedback_screen("feedback");
-  // const feedback_screen2 = generate_feedback_screen("feedback_2");
-  // const feedback_screen3 = generate_feedback_screen("feedback_3");
-  // const feedback_screen4 = generate_feedback_screen("feedback_4");
-  // const feedback_screen5 = generate_feedback_screen("feedback_5");
+  const feedback_screen2 = generate_feedback_screen("feedback_2");
+  const feedback_screen3 = generate_feedback_screen("feedback_3");
+  const feedback_screen4 = generate_feedback_screen("feedback_4");
+  const feedback_screen5 = generate_feedback_screen("feedback_5");
 
   section_array.push({
     section_name: "feedback",
-    screens: [feedback_screen]//[feedback_screen, feedback_screen2, feedback_screen3, feedback_screen4, feedback_screen5],
+    screens: [feedback_screen] //, feedback_screen2, feedback_screen3, feedback_screen4, feedback_screen5],
   });
 
   const submission_screen = {
