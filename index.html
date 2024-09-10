@@ -577,7 +577,7 @@ var study_indices = null;
 // const possible_conditions = ["A"];
 
 // const possible_conditions = ["severe_toxicity_noise_0.5", "severe_toxicity_noise_0.8", "first_person_pronouns"]
-const possible_conditions = ["likes_ratio_fix"] //, "likes_ratio", "odder_engagement"];
+const possible_conditions = ["likes_ratio_fix", "likes_ratio", "odder_engagement"];
 // const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "chronological", "likes", "likes_ratio", 
 //   "random", "Caring", "first_person_pronouns", "hashes", "conservative_values", "parts_of_speech"];
 
@@ -2940,7 +2940,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "SWgKPR7LrukK",
+      experimentID: "Jaf2eonM9A6F",
       filename: filename,
       data: string_output,
     }),
@@ -3519,7 +3519,7 @@ function generate_screen_array(
 
   section_array.push({
     section_name: "feedback",
-    screens: [feedback_screen] //, feedback_screen2, feedback_screen3, feedback_screen4, feedback_screen5],
+    screens: [feedback_screen, feedback_screen2, feedback_screen3, feedback_screen4, feedback_screen5],
   });
 
   const submission_screen = {
