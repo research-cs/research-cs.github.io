@@ -275,10 +275,10 @@ ul li, ol li {
                             You will not be recorded via audio or video.
 						</p>
 						<p style="font-size: 18px;">
-                            TIME INVOLVEMENT: Your participation will take approximately 30 minutes.
+                            TIME INVOLVEMENT: Your participation will take approximately 15 minutes.
 						 </p>
                          <p style="font-size: 18px;">
-                            PAYMENTS: You will receive $7.50 via the survey platform upon completion of the study, and you will receive additional compensation of $0.10 per correct answer afterwards, as payment for your participation. A total of up to $1.50 in bonuses is available.
+                            PAYMENTS: You will receive $3.75 via the survey platform upon completion of the study, and you will receive additional compensation of $0.10 per correct answer (above 50%), as payment for your participation. A total of up to $1.50 in bonuses is available.
 						 </p>
                          <p style="font-size: 18px;">
                             RISKS AND BENEFITS: The risks associated with this study are minimal. 
@@ -571,13 +571,13 @@ const num_features =
 
 const num_same_features_and_question = 30;
 
-const set_posts = true;
+const set_posts = false;
 var study_indices = null;
 
 // const possible_conditions = ["A"];
 
 // const possible_conditions = ["severe_toxicity_noise_0.5", "severe_toxicity_noise_0.8", "first_person_pronouns"]
-const possible_conditions = ["likes_ratio_fix", "likes_ratio", "odder_engagement"];
+const possible_conditions = ["ratio_easy", "ratio_medium", "ratio_hard", "ratio_hardest"];
 // const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "chronological", "likes", "likes_ratio", 
 //   "random", "Caring", "first_person_pronouns", "hashes", "conservative_values", "parts_of_speech"];
 
@@ -593,23 +593,27 @@ const possible_conditions = ["likes_ratio_fix", "likes_ratio", "odder_engagement
 // "random", "parts_of_speech", "Caring",
 // "hashes", "conservative_values"]
 
-var safe_indices = [];
-var condition = "likes_ratio";
+
+// var safe_indices = [];
+// var condition = "likes_ratio";
 const condition_chosen = possible_conditions[
   Math.floor(Math.random() * possible_conditions.length)
 ];
-if (condition_chosen == "likes_ratio_stricter") {
-  safe_indices = safe_indices_LR;
-  condition = "likes_ratio"
-} else if(condition_chosen == "likes_ratio_fix"){
-  safe_indices = safe_indices_fix;
-}else if (condition_chosen == "likes_ratio") {
-  safe_indices = rand_indices_LR;
-  condition = "likes_ratio";
-} else if (condition_chosen == "odder_engagement") {
-  safe_indices = rand_indices_OE;
-  condition = "odder_engagement";
-}
+var condition = condition_chosen;
+
+console.log(condition);
+// if (condition_chosen == "likes_ratio_stricter") {
+//   safe_indices = safe_indices_LR;
+//   condition = "likes_ratio"
+// } else if(condition_chosen == "likes_ratio_fix"){
+//   safe_indices = safe_indices_fix;
+// }else if (condition_chosen == "likes_ratio") {
+//   safe_indices = rand_indices_LR;
+//   condition = "likes_ratio";
+// } else if (condition_chosen == "odder_engagement") {
+//   safe_indices = rand_indices_OE;
+//   condition = "odder_engagement";
+// }
 
 if (set_posts) {
   study_indices = safe_indices[
@@ -3512,14 +3516,14 @@ function generate_screen_array(
 
 
   const feedback_screen = generate_feedback_screen("feedback");
-  const feedback_screen2 = generate_feedback_screen("feedback_2");
-  const feedback_screen3 = generate_feedback_screen("feedback_3");
-  const feedback_screen4 = generate_feedback_screen("feedback_4");
-  const feedback_screen5 = generate_feedback_screen("feedback_5");
+  // const feedback_screen2 = generate_feedback_screen("feedback_2");
+  // const feedback_screen3 = generate_feedback_screen("feedback_3");
+  // const feedback_screen4 = generate_feedback_screen("feedback_4");
+  // const feedback_screen5 = generate_feedback_screen("feedback_5");
 
   section_array.push({
     section_name: "feedback",
-    screens: [feedback_screen, feedback_screen2, feedback_screen3, feedback_screen4, feedback_screen5],
+    screens: [feedback_screen] //[feedback_screen, feedback_screen2, feedback_screen3, feedback_screen4, feedback_screen5],
   });
 
   const submission_screen = {
