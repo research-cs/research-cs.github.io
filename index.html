@@ -1400,9 +1400,9 @@ function insert_post(post, feed_parent_list, locked, divide=false) {
     }
   } 
   // TODO: change back
-  for (const key in feature_dict) {
-    post[key] = null;
-  }
+  // for (const key in feature_dict) {
+  //   post[key] = null;
+  // }
   if (post.attn_1) {
     // var color = post["correct_position"] * 150 + 50
     // post_list_item.style =  `background-color: rgb(${color}, ${color}, ${color})`;
@@ -2998,7 +2998,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "0sSZWTCLcbSZ",
+      experimentID: "J4myXuNeGhA4",
       filename: filename,
       data: string_output,
     }),
