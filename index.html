@@ -576,10 +576,10 @@ var study_indices = null;
 
 // const possible_conditions = ["A"];
 
-const possible_conditions = ["first_person_pronouns"];
+const possible_conditions = ["gpt_quality"];
 // const possible_conditions = ["severe_toxicity_noise_0.5", "severe_toxicity_noise_0.8", "first_person_pronouns"]
 // const possible_conditions = ["ratio_easy", "ratio_medium", "ratio_hard", "ratio_hardest"];
-// const possible_conditions = ["gpt_quality", "severe_toxicity", "factual", "chronological", "likes", "likes_ratio", 
+// const possible_conditions = ["", "severe_toxicity", "factual", "chronological", "likes", "likes_ratio", 
 //   "random", "Caring", "first_person_pronouns", "hashes", "conservative_values", "parts_of_speech"];
 
 // const possible_conditions = ["chronological", "likes", 
@@ -635,7 +635,7 @@ const num_posts_per_screen = 1;
 const num_posts_at_load = 12;
 const num_posts_to_load = 6;
 const max_num_posts_possible = 50;
-const num_buckets = 8;
+const num_buckets = 16;
 const bucketing = true;
 const algorithms_already_created = true;
 
@@ -878,30 +878,6 @@ Does the feed contain only political posts, or can they be about any topic?
     ],
   },
 
-  exposure: {
-    template_id: "feed-and-sidebar",
-    sidebar_entries: [
-      {
-        markdown: `
-This is Your Politics Feed: a feed of political social media posts. They are sorted by an algorithm, but not by the algorithm that is usually used on social media. 
-
-Try to figure out what the algorithm is doing by looking at the text shown.
-
-**If you are stuck, think back on the practice questions.**
-
-All following questions in the study will ask you to rank posts based on this algorithm.
-<button id = "load-more-button"></button>
-${
-          any_redacted
-            ? `*Some text has been redacted because 
-it is not relevant to the tasks.*`
-            : ""
-        }
-        `,
-      },
-    ],
-  },
-
 //   exposure: {
 //     template_id: "feed-and-sidebar",
 //     sidebar_entries: [
@@ -909,7 +885,9 @@ it is not relevant to the tasks.*`
 //         markdown: `
 // This is Your Politics Feed: a feed of political social media posts. They are sorted by an algorithm, but not by the algorithm that is usually used on social media. 
 
-// Try to figure out what the algorithm is doing by looking at the text AND the displayed features like engagement and time posted, all of which COULD be involved.
+// Try to figure out what the algorithm is doing by looking at the text shown.
+
+// **If you are stuck, think back on the practice questions.**
 
 // All following questions in the study will ask you to rank posts based on this algorithm.
 // <button id = "load-more-button"></button>
@@ -923,6 +901,28 @@ it is not relevant to the tasks.*`
 //       },
 //     ],
 //   },
+
+  exposure: {
+    template_id: "feed-and-sidebar",
+    sidebar_entries: [
+      {
+        markdown: `
+This is Your Politics Feed: a feed of political social media posts. They are sorted by an algorithm, but not by the algorithm that is usually used on social media. 
+
+Try to figure out what the algorithm is doing by looking at the text AND the displayed features like engagement and time posted, all of which COULD be involved.
+
+All following questions in the study will ask you to rank posts based on this algorithm.
+<button id = "load-more-button"></button>
+${
+          any_redacted
+            ? `*Some text has been redacted because 
+it is not relevant to the tasks.*`
+            : ""
+        }
+        `,
+      },
+    ],
+  },
 
   correct_response: {
     template_id: "feed-and-sidebar",
@@ -2998,7 +2998,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "J4myXuNeGhA4",
+      experimentID: "NqUkGbtQj3Yb",
       filename: filename,
       data: string_output,
     }),
@@ -3422,7 +3422,7 @@ function generate_screen_array(
   
   section_array.push({
     section_name: "training",
-    screens: [check3, check4, check5, check6, return_screen, exposure_intro_2, exposure_intro_3, exposure_intro_4],
+    screens: [check3, check4, check5, check6, return_screen, exposure_intro_1, exposure_intro_2, exposure_intro_3, exposure_intro_4],
     //screens: [check1, check2, return_screen, exposure_intro_1, exposure_intro_2, exposure_intro_3, exposure_intro_4],
   });
 
