@@ -275,10 +275,10 @@ ul li, ol li {
                             You will not be recorded via audio or video.
 						</p>
 						<p style="font-size: 18px;">
-                            TIME INVOLVEMENT: Your participation will take approximately 15 minutes.
+                            TIME INVOLVEMENT: Your participation will take approximately 20 minutes.
 						 </p>
                          <p style="font-size: 18px;">
-                            PAYMENTS: You will receive $3.75 via the survey platform upon completion of the study, and you will receive additional compensation of $0.10 per correct answer (above 50%), as payment for your participation. A total of up to $1.50 in bonuses is available.
+                            PAYMENTS: You will receive $5 via the survey platform upon completion of the study, and you will receive additional compensation of $0.10 per correct answer (above 50%), as payment for your participation. A total of up to $1.50 in bonuses is available.
 						 </p>
                          <p style="font-size: 18px;">
                             RISKS AND BENEFITS: The risks associated with this study are minimal. 
@@ -576,7 +576,7 @@ var study_indices = null;
 
 // const possible_conditions = ["A"];
 
-const possible_conditions = ["Rule conformity", "likes_noise_0.8", "likes_noise_0.6", "quality_rate", "split_likes", "split_old_quality"];//["likes_noise_0.8"];
+const possible_conditions = ["alt_split_likes", "Rule conformity", "likes_noise_0.8", "quality_rate", "split_likes", "split_old_quality"];//["likes_noise_0.8"];
 // const possible_conditions = ["severe_toxicity_noise_0.5", "severe_toxicity_noise_0.8", "first_person_pronouns"]
 // const possible_conditions = ["ratio_easy", "ratio_medium", "ratio_hard", "ratio_hardest"];
 // const possible_conditions = ["", "severe_toxicity", "factual", "chronological", "likes", "likes_ratio", 
@@ -2836,8 +2836,8 @@ function next_screen() {
     study_array[curr_section_index].screens[curr_screen_index];
 
   var time_onscreen = (new Date().getTime() - curr_screen_info["start_time"]) /1000;
-  if (curr_screen_info.screen_type === "exposure" && time_onscreen < 120) {
-    alert(`Please look at the feed for at least 120 seconds. You have only spent ${time_onscreen} seconds so far`);
+  if (curr_screen_info.screen_type === "exposure" && time_onscreen < 60) {
+    alert(`Please look at the feed for at least 60 seconds. You have only spent ${time_onscreen} seconds so far`);
     return;
   }
 
