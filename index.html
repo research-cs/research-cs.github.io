@@ -576,7 +576,7 @@ var study_indices = null;
 
 // const possible_conditions = ["A"];
 
-const possible_conditions = ["severe_toxicity"];
+const possible_conditions = ["Rule conformity", "likes_noise_0.8", "likes_noise_0.6", "quality_rate", "split_likes", "split_old_quality"];//["likes_noise_0.8"];
 // const possible_conditions = ["severe_toxicity_noise_0.5", "severe_toxicity_noise_0.8", "first_person_pronouns"]
 // const possible_conditions = ["ratio_easy", "ratio_medium", "ratio_hard", "ratio_hardest"];
 // const possible_conditions = ["", "severe_toxicity", "factual", "chronological", "likes", "likes_ratio", 
@@ -2891,7 +2891,7 @@ function next_screen() {
   }
 
   if (curr_screen_info.screen_type == "post_placement_check_2" || curr_screen_info.screen_type == "post_placement_check_6") {
-    const sum = output["training"][0]["score_Q1"] + output["training"][1]["score_Q1"] + output["training"][2]["score_Q1"] + output["training"][3]["score_Q1"] //+ output["training"][4]["score_Q1"];
+    const sum = output["training"][0]["score_Q1"] + output["training"][1]["score_Q1"] // + output["training"][2]["score_Q1"] + output["training"][3]["score_Q1"] //+ output["training"][4]["score_Q1"];
     if (sum == 0) {
       
       // do nothing
@@ -2998,7 +2998,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "NqUkGbtQj3Yb",
+      experimentID: "hQOOA1xoftp4",
       filename: filename,
       data: string_output,
     }),
@@ -3422,7 +3422,7 @@ function generate_screen_array(
   
   section_array.push({
     section_name: "training",
-    screens: [check3, check4, check5, check6, return_screen, exposure_intro_1, exposure_intro_2, exposure_intro_3, exposure_intro_4],
+    screens: [check1, check2, return_screen, exposure_intro_1, exposure_intro_2, exposure_intro_3, exposure_intro_4],
     //screens: [check1, check2, return_screen, exposure_intro_1, exposure_intro_2, exposure_intro_3, exposure_intro_4],
   });
 
