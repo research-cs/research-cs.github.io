@@ -576,7 +576,7 @@ var study_indices = null;
 
 // const possible_conditions = ["A"];
 
-const possible_conditions = ["alt_split_likes", "Rule conformity", "likes_noise_0.8", "split_quality"];//["likes_noise_0.8"];
+const possible_conditions = ["positive", "Dominance", "likes_noise_0.6", "odd_digits", "split_quality", "commas"]//["alt_split_likes", "Rule conformity", "likes_noise_0.8", "split_quality"];//["likes_noise_0.8"];
 // const possible_conditions = ["severe_toxicity_noise_0.5", "severe_toxicity_noise_0.8", "first_person_pronouns"]
 // const possible_conditions = ["ratio_easy", "ratio_medium", "ratio_hard", "ratio_hardest"];
 // const possible_conditions = ["", "severe_toxicity", "factual", "chronological", "likes", "likes_ratio", 
@@ -602,7 +602,7 @@ const condition_chosen = possible_conditions[
 ];
 var condition = condition_chosen;
 
-console.log(condition);
+// console.log(condition);
 // if (condition_chosen == "likes_ratio_stricter") {
 //   safe_indices = safe_indices_LR;
 //   condition = "likes_ratio"
@@ -2998,7 +2998,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "HbsZXv9ACxSX",
+      experimentID: "JDqhRRBmD5Do",
       filename: filename,
       data: string_output,
     }),
