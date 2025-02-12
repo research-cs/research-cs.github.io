@@ -576,7 +576,12 @@ var study_indices = null;
 
 // const possible_conditions = ["A"];
 
-const possible_conditions = ["positive", "Dominance", "likes_noise_0.6", "odd_digits_ratio", "split_quality", "comma_ratios"]//["alt_split_likes", "Rule conformity", "likes_noise_0.8", "split_quality"];//["likes_noise_0.8"];
+const possible_conditions = ["positive", "length", "Dominance", "likes_noise_0.4", "factual_noise_0.4", 
+  "split_engagement", "split_quality_toxicity", "split_quality", "commas", "odd_digits_ratio",
+  "first_sentence_length", "odder_engagement_noise_0.4", "stop_word_ratio", "split_grammar",
+  "parts_of_speech_noise_0.4", "Caring_punctuation"
+]
+//["positive", "Dominance", "likes_noise_0.6", "odd_digits_ratio", "split_quality", "comma_ratio"]//["alt_split_likes", "Rule conformity", "likes_noise_0.8", "split_quality"];//["likes_noise_0.8"];
 // const possible_conditions = ["severe_toxicity_noise_0.5", "severe_toxicity_noise_0.8", "first_person_pronouns"]
 // const possible_conditions = ["ratio_easy", "ratio_medium", "ratio_hard", "ratio_hardest"];
 // const possible_conditions = ["", "severe_toxicity", "factual", "chronological", "likes", "likes_ratio", 
@@ -2998,7 +3003,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "JDqhRRBmD5Do",
+      experimentID: "KNNeAsuzKHiA",
       filename: filename,
       data: string_output,
     }),
@@ -3420,11 +3425,11 @@ function generate_screen_array(
   const exposure_intro_3 = generate_exposure_intro("exposure_intro_3");
   const exposure_intro_4 = generate_exposure_intro("exposure_intro_4");
   
-  section_array.push({
-    section_name: "training",
-    screens: [check1, check2, return_screen, exposure_intro_1, exposure_intro_2, exposure_intro_3, exposure_intro_4],
-    //screens: [check1, check2, return_screen, exposure_intro_1, exposure_intro_2, exposure_intro_3, exposure_intro_4],
-  });
+  // section_array.push({
+  //   section_name: "training",
+  //   screens: [check1, check2, return_screen, exposure_intro_1, exposure_intro_2, exposure_intro_3, exposure_intro_4],
+  //   //screens: [check1, check2, return_screen, exposure_intro_1, exposure_intro_2, exposure_intro_3, exposure_intro_4],
+  // });
 
   // const post_exposure_screen = generate_post_exposure_screen("post_exposure",
   //   random_posts,
