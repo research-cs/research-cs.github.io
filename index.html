@@ -3003,7 +3003,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "KNNeAsuzKHiA",
+      experimentID: "34jLziz8m938",
       filename: filename,
       data: string_output,
     }),
@@ -3425,11 +3425,11 @@ function generate_screen_array(
   const exposure_intro_3 = generate_exposure_intro("exposure_intro_3");
   const exposure_intro_4 = generate_exposure_intro("exposure_intro_4");
   
-  // section_array.push({
-  //   section_name: "training",
-  //   screens: [check1, check2, return_screen, exposure_intro_1, exposure_intro_2, exposure_intro_3, exposure_intro_4],
-  //   //screens: [check1, check2, return_screen, exposure_intro_1, exposure_intro_2, exposure_intro_3, exposure_intro_4],
-  // });
+  section_array.push({
+    section_name: "training",
+    screens: [check1, check2, return_screen, exposure_intro_1, exposure_intro_2, exposure_intro_3, exposure_intro_4],
+    //screens: [check1, check2, return_screen, exposure_intro_1, exposure_intro_2, exposure_intro_3, exposure_intro_4],
+  });
 
   // const post_exposure_screen = generate_post_exposure_screen("post_exposure",
   //   random_posts,
