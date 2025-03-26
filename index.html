@@ -572,18 +572,22 @@ const num_features =
 const num_same_features_and_question = 30;
 
 const set_posts = false;
-var study_indices = null;
+var study_indices = [];
+var practice_indices = [];
+var test_indices = [];
 
 // const possible_conditions = ["split_engagement_diff"];
 
 const possible_conditions = [
-  "messy"
+  "likes", "chronological", "factual", "gpt_quality", "severe_toxicity",
+  "Achievement", "Caring", "likes_noise_0.8", "factual_noise_0.8",
+  "first_person_pronouns", "odd_digits_ratio", "comma_ratio", "time",
+  "odder_engagement", "messy", "split_engagement_diff", "split_quality", 
+  "winter", "first_person_pronouns_noise_0.8", 
+  "odder_engagement_noise_0.8", "conservative_values", 
+  "split_grammar", "parts_of_speech", 
+  "Caring_no_punctuation", "parts_of_speech_noise_0.8"
 ]
-// ["Achievement", "Caring_punctuation", "comma_ratio", "factual_noise_0.8",
-//   "first_person_pronouns_noise_0.8", "length", "likes_noise_0.8", "mess", "odd_digits_ratio", "odder_engagement",
-//   "odder_engagement_noise_0.8", "parts_of_speech_noise_0.8", "positive", "split_engagement_diff", "split_grammar",
-//   "split_quality", "time", "vowel_ratio", "winter"
-// ]
 
 
 
@@ -1135,15 +1139,14 @@ Thank you for completing the analytic portion of our study! Please **click submi
     entries: [
       {
         markdown: `
-How do you think the algorithm worked for the feed ranking you saw? Descibe what you think would make one post be ranked above another.
+How do you think the algorithm worked for the feed ranking you saw? Describe what you think would make one post be ranked above another.
 Examples: "it was ranked by most replies" OR "it was ranked by being more about the economy" NOT "it was ordered by an algorithm"
         `,
         answer_area: "text_input",
       },
       {
         markdown: `
-What evidence helped you figure out how the feed was ordered? What was your process for developing your theory and did it change? Describe what parts of the study helped you (seeing the feed, practice).
-        `,
+What evidence helped you figure out how the feed was ordered? Did your theory change during the practice? What was it before?        `,
         answer_area: "text_input",
       },
       {
@@ -1563,7 +1566,11 @@ function insert_feed(
   if (bucketing) {
     indicies = get_random_sample_indices_from_chunks(feed_data, starting_num_posts);
     // TODO: this is where we should take two
+    if (exposure) {
+      indicies.forEach(item => study_indices.push(item));
+    }
 
+    
   }
 
   // console.log(container.id)
@@ -1701,6 +1708,7 @@ function populate_feed_container(
             (index) =>
               !current_posts.some((current_post) => isEqual(current_post, index))
           ).sort(() => .5 - Math.random()).slice(0, num_posts_to_load);
+          indicies.forEach(item => study_indices.push(item));
           for (let j = 0; j < all_posts.length; j++) {
             //TODO: this may have an issue in the case that the very last index is called
             if (typeof feeds[i][j] !== 'undefined' && (indicies.indexOf(feeds[i][j]["Index"]) != -1 || set_posts)) {
@@ -2996,6 +3004,8 @@ function redact_items(class_names) {
  */
 function submit() {
   var filename = output["global"][2]["pid"] + ".json";
+  output["indices"] = {"exposure": study_indices, "practice": practice_indices, "test": test_indices};
+  console.log(output);
   let string_output = JSON.stringify(output);
   fetch("https://pipe.jspsych.org/api/data/", {
     method: "POST",
@@ -3004,7 +3014,7 @@ function submit() {
       Accept: "*/*",
     },
     body: JSON.stringify({
-      experimentID: "34jLziz8m938",
+      experimentID: "FDN18mkDreCe",
       filename: filename,
       data: string_output,
     }),
@@ -3479,6 +3489,7 @@ function generate_screen_array(
       let base_posts;
       if (bucketing&& !set_posts) {
         base_posts = get_random_sample_from_chunks(q_posts, num_posts+1, extreme=false, required_diff=1);
+        base_posts.forEach(item => practice_indices.push(item["Index"]));
       } else if (set_posts) {
           var chance = Math.random()
           if (chance > 0.5) {
@@ -3545,6 +3556,8 @@ function generate_screen_array(
       let temp_screen_type = screen_type;
       if (bucketing&& !set_posts) {
         base_posts = get_random_sample_from_chunks(q_posts, num_posts+1, extreme=false, required_diff=1);
+        base_posts.forEach(item => test_indices.push(item["Index"]));
+
       } else if (set_posts) {
           var chance = Math.random()
           if (chance > 0.5) {
